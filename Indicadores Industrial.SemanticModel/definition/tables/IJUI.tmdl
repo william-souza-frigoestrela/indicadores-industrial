@@ -1,0 +1,69 @@
+table IJUI
+	lineageTag: de5dea39-737e-493b-bca0-599f07ef4abd
+
+	measure '_Volume Prod. Fabrica Rac' = SUM(IJUI[VOLUME])
+		lineageTag: 194f8839-47f6-47e9-a999-fb70644b7052
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EMPRESA
+		dataType: int64
+		formatString: 0
+		lineageTag: 8d368ffe-7bc8-4f0c-b533-e420691707f6
+		summarizeBy: none
+		sourceColumn: EMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEMANA
+		dataType: string
+		lineageTag: f00afd5f-4103-4714-a46c-a8538703badc
+		summarizeBy: none
+		sourceColumn: SEMANA
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATA
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: de34bb07-4ba6-448c-9585-91fbc45bde10
+		summarizeBy: none
+		sourceColumn: DATA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column VOLUME
+		dataType: double
+		lineageTag: 28c5762a-e9c8-49ec-b9e5-30d2ca8a6a62
+		summarizeBy: sum
+		sourceColumn: VOLUME
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'GRUPO PRODUTO'
+		dataType: string
+		lineageTag: a0803bf5-fc57-47b9-b1bf-a8f68af29047
+		summarizeBy: none
+		sourceColumn: GRUPO PRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	partition IJUI = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("\\192.168.2.167\controladoria\05 - INDICADORES\09. Power BI\Volume Fabrica de Racão.xlsx"), null, true),
+				    IJUI_Sheet = Fonte{[Item="IJUI",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(IJUI_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"EMPRESA", Int64.Type}, {"SEMANA", type any}, {"DATA", type date}, {"VOLUME", type number}, {"GRUPO PRODUTO", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

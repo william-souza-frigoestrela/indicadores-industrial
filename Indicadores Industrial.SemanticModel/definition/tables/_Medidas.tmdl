@@ -1,0 +1,3415 @@
+table _Medidas
+	lineageTag: 3f77b4b6-5808-4df5-a1bc-1bbff861de91
+
+	measure 'Hora Abate Inicial' = MIN(DINVPB_ABATE[_HoraMin])
+		formatString: General Date
+		displayFolder: 01. Abate
+		lineageTag: 9f4bfc36-b408-485d-8b86-c3bab49bcfaa
+
+	measure 'Hora Abate Final' = MAX(DINVPB_ABATE[Data e Hora Ajustada])
+		formatString: General Date
+		displayFolder: 01. Abate
+		lineageTag: b33f5ef8-3217-49b1-8657-569ff4e41804
+
+	measure 'Hora Abate' = ```
+			SUMX(
+			    VALUES('Calendário'[Data]), 
+			    [Hora Abate Trabalhadas] - [Hora Abate Pausas] - [Hora Abate Almoço])
+			```
+		displayFolder: 01. Abate
+		lineageTag: ee7e6284-5a86-45f1-926b-2d153dc96991
+
+	measure 'Hora Abate Trabalhadas' = ```
+			
+			SUMX(
+			    DINVPB_ABATE, 
+			    DATEDIFF(DINVPB_ABATE[_HoraMin], DINVPB_ABATE[_HoraMax], MINUTE) / DINVPB_ABATE[_Contar Linhas] / 60)
+			```
+		displayFolder: 01. Abate
+		lineageTag: 6d8cc251-52b5-4053-a5f8-50398d8a2c31
+
+	measure 'Hora Abate Pausas' = ```
+			CALCULATE(
+			    SUMX(
+			    DINVPB_PAUSATOTAL, 
+			    DATEDIFF(DINVPB_PAUSATOTAL[DTAHORAINICIAL], DINVPB_PAUSATOTAL[DTAHORAFINAL], MINUTE) / 60), DINVPB_PAUSATOTAL[TIPO] = "ABATE", DINVPB_PAUSATOTAL[TIPOPAUSA] = "ERGONOMICA")
+			```
+		displayFolder: 01. Abate
+		lineageTag: 0c84ed42-957f-4202-9b28-bc40d3c8bf68
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Hora Abate Almoço' = ```
+			CALCULATE(
+			    SUMX(
+			    DINVPB_PAUSATOTAL, 
+			    DATEDIFF(DINVPB_PAUSATOTAL[DTAHORAINICIAL], DINVPB_PAUSATOTAL[DTAHORAFINAL], MINUTE) / 60), DINVPB_PAUSATOTAL[TIPO] = "ABATE", DINVPB_PAUSATOTAL[TIPOPAUSA] = "ALMOÇO")
+			```
+		displayFolder: 01. Abate
+		lineageTag: 5ed19fca-b341-454e-ba8c-fc5bebeb3147
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Produtividade Abate Kg/Hh' = ```
+			//DIVIDE(DIVIDE([Peso Abatido], [Func Abate Real]), [Hora Abate])
+			
+			DIVIDE(
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        DIVIDE([Peso Abatido], [Func Abate Real])
+			    ),
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        [Hora Abate]
+			    )
+			)
+			
+			```
+		displayFolder: 01. Abate
+		lineageTag: 310a8b0b-4e76-4564-9b42-bef64e9faccd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Produtividade Abate Cbç/Hh' = ```
+			//DIVIDE(DIVIDE([Cabeças Abatidas], [Func Abate Real]), [Hora Abate])
+			
+			DIVIDE(
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        DIVIDE([Cabeças Abatidas], [Func Abate Real])
+			    ),
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        [Hora Abate]
+			    )
+			)
+			
+			
+			```
+		displayFolder: 01. Abate
+		lineageTag: 7bb9f2c8-4c67-414f-ab7f-6e306034b7e2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Velocidade Abate Cbç/H' = DIVIDE([Cabeças Abatidas], [Hora Abate])
+		displayFolder: 01. Abate
+		lineageTag: dc876d52-93de-49b3-b011-ed59c42e4c4b
+
+	measure 'Cabeças Abatidas' = DIVIDE(COUNTROWS(DINVPB_ABATE), 2)
+		formatString: #,0
+		displayFolder: 01. Abate
+		lineageTag: f36e46c9-9811-4052-ab46-a8650cd3b33f
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Peso Abatido' = SUM(DINVPB_ABATE[PESOLIQUIDO])
+		displayFolder: 01. Abate
+		lineageTag: 49295e55-6950-445a-a747-e8888d0d1ff8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Abate Real' = ```
+			
+			AVERAGEX(
+			    VALUES('Calendário'[Data]), 
+			    [Func Abate Ativos] - [Func Abate Faltas Base] - [Func Abate Férias])
+			```
+		formatString: 0
+		displayFolder: 01. Abate
+		lineageTag: a0f8095f-f5a5-4d40-863a-87433ac3a5fb
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Func Abate Ativos' = ```
+			
+			VAR SETOR = {"NATURA AREA QUENTE", "NATURA ÁREA QUENTE","NATURA AREA QUENTE","IN NATURA AREA QUENTE","IN NATURA","ABATE"}
+			VAR DATAVALE = 
+			AVERAGEX(VALUES('Calendário'[Data]), 
+			    CALCULATE(COUNTROWS(FPBI_PONTODIARIO), 
+			        FPBI_FUNCIONARIO[DESCRSETOR] IN SETOR,
+			        FPBI_PONTODIARIO[_Verifica Dia] = 1))
+			VAR TOTVS =
+			AVERAGEX(VALUES('Calendário'[Data]), 
+			    CALCULATE(COUNTROWS(Ponto), 
+			    'Base Funcionários'[SETOR] IN SETOR ,
+			    Ponto[_QtdFunc] = 1))
+			VAR DIAREMPRES = [Func Miudos Diarista]+[Func Abate Emprestimo]
+			RETURN
+			IF(SUMX('Calendário','Calendário'[_Filtro RH])>0,IF([Hora Abate Trabalhadas] = BLANK(),BLANK(),DATAVALE),IF([Hora Abate Trabalhadas] = BLANK(),BLANK(),TOTVS)) + DIAREMPRES
+			```
+		displayFolder: 01. Abate
+		lineageTag: 2fcf8316-2e15-459f-b5be-c59b741b9226
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Abate Férias' =
+			
+			var vr1 = CALCULATETABLE(VALUES(Ponto[DATA]),Ponto[Horas Trabalhadas Total Setor] > 0 )
+			VAR DATAVALE = CALCULATE(AVERAGEX(VALUES('Calendário'[Data]), CALCULATE([Func Abate Ativos],FPBI_PONTODIARIO[_Ocorrencia Novo] = "Férias", FPBI_PONTODIARIO[_Verifica Dia] = 1)))
+			VAR TOTVS = AVERAGEX(vr1, CALCULATE([Func Abate Ativos], Ponto[FERIAS] = "SIM")) - ([Func Abate Diarista]+[Func Abate Emprestimo])
+			RETURN IF(SUMX('Calendário','Calendário'[_Filtro RH])>0,IF([Hora Abate Trabalhadas]<>0,DATAVALE,BLANK()),IF([Hora Abate Trabalhadas]<>0,TOTVS,BLANK()))
+		displayFolder: 01. Abate
+		lineageTag: c7868c16-c7d5-479a-8e89-81c0e518c4f9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Abate Faltas Base' =
+			
+			VAR SETOR = {
+			     "NATURA AREA QUENTE",
+			    "NATURA ÁREA QUENTE","NATURA AREA QUENTE",
+			    "IN NATURA AREA QUENTE","IN NATURA","ABATE"
+			}
+			var vr1 = CALCULATETABLE(VALUES(Ponto[DATA]),Ponto[Horas Trabalhadas Total Setor] > 0 )
+			VAR DATAVALE =
+			    AVERAGEX (
+			        VALUES ( 'Calendário'[Data] ),
+			        CALCULATE (
+			            SUM ( FPBI_ABSENTEISMO[QTDABSTENCIA] ),
+			            FPBI_FUNCIONARIO[DESCRSETOR] IN SETOR,
+			            FPBI_ABSENTEISMO[_Verifica Dia] = 1
+			        )
+			    )
+			VAR TOTVS =
+			    AVERAGEX (
+			        vr1,
+			        CALCULATE (
+			            COUNTROWS ( Ponto ),
+			            Ponto[_ABSENTEISMO] = "S",
+			            'Base Funcionários'[SETOR] IN SETOR,Ponto[Horas Trabalhadas Total Setor] >0
+			        ) + 0
+			    )
+			RETURN
+			    IF (
+			        SUMX ( 'Calendário', 'Calendário'[_Filtro RH] ) > 0,
+			        IF ( [Hora Abate Trabalhadas] <> 0, DATAVALE, BLANK () ),
+			        IF ( [Hora Abate Trabalhadas] <> 0, TOTVS, BLANK () )
+			    )
+		formatString: 0
+		displayFolder: 01. Abate
+		lineageTag: 8c0029ca-1131-4c05-96fe-389b1b3284f0
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Hora Abate Pausas H:H' =
+			
+			VAR HORADECIMAL = [Hora Abate Pausas]
+			VAR HORA = IF(INT(HORADECIMAL) >= 10, INT(HORADECIMAL), "0"&INT(HORADECIMAL))
+			VAR DIF = HORADECIMAL - HORA
+			VAR MINUTOS = IF(INT(DIF * 60) <10, "0"&INT(DIF * 60), INT(DIF * 60))
+			VAR FORMATOTEXTO = FORMAT(HORA & ":" & FORMAT(MINUTOS, "00"), "#00:00")
+			VAR FORMATONUM = HORA + (MINUTOS / 100)
+			RETURN
+			if([Hora Abate Pausas]=BLANK(),BLANK(),FORMATOTEXTO)
+		displayFolder: 01. Abate
+		lineageTag: 7e96561f-37d4-415f-b5c4-10f4dad9d13a
+
+	measure 'Hora Abate Almoço H:H' =
+			
+			VAR HORADECIMAL = [Hora Abate Almoço]
+			VAR HORA = IF(ISBLANK(INT(HORADECIMAL)), "00", IF(INT(HORADECIMAL) < 10, "0"&INT(HORADECIMAL) , INT(HORADECIMAL)))
+			VAR DIF = HORADECIMAL - HORA
+			VAR MINUTOS = IF(INT(DIF * 60) = 0, INT(DIF * 60)& "0", INT(DIF * 60))
+			VAR FORMATOTEXTO = FORMAT(HORA & ":" & FORMAT(MINUTOS, "00"), "#00:00")
+			VAR FORMATONUM = HORA + (MINUTOS / 100)
+			RETURN
+			if([Hora Abate Almoço]=BLANK(),BLANK(),FORMATOTEXTO)
+		displayFolder: 01. Abate
+		lineageTag: 49f949a1-00d0-4226-899f-3d0ce5637393
+
+	measure 'Hora Abate Trabalhada H:H' =
+			
+			VAR HORADECIMAL = [Hora Abate]
+			VAR HORA = IF(ISBLANK(INT(HORADECIMAL)), "00", IF(INT(HORADECIMAL) < 10, "0"&INT(HORADECIMAL) , INT(HORADECIMAL)))
+			VAR DIF = HORADECIMAL - HORA
+			VAR MINUTOS = IF(INT(DIF * 60) = 0, INT(DIF * 60)& "0", INT(DIF * 60))
+			VAR FORMATOTEXTO = FORMAT(HORA & ":" & FORMAT(MINUTOS, "00"), "#00:00")
+			VAR FORMATONUM = HORA + (MINUTOS / 100)
+			RETURN
+			if([Hora Abate]=BLANK(),BLANK(),FORMATOTEXTO)
+		displayFolder: 01. Abate
+		lineageTag: dfb5d29b-023b-4426-bedc-85f64a5615a3
+
+	measure 'Absenteísmo Abate' = DIVIDE([Func Abate Faltas], [Func Abate Ativos])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 01. Abate
+		lineageTag: a490f0f7-b7f6-447b-815e-48a2feedf900
+
+	measure 'Peso Médio @' = DIVIDE(DIVIDE([Peso Abatido],AVERAGE(DGE_EMPRESAMATRIZ[_Arroba Padrão])),[Cabeças Abatidas])
+		displayFolder: 01. Abate
+		lineageTag: 78923136-2649-42c1-a611-7274cab089dc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Médio' = DIVIDE([Peso Abatido], [Cabeças Abatidas])
+		displayFolder: 01. Abate
+		lineageTag: 43ec6ba1-00b1-4839-99c6-98f7b58537e7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Eficiência Abate' = DIVIDE([Velocidade Abate Cbç/H], AVERAGE(DINVPB_ABATE[_Meta Cbç/H Abate]))
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 01. Abate
+		lineageTag: bf262cfb-0916-4053-95fa-f3ca5b911214
+
+	measure '_Meta Kg/HH Abate' = 296
+		formatString: 0
+		displayFolder: 01. Abate
+		lineageTag: 08947074-7308-400d-b16d-54349e9466be
+
+	measure '_Meta Habilitado ME Abate' = 0.9
+		displayFolder: 01. Abate
+		lineageTag: f60b2c3c-44d5-4038-baa1-dc3bac4f865b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_Meta Cbç/HH Abate' = 1.07
+		displayFolder: 01. Abate
+		lineageTag: 6aaf04e8-ef27-4863-9d46-9970fcb6f3c2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Habilitado ME - CHN/UE' = ```
+			
+			VAR ME = CALCULATE(
+			    [Cabeças Abatidas], 
+			    DINVPB_ABATE[CLASSIFICACAORED] IN {"01. UE","01. UE/CHN","02. CHN"})
+			RETURN
+			DIVIDE(ME, [Cabeças Abatidas])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 01. Abate
+		lineageTag: 2330af32-9351-4b63-99fc-1ec5c76debb6
+
+	measure '_Formatar Cbç/HH Abate' =
+			IF(
+			    [Cabeças Abatidas] < [_Meta Cbç/HH Abate], "#FF0000", "#122F5B")
+		displayFolder: 01. Abate
+		lineageTag: 44d6011c-608c-4a51-ac7d-b6ccd476edab
+
+	measure '_Formatar Habilitado Abate' =
+			IF(
+			    [% Habilitado ME - CHN/UE] < [_Meta Habilitado ME Abate], "#FF0000", "#1A4788")
+		displayFolder: 01. Abate
+		lineageTag: fe810e03-6a82-4293-8b4f-59734c30f943
+
+	measure '_Formatar Kg/HH Abate' =
+			IF(
+			    [Produtividade Abate Kg/Hh] < [_Meta Kg/HH Abate], "#FF0000", "#72ABFD")
+		displayFolder: 01. Abate
+		lineageTag: c51ae328-de57-45d9-a3b0-370e08a6612a
+
+	measure '_Formatar Eficiência Abate' = IF([Eficiência Abate] < AVERAGE(DINVPB_ABATE[_Meta Cbç/H Abate]), "#FF0000", "#235EB5")
+		displayFolder: 01. Abate
+		lineageTag: 0587fe45-8326-4b4f-9d9c-c0a68376d58a
+
+	measure 'Quantidade Miudos' = ```
+			CALCULATE(
+			    SUM(DINVPB_PRODUCAOMIUDOS[QUANTIDADE2]), 
+			    NOT(DINVPB_PRODUCAOMIUDOS[DESCRFAMILIA]) IN {"SUBPRODUTOS GRAXARIA", "SUBPRODUTOS MIUDOS", "COURO VERDE", "SANGUE", "SANGUE FETAL", "CASCOS E CHIFRES","SUBPRODUTOS GRAXARIA", "SUBPRODUTOS MIUDOS", "GRAXARIA MIUDOS", "SUBPRODUTOS TRIPARIA", "SUB-PRODUTOS"}, DINVPB_PRODUCAOMIUDOS[UNIDADE] in {"CX","SC"})
+			```
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 684fb5f8-903b-457c-b575-a7cdef681483
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% ME Miudos' =
+			
+			VAR ME = CALCULATE(
+			    [Peso Miudos Cortes], DINVPB_PRODUCAOMIUDOS[DESCRSUBGRUPOPRODUTO] in {"09-MIÚDOS - CONG. EXPORTAÇÃO", "MIÚDOS - CONG. EXPORTAÇÃO" ,"MIUDO SUINO CONG EXP"})
+			RETURN
+			COALESCE(
+			    DIVIDE(
+			    ME, [Peso Miudos Cortes]), BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 80641c59-763b-46f1-a4eb-7efb33e1b24b
+
+	measure '% MI Miudos' =
+			
+			VAR MI = CALCULATE(
+			    [Peso Miudos Cortes], not (DINVPB_PRODUCAOMIUDOS[DESCRSUBGRUPOPRODUTO]) in { "09-MIÚDOS - CONG. EXPORTAÇÃO", "MIÚDOS - CONG. EXPORTAÇÃO" ,"MIUDO SUINO CONG EXP"})
+			RETURN
+			COALESCE(
+			    DIVIDE(
+			    MI, [Peso Miudos Cortes]), BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: dbeda514-2fe3-4c62-9bf3-4142a3661a85
+
+	measure '_Meta Kg/HH Miudos' = 41
+		formatString: 0
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 51d1803e-537f-4050-962c-673db1254947
+
+	measure '_Meta Rend. Miudos' = 0.075
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: dc03c1db-7260-4aa0-a53c-a840142d4e3d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Miudos Ativos' = ```
+			
+			VAR SETOR = {"BUCHARIA", "MIUDOS", "BUCHARIA SUJA","BUCHARIA LIMPA", "BUCHARIA - LIMPA", "BUCHARIA - SUJA"} //TROCAR NO PONTO DIARIO TAMBÉM
+			VAR DATAVALE = AVERAGEX(VALUES('Calendário'[Data]), 
+			    CALCULATE(COUNTROWS(FPBI_PONTODIARIO), 
+			        FPBI_FUNCIONARIO[DESCRSETOR] IN SETOR ,FPBI_PONTODIARIO[_Verifica Dia] = 1))
+			VAR TOTVS =  AVERAGEX(VALUES('Calendário'[Data]), 
+			    CALCULATE(COUNTROWS(Ponto), 
+			    'Base Funcionários'[SETOR] IN SETOR , Ponto[_QtdFunc] = 1))
+			VAR DIAREMPRES = [Func Miudos Diarista]+[Func Miudos Emprestimo]
+			RETURN
+			IF(SUMX('Calendário','Calendário'[_Filtro RH])>0,
+			IF([Hora Abate Trabalhadas] = BLANK(),BLANK(),DATAVALE),
+			IF([Hora Abate Trabalhadas] = BLANK(),BLANK(),TOTVS))+DIAREMPRES
+			```
+		formatString: 0
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: c647fa7d-ab0b-4c5e-ad74-76440c0bdc01
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Func Miudos Férias' =
+			
+			
+			var vr1 = CALCULATETABLE(VALUES(Ponto[DATA]),Ponto[Horas Trabalhadas Total Setor] > 0 )
+			
+			VAR DATAVALE = CALCULATE(AVERAGEX(VALUES('Calendário'[Data]), CALCULATE([Func Miudos Ativos],FPBI_PONTODIARIO[_Ocorrencia Novo] = "Férias", FPBI_PONTODIARIO[_Verifica Dia] = 1)))
+			VAR TOTVS = AVERAGEX(vr1, CALCULATE([Func Miudos Ativos], Ponto[FERIAS] = "SIM")) - ([Func Miudos Diarista]+[Func Miudos Emprestimo])
+			RETURN
+			IF(SUMX('Calendário','Calendário'[_Filtro RH])>0,
+			IF([Hora Abate Trabalhadas]<>0,DATAVALE,BLANK()),
+			IF([Hora Abate Trabalhadas]<>0,TOTVS,BLANK()))
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 33f4313e-4e08-4d0d-8a34-c006bc90005b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Miudos Faltas Base' = ```
+			
+			VAR SETOR = {
+			    "BUCHARIA", "MIUDOS", "BUCHARIA SUJA",
+			    "BUCHARIA LIMPA", "BUCHARIA - LIMPA", "BUCHARIA - SUJA"
+			}
+			
+			var vr1 = CALCULATETABLE(VALUES(Ponto[DATA]),Ponto[Horas Trabalhadas Total Setor] > 0 )
+			 
+			
+			VAR DATAVALE =
+			    AVERAGEX (
+			        VALUES ( 'Calendário'[Data] ),
+			        CALCULATE (
+			            SUM ( FPBI_ABSENTEISMO[QTDABSTENCIA] ),
+			            FPBI_FUNCIONARIO[DESCRSETOR] IN SETOR,
+			            FPBI_ABSENTEISMO[_Verifica Dia] = 1
+			        )
+			    )
+			VAR TOTVS =
+			    AVERAGEX (
+			        VR1,
+			        CALCULATE (
+			           COUNTROWS(Ponto),
+			            Ponto[_ABSENTEISMO] = "S",
+			            'Base Funcionários'[SETOR] IN SETOR,
+			             Ponto[Horas Trabalhadas Total Setor] > 0
+			        ) + 0
+			   )
+			RETURN
+			    IF (
+			        SUMX ( 'Calendário', 'Calendário'[_Filtro RH] ) > 0,
+			        IF ( [Hora Abate Trabalhadas] <> 0, DATAVALE, BLANK () ),
+			        IF ( [Hora Abate Trabalhadas] <> 0, TOTVS, BLANK () )
+			   )
+			
+			
+			    
+			```
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 6dcc63c6-94ea-40b2-89aa-3c5e53d04e5f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Miudos Real' = ```
+			
+			    [Func Miudos Ativos] - [Func Miudos Faltas Base] - [Func Miudos Férias]
+			```
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 8a0ffd91-20e7-4375-8e4b-20c2d4b9b31f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Absenteísmo Miudos' = DIVIDE([Func Miudos Faltas], [Func Miudos Ativos])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 10162bcc-a158-4c94-9a77-cb194903e65d
+
+	measure 'Produtividade Miudos Kg/Hh' = ```
+			//DIVIDE(DIVIDE([Peso Miudos Cortes], [Func Miudos Real]), [Hora Abate])
+			
+			DIVIDE(
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        DIVIDE([Peso Miudos Cortes], [Func Miudos Real])
+			    ),
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        [Hora Abate]
+			    )
+			)
+			
+			
+			
+			```
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 7ce3e18a-3924-4c84-84e5-b453deb4cfe4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Kg Miudos/Cabeça' = DIVIDE([Peso Miudos Cortes], [Cabeças Abatidas])
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 70571aaf-3f82-450c-827b-a0aeb32da0e9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_Formatar Rendimento' =
+			IF(
+			    [% Rendimento Miudos Cortes] < [_Meta Rend. Miudos], "#FF0000", "#1A4788")
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 2f8587cc-db44-40b3-aaae-d76ef44073c3
+
+	measure '_Formatar Kg/HH Miudos' =
+			IF(
+			    [Produtividade Miudos Kg/Hh]< [_Meta Kg/HH Miudos], "#FF0000", "#72ABFD")
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 1cbbcda6-9bf4-42de-ba2d-dac7b3a57577
+
+	measure '% Rendimento Graxaria' = DIVIDE([Peso Graxaria], [Peso Abatido])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 04. SubProduto
+		lineageTag: 7d91a9ac-bcb6-47bb-a8ce-40d5f82e7dc4
+
+	measure 'Absenteísmo Graxaria' = DIVIDE([Func Graxaria Faltas], [Func Graxaria Ativos])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 04. SubProduto
+		lineageTag: 4c297465-7141-4e67-b43e-6ff9bd61ae96
+
+	measure 'Func Graxaria Faltas Base' =
+			
+			VAR SETOR = { "GRAXARIA" }
+			var vr1 = CALCULATETABLE(VALUES(Ponto[DATA]),Ponto[Horas Trabalhadas Total Setor] > 0 )
+			
+			VAR DATAVALE =
+			    AVERAGEX (
+			        VALUES ( 'Calendário'[Data] ),
+			        CALCULATE (
+			            SUM ( FPBI_ABSENTEISMO[QTDABSTENCIA] ),
+			            FPBI_FUNCIONARIO[DESCRSETOR] IN SETOR,
+			            FPBI_ABSENTEISMO[_Verifica Dia] = 1
+			        )
+			    )
+			VAR TOTVS =
+			    AVERAGEX (
+			        vr1,
+			        CALCULATE (
+			            COUNTROWS ( Ponto ),
+			            Ponto[_ABSENTEISMO] = "S",
+			            'Base Funcionários'[SETOR] IN SETOR, Ponto[Horas Trabalhadas Total Setor] >0
+			        ) + 0
+			    )
+			RETURN
+			    IF (
+			        SUMX ( 'Calendário', 'Calendário'[_Filtro RH] ) > 0,
+			        IF ( [Hora Abate Trabalhadas] <> 0, DATAVALE, BLANK () ),
+			        IF ( [Hora Abate Trabalhadas] <> 0, TOTVS, BLANK () )
+			    )
+		formatString: 0
+		displayFolder: 04. SubProduto
+		lineageTag: caa494e0-eca8-4510-953d-14556c4b0c16
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '_Formatar Graxaria Rend.' =
+			IF(
+			    [% Rendimento Graxaria] > [_Meta Rend Graxaria], "#FF0000", "#72ABFD")
+		displayFolder: 04. SubProduto
+		lineageTag: 4e053c9f-e452-4a1a-ad11-4f8d38fcf268
+
+	measure 'Func Graxaria Ativos' = ```
+			
+			VAR SETOR = {"GRAXARIA"}
+			VAR DATAVALE = AVERAGEX(VALUES('Calendário'[Data]), 
+			    CALCULATE(COUNTROWS(FPBI_PONTODIARIO), 
+			        FPBI_FUNCIONARIO[DESCRSETOR] IN SETOR ,FPBI_PONTODIARIO[_Verifica Dia] = 1))
+			VAR TOTVS =  AVERAGEX(VALUES('Calendário'[Data]), 
+			    CALCULATE(COUNTROWS(Ponto), 
+			    'Base Funcionários'[SETOR] IN SETOR , Ponto[_QtdFunc] = 1))
+			VAR DIAREMPRES = [Func Graxaria Diarista]+[Func Graxaria Emprestimo]
+			RETURN
+			IF(SUMX('Calendário','Calendário'[_Filtro RH])>0,IF([Hora Abate Trabalhadas] = BLANK(),BLANK(),DATAVALE),IF([Hora Abate Trabalhadas] = BLANK(),BLANK(),TOTVS))+DIAREMPRES
+			```
+		formatString: 0
+		displayFolder: 04. SubProduto
+		lineageTag: a10a6b3a-c067-4c22-8772-a9927e156e33
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Func Graxaria Real' = AVERAGEX( VALUES('Calendário'[Data]), [Func Graxaria Ativos] - [Func Graxaria Faltas Base] - [Func Graxaria Férias] )
+		displayFolder: 04. SubProduto
+		lineageTag: 65160486-2e04-4ff5-a292-47a7d6d655ac
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_Meta Kg/HH Graxaria' = 2100
+		formatString: 0
+		displayFolder: 04. SubProduto
+		lineageTag: 6e06f740-799e-4335-a509-67088503b8b7
+
+	measure '_Meta Rend Graxaria' = 0.55
+		displayFolder: 04. SubProduto
+		lineageTag: 0fbc6ba7-7753-4d96-9e36-d8e49e604b1a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Graxaria' =
+			
+			VAR PesoOutrosItens =
+			    CALCULATE (
+			        SUM ( DINVPB_PRODUCAOMIUDOS[PESOLIQUIDO] ),
+			        DINVPB_PRODUCAOMIUDOS[DESCRFAMILIA] IN {
+			            "SUBPRODUTOS GRAXARIA", "SUBPRODUTOS MIUDOS", "COURO VERDE",
+			            "SANGUE", "SANGUE FETAL", "CASCOS E CHIFRES",
+			            "GRAXARIA MIUDOS", "SUB-PRODUTOS","SUBPRODUTOS TRIPARIA"
+			        },
+			        DINVPB_PRODUCAOMIUDOS[SEQPRODUTO] <> 14008
+			    )
+			
+			VAR PesoItem14008 =
+			    SUMX (
+			        VALUES ( DINVPB_PRODUCAOMIUDOS[NROPROGPRODUCAO] ),
+			        CALCULATE (
+			            SUM ( DINVPB_PRODUCAOMIUDOS[PESOLIQUIDO] ),
+			            REMOVEFILTERS ( 'Calendário' ),
+			            DINVPB_PRODUCAOMIUDOS[SEQPRODUTO] = 14008,
+			            DINVPB_PRODUCAOMIUDOS[DESCRFAMILIA] IN {
+			                "SUBPRODUTOS GRAXARIA", "SUBPRODUTOS MIUDOS", "COURO VERDE",
+			                "SANGUE", "SANGUE FETAL", "CASCOS E CHIFRES",
+			                "GRAXARIA MIUDOS", "SUB-PRODUTOS"
+			            }
+			        )
+			    )
+			
+			RETURN
+			    PesoOutrosItens + PesoItem14008
+		displayFolder: 04. SubProduto
+		lineageTag: 71611138-9f96-43f4-87b4-c914257ded0f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Produtividade Graxaria Kg/HH' =
+			//DIVIDE(DIVIDE([Peso Graxaria], [Func Graxaria Real]), [Hora Abate])
+			
+			DIVIDE(
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        DIVIDE([Peso Graxaria], [Func Graxaria Real])
+			    ),
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        [Hora Abate]
+			    )
+			)
+		displayFolder: 04. SubProduto
+		lineageTag: f361463c-76f5-43c0-b6e9-1454d70578b8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_Formatar Kg/HH Graxaria' =
+			IF(
+			    [Produtividade Graxaria Kg/HH]< [_Meta Kg/HH Graxaria], "#FF0000", "#72ABFD")
+		displayFolder: 04. SubProduto
+		lineageTag: 3847e94d-8dee-4703-8dca-0da9415e4067
+
+	measure 'Func Graxaria Férias' = ```
+			
+			var vr1 = CALCULATETABLE(VALUES(Ponto[DATA]),Ponto[Horas Trabalhadas Total Setor] > 0 )
+			
+			 VAR DATAVALE = CALCULATE( AVERAGEX( VALUES('Calendário'[Data]), CALCULATE( [Func Graxaria Ativos] - [Func Graxaria Diarista] - [Func Graxaria Emprestimo], FPBI_PONTODIARIO[_Ocorrencia Novo] = "Férias", FPBI_PONTODIARIO[_Verifica Dia] = 1 ) ) ) 
+			
+			 VAR TOTVS = AVERAGEX( vr1, CALCULATE( [Func Graxaria Ativos], Ponto[FERIAS] = "SIM" )) - ([Func Graxaria Diarista] + [Func Graxaria Emprestimo])
+			
+			RETURN IF( SUMX('Calendário', 'Calendário'[_Filtro RH]) > 0,
+			 IF([Qtde_Dias Abate] <> 0, DATAVALE, BLANK()), TOTVS )
+			```
+		formatString: 0
+		displayFolder: 04. SubProduto
+		lineageTag: 3101f591-8607-4544-b412-2f1a99a4010b
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Cabeças Abatidas Femea' = CALCULATE(DIVIDE(COUNTROWS(DINVPB_ABATE), 2),DINVPB_ABATE[_Sexo]="Femea")
+		formatString: #,0
+		displayFolder: 01. Abate
+		lineageTag: d43e1be0-a1fa-4670-944b-269b9c8f3a6c
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Cabeças Abatidas Macho' = CALCULATE(DIVIDE(COUNTROWS(DINVPB_ABATE), 2),DINVPB_ABATE[_Sexo]="Macho")
+		formatString: #,0
+		displayFolder: 01. Abate
+		lineageTag: 66bff0dd-9cf8-46b5-aee1-69ac1b6d9222
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Qtde_Dias Abate' = DISTINCTCOUNT(DINVPB_ABATE[DATA])
+		formatString: 0
+		displayFolder: 01. Abate
+		lineageTag: 160dac37-9a7c-4098-bd2f-4b1b437b3fc9
+
+	measure 'Peso Médio Femea' = CALCULATE(DIVIDE([Peso Abatido], [Cabeças Abatidas]),DINVPB_ABATE[_Sexo] = "Femea")
+		displayFolder: 01. Abate
+		lineageTag: be7cf6ca-c2f5-407f-a177-90c41b643eee
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Médio @ Femea' = DIVIDE([Peso Médio Femea],AVERAGE(DGE_EMPRESAMATRIZ[_Arroba Padrão]))
+		displayFolder: 01. Abate
+		lineageTag: d2ff2b2f-0b0f-44a4-a6a9-b6c837575290
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Médio Macho' = CALCULATE(DIVIDE([Peso Abatido], [Cabeças Abatidas]),DINVPB_ABATE[_Sexo] = "Macho")
+		displayFolder: 01. Abate
+		lineageTag: af923a69-e5f8-4453-ad63-7ff5232ed260
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Médio @ Macho' = DIVIDE([Peso Médio Macho],AVERAGE(DGE_EMPRESAMATRIZ[_Arroba Padrão]))
+		displayFolder: 01. Abate
+		lineageTag: 669e644f-06f3-424b-ad00-73abaa1940fe
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Rendimento Vivo' = DIVIDE([Peso Abatido], [Peso Vivo])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 01. Abate
+		lineageTag: 2b0b707e-b09c-449a-a223-bf57a3c9ba69
+
+	measure 'Peso Miudos Cortes' = ```
+			CALCULATE(
+			    SUM(DINVPB_PRODUCAOMIUDOS[PESOLIQUIDO]), 
+			    NOT(DINVPB_PRODUCAOMIUDOS[DESCRFAMILIA]) IN {"SUBPRODUTOS GRAXARIA", "SUBPRODUTOS MIUDOS", "COURO VERDE", "SANGUE", "SANGUE FETAL", "CASCOS E CHIFRES","SUBPRODUTOS GRAXARIA", "SUBPRODUTOS MIUDOS", "GRAXARIA MIUDOS","SUB-PRODUTOS","SUBPRODUTOS TRIPARIA"})
+			```
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 5e7393b2-d3fc-40a7-8bbf-6eeb26822cd9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Rendimento Miudos Cortes' = ```
+			
+			 
+			 
+			SWITCH(SELECTEDVALUE(DINVPB_PRODUCAOMIUDOS[SEQPRODUTO]),8028,DIVIDE([Peso Miudos Cortes], [Peso Abatido Macho]),
+			8200,DIVIDE([Peso Miudos Cortes], [Peso Abatido Macho]),
+			DIVIDE([Peso Miudos Cortes], [Peso Abatido]))
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 0d966db8-0501-4906-8e32-f44690cff958
+
+	measure 'Qtde_Dias Miúdos' = DISTINCTCOUNT(DINVPB_PRODUCAOMIUDOS[DATA])
+		formatString: 0
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 59cf97d2-9bdb-47ff-870a-2f547063f5b9
+
+	measure 'Cabeças Abatidas Próprio' = CALCULATE(DIVIDE(COUNTROWS(DINVPB_ABATE), 2),DINVPB_ABATE[_Origem]="Próprio")
+		displayFolder: 01. Abate
+		lineageTag: a5b58587-a7cb-439e-a1a7-ae4540d6a05a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cabeças Abatidas Terceiro' = CALCULATE(DIVIDE(COUNTROWS(DINVPB_ABATE), 2),DINVPB_ABATE[_Origem]="Terceiro")
+		displayFolder: 01. Abate
+		lineageTag: d4d04d72-87ef-4f71-95ed-159a03f99d6a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Abate Próprio' = DIVIDE([Cabeças Abatidas Próprio],[Cabeças Abatidas],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 01. Abate
+		lineageTag: 2b53fafb-a91e-440d-9ccb-b7634f430c68
+
+	measure '% Abate Terceiro' = DIVIDE([Cabeças Abatidas Terceiro],[Cabeças Abatidas],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 01. Abate
+		lineageTag: ba69295c-7cb9-4f4f-9fda-ac87a74ca8ae
+
+	measure 'Produtividade Miudos Cxs/Hh' =
+			//DIVIDE(DIVIDE([Quantidade Miudos], [Func Miudos Real]), [Hora Abate])
+			
+			DIVIDE(
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        DIVIDE([Quantidade Miudos], [Func Miudos Real])
+			    ),
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        [Hora Abate]
+			    )
+			)
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 43edab9c-3b1c-4a70-8ffe-4283390a180b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Qtde_Dias SubProduto' = DISTINCTCOUNT(DINVPB_PRODUCAOMIUDOS[DATA])
+		formatString: 0
+		displayFolder: 04. SubProduto
+		lineageTag: 7bb6f51a-5397-483d-ac73-cb245e175a7e
+
+	measure 'Kg Subproduto/Cabeça' = DIVIDE([Peso Graxaria], [Cabeças Abatidas])
+		displayFolder: 04. SubProduto
+		lineageTag: b8c5216f-5829-4983-b895-051150ae8396
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'QtdDias Desossa Total' = CALCULATE(DISTINCTCOUNT(DEPARADESOSSA[DTARENDIMENTO]))
+		formatString: 0
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: b76b5fc5-9edf-4406-ba8e-22705d4c80be
+
+	measure 'Func Desossa Ativos' = ```
+			
+			VAR SETOR = {
+			    "DESOSSA", "DESOSSA DIURNO", "DESOSSA DIURNA", 
+			    "DESOSSA NOTURNO", "DESOSSA NOTURNA"
+			}
+			
+			VAR DATAVALE = 
+			    AVERAGEX(
+			        VALUES('Calendário'[Data]),
+			        CALCULATE(
+			            COUNTROWS(FPBI_PONTODIARIO),
+			            FPBI_FUNCIONARIO[DESCRSETOR] IN SETOR,
+			            FPBI_PONTODIARIO[_Verifica Dia] = 1
+			        )
+			    )
+			
+			VAR TOTVS = 
+			    AVERAGEX(
+			        VALUES('Calendário'[Data]),
+			        CALCULATE(
+			            COUNTROWS(Ponto),
+			            'Base Funcionários'[SETOR] IN SETOR,
+			            Ponto[_QtdFunc] = 1
+			        )
+			    )
+			
+			RETURN
+			    IF(
+			        SUMX('Calendário','Calendário'[_Filtro RH]) > 0,
+			        IF([Hora Desossa Trab.] = BLANK(), DATAVALE),
+			        IF([Hora Desossa Trab.] = BLANK(), BLANK(), TOTVS)
+			    )
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: d3b32e03-b469-4149-b861-e8ffdd745b63
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Caixaria Ativos' = ```
+			
+			VAR SETOR = {"CAIXARIA","CAIXARIA DIURNA", "CAIXARIA DIURNO", "CAIXARIA NOTURNA", "CAIXARIA NOTURNO"}
+			VAR DATAVALE = 
+			AVERAGEX(VALUES('Calendário'[Data]), 
+			    CALCULATE(COUNTROWS(FPBI_PONTODIARIO), 
+			        FPBI_FUNCIONARIO[DESCRSETOR] IN SETOR ,FPBI_PONTODIARIO[_Verifica Dia] = 1))
+			VAR TOTVS =  
+			AVERAGEX(VALUES('Calendário'[Data]), 
+			    CALCULATE(COUNTROWS(Ponto), 
+			    'Base Funcionários'[SETOR] IN SETOR , Ponto[_QtdFunc] = 1))
+			VAR DIAREMPRES = [Func Caixaria Diarista]+[Func Caixaria Emprestimo]
+			RETURN
+			IF(SUMX('Calendário','Calendário'[_Filtro RH])>0,IF([Hora Desossa Trab.] = BLANK(),DATAVALE),IF([Hora Desossa Trab.] = BLANK(),BLANK(),TOTVS))+DIAREMPRES
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: e7561488-104f-46c9-b7d7-92c252ca5eee
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Desossa Total Ativos' = CALCULATE([Func Caixaria Ativos]+[Func Desossa Ativos])
+		formatString: 0
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 37f74e8c-a63f-411c-896c-33f53e1c9204
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Func Caixaria Faltas Base' =
+			
+			VAR SETOR = {
+			    "CAIXARIA","CAIXARIA DIURNA", "CAIXARIA DIURNO",
+			    "CAIXARIA NOTURNA", "CAIXARIA NOTURNO"
+			}
+			
+			var vr1 = CALCULATETABLE(VALUES(Ponto[DATA]),Ponto[Horas Trabalhadas Total Setor] > 0 )
+			VAR DATAVALE =
+			    AVERAGEX (
+			        VALUES ( 'Calendário'[Data] ),
+			        CALCULATE (
+			            SUM ( FPBI_ABSENTEISMO[QTDABSTENCIA] ),
+			            FPBI_FUNCIONARIO[DESCRSETOR] IN SETOR,
+			            FPBI_ABSENTEISMO[_Verifica Dia] = 1
+			        )
+			    )
+			VAR TOTVS =
+			    AVERAGEX (
+			        vr1,
+			        CALCULATE (
+			            COUNTROWS ( Ponto ),
+			            Ponto[_ABSENTEISMO] = "S",
+			            'Base Funcionários'[SETOR] IN SETOR, Ponto[Horas Trabalhadas Total Setor] >0
+			        ) + 0
+			    )
+			RETURN
+			    IF (
+			        SUMX ( 'Calendário', 'Calendário'[_Filtro RH] ) > 0,
+			        IF ( [Hora Desossa Trab.] <> 0, DATAVALE, BLANK () ),
+			        IF ( [Hora Desossa Trab.] <> 0, TOTVS, BLANK () )
+			    )
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: dbfa46d9-6dab-43be-b659-a71caab5f11e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Desossa Faltas Base' =
+			
+			VAR SETOR = {
+			    "DESOSSA","DESOSSA DIURNO", "DESOSSA DIURNA",
+			    "DESOSSA NOTURNO", "DESOSSA NOTURNA"
+			}
+			
+			var vr1 = CALCULATETABLE(VALUES(Ponto[DATA]),Ponto[Horas Trabalhadas Total Setor] > 0 )
+			VAR DATAVALE =
+			    AVERAGEX (
+			        VALUES ( 'Calendário'[Data] ),
+			        CALCULATE (
+			            SUM ( FPBI_ABSENTEISMO[QTDABSTENCIA] ),
+			            FPBI_FUNCIONARIO[DESCRSETOR] IN SETOR,
+			            FPBI_ABSENTEISMO[_Verifica Dia] = 1
+			        )
+			    )
+			VAR TOTVS =
+			    AVERAGEX (
+			        vr1,
+			        CALCULATE (
+			            COUNTROWS ( Ponto ),
+			            Ponto[_ABSENTEISMO] = "S",
+			            'Base Funcionários'[SETOR] IN SETOR, Ponto[Horas Trabalhadas Total Setor] > 0
+			        ) + 0
+			    )
+			RETURN
+			    IF (
+			        SUMX ( 'Calendário', 'Calendário'[_Filtro RH] ) > 0,
+			        IF ( [Hora Desossa Trab.] <> 0, DATAVALE, BLANK () ),
+			        IF ( [Hora Desossa Trab.] <> 0, TOTVS, BLANK () )
+			    )
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 714e2f94-8d8a-443a-afdd-b81513735d56
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Desossa Total Faltas' = CALCULATE([Func Caixaria Faltas]+[Func Desossa Faltas])
+		formatString: 0
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 63bca72c-0151-48bf-b9d0-c0c12866f46a
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Func Caixaria Férias' =
+			
+			var vr1 = CALCULATETABLE(VALUES(Ponto[DATA]),Ponto[Horas Trabalhadas Total Setor] > 0 )
+			VAR DATAVALE = CALCULATE(AVERAGEX(VALUES('Calendário'[Data]), CALCULATE([Func Caixaria Ativos],FPBI_PONTODIARIO[_Ocorrencia Novo] = "Férias", FPBI_PONTODIARIO[_Verifica Dia] = 1)))
+			VAR TOTVS = AVERAGEX(vr1, CALCULATE([Func Caixaria Ativos], Ponto[FERIAS] = "SIM")) - ([Func Caixaria Diarista] + [Func Caixaria Emprestimo])
+			RETURN
+			IF(SUMX('Calendário','Calendário'[_Filtro RH])>0,IF([Hora Desossa Trab.]<>0,DATAVALE,BLANK()),IF([Hora Desossa Trab.]<>0,TOTVS,BLANK()))
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 72d7a5b7-b6ba-4afb-bbed-08717544f17b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Desossa Férias' = ```
+			
+			VAR SETOR = {"DESOSSA","DESOSSA DIURNO", "DESOSSA DIURNA", "DESOSSA NOTURNO", "DESOSSA NOTURNA"}
+			var vr1 = CALCULATETABLE(VALUES(Ponto[DATA]),Ponto[Horas Trabalhadas Total Setor] > 0 )
+			VAR DATAVALE = 
+			    AVERAGEX(
+			        VALUES('Calendário'[Data]),
+			        CALCULATE(
+			            [Func Desossa Ativos],
+			            FPBI_PONTODIARIO[_Ocorrencia Novo] = "Férias",
+			            FPBI_PONTODIARIO[_Verifica Dia] = 1
+			        )
+			    )
+			
+			VAR TOTVS = 
+			    AVERAGEX(
+			        vr1,
+			        CALCULATE(
+			            [Func Desossa Ativos],
+			            Ponto[FERIAS] = "SIM"
+			        ) 
+			    ) - ([Func Desossa Diarista]+[Func Desossa Emprestimo])
+			
+			RETURN
+			    IF(
+			        SUMX('Calendário','Calendário'[_Filtro RH]) > 0,
+			        IF([Hora Desossa Trab.] <> 0, DATAVALE, BLANK()),
+			        IF([Hora Desossa Trab.] <> 0, TOTVS, BLANK())
+			    )
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 8b76ccf8-a91a-49ad-828a-e926a91c47f7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Desossa Total Férias' = CALCULATE([Func Caixaria Férias]+[Func Desossa Férias])
+		formatString: 0
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 7b66bb6d-eb6c-4611-81ca-5bc521a16442
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Func Caixaria Real' = AVERAGEX(VALUES('Calendário'[Data]), [Func Caixaria Ativos] - [Func Caixaria Faltas Base] - [Func Caixaria Férias])
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 93a18c26-e484-4303-8680-6c5ad4a34960
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Desossa Real' = AVERAGEX(VALUES('Calendário'[Data]), [Func Desossa Ativos] - [Func Desossa Faltas Base] - [Func Desossa Férias] + [Func Desossa Emprestimo] - [Func Desossa Diarista])
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 1c593b1d-24cc-480e-941e-5e5724aeb67c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Desossa Total Real' = CALCULATE([Func Caixaria Real]+[Func Desossa Real])
+		formatString: 0
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 6565b260-00c8-4ab2-9726-d6213081cbd4
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Hora Inicial Caixaria' = MIN(DINVPB_PRODUCAODESOSSA[DATAHORAENT])
+		formatString: General Date
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 43f05a82-7d03-4a40-bdfa-d343b9f33c42
+
+	measure 'Func Desossa Total Absenteismo' = DIVIDE([Func Desossa Total Faltas],[Func Desossa Total Ativos])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: b5cf874b-2860-4026-9400-f3baa36f47a6
+
+	measure 'Func Caixaria Absenteismo' = DIVIDE([Func Caixaria Faltas],[Func Caixaria Ativos])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 527cf8ed-40c1-489e-bca7-c41e82361ce0
+
+	measure 'Func Desossa Absenteismo' = DIVIDE([Func Desossa Faltas],[Func Desossa Ativos])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: bcadb202-3165-478f-a02c-f6658fa732d4
+
+	measure 'Hora Desossa Pausas' = ```
+			
+			CALCULATE(
+			    SUMX(
+			    DINVPB_PAUSATOTAL, 
+			    DATEDIFF(DINVPB_PAUSATOTAL[DTAHORAINICIAL],DINVPB_PAUSATOTAL[DTAHORAFINAL], MINUTE) / 60), 
+			        DINVPB_PAUSATOTAL[TIPO] = "DESOSSA",
+			            DINVPB_PAUSATOTAL[_Verificação] = "Considerar",
+			            DINVPB_PAUSATOTAL[TIPOPAUSA] = "ERGONOMICA")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: b8da56bb-1801-4783-b5cb-dc59dbfd8873
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Hora Desossa Almoço' = ```
+			CALCULATE(
+			    SUMX(
+			    DINVPB_PAUSATOTAL, 
+			    DATEDIFF(DINVPB_PAUSATOTAL[DTAHORAINICIAL],DINVPB_PAUSATOTAL[DTAHORAFINAL], MINUTE) / 60), 
+			        DINVPB_PAUSATOTAL[TIPO] = "DESOSSA",
+			            DINVPB_PAUSATOTAL[_Verificação] = "Considerar",
+			            DINVPB_PAUSATOTAL[TIPOPAUSA] = "ALMOÇO")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: edc895f9-8416-4138-9aa8-a3493b822788
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Hora Desossa Total' =
+			
+			sumx(DINVPB_ENTRADADESOSSA,
+			    DATEDIFF(DINVPB_ENTRADADESOSSA[_DataHoraMin],DINVPB_ENTRADADESOSSA[_DataHoraMax], MINUTE) / 60 / DINVPB_ENTRADADESOSSA[_Contar Linhas])
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: e914b43e-2e90-4c6b-b131-96ddc5b77ece
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Hora Final Caixaria' = MAX(DINVPB_PRODUCAODESOSSA[DATAHORAENT])
+		formatString: General Date
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 6c344baa-2e36-4c52-a3ea-f13b33f9ff88
+
+	measure 'Hora Desossa Pausas H:H' =
+			
+			VAR HORADECIMAL = [Hora Desossa Pausas]
+			VAR HORA = IF(INT(HORADECIMAL) >= 10, INT(HORADECIMAL), "0" & INT(HORADECIMAL))
+			VAR DIF = HORADECIMAL - HORA
+			VAR MINUTOS = IF(INT(DIF * 60) <10, "0" & INT(DIF * 60), INT(DIF * 60))
+			VAR FORMATOTEXTO = FORMAT(HORA & ":" & FORMAT(MINUTOS, "00"), "#00:00")
+			VAR FORMATONUM = HORA + (MINUTOS / 100)
+			RETURN
+			if([Hora Desossa Pausas]=BLANK(),BLANK(),FORMATOTEXTO)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 619f7714-dc26-4f62-8da8-ee37ab11889e
+
+	measure 'Hora Desossa Almoço H:H' =
+			
+			VAR HORADECIMAL = [Hora Desossa Almoço]
+			VAR HORA = IF(INT(HORADECIMAL) >= 10, INT(HORADECIMAL), "0"&INT(HORADECIMAL))
+			VAR DIF = HORADECIMAL - HORA
+			VAR MINUTOS = IF(INT(DIF * 60) <10, "0"&INT(DIF * 60), INT(DIF * 60))
+			VAR FORMATOTEXTO = FORMAT(HORA & ":" & FORMAT(MINUTOS, "00"), "#00:00")
+			VAR FORMATONUM = HORA + (MINUTOS / 100)
+			RETURN
+			if([Hora Desossa Almoço]=BLANK(),BLANK(),FORMATOTEXTO)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: cac88111-2bc6-43c0-8073-40d3e8a941b9
+
+	measure 'Hora Desossa Total H:H' =
+			
+			VAR HORADECIMAL = [Hora Desossa Total]
+			VAR HORA = IF(INT(HORADECIMAL) >= 10, INT(HORADECIMAL), "0"&INT(HORADECIMAL))
+			VAR DIF = HORADECIMAL - HORA
+			VAR MINUTOS = IF(INT(DIF * 60) <10, "0"&INT(DIF * 60), INT(DIF * 60))
+			VAR FORMATOTEXTO = FORMAT(HORA & ":" & FORMAT(MINUTOS, "00"), "#00:00")
+			VAR FORMATONUM = HORA + (MINUTOS / 100)
+			RETURN
+			IF(SUM(DEPARADESOSSA[_Contar Linhas])=0,BLANK(),FORMATOTEXTO)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 22ed2df2-a337-4c88-a9fb-be69c4994302
+
+	measure 'Hora Desossa Trab.' = CALCULATE([Hora Desossa Total] - [Hora Desossa Pausas] - [Hora Desossa Almoço])
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 0810b184-18ff-40f0-b253-2d7cbd5fc65d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Entrada Desossa' = ```
+			
+			CALCULATE(SUM(DINVPB_ENTRADADESOSSA[PESOLIQUIDO]))
+			//CALCULATE(
+			    //SUM(DINVPB_ENTRADADESOSSA[PESOLIQUIDO]), 
+			    //DINVPB_ENTRADADESOSSA[_Verificação] = "Considerar")
+			//var suino = 
+			//CALCULATE(
+			    //SUM(DINVPB_ENTRADADESOSSA[PESOLIQUIDO]), 
+			    //DINVPB_ENTRADADESOSSA[_Verificação] = "Considerar")
+			//RETURN
+			//SWITCH(
+			    //TRUE(),
+			    //SELECTEDVALUE(DGE_EMPRESAMATRIZ[FILIAL]) IN {2,12} , bovino,
+			    //SELECTEDVALUE(DGE_EMPRESAMATRIZ[FILIAL]) in {4,104}, suino))))
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 430796a8-2c3c-47cb-9fa7-ed61edb1c49f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peças Processadas Desossa' = ```
+			
+			var VAR01 = 
+			DIVIDE(CALCULATE(
+			    SUM(DINVPB_ENTRADADESOSSA[QUANTIDADE]), 
+			        DINVPB_ENTRADADESOSSA[DESCRFAMILIA] = "Ponta de Agulha",
+			        DINVPB_ENTRADADESOSSA[DESCRFAMILIA] <> "CUPIM",
+			        DINVPB_PRODUCAODESOSSA[DESCRFAMILIA] <> "CARRE") 
+			            , 2.5)
+			var VAR02 = 
+			CALCULATE(
+			    SUM(DINVPB_ENTRADADESOSSA[QUANTIDADE]), 
+			        DINVPB_ENTRADADESOSSA[DESCRFAMILIA] <> "Ponta de Agulha",
+			        DINVPB_ENTRADADESOSSA[DESCRFAMILIA] <> "CUPIM",
+			        DINVPB_PRODUCAODESOSSA[DESCRFAMILIA] <> "CARRE")
+			RETURN
+			VAR01+VAR02
+			```
+		formatString: #,0
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 78fb810a-2393-4118-b22e-ca80dea71539
+
+	measure 'Peso Entrada Desossa TR' = ```
+			CALCULATE(
+			    [Peso Entrada Desossa], 
+			    DINVPB_ENTRADADESOSSA[DESCRFAMILIA] = "TRASEIRO")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 3b170d7e-1b3e-4b81-ad75-ccebe1e43b70
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Entrada Desossa DT' = ```
+			CALCULATE(
+			    [Peso Entrada Desossa], 
+			    DINVPB_ENTRADADESOSSA[DESCRFAMILIA] = "DIANTEIRO")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 437f58a4-799b-4454-b169-266310b3b297
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Entrada Desossa PA' = ```
+			CALCULATE(
+			    [Peso Entrada Desossa], 
+			    DINVPB_ENTRADADESOSSA[DESCRFAMILIA] = "PONTA DE AGULHA")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 592907c6-ebd0-4ea1-8f22-53f1f6c64974
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Entrada Desossa SUINO' = ```
+			CALCULATE(
+			    [Peso Entrada Desossa], 
+			    DINVPB_ENTRADADESOSSA[DESCRFAMILIA] = "CARCACA")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 6fd759f7-a608-4f02-b6a0-9c3ceff946d4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Entrada Desossa LEITAO' = ```
+			CALCULATE(
+			    [Peso Entrada Desossa], 
+			    DINVPB_ENTRADADESOSSA[DESCRFAMILIA] = "LEITAO")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 0786bc58-3f6c-4738-b8db-cbe6187d7335
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Saída Desossa TR' = ```
+			
+			    CALCULATE(
+			        [Peso Saída Cortes Desossa]
+			            , DEPARADESOSSA[DESCRFAMILIA] = "TRASEIRO")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 6b5bd608-3c21-43c7-962a-fed55c06882f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Saída Desossa' =
+			
+			CALCULATE(SUM(DINVPB_PRODUCAODESOSSA[PESOLIQUIDOSAIDA]),
+			    DINVPB_PRODUCAODESOSSA[DESCRFAMILIA] <> "CUPIM", DINVPB_PRODUCAODESOSSA[DESCRFAMILIA] <> "CARRE", DINVPB_PRODUCAODESOSSA[_Turno] <> BLANK()) + [Peso Saída Aproveitamento]
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 7a73a91a-d03d-4335-b9e5-7cefad94ca79
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Rendimentos Retalhos' = ```
+			
+			VAR RETALHO = CALCULATE(
+			    SUM(DINVPB_PRODUCAODESOSSA[PESOLIQUIDOSAIDA]), 
+			    DINVPB_PRODUCAODESOSSA[TIPOPRODUTO] = "RETALHOS")
+			RETURN
+			DIVIDE(RETALHO, [Peso Entrada Desossa])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 71a916d2-3f2e-45bb-8bb3-a8e6a0a847a4
+
+	measure '% Rendimentos Subprodutos' =
+			
+			VAR SUBPRODUTO = CALCULATE(
+			    SUM(DINVPB_PRODUCAODESOSSA[PESOLIQUIDOSAIDA]),
+			    DINVPB_PRODUCAODESOSSA[TIPOPRODUTO] = "SUBPRODUTOS")
+			RETURN
+			DIVIDE(SUBPRODUTO, [Peso Entrada Desossa])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 7e6915cc-11d4-418d-897f-e08b7e45bb45
+
+	measure 'Produtividade Desossa Pç/Hh' = ```
+			//DIVIDE(DIVIDE([Peças Processadas Desossa], [Func Desossa Total Real]), [Hora Desossa Trab.])
+			
+			DIVIDE(
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        DIVIDE([Peças Processadas Desossa], [Func Desossa Total Real])
+			    ),
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        [Hora Desossa Trab.]
+			    )
+			)
+			
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 17b1b287-4acc-44e1-b4f7-f4c2f0571805
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Produtividade Desossa Kg/HHr' = ```
+			// AVERAGEX(VALUES('Calendário'[Data]),DIVIDE(DIVIDE([Peso Entrada Desossa], [Func Desossa Total Real]), [Hora Desossa Trab.]))
+			
+			DIVIDE(
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        DIVIDE([Peso Entrada Desossa], [Func Desossa Total Real])
+			    ),
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        [Hora Desossa Trab.]
+			    )
+			)
+			
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 7ba88c39-bbbd-4d98-b711-0abd7b159079
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Saída Desossa DT' = ```
+			
+			    CALCULATE(
+			        [Peso Saída Cortes Desossa]
+			            , DEPARADESOSSA[DESCRFAMILIA] = "DIANTEIRO")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 8a73d074-0dce-48c0-9287-a107d92f3f92
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Saída Desossa PA' = ```
+			
+			    CALCULATE(
+			        [Peso Saída Cortes Desossa]
+			            , DEPARADESOSSA[DESCRFAMILIA] = "PONTA DE AGULHA")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: deb393ca-e142-4cc6-9b90-289564c311e3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Saída Desossa SUINO' = ```
+			
+			    CALCULATE(
+			        [Peso Saída Cortes Desossa]
+			            , DEPARADESOSSA[DESCRFAMILIA] = "CARCACA")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 5b11864c-7688-4fa6-b411-a013d8bd7758
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Saída Desossa LEITAO' = ```
+			
+			    CALCULATE(
+			        [Peso Saída Cortes Desossa]
+			            , DEPARADESOSSA[DESCRFAMILIA] = "LEITAO")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 1bc3f935-e254-4872-b124-1bf4c6059764
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Mercado' = ```
+			
+			VAR MERCADO = CALCULATE(
+			    [Peso Saída Desossa], 
+			    ALL(DINVPB_PRODUCAODESOSSA[_Mercado]))
+			RETURN
+			DIVIDE([Peso Saída Desossa], MERCADO)
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 9398f7d3-d4cd-44a6-ab03-fd2971b88876
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Saída ME' = CALCULATE([Peso Saída Cortes Desossa], DINVPB_PRODUCAODESOSSA[_Mercado] = "ME")
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 8fff8381-d66a-4c5a-aa7b-217ae64b9960
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Saída MI' = CALCULATE([Peso Saída Cortes Desossa], DINVPB_PRODUCAODESOSSA[_Mercado] = "MI")
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: d7375279-136b-4dac-833a-9553af77300b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Mercado ME' = DIVIDE([Peso Saída ME],[Peso Saída Cortes Desossa],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: b7d592ff-e376-4603-bf0f-fcd103919851
+
+	measure '% Mercado MI' = DIVIDE([Peso Saída MI],[Peso Saída Cortes Desossa],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: ce136abc-6141-4594-a335-b95b4500887f
+
+	measure 'Peso Saída Desossa CHN TR' = ```
+			
+			    CALCULATE(
+			        [Peso Saída Cortes Desossa]
+			            , DEPARADESOSSA[DESCRFAMILIA] = "TRASEIRO" 
+			            , DEPARADESOSSA[_LoteChinaPCP] = "CHN")
+			```
+		formatString: #,0.00
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: f2a36722-b913-499e-8a98-0a1938f8666c
+
+	measure 'Peso Saída Desossa CHN DT' = ```
+			
+			    CALCULATE(
+			        [Peso Saída Cortes Desossa]
+			            , DEPARADESOSSA[DESCRFAMILIA] = "DIANTEIRO" 
+			            , DEPARADESOSSA[_LoteChinaPCP] = "CHN")
+			```
+		formatString: #,0.00
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 3be9f768-bad4-43fb-acb9-f88fb6e57b3e
+
+	measure 'Peso Saída Desossa CHN PA' = ```
+			
+			    CALCULATE(
+			        [Peso Saída Cortes Desossa]
+			            , DEPARADESOSSA[DESCRFAMILIA] = "PONTA DE AGULHA" 
+			            , DEPARADESOSSA[_LoteChinaPCP] = "CHN")
+			```
+		formatString: #,0.00
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 9afecb1f-7432-4efe-9072-e7db8ef8d6c4
+
+	measure 'Peças Desossa TR' = ```
+			
+			CALCULATE(
+			    SUM(DINVPB_ENTRADADESOSSA[QUANTIDADE]), 
+			        DINVPB_ENTRADADESOSSA[DESCRFAMILIA] = "Traseiro")
+			```
+		formatString: #,0
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 94f7bf3d-89f9-47d6-89fb-aff82b2b095d
+
+	measure 'Peças Desossa DT' = ```
+			
+			CALCULATE(
+			    SUM(DINVPB_ENTRADADESOSSA[QUANTIDADE]), 
+			        DINVPB_ENTRADADESOSSA[DESCRFAMILIA] = "Dianteiro")
+			```
+		formatString: #,0
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 9adefd5c-ee0d-427c-94b8-793af32188ca
+
+	measure 'Peças Desossa PA' = ```
+			
+			CALCULATE(
+			    SUM(DINVPB_ENTRADADESOSSA[QUANTIDADE]), 
+			        DINVPB_ENTRADADESOSSA[DESCRFAMILIA] = "Ponta de Agulha")
+			```
+		formatString: #,0
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: a5c869ed-9501-4735-abb7-7210c329c785
+
+	measure 'Peças Desossa SUINO' = ```
+			
+			CALCULATE(
+			    SUM(DINVPB_ENTRADADESOSSA[QUANTIDADE]), 
+			        DINVPB_ENTRADADESOSSA[DESCRFAMILIA] = "CARCACA")
+			```
+		formatString: #,0
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 732f0f9a-e1e4-4f9b-8250-157266849ce7
+
+	measure 'Peças Desossa LEITAO' = ```
+			
+			CALCULATE(
+			    SUM(DINVPB_ENTRADADESOSSA[QUANTIDADE]), 
+			        DINVPB_ENTRADADESOSSA[DESCRFAMILIA] = "LEITAO")
+			```
+		formatString: #,0
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 9c3aa6cd-7fa2-4222-951b-ec251b44332c
+
+	measure 'Peso Miudos/Graxaria' = CALCULATE(SUM(DINVPB_PRODUCAOMIUDOS[PESOLIQUIDO]))
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 1816dc0d-3ec3-4341-8b86-aa67981eb6fa
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Rendimento Miudos/Graxaria' = DIVIDE([Peso Miudos/Graxaria], [Peso Abatido])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 6271fa30-154a-40cf-8e5e-95bcf2883769
+
+	measure 'Peso Entrada Médio TR' = DIVIDE([Peso Entrada Desossa TR], [Peças Desossa TR],0)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 30e4111f-33b6-471e-b540-4c5a1c2e99ab
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Entrada Médio DT' = DIVIDE([Peso Entrada Desossa DT], [Peças Desossa DT],0)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: e2d514b1-04c6-4bf9-b4e0-4aad53173176
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Entrada Médio PA' = DIVIDE([Peso Entrada Desossa PA], [Peças Desossa PA],0)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: fd4fab0e-4c31-4bca-a826-4c03586ed4bd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Entrada Médio SUINO' = DIVIDE([Peso Entrada Desossa SUINO], [Peças Desossa SUINO],0)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: df06cd85-5dd1-46c2-a687-8864e42d7c56
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Entrada Médio LEITAO' = DIVIDE([Peso Entrada Desossa LEITAO], [Peças Desossa LEITAO],0)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 15193e8f-6594-4290-83db-4145699936f4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cabeças Abatidas Pedido' = sum(DCVV_PROGABATE[QTDPROGRAMADA])
+		displayFolder: 01. Abate
+		lineageTag: 09e3b136-b8d4-4375-998b-74b30f53b92c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Velocidade Miudos Cxs/hr' = DIVIDE([Quantidade Miudos], [Hora Abate])
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: d14bebc2-de5a-47ce-bda8-94415c734541
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Saída Cortes Desossa' = ```
+			
+			CALCULATE(
+			    SUM(DINVPB_PRODUCAODESOSSA[PESOLIQUIDOSAIDA]),
+			    DINVPB_PRODUCAODESOSSA[TIPOPRODUTO] = "NAO SE APLICA") + [Peso Saída Aproveitamento]
+			
+			//var TRDTPASUINO =
+			//CALCULATE(
+			    //SUM(DINVPB_PRODUCAODESOSSA[PESOLIQUIDO]), 
+			    //DINVPB_PRODUCAODESOSSA[_Verificação] = "Considerar",
+			    //DINVPB_PRODUCAODESOSSA[TIPOPRODUTO] = "NAO SE APLICA")
+			//var PA = 
+			//CALCULATE(
+			    //SUM(DINVPB_PRODUCAODESOSSA[PESOLIQUIDO]), 
+			    //DINVPB_PRODUCAODESOSSA[_Verificação] = "Considerar",
+			    //DINVPB_PRODUCAODESOSSA[TIPOPRODUTO] in { "NAO SE APLICA", "RETALHOS"} ) // No caso de destinar Pa para recorte.
+			//RETURN
+			//SWITCH(
+			    //TRUE(),
+			    //SELECTEDVALUE(DEPARADESOSSA[DESCRFAMILIA]) <> "PONTA DE AGULHA" , TRDTPASUINO,
+			    //SELECTEDVALUE(DEPARADESOSSA[DESCRFAMILIA]) = "PONTA DE AGULHA", PA)
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 6a7e4fb3-c5ce-4362-9eb1-b25268755c38
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Kg Miudos+SubProduto/Cabeça' = DIVIDE([Peso Miudos/Graxaria],[Cabeças Abatidas])
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: ad50df48-e42f-490a-abd9-bed902d833c6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Miudos Cortes Rendimento' = ```
+			CALCULATE(
+			    SUM(DINVPB_PRODUCAOMIUDOS[PESOLIQUIDO]), 
+			    NOT(DINVPB_PRODUCAOMIUDOS[DESCRFAMILIA]) IN {"SUBPRODUTOS GRAXARIA", "SUBPRODUTOS MIUDOS", "COURO VERDE", "SANGUE", "SANGUE FETAL", "CASCOS E CHIFRES","SUBPRODUTOS GRAXARIA", "SUBPRODUTOS MIUDOS", "GRAXARIA MIUDOS", "SUBPRODUTOS TRIPARIA", "SUB-PRODUTOS"})
+			```
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: d6109cda-1176-4019-a9b0-cee915f78057
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Saída Códigos China' = ```
+			
+			    CALCULATE(
+			        [Peso Saída Cortes Desossa]  + [Peso Saída Retalhos]
+			            , DINVPB_PRODUCAODESOSSA[_ProdutoChina] = "CHN") + 
+			        CALCULATE([Peso Saída Aproveitamento]
+			        , DINVPB_PRODUCAODESOSSA[_ProdutoChina] = "CHN")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: e5a64d62-f62a-4421-9950-ea571dd06f3a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cabeças Abatidas ME' = ```
+			
+			CALCULATE(
+			    [Cabeças Abatidas], 
+			    DINVPB_ABATE[CLASSIFICAÇÃO] = "MERCADO EXTERNO")
+			```
+		displayFolder: 01. Abate
+		lineageTag: 77e55b78-22d0-421f-b9ac-02b77c3006bb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Expedição Ativos' = ```
+			
+			VAR SETOR = {"EXPEDICAO","PALETIZACAO", "ARMAZENAGEM", "ARMAZENAGEM INDIRETA","EXPEDICAO NOTURNO", "EXPEDICAO DIURNA", "PALETIZAÇÃO DIURNO", "PALETIZAÇÃO", "EXPEDIÇÃO"}
+			VAR DATAVALE = 
+			AVERAGEX(VALUES('Calendário'[Data]), 
+			    CALCULATE(COUNTROWS(FPBI_PONTODIARIO), 
+			        FPBI_FUNCIONARIO[DESCRSETOR] IN SETOR,
+			        FPBI_PONTODIARIO[_Verifica Dia] = 1))
+			VAR TOTVS =
+			AVERAGEX(VALUES('Calendário'[Data]), 
+			    CALCULATE(COUNTROWS(Ponto), 
+			    'Base Funcionários'[SETOR] IN SETOR , 
+			    Ponto[_QtdFunc] = 1))
+			VAR DIAREMPRES = [Func Indus Diarista]+[Func Indus Emprestimo]
+			RETURN
+			IF(SUMX('Calendário','Calendário'[_Filtro RH])>0,DATAVALE,TOTVS)+DIAREMPRES
+			```
+		displayFolder: 07. Expedição
+		lineageTag: 0e06d021-5055-452f-a539-20ca4af7c8a2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Expedição Faltas' =
+			
+			VAR SETOR = {"EXPEDICAO","PALETIZACAO", "ARMAZENAGEM", "ARMAZENAGEM INDIRETA","EXPEDICAO NOTURNO", "EXPEDICAO DIURNA", "PALETIZAÇÃO DIURNO", "PALETIZAÇÃO", "EXPEDIÇÃO"}
+			VAR DATAVALE = AVERAGEX(VALUES('Calendário'[Data]), CALCULATE(SUM (FPBI_ABSENTEISMO[QTDABSTENCIA]),FPBI_FUNCIONARIO[DESCRSETOR] IN SETOR, FPBI_ABSENTEISMO[_Verifica Dia] = 1))
+			VAR TOTVS = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(COUNTROWS(Ponto), Ponto[_ABSENTEISMO] = "S", 'Base Funcionários'[SETOR] IN SETOR))
+			RETURN
+			IF([Peso Industrializados] = BLANK(), BLANK(), IF(SUMX('Calendário','Calendário'[_Filtro RH])>0,DATAVALE,TOTVS))
+		displayFolder: 07. Expedição
+		lineageTag: e34bb6a3-9f28-4927-b688-31bee7ba57f6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Expedição Férias' =
+			
+			VAR DATAVALE = CALCULATE(AVERAGEX(VALUES('Calendário'[Data]), CALCULATE([Func Expedição Ativos],FPBI_PONTODIARIO[_Ocorrencia Novo] = "Férias", FPBI_PONTODIARIO[_Verifica Dia] = 1)))
+			VAR TOTVS = AVERAGEX(VALUES('Calendário'[Data]), CALCULATE([Func Expedição Ativos], Ponto[FERIAS] = "SIM"))
+			RETURN
+			IF(SUMX('Calendário','Calendário'[_Filtro RH])>0, DATAVALE, TOTVS)
+		displayFolder: 07. Expedição
+		lineageTag: 2b16881b-f845-42d9-9d21-ed46cacbe738
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Expedição Real' = [Func Expedição Ativos] - [Func Expedição Férias] - [Func Expedição Faltas]
+		displayFolder: 07. Expedição
+		lineageTag: b74ff4eb-a76e-4e37-8a55-8e05a9b1576c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Hora Abate Trabalhadas Ponto' =
+			
+			var horaponto = CALCULATE(SUM(Ponto[_Horas Trabalhadas]), 'Base Funcionários'[SETOR] IN {"CURRAL","POCILGA", "IN NATURA AREA QUENTE"})
+			return
+			IF([Qtde_Dias Abate]<>0,DIVIDE(horaponto,[Func Abate Real]),BLANK())
+		displayFolder: 01. Abate
+		lineageTag: 718785c6-0cce-4eb4-889d-5ec8def35de3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Hora Abate Trabalhada Ponto H:H' =
+			
+			VAR HORADECIMAL = [Hora Abate Trabalhadas Ponto]
+			VAR HORA = IF(ISBLANK(INT(HORADECIMAL)), "00", IF(INT(HORADECIMAL) < 10, "0"&INT(HORADECIMAL) , INT(HORADECIMAL)))
+			VAR DIF = HORADECIMAL - HORA
+			VAR MINUTOS = IF(INT(DIF * 60) = 0, INT(DIF * 60)& "0", INT(DIF * 60))
+			VAR FORMATOTEXTO = FORMAT(HORA & ":" & FORMAT(MINUTOS, "00"), "#00:00")
+			VAR FORMATONUM = HORA + (MINUTOS / 100)
+			RETURN
+			if([Hora Abate Trabalhadas Ponto]=BLANK(),BLANK(),FORMATOTEXTO)
+		displayFolder: 01. Abate
+		lineageTag: 60d6e973-529c-486f-9df6-a54c925f69ca
+
+	measure '% Abate Macho' = DIVIDE([Cabeças Abatidas Macho],[Cabeças Abatidas],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 01. Abate
+		lineageTag: 5c8c1b74-1a2b-427a-93d9-e4a44cc5bdd4
+
+	measure '% Abate Femea' = DIVIDE([Cabeças Abatidas Femea],[Cabeças Abatidas],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 01. Abate
+		lineageTag: 3c422814-7c9b-4438-9b04-6460d64a5fdd
+
+	measure 'Peso Vivo' = ```
+			
+			VAR PESOVIVO = SUM(DCUVQ_COMPRAGADOPRAZO[PESOVIVO])
+			VAR PESOMETA = SUM(DINVPB_PESOVIVO[PESOMETA])
+			RETURN
+			IF(
+			    MAX('Calendário'[Data]) = DATE(2025, 7, 28) &&
+			    MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "4",
+			    132086.63,
+			    IF(
+			        MAX('Calendário'[Data]) = DATE(2025, 7, 29) &&
+			        MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "4",
+			        179302.14,
+			        IF(
+			            MAX('Calendário'[Data]) = DATE(2026, 1, 28) &&
+			            MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "4",
+			            147008.91,
+			            IF(
+			                MAX('Calendário'[Data]) = DATE(2026, 1, 28) &&
+			                MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "104",
+			                148278.00,
+			                IF(
+			                    MAX('Calendário'[Data]) = DATE(2026, 1, 29) &&
+			                    MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "4",
+			                    170385.50,
+			                    IF(
+			                        MAX('Calendário'[Data]) = DATE(2026, 1, 29) &&
+			                        MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "104",
+			                        159819.8,
+			                        IF(
+			                            MAX('Calendário'[Data]) = DATE(2026, 2, 2) &&
+			                            MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "104",
+			                            109308.6,
+			                            IF(
+			                                MAX('Calendário'[Data]) = DATE(2026, 2, 3) &&
+			                                MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "104",
+			                                117465.30,
+			                                IF(
+			                                    MAX('Calendário'[Data]) = DATE(2026, 2, 4) &&
+			                                    MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "104",
+			                                    156738.00,
+			                                    PESOMETA
+			                                )
+			                            )
+			                        )
+			                    )
+			                )
+			            )
+			        )
+			    )
+			)
+			
+			```
+		displayFolder: 01. Abate
+		lineageTag: 68f1860e-a7e2-434c-83cb-65404df140d0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Médio Vivo' = DIVIDE([Peso Vivo], [Cabeças Abatidas])
+		displayFolder: 01. Abate
+		lineageTag: a00362fc-e191-4455-ad3d-a921c55d2e7a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Médio Vivo @' = DIVIDE(DIVIDE([Peso Vivo],AVERAGE(DGE_EMPRESAMATRIZ[_Arroba Padrão])),[Cabeças Abatidas])
+		displayFolder: 01. Abate
+		lineageTag: 93838080-02b6-47b3-a045-a095ce020522
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Abatido Femea' = CALCULATE([Peso Abatido], DINVPB_ABATE[_Sexo] = "Femea")
+		displayFolder: 01. Abate
+		lineageTag: bc8f1d04-2a59-4d0b-b5af-7ca20316cb03
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Abatido Macho' = CALCULATE([Peso Abatido], DINVPB_ABATE[_Sexo] = "Macho")
+		displayFolder: 01. Abate
+		lineageTag: e0e47c84-c756-4be1-a0f1-1f1b93ee1a55
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Lenha Consumo' = CALCULATE(SUM(DCEV_CONSUMOALMOXARIFADO[QUANTIDADE]))
+		displayFolder: 09. Lenha
+		lineageTag: 61ee6775-0534-4881-aa8c-cc9b2f5d2636
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Lenha Vlr.Total' = SUMX(DCEV_CONSUMOALMOXARIFADO,DCEV_CONSUMOALMOXARIFADO[VLRUNITARIO]*DCEV_CONSUMOALMOXARIFADO[QUANTIDADE])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 09. Lenha
+		lineageTag: a9f460fd-4071-48eb-8ed3-c23aa7f430c7
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Lenha Vlr.Unitário' = DIVIDE([Lenha Vlr.Total],[Lenha Consumo],0)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 09. Lenha
+		lineageTag: b092b659-edac-43cd-994b-81f4e6b6985d
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Lenha Consumo Eucalipto' = CALCULATE([Lenha Consumo], DCEV_CONSUMOALMOXARIFADO[SEQPRODUTO] = 262301)
+		displayFolder: 09. Lenha
+		lineageTag: 69af8886-dc74-4570-8710-bb5bfee1b776
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Lenha Vlr.Unitário Eucalipto' = CALCULATE([Lenha Vlr.Unitário], DCEV_CONSUMOALMOXARIFADO[SEQPRODUTO] = 262301)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 09. Lenha
+		lineageTag: a0377021-1f47-4539-bdab-dbb100ffb36c
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Lenha Vlr.Total Eucalipto' = CALCULATE([Lenha Vlr.Total], DCEV_CONSUMOALMOXARIFADO[SEQPRODUTO] = 262301)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 09. Lenha
+		lineageTag: 1a57d76a-9d55-49ff-8d0e-a5ffbd3852d3
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Lenha Consumo Seringueira' = CALCULATE([Lenha Consumo], DCEV_CONSUMOALMOXARIFADO[SEQPRODUTO] = 262302)
+		displayFolder: 09. Lenha
+		lineageTag: 8b98584d-afd4-4e25-b01f-1eea18a146a1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Lenha Vlr.Total Seringueira' = CALCULATE([Lenha Vlr.Total], DCEV_CONSUMOALMOXARIFADO[SEQPRODUTO] = 262302)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 09. Lenha
+		lineageTag: b6b044ab-2bdf-439e-adf6-9e1213faab1a
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Lenha Vlr.Unitário Seringueira' = CALCULATE([Lenha Vlr.Unitário], DCEV_CONSUMOALMOXARIFADO[SEQPRODUTO] = 262302)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 09. Lenha
+		lineageTag: 0f9c30b7-311a-416c-9d0a-5d296536867a
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Lenha Vlr.Total Outros' = CALCULATE([Lenha Vlr.Total], NOT DCEV_CONSUMOALMOXARIFADO[SEQPRODUTO] IN {262302,262301} )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 09. Lenha
+		lineageTag: b3100b71-cd65-427e-b6e8-ffe51408d524
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Lenha Vlr.Unitário Outros' = CALCULATE([Lenha Vlr.Unitário], NOT DCEV_CONSUMOALMOXARIFADO[SEQPRODUTO] IN {262302,262301})
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 09. Lenha
+		lineageTag: b2f055ff-1a92-421d-8b33-730eb1eb5c20
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Lenha Consumo Outros' = CALCULATE([Lenha Consumo], NOT DCEV_CONSUMOALMOXARIFADO[SEQPRODUTO] in {262302,262301} )
+		displayFolder: 09. Lenha
+		lineageTag: f614e7b7-f04b-4b66-a501-8612c96d88c2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Eucalipto Consumo' = DIVIDE([Lenha Consumo Eucalipto],[Lenha Consumo],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 09. Lenha
+		lineageTag: 2bb313fa-37ad-4e47-a40d-a568566e4914
+
+	measure '% Seringueira Consumo' = DIVIDE([Lenha Consumo Seringueira],[Lenha Consumo],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 09. Lenha
+		lineageTag: 5eaf1398-d50b-4ed3-8649-9ed2cf52848b
+
+	measure '% Outros Consumo' = DIVIDE([Lenha Consumo Outros],[Lenha Consumo],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 09. Lenha
+		lineageTag: 0453f09c-0496-4db8-90d0-a0eb824175ed
+
+	measure 'Cabeças Abatidas Média/Dia' = DIVIDE([Cabeças Abatidas],[Qtde_Dias Abate])
+		formatString: 0
+		displayFolder: 01. Abate
+		lineageTag: 449edc20-eb55-4f68-a74b-89826e0dfef2
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Compra2 Cabeças Abatidas' = sum(DCUVQ_COMPRAGADOPRAZO[QUANTIDADE])
+		formatString: #,0
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: 70cd4688-48fd-4066-99c0-60238bff7ea5
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Compra2 Peso Abatido' = sum(DCUVQ_COMPRAGADOPRAZO[PESO])
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: 67408f32-ed7b-4d87-bd6f-7127bc4ff536
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Compra2 Peso Médio' = DIVIDE([Compra2 Peso Abatido],[Compra2 Cabeças Abatidas],0)
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: fff89872-c269-4eb5-80da-05d855578283
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Compra2 Peso Médio @' = DIVIDE([Compra2 Peso Médio],AVERAGE(DGE_EMPRESAMATRIZ[_Arroba Padrão]))
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: 3e496c45-3274-4361-8270-e823fbfde071
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Compra2 Valor Total' = IF(SELECTEDVALUE(DCUVQ_COMPRAGADOPRAZO[NROEMPRESA]) IN {4}, [Compra2 Valor TotalTup],SUM(DCUVQ_COMPRAGADOPRAZO[VLRPRODUTO])-SUM(DCUVQ_COMPRAGADOPRAZO[VLRICMS]))
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: f48d9526-addf-42dd-85ab-8bb016b13d8f
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Compra2 Vlr Cabeça' = DIVIDE([Compra2 Valor Total],[Compra2 Cabeças Abatidas],0)
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: 4a91fe86-7bc0-46be-8bce-00264fd57873
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peças Desossa MACHO' = CALCULATE([Peças Desossa], DINVPB_ENTRADADESOSSA[_Sexo] = "Macho")
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 19cb4a31-c263-41cc-af0b-67854717eee9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peças Desossa FEMEA' = CALCULATE([Peças Desossa], DINVPB_ENTRADADESOSSA[_Sexo] = "Femea")
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: d46c6da1-279b-492d-8642-5cd53438ff9d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Peça Desossa Macho' = DIVIDE([Peças Desossa MACHO],[Peças Desossa],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: c44945e8-b5ff-47c7-af50-3cb22d016c56
+
+	measure '% Peça Desossa Femea' = DIVIDE([Peças Desossa FEMEA],[Peças Desossa],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 8d7f685e-c97a-41fa-9f05-1479aa6f245d
+
+	measure 'Hora Abate Pausas Total' = ```
+			CALCULATE(
+			    SUMX(
+			    DINVPB_PAUSATOTAL, 
+			    DATEDIFF(DINVPB_PAUSATOTAL[DTAHORAINICIAL], DINVPB_PAUSATOTAL[DTAHORAFINAL], MINUTE) / 60), DINVPB_PAUSATOTAL[TIPO] = "ABATE", DINVPB_PAUSATOTAL[MOTIVO] <> "ABATE EM MODO MANUAL")
+			```
+		displayFolder: 01. Abate
+		lineageTag: 59ad0dee-fb16-4361-b80a-84a3aecdcef7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Hora Abate Pausas Total H:H' =
+			
+			VAR HORADECIMAL = [Hora Abate Pausas Total]
+			VAR HORA = IF(INT(HORADECIMAL) >= 10, INT(HORADECIMAL), "0"&INT(HORADECIMAL))
+			VAR DIF = HORADECIMAL - HORA
+			VAR MINUTOS = IF(INT(DIF * 60) <10, "0"&INT(DIF * 60), INT(DIF * 60))
+			VAR FORMATOTEXTO = FORMAT(HORA & ":" & FORMAT(MINUTOS, "00"), "#00:00")
+			VAR FORMATONUM = HORA + (MINUTOS / 100)
+			RETURN
+			if([Hora Abate Pausas Total]=BLANK(),BLANK(),FORMATOTEXTO)
+		displayFolder: 01. Abate
+		lineageTag: 3db76a8d-b15c-4d54-a533-b06e860d97bf
+
+	measure 'Hora Desossa Pausas Total' = ```
+			CALCULATE(
+			    SUMX(
+			    DINVPB_PAUSATOTAL, 
+			    DATEDIFF(DINVPB_PAUSATOTAL[DTAHORAINICIAL], DINVPB_PAUSATOTAL[DTAHORAFINAL], MINUTE) / 60), DINVPB_PAUSATOTAL[TIPO] = "DESOSSA")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: f22f1cda-21fd-4271-8369-0d56290fbaa5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Hora Desossa Pausas Total H:H' =
+			
+			VAR HORADECIMAL = [Hora Desossa Pausas Total]
+			VAR HORA = IF(INT(HORADECIMAL) >= 10, INT(HORADECIMAL), "0"&INT(HORADECIMAL))
+			VAR DIF = HORADECIMAL - HORA
+			VAR MINUTOS = IF(INT(DIF * 60) <10, "0"&INT(DIF * 60), INT(DIF * 60))
+			VAR FORMATOTEXTO = FORMAT(HORA & ":" & FORMAT(MINUTOS, "00"), "#00:00")
+			VAR FORMATONUM = HORA + (MINUTOS / 100)
+			RETURN
+			if([Hora Desossa Pausas Total]=BLANK(),BLANK(),FORMATOTEXTO)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: c1a25e6f-9671-46e7-9406-46c0750d0111
+
+	measure 'Cabeças Abatidas Boitel' = CALCULATE(DIVIDE(COUNTROWS(DINVPB_ABATE), 2),DINVPB_ABATE[_Origem]="Boitel")
+		displayFolder: 01. Abate
+		lineageTag: 1f11ef90-de4b-4a95-820f-f1ee490acbe7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Abate Boitel' = DIVIDE([Cabeças Abatidas Boitel],[Cabeças Abatidas],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 01. Abate
+		lineageTag: 0a86a0a0-63da-4cb1-b0ca-79b33a51fc65
+
+	measure 'Valor @' =
+			IF(SELECTEDVALUE(DCUVQ_COMPRAGADOPRAZO[NROEMPRESA]) IN {4,104},DIVIDE([Compra2 Valor Total],[Compra2 Peso Vivo],0) * AVERAGE(DGE_EMPRESAMATRIZ[_Arroba Padrão]),
+			DIVIDE([Compra2 Valor Total],[Compra2 Peso Abatido],0)*AVERAGE(DGE_EMPRESAMATRIZ[_Arroba Padrão]))
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: 958e5968-03df-4817-862e-6ef2a41833c7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Valor Comissão' = SUM(DCUVQ_COMPRAGADOPRAZO[VLRCOMISSAO])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: 1addc6b5-c83b-4358-9751-cadfea039934
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Valor ICMS' = SUM(DCUVQ_COMPRAGADOPRAZO[VLRICMS])
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: f4f7a342-c95a-437c-b9cc-07bd71e78831
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Valor Frete' = SUM(DCUVQ_COMPRAGADOPRAZO[VLRFRETE])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: 03f7f338-c361-4d9a-8d0e-5917f6e2c0f3
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Valor ICMS Frete' = SUM(DCUVQ_COMPRAGADOPRAZO[VLRICMSFRETE])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: 3fd8a3ab-ffe2-47fe-860a-34a607a8723c
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Valor @ Colocado' =
+			IF([Compra2 Cabeças Abatidas]=BLANK(),BLANK(),IF(SELECTEDVALUE(DCUVQ_COMPRAGADOPRAZO[NROEMPRESA]) IN {4,104},DIVIDE([Compra2 Valor Total],[Compra2 Peso Vivo],0) * AVERAGE(DGE_EMPRESAMATRIZ[_Arroba Padrão]),
+			DIVIDE(([Compra2 Valor Total]+[Valor ICMS]+[Valor Frete]+[Valor ICMS Frete]+[Valor Comissão]),[Compra2 Peso Abatido],0)*AVERAGE(DGE_EMPRESAMATRIZ[_Arroba Padrão])))
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: c707bdc6-54be-4fa4-ae0e-5c1e3b4f556b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Quantidade de Pecuarista' = DISTINCTCOUNT(DCUVQ_COMPRAGADOPRAZO[SEQPRODUTOR])
+		formatString: 0
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: 69c13a97-0b9e-4e09-986b-5b6213fbba6c
+
+	measure 'Prazo Médio' = AVERAGE(DCUVQ_COMPRAGADOPRAZO[PRAZO])
+		formatString: 0
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: bfb1caf3-dbde-4d3c-93a4-0487cdfe3e64
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '% Habilitado ME - LG/LE' = ```
+			
+			VAR RED = CALCULATE(
+			    [Cabeças Abatidas], 
+			    DINVPB_ABATE[CLASSIFICACAORED] = "03. LG/LE")
+			RETURN
+			DIVIDE(RED, [Cabeças Abatidas])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 01. Abate
+		lineageTag: ce1bb0fd-10bc-46db-9db3-f564341f63d8
+
+	measure 'Qtd. Saída Desossa' =
+			
+			ROUND(
+			    SUMX(DINVPB_PRODUCAODESOSSA,
+			        DIVIDE(DINVPB_PRODUCAODESOSSA[QTDEMBALAGEM],
+			            IF(DINVPB_PRODUCAODESOSSA[_DIVIDO]=0,1,2),
+			                0)),
+			                    0)
+			//FRALDA RETIRADA DA PA COMPLETA, NÃO PESADA NA ENTRADA DA DESOSSA)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: a830e971-8e45-424c-b6fe-aac35fa1bf9e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Saída Peça Médio' = DIVIDE([Peso Saída Desossa],[Qtd. Saída Desossa],0)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 851bc549-7ba9-494a-a1e6-15f7f25042f9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Entrada Médio' = DIVIDE([Peso Entrada Desossa],[Peças Desossa],0)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 5d58e7c4-3e29-41e8-aa90-1102f5e5f8e1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peças Desossa' = ```
+			
+			CALCULATE(
+			    SUM(DINVPB_ENTRADADESOSSA[QUANTIDADE]), 
+			        DINVPB_ENTRADADESOSSA[DESCRFAMILIA] <> "CUPIM",
+			        DINVPB_PRODUCAODESOSSA[DESCRFAMILIA] <> "CARRE")
+			```
+		formatString: #,0
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 7ca6bc09-f0d0-49cd-ad51-73005440977d
+
+	measure '_Ajuste Peso Entrada Desossa Fralda' =
+			
+			var qtdfralda = CALCULATE([Qtd. Saída Desossa],DINVPB_PRODUCAODESOSSA[DESCRFAMILIA] = "FRALDA")
+			var entradafralda = qtdfralda * [Peso Entrada Médio]
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    [Peso Saída Desossa] = BLANK(), BLANK(),
+			    SELECTEDVALUE(DINVPB_PRODUCAODESOSSA[DESCRFAMILIA]) = "FRALDA", entradafralda,
+			    [Peso Entrada Desossa]) // FRALDA RETIRADA DA PA COMPLETA, ENVIADA PARA DESOSSA (AJUSTE PCP)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: f144abfd-960f-48b4-8e02-f5b48d359732
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_% Rendimento CHN TR' = CALCULATE(DIVIDE([Peso Saída Cortes Desossa], [_Ajuste Peso Entrada Desossa Fralda]),DEPARADESOSSA[_CLASSIF.REND] = "CHN",'DEPARADESOSSA'[DESCRFAMILIA] = "TRASEIRO")
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 730cd9c9-5667-4d63-bdba-5581c2c4234c
+
+	measure '_% Rendimento CHN DT' = CALCULATE(DIVIDE([Peso Saída Cortes Desossa], [_Ajuste Peso Entrada Desossa Fralda]),DEPARADESOSSA[_CLASSIF.REND] = "CHN",'DEPARADESOSSA'[DESCRFAMILIA] = "DIANTEIRO")
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: be6803f9-30d1-4e83-998e-349ec722bc9f
+
+	measure '_% Rendimento ANGUS TR' = CALCULATE(DIVIDE([Peso Saída Cortes Desossa], [_Ajuste Peso Entrada Desossa Fralda]),DEPARADESOSSA[_CLASSIF.REND] = "ANGUS",'DEPARADESOSSA'[DESCRFAMILIA] = "TRASEIRO")
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 8f39f007-68ac-4481-8ac1-b03213f80af7
+
+	measure '_% Rendimento ANGUS DT' = CALCULATE(DIVIDE([Peso Saída Cortes Desossa], [_Ajuste Peso Entrada Desossa Fralda]),DEPARADESOSSA[_CLASSIF.REND] = "ANGUS",'DEPARADESOSSA'[DESCRFAMILIA] = "DIANTEIRO")
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 39c034da-4aea-4d48-ad6f-4e1b299508e7
+
+	measure '_% Rendimento ML DT' = CALCULATE(DIVIDE([Peso Saída Cortes Desossa], [_Ajuste Peso Entrada Desossa Fralda]),DEPARADESOSSA[_CLASSIF.REND] = "NORMAL",'DEPARADESOSSA'[DESCRFAMILIA] = "DIANTEIRO")
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: c5344c7a-2fb2-4e74-9463-fec8110c5787
+
+	measure '_% Rendimento ML TR' = CALCULATE(DIVIDE([Peso Saída Cortes Desossa], [_Ajuste Peso Entrada Desossa Fralda]),DEPARADESOSSA[_CLASSIF.REND] = "NORMAL",'DEPARADESOSSA'[DESCRFAMILIA] = "TRASEIRO")
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: ea5a5e5b-9526-40a7-afe1-b03c4d725472
+
+	measure '_% Rendimento CHN PA' = CALCULATE(DIVIDE([Peso Saída Cortes Desossa], [_Ajuste Peso Entrada Desossa Fralda]),DEPARADESOSSA[_CLASSIF.REND] = "CHN",'DEPARADESOSSA'[DESCRFAMILIA] = "PONTA DE AGULHA")
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 7d8b85ee-05c1-4afa-a1c5-71f9684eaadd
+
+	measure '_% Rendimento ANGUS PA' = CALCULATE(DIVIDE([Peso Saída Cortes Desossa], [_Ajuste Peso Entrada Desossa Fralda]),DEPARADESOSSA[_CLASSIF.REND] = "ANGUS",'DEPARADESOSSA'[DESCRFAMILIA] = "PONTA DE AGULHA")
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 3677e7dc-9389-4992-a632-cec7b855d494
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_% Rendimento ML PA' = CALCULATE(DIVIDE([Peso Saída Cortes Desossa], [_Ajuste Peso Entrada Desossa Fralda]),DEPARADESOSSA[_CLASSIF.REND] = "NORMAL",'DEPARADESOSSA'[DESCRFAMILIA] = "PONTA DE AGULHA")
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 4eb88eb1-47e1-45d0-9809-44a796c1c7a4
+
+	measure '_% Rendimento TR/DT' = CALCULATE(DIVIDE([Peso Saída Cortes Desossa], [_Ajuste Peso Entrada Desossa Fralda]),'DEPARADESOSSA'[DESCRFAMILIA] IN {"DIANTEIRO","TRASEIRO","CARCACA","LEITAO"})
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 3b88c53c-5f27-4426-b8e4-1912595ec3f6
+
+	measure '_% Rendimento TF' = CALCULATE(DIVIDE([Peso Saída Cortes Desossa], [_Ajuste Peso Entrada Desossa Fralda]),DEPARADESOSSA[_CLASSIF.REND] = "T.F")
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 392ac3c0-2adc-4b9a-b861-244649e62006
+
+	measure '_% Rendimento CONSERVA' = CALCULATE(DIVIDE([Peso Saída Cortes Desossa], [_Ajuste Peso Entrada Desossa Fralda]),DEPARADESOSSA[_CLASSIF.REND] = "CONSERVA")
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 042798c1-3c95-4878-9f6d-380edf100f76
+
+	measure 'Peso Saída Códigos Filipinas' = ```
+			
+			    CALCULATE(
+			        [Peso Saída Cortes Desossa] + [Peso Saída Retalhos]
+			            , DINVPB_PRODUCAODESOSSA[_ProdutoFilipinas] = "Filipinas")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 67ec3cf3-526a-4a40-a9e2-610caffdfdf3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_% Rendimento Cortes' = DIVIDE([Peso Saída Cortes Desossa], [_Ajuste Peso Entrada Desossa Fralda])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: db43c16a-42c7-46fb-a71f-32cbe77017d5
+
+	measure 'Compra2 Peso Vivo' = ```
+			IF(SELECTEDVALUE(DCUVQ_COMPRAGADOPRAZO[NROEMPRESA]) IN {4}, 
+			    (SUM(DCUVQ_COMPRAGADOPRAZO[PESOVIVO]) - SUM(DCUVQ_COMPRAGADOPRAZO[_Peso Vivo])), 
+			    SUM(DCUVQ_COMPRAGADOPRAZO[PESOVIVO]))
+			```
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: c6e2f58a-c6ce-4478-8197-58180623741a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Compra2 Valor TotalTup' = SUM(DCUVQ_COMPRAGADOPRAZO[VLRPRODUTO])- SUM(DCUVQ_COMPRAGADOPRAZO[Valor Funrural])+ SUM(DCUVQ_COMPRAGADOPRAZO[_Valor Complemento])
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: c605df0e-f3cc-4ea9-aa8c-26e4224f7ed7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Compra2 Cabeças Abatidas Boitel' = CALCULATE([Compra2 Cabeças Abatidas],DCUVQ_COMPRAGADOPRAZO[_Origem]="Boitel")
+		formatString: 0
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: 2d4294fd-d268-4845-85c9-dc59bf962dff
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Compra2 Cabeças Abatidas Próprio' = CALCULATE([Compra2 Cabeças Abatidas],DCUVQ_COMPRAGADOPRAZO[_Origem]="Próprio")
+		formatString: 0
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: 3883800c-3979-4c44-afee-312c96e7316e
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Compra2 Cabeças Abatidas Terceiro' = CALCULATE([Compra2 Cabeças Abatidas],DCUVQ_COMPRAGADOPRAZO[_Origem]="Terceiro")
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: 19da732b-a1cd-42e3-9a76-a0a98272001e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Saída Códigos Singapura' = ```
+			
+			    CALCULATE(
+			        [Peso Saída Cortes Desossa] + [Peso Saída Retalhos]
+			            , DINVPB_PRODUCAODESOSSA[_ProdutoSingapura] = "Singapura")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: b3abf2a9-e535-46e0-9f62-acc948969846
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Saída Códigos Total' = [Peso Saída Códigos China]+[Peso Saída Códigos Singapura]+[Peso Saída Códigos Filipinas]+[Peso Saída Códigos Europa]+[Peso Saída Códigos Peru]
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 2702d5dc-725b-4f2b-85f7-8063090f2a58
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Horas Trabalhadas Desossa' =
+			
+			var horaponto = CALCULATE(SUM(Ponto[_Horas Trabalhadas]), 'Base Funcionários'[SETOR] IN {"DESOSSA"})
+			return
+			DIVIDE(horaponto, [Func Desossa Total Real], 0)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 822df809-1d3d-4989-a40e-9b6e97aa7322
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Indicador Compra.' =
+			
+			VAR Cbc = [Compra2 Cabeças Abatidas]
+			VAR PesoArroba = [Compra2 Peso Médio @]
+			VAR VlrArroba = [Valor @ Colocado]
+			VAR VlrCbc = [Compra2 Vlr Cabeça]
+			VAR VlrCompra = [Compra2 Valor Total]
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    SELECTEDVALUE(_FiltroCompra[Indicador Compra]) = "Valor Total", IF(VlrCompra = BLANK(), BLANK(), FORMAT(VlrCompra,"R$ ###,###.00")),
+			    SELECTEDVALUE(_FiltroCompra[Indicador Compra]) = "Valor Arroba @", IF(VlrArroba = BLANK(), BLANK(), FORMAT(VlrArroba,"R$ ###,###.00")),
+			    SELECTEDVALUE(_FiltroCompra[Indicador Compra]) = "Peso Arroba @", PesoArroba,
+			    SELECTEDVALUE(_FiltroCompra[Indicador Compra]) = "Quantidade Cabeças", Cbc,
+			    SELECTEDVALUE(_FiltroCompra[Indicador Compra]) = "Valor por Cabeça", IF(VlrCbc = BLANK(), BLANK(),FORMAT(VlrCbc,"R$ ###,###.00")))
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: 3f6faa42-4423-4c95-8760-0e829701815d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Lenha Consumo m³ Total' = [Lenha Consumo Eucalipto] + [Lenha Consumo Seringueira]
+		displayFolder: 09. Lenha
+		lineageTag: 48e31fa3-7f7a-4e28-a9f6-aa1c1824989f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Lenha Consumo R$/Cbç' = DIVIDE([Lenha Vlr.Total],[Cabeças Abatidas],0)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 09. Lenha
+		lineageTag: 54a497d9-343b-4d73-b21b-e9f0ba8902af
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Peças por Dia' = DIVIDE([Peças Desossa SUINO],[QtdDias Desossa Total],0)
+		formatString: #,0
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 2495dc2a-a415-40b1-b2f1-1b77e0b2f34d
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Func Ativos' = ```
+			
+			VAR DATAVALE = 
+			AVERAGEX(VALUES('Calendário'[Data]), 
+			    CALCULATE(COUNTROWS(FPBI_PONTODIARIO), 
+			        FPBI_PONTODIARIO[_Verifica Dia] = 1))
+			VAR TOTVS =
+			AVERAGEX(VALUES('Calendário'[Data]), 
+			    CALCULATE(COUNTROWS(Ponto), 
+			    Ponto[_QtdFunc] = 1))
+			RETURN
+			IF(SUMX('Calendário','Calendário'[_Filtro RH])>0,DATAVALE,TOTVS)
+			```
+		formatString: 0
+		lineageTag: 5fbcee8f-904b-4dd1-9415-b576ccf7f25c
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Func Férias' =
+			
+			VAR DATAVALE = CALCULATE(AVERAGEX(VALUES('Calendário'[Data]), CALCULATE([Func Ativos],FPBI_PONTODIARIO[_Ocorrencia Novo] = "Férias", FPBI_PONTODIARIO[_Verifica Dia] = 1)))
+			VAR TOTVS = AVERAGEX(VALUES('Calendário'[Data]), CALCULATE([Func Ativos], Ponto[FERIAS] = "SIM"))
+			RETURN
+			IF(SUMX('Calendário','Calendário'[_Filtro RH])>0,DATAVALE,TOTVS)
+		formatString: 0
+		lineageTag: f9df18b6-794f-4255-a8ce-fe9a4ca92b5a
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Func Faltas' =
+			
+			VAR DATAVALE = AVERAGEX(VALUES('Calendário'[Data]), CALCULATE(SUM (FPBI_ABSENTEISMO[QTDABSTENCIA]), FPBI_ABSENTEISMO[_Verifica Dia] = 1))
+			VAR TOTVS = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(COUNTROWS(Ponto), Ponto[_ABSENTEISMO] = "S"))
+			RETURN
+			IF(SUMX('Calendário','Calendário'[_Filtro RH])>0,DATAVALE,TOTVS)
+		formatString: 0
+		lineageTag: ab33cbae-5f46-4ceb-913e-2df474453a40
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Func Real' = ```
+			
+			AVERAGEX(
+			    VALUES('Calendário'[Data]), 
+			    [Func Ativos] - [Func Faltas] - [Func Férias])
+			```
+		formatString: 0
+		lineageTag: e4a8ddcf-1b0e-4767-8162-72de3c6ce6b4
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Absenteísmo = DIVIDE([Func Faltas], [Func Ativos])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 4cad9944-f350-443c-bbfa-94fdb2cdf022
+
+	measure 'Peso Saída Códigos Europa' = ```
+			
+			    CALCULATE(
+			        [Peso Saída Cortes Desossa] + [Peso Saída Retalhos]
+			            , DINVPB_PRODUCAODESOSSA[_ProdutoEuropa] = "Europa")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 67d791d7-905d-4c91-9732-f3a49f89b0c3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Saída Retalhos' =
+			
+			CALCULATE(
+			    SUM(DINVPB_PRODUCAODESOSSA[PESOLIQUIDOSAIDA]),
+			    DINVPB_PRODUCAODESOSSA[TIPOPRODUTO] = "RETALHOS")
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 7a12faeb-970d-4ec0-92d4-9530c4941397
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_% Rendimento TR/DT Sem Conserva/TF' =
+			
+			CALCULATE(
+			    DIVIDE([Peso Saída Cortes Desossa], [_Ajuste Peso Entrada Desossa Fralda]),
+			    'DEPARADESOSSA'[DESCRFAMILIA] IN {"DIANTEIRO", "TRASEIRO", "CARCACA", "LEITAO"},
+			    NOT CONTAINSSTRING(DEPARADESOSSA[_CLASSIF.REND], "CONSERVA"),
+			    NOT CONTAINSSTRING(DEPARADESOSSA[_CLASSIF.REND], "T.F")
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: c008d742-8621-4bdd-96dd-3b7a1513e358
+
+	measure 'Peso Saída Aproveitamento' =
+			
+			DIVIDE(SUM('EXCEL_APROVEITAMENTO'[Peso]),AVERAGE('EXCEL_APROVEITAMENTO'[_Contar Linhas]),0)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: ca3b1005-c6e5-4974-81dc-da11948d14eb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Acabado Outros' = [Peso Saída ME] - [Peso Saída Códigos Total]
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: b2d8a826-1dfc-48c2-8216-fe5362bd4571
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Exportação Total Total' = [Peso Saída Códigos Total] + [Peso Acabado Outros]
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: fb170635-08ae-4831-8347-f6c77535a99f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Consumo de Ponta (kwh)' = SUM(PASTA_ENERGIA[Consumo de Ponta [kWh]]])
+		displayFolder: 10. Energia Eletrica
+		lineageTag: c33a6c9f-7f5f-4470-8eab-367ba54f26e6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Consumo de Ponta (Unt)' = DIVIDE([Consumo de Ponta (Vlr)],[Consumo de Ponta (kwh)])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: a82ec974-7ce3-4c4c-968c-d43f1f02296e
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Consumo de Ponta (Vlr)' = sum(PASTA_ENERGIA[Valor de Ponta [R$]]])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 1c1e7bdf-1840-4b9b-96ff-2b5de76ee03c
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Consumo Fora de Ponta (kwh)' = SUM(PASTA_ENERGIA[Consumo Fora de Ponta [kWh]]])
+		displayFolder: 10. Energia Eletrica
+		lineageTag: f1a6bd6b-ea9d-45c7-baf2-cb54e655297d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Consumo Fora de Ponta (Vlr)' = sum(PASTA_ENERGIA[Valor Fora de Ponta [R$]]])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: d807f5d6-dd81-4b3a-a38b-617cf9e81af4
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Consumo Fora de Ponta (Unt)' = DIVIDE([Consumo Fora de Ponta (Vlr)],[Consumo Fora de Ponta (kwh)])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 3f295d83-626c-4baa-ac73-323938e610a2
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Consumo Reativo TT (Kwh)' = sumx(PASTA_ENERGIA,(PASTA_ENERGIA[Consumo Reativo Exc.Fora de Ponta [Kwh]]])+(PASTA_ENERGIA[Consumo Reativo Exc.Ponta [Kwh]]]))
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 54763027-65eb-4893-a6f5-f62cffa4448b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Consumo Reativo TT (Vlr)' = SUMX(PASTA_ENERGIA,PASTA_ENERGIA[Valor Reativo Exc.Ponta [R$]]]+PASTA_ENERGIA[Valor Reativo Exc.Fora de Ponta [R$]]])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: d6663b0a-4733-46fb-8c67-6a216b4d2dbd
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Consumo Reativo TT (Unt)' = DIVIDE([Consumo Reativo TT (Vlr)], [Consumo Reativo TT (Kwh)],0)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 8a7a16c9-52ad-4547-84e6-4cf6ae569a70
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Demanda Ultra TT (Kwh)' = sumx(PASTA_ENERGIA,PASTA_ENERGIA[Demanda Ultra Fora de Ponta [kW]]]+PASTA_ENERGIA[Demanda Ultra Ponta [kW]]]+ PASTA_ENERGIA[Demanda Ultra Ponta e Fora de Ponta [kW]]])
+		displayFolder: 10. Energia Eletrica
+		lineageTag: c3fa88b5-3086-4611-b700-8d7d0085bb84
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Demanda Ultra TT (Vlr)' = sumx(PASTA_ENERGIA,PASTA_ENERGIA[Valor Demanda Ultra Fora de Ponta [R$]]]+PASTA_ENERGIA[Valor Demanda Ultra Ponta [R$]]]+ PASTA_ENERGIA[Valor Demanda Ultra Ponta e Fora de Ponta [R$]]])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: de85f06e-4b85-441f-bc1f-f14bbcb9bd3e
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Demanda Ultra TT (Unt)' = DIVIDE([Demanda Ultra TT (Vlr)], [Demanda Ultra TT (Kwh)],0)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: d7563ca3-9167-4263-8201-9a9e29dd4b07
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Demanda Reativa TT (Kwh)' = sumx(PASTA_ENERGIA,PASTA_ENERGIA[Demanda Reativa Fora de Ponta [kW]]]+PASTA_ENERGIA[Demanda reativa Ponta [kW]]]+ PASTA_ENERGIA[Demanda reativa Ponta e Fora de Ponta [kW]]])
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 7ed34112-c491-4234-9b6a-055f38359cb2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Demanda Reativa TT (Vlr)' = sumx(PASTA_ENERGIA,PASTA_ENERGIA[Valor Demanda Reativa Fora de Ponta [R$]]]+PASTA_ENERGIA[Valor Demanda Reativa Ponta [R$]]]+ PASTA_ENERGIA[Valor Demanda Reativa Ponta e Fora de Ponta [R$]]])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 4717a9bd-7d06-4024-afb2-02ee59d43810
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Demanda Reativa TT (Unt)' = DIVIDE([Demanda Reativa TT (Vlr)],[Demanda Reativa TT (Kwh)],0)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 2ac58317-f9d2-4a89-946c-4d9d3e28223e
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Demanda Utilizada TT (Kwh)' = sumx(PASTA_ENERGIA,PASTA_ENERGIA[Demanda Fora de Ponta [kW]]]+PASTA_ENERGIA[Demanda Ponta [kW]]]+ PASTA_ENERGIA[Demanda Ponta e Fora de Ponta [kW]]])
+		displayFolder: 10. Energia Eletrica
+		lineageTag: c4b8d30c-b6c8-4ac6-92fa-2d4583a610cc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Demanda Utilizada TT (Vlr)' = sumx(PASTA_ENERGIA,PASTA_ENERGIA[Valor Demanda Fora de Ponta [R$]]]+PASTA_ENERGIA[Valor Demanda Ponta [R$]]]+ PASTA_ENERGIA[Valor Demanda Ponta e Fora de Ponta [R$]]])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 10f67dd1-8e5c-4de4-b05d-51ca6a4f0a68
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Demanda Utilizada TT (Unt)' = DIVIDE([Demanda Utilizada TT (Vlr)],[Demanda Utilizada TT (Kwh)],0)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 94c78db4-c0c0-4ad6-91b1-3e7f4802ccce
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Demanda Contratada TT (Kwh)' = sumx(PASTA_ENERGIA,PASTA_ENERGIA[Demanda Contratada Fora de Ponta [kW]]]+PASTA_ENERGIA[Demanda Contratada Ponta [kW]]]+PASTA_ENERGIA[Demanda Contratada Ponta e Fora de Ponta [kW]]])
+		formatString: #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 544c5dcd-18d1-4ee9-9806-1c5fac8cf788
+
+	measure 'Demanda Não Utilizada TT (Kwh)' = ```
+			
+			sumx(PASTA_ENERGIA,
+			    PASTA_ENERGIA[Demanda Não Utilizada Fora de Ponta [kW]]]+
+			    PASTA_ENERGIA[Demanda Não Utilizada Ponta [kW]]]+ 
+			    PASTA_ENERGIA[Demanda Não Utilizada Ponta e Fora de Ponta [kW]]])
+			```
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 4bbfb04d-6d34-4b4f-a41c-293e95fe9cb6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Demanda Não Utilizada TT (Vlr)' = ```
+			
+			sumx(PASTA_ENERGIA,
+			    PASTA_ENERGIA[Valor Demanda Não Utilizada Fora de Ponta [R$]]]+
+			    PASTA_ENERGIA[Valor Demanda Não Utilizada Ponta [R$]]]+ 
+			    PASTA_ENERGIA[Valor Demanda Não Utilizada Ponta e Fora de Ponta [R$]]]) 
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 54306b52-4dce-431a-a007-b48c0e35b5c7
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Demanda Não Utilizada TT (Unt)' = DIVIDE([Demanda Não Utilizada TT (Vlr)], [Demanda Não Utilizada TT (Kwh)],0)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 625e3c59-8384-4ad4-94e3-ee49fba71fc0
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Bandeira Vermelha (Vlr)' = sum(PASTA_ENERGIA[Valor Adicional Bandeira Vermelha [R$]]])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 9e89c4af-2bd0-45dc-a8a5-5e2c031c9310
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Bandeira Amarela (Vlr)' = sum(PASTA_ENERGIA[Valor Adicional Bandeira Amarela [R$]]])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: d0dfa1bf-47dc-467f-bcdf-e4571d33653d
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Compra Energia (Kwh)' = sum(PASTA_ENERGIA[Consumo de Energia Comprada] )
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 980346f0-e329-4475-9237-a6c0df10eab0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Compra Energia (Vlr)' = sum(PASTA_ENERGIA[Energia Comprada] )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: b3f3bce0-5fa9-4d06-8283-27ac02e76603
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Compra Energia (Unt)' = DIVIDE([Compra Energia (Vlr)],[Compra Energia (Kwh)],0)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 5d59e7c4-5bb7-45cb-9f4a-f6903f0c304e
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Imposto de Serviço' = SUM(PASTA_ENERGIA[Nota Fiscal de Serviço])
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 33eb1946-c480-4323-9912-22df7e9b6458
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Tarifas de Energia' = SUM(PASTA_ENERGIA[Valor de Tarifas [R$]]])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 83128591-92e6-445c-b788-011582a205b0
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure Desconto = SUM(PASTA_ENERGIA[Valor de Descontos [R$]]])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: e627908f-6357-4a4e-b12f-ae7be521b6e1
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total da Fatura' = SUM(PASTA_ENERGIA[Valor Total [R$]]])+SUM(PASTA_ENERGIA[Nota Fiscal de Serviço])+SUM(PASTA_ENERGIA[Energia Comprada])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 7567487f-de2e-4157-b218-abc5e3f3e668
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Peso Industrializados' =
+			
+			CALCULATE(
+			    SUM(DINVPB_PRODUCAOINDUS[PESOLIQUIDO]),
+			    DINVPB_PRODUCAOINDUS[_TIPO] = "PRODUÇÃO NORMAL"
+			)
+		displayFolder: 08. Industrializados
+		lineageTag: 74f043f8-57ab-4479-9c35-37e0d0ea04a0
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Indus Ativos' = ```
+			
+			VAR DEPARTAMENTO = {"INDUSTRIA INDUSTRIALIZADOS","INDUSTRIA EMBUTIDOS","INDUSTRIA EMBUTIDO"}
+			VAR DATAVALE = 
+			AVERAGEX(VALUES('Calendário'[Data]), 
+			    CALCULATE(COUNTROWS(FPBI_PONTODIARIO), 
+			        FPBI_FUNCIONARIO[DESCRDEPARTAMENTO] IN DEPARTAMENTO,
+			        FPBI_PONTODIARIO[_Verifica Dia] = 1))
+			VAR TOTVS =
+			AVERAGEX(VALUES('Calendário'[Data]), 
+			    CALCULATE(COUNTROWS(Ponto), 
+			    'Base Funcionários'[DEPARTAMENTO] IN DEPARTAMENTO , 
+			    Ponto[_QtdFunc] = 1))
+			VAR DIAREMPRES = [Func Indus Diarista]+[Func Indus Emprestimo]
+			RETURN
+			IF([Peso Industrializados] = BLANK(), BLANK(), IF(SUMX('Calendário','Calendário'[_Filtro RH])>0,DATAVALE,TOTVS)+DIAREMPRES)
+			```
+		displayFolder: 08. Industrializados
+		lineageTag: 6e63ebb7-0d13-4469-a8ae-186df87988a4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Indus Faltas' =
+			
+			VAR DEPARTAMENTO = {"INDUSTRIA INDUSTRIALIZADOS","INDUSTRIA EMBUTIDOS"}
+			VAR DATAVALE = AVERAGEX(VALUES('Calendário'[Data]), CALCULATE(SUM (FPBI_ABSENTEISMO[QTDABSTENCIA]),FPBI_FUNCIONARIO[DESCRDEPARTAMENTO] IN DEPARTAMENTO, FPBI_ABSENTEISMO[_Verifica Dia] = 1))
+			VAR TOTVS = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(COUNTROWS(Ponto), Ponto[_ABSENTEISMO] = "S", 'Base Funcionários'[DEPARTAMENTO] IN DEPARTAMENTO))
+			RETURN
+			IF([Peso Industrializados] = BLANK(), BLANK(), IF(SUMX('Calendário','Calendário'[_Filtro RH])>0,DATAVALE,TOTVS))
+		formatString: 0
+		displayFolder: 08. Industrializados
+		lineageTag: ecb3c4e0-7c53-448a-8fca-d456dc15b095
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Func Indus Férias' =
+			
+			VAR DATAVALE = CALCULATE(AVERAGEX(VALUES('Calendário'[Data]), CALCULATE([Func Indus Ativos],FPBI_PONTODIARIO[_Ocorrencia Novo] = "Férias", FPBI_PONTODIARIO[_Verifica Dia] = 1)))
+			VAR TOTVS = AVERAGEX(VALUES('Calendário'[Data]), CALCULATE([Func Indus Ativos], Ponto[FERIAS] = "SIM"))
+			RETURN
+			IF(SUMX('Calendário','Calendário'[_Filtro RH])>0,DATAVALE,TOTVS)
+		formatString: 0
+		displayFolder: 08. Industrializados
+		lineageTag: 5ab28c84-ad98-44f3-877d-d706c5ab6fd7
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Absenteísmo Indus' = DIVIDE([Func Indus Faltas],[Func Indus Ativos])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 08. Industrializados
+		lineageTag: bf278602-5e21-4c25-84cd-f9f6a0276b5c
+
+	measure 'Horas Indus' = ```
+			CALCULATE(
+			    SUM(Ponto[_Horas Trabalhadas]), 
+			    'Base Funcionários'[DEPARTAMENTO] in {"INDUSTRIA INDUSTRIALIZADOS","INDUSTRIA EMBUTIDOS","INDUSTRIA EMBUTIDO"})
+			```
+		displayFolder: 08. Industrializados
+		lineageTag: 119d8e82-3d02-458c-ba02-fbea7e0c2334
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Indus Real' = [Func Indus Ativos] - [Func Indus Férias] - [Func Indus Faltas]
+		formatString: 0
+		displayFolder: 08. Industrializados
+		lineageTag: 43991541-fb98-45be-b0c6-30e83d60e9ed
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Produtividade Indus Kg/Hh' = ```
+			//DIVIDE(DIVIDE([Peso Industrializados],[Func Indus Real]) , [Horas Trabalhadas Indus])
+			
+			DIVIDE(
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        DIVIDE([Peso Industrializados], [Func Indus Real])
+			    ),
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        [Horas Trabalhadas Indus]
+			    )
+			)
+			
+			```
+		displayFolder: 08. Industrializados
+		lineageTag: 506302ec-6cec-443e-991b-a00509e3ef71
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Horas Trabalhadas Indus' =
+			
+			var TOTVS = DIVIDE([Horas Indus] , [Func Indus Real])
+			var DATAVALE = [DTV Hora Indus]
+			RETURN
+			IF(SUMX('Calendário','Calendário'[_Filtro RH])>0,DATAVALE,TOTVS)
+		displayFolder: 08. Industrializados
+		lineageTag: 6adecfc9-8bb5-4eba-816a-05926e175b07
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Retrabalho' = ```
+			VAR RETRAB = CALCULATE(SUM(DINVPB_PRODUCAOINDUS[PESOLIQUIDO]),DINVPB_PRODUCAOINDUS[_TIPO]="RETRABALHO")
+			             VAR PROD = CALCULATE(SUM(DINVPB_PRODUCAOINDUS[PESOLIQUIDO]), DINVPB_PRODUCAOINDUS[_TIPO] ="PRODUÇÃO NORMAL")
+			             RETURN
+			            DIVIDE(RETRAB,PROD,0)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 08. Industrializados
+		lineageTag: 1fb40dda-2069-43e4-ab4d-1bfbc6ea006f
+
+	measure 'Peso Quente Quebra Frio' = SUM('EXCEL_QUEBRADEFRIO'[PESO QUENTE])
+		displayFolder: 11. Quebra de Frio
+		lineageTag: 39ee569b-6ce5-410b-b530-1049754cba1b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Frio Quebra Frio' = SUM('EXCEL_QUEBRADEFRIO'[PESO FRIO])
+		displayFolder: 11. Quebra de Frio
+		lineageTag: dc17d79a-750a-4301-a6ef-51df103bfcea
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Quebra de Frio' = ```
+			
+			IF (
+			    [Peso Frio Quebra Frio] < [Peso Quente Quebra Frio],
+			    - DIVIDE(
+			        ABS([Peso Quente Quebra Frio] - [Peso Frio Quebra Frio]),
+			        [Peso Quente Quebra Frio],
+			        0
+			    ),
+			    DIVIDE(
+			        ABS([Peso Quente Quebra Frio] - [Peso Frio Quebra Frio]),
+			        [Peso Quente Quebra Frio],
+			        0
+			    )
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 11. Quebra de Frio
+		lineageTag: 8aef3313-50ea-453f-875f-d2424b92fd19
+
+	measure 'Quantidade de Carcaças' = SUM('EXCEL_QUEBRADEFRIO'[QTD. CARCAÇAS])
+		formatString: #,0
+		displayFolder: 11. Quebra de Frio
+		lineageTag: 8b8edc6d-ece1-401a-a664-28ad67ea42ab
+
+	measure 'Quantidade sem Pesar' = SUM('EXCEL_QUEBRADEFRIO'[QTD. SEM PESAR])
+		formatString: 0
+		displayFolder: 11. Quebra de Frio
+		lineageTag: 42b8b04d-c262-43c3-ae87-e458ccaea3c3
+
+	measure 'Func Abate Emprestimo' =
+			
+			VAR SETOR = { "NATURA AREA QUENTE", "NATURA ÁREA QUENTE","NATURA AREA QUENTE","IN NATURA AREA QUENTE","IN NATURA","ABATE"}
+			VAR COLABORADOR = {"Colaborador"}
+			VAR EXCELEMPRESTA = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN COLABORADOR,'EXCEL_COLABEMPRESTADO'[Origem/Destino] IN {"Origem"}))*-1
+			VAR EXCELRECEBE = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN COLABORADOR,'EXCEL_COLABEMPRESTADO'[Origem/Destino] IN {"Destino"}))
+			RETURN
+			IF([Hora Abate Trabalhadas]<>0,EXCELEMPRESTA+EXCELRECEBE,BLANK())
+		formatString: 0
+		displayFolder: 01. Abate
+		lineageTag: 95660ef7-3f2d-44c1-b78b-1805b4785933
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Func Desossa Diarista' =
+			
+			VAR SETOR = {"DESOSSA","DESOSSA DIURNO", "DESOSSA DIURNA", "DESOSSA NOTURNO", "DESOSSA NOTURNA"}
+			VAR DIARISTA = {"Diarista"}
+			VAR EXCEL = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN DIARISTA))
+			RETURN
+			IF([Hora Desossa Trab.]<>0,EXCEL,BLANK())
+		formatString: 0
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 46167ed5-f70f-44f0-b680-60ad1462820d
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Func Desossa Emprestimo' =
+			
+			VAR SETOR = {"DESOSSA","DESOSSA DIURNO", "DESOSSA DIURNA", "DESOSSA NOTURNO", "DESOSSA NOTURNA"}
+			VAR COLABORADOR = {"Colaborador"}
+			VAR EXCELEMPRESTA = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN COLABORADOR,'EXCEL_COLABEMPRESTADO'[Origem/Destino] IN {"Origem"}))*-1
+			VAR EXCELRECEBE = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN COLABORADOR,'EXCEL_COLABEMPRESTADO'[Origem/Destino] IN {"Destino"}))
+			RETURN
+			IF([Hora Desossa Trab.]<>0,EXCELRECEBE+EXCELEMPRESTA,BLANK())
+		formatString: 0
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 8f3edd94-ac02-41fe-ac5c-e569fb6e1b86
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Func Miudos Diarista' =
+			
+			VAR SETOR = {"BUCHARIA", "MIUDOS", "BUCHARIA SUJA","BUCHARIA LIMPA", "BUCHARIA - LIMPA", "BUCHARIA - SUJA"}
+			VAR DIARISTA = {"Diarista"}
+			VAR EXCEL = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN DIARISTA))
+			RETURN
+			IF([Hora Abate Trabalhadas]<>0,EXCEL,BLANK())
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 4ecb6438-75f2-4dfc-b027-5775f18febfe
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Miudos Emprestimo' =
+			
+			VAR SETOR = {"BUCHARIA", "MIUDOS", "BUCHARIA SUJA","BUCHARIA LIMPA", "BUCHARIA - LIMPA", "BUCHARIA - SUJA"}
+			VAR COLABORADOR = {"Colaborador"}
+			VAR EXCELEMPRESTA = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN COLABORADOR,'EXCEL_COLABEMPRESTADO'[Origem/Destino] IN {"Origem"}))*-1
+			VAR EXCELRECEBE = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN COLABORADOR,'EXCEL_COLABEMPRESTADO'[Origem/Destino] IN {"Destino"}))
+			RETURN
+			IF([Hora Abate Trabalhadas]<>0,EXCELRECEBE+EXCELEMPRESTA,BLANK())
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 7f025fbd-583b-4bac-bfa5-5c50ee225003
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Abate Diarista' =
+			
+			VAR SETOR = { "NATURA AREA QUENTE", "NATURA ÁREA QUENTE","NATURA AREA QUENTE","IN NATURA AREA QUENTE","IN NATURA","ABATE"}
+			VAR DIARISTA = {"Diarista"}
+			VAR EXCEL = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN DIARISTA))
+			RETURN
+			IF([Hora Abate Trabalhadas]<>0,EXCEL,BLANK())
+		displayFolder: 01. Abate
+		lineageTag: e21148dd-f4e5-49a5-a092-16656f4d1204
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Graxaria Diarista' =
+			
+			VAR SETOR = {"GRAXARIA"}
+			VAR DIARISTA = {"Diarista"}
+			VAR EXCEL = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN DIARISTA))
+			RETURN
+			IF([Hora Abate Trabalhadas]<>0,EXCEL,BLANK())
+		displayFolder: 04. SubProduto
+		lineageTag: 6ff5b833-f7b5-46f3-90dd-27397077cb5b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Graxaria Emprestimo' =
+			
+			VAR SETOR = {"GRAXARIA"}
+			VAR COLABORADOR = {"Colaborador"}
+			VAR EXCELEMPRESTA = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN COLABORADOR,'EXCEL_COLABEMPRESTADO'[Origem/Destino] IN {"Origem"}))*-1
+			VAR EXCELRECEBE = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN COLABORADOR,'EXCEL_COLABEMPRESTADO'[Origem/Destino] IN {"Destino"}))
+			RETURN
+			IF([Hora Abate Trabalhadas]<>0,EXCELRECEBE+EXCELEMPRESTA,BLANK())
+		displayFolder: 04. SubProduto
+		lineageTag: 2fb9bfa1-8023-43db-9d57-95b56b974c85
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Caixaria Diarista' =
+			
+			VAR SETOR = {"CAIXARIA","CAIXARIA DIURNA", "CAIXARIA DIURNO", "CAIXARIA NOTURNA", "CAIXARIA NOTURNO"}
+			VAR DIARISTA = {"Diarista"}
+			VAR EXCEL = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN DIARISTA))
+			RETURN
+			IF([Hora Desossa Trab.]<>0,EXCEL,BLANK())
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: c3332085-5043-426b-b767-66361b78963a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Caixaria Emprestimo' =
+			
+			VAR SETOR = {"CAIXARIA","CAIXARIA DIURNA", "CAIXARIA DIURNO", "CAIXARIA NOTURNA", "CAIXARIA NOTURNO"}
+			VAR COLABORADOR = {"Colaborador"}
+			VAR EXCELEMPRESTA = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN COLABORADOR,'EXCEL_COLABEMPRESTADO'[Origem/Destino] IN {"Origem"}))*-1
+			VAR EXCELRECEBE = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN COLABORADOR,'EXCEL_COLABEMPRESTADO'[Origem/Destino] IN {"Destino"}))
+			RETURN
+			IF([Hora Desossa Trab.]<>0,EXCELRECEBE+EXCELEMPRESTA,BLANK())
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: a0f9f262-3e04-4820-a98b-08e330ab01e3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Indus Diarista' =
+			
+			VAR SETOR = {"INDUSTRIA INDUSTRIALIZADOS","INDUSTRIA EMBUTIDOS","INDUSTRIA EMBUTIDO"}
+			VAR DIARISTA = {"Diarista"}
+			VAR EXCEL = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN DIARISTA))
+			RETURN
+			IF([Peso Industrializados]<>0,EXCEL,BLANK())
+		displayFolder: 08. Industrializados
+		lineageTag: 82987637-62f1-4e1f-aeee-40d9bba39713
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Indus Emprestimo' =
+			
+			VAR SETOR = {"INDUSTRIA INDUSTRIALIZADOS","INDUSTRIA EMBUTIDOS","INDUSTRIA EMBUTIDO"}
+			VAR COLABORADOR = {"Colaborador"}
+			VAR EXCELEMPRESTA = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN COLABORADOR,'EXCEL_COLABEMPRESTADO'[Origem/Destino] IN {"Origem"}))*-1
+			VAR EXCELRECEBE = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN COLABORADOR,'EXCEL_COLABEMPRESTADO'[Origem/Destino] IN {"Destino"}))
+			RETURN
+			IF([Peso Industrializados]<>0,EXCELRECEBE+EXCELEMPRESTA,BLANK())
+		displayFolder: 08. Industrializados
+		lineageTag: d4565993-d2c2-45c2-a547-c339b65c34e1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Consumo de P/FP (Kwh)' = CALCULATE([Consumo de Ponta (kwh)]+[Consumo Fora de Ponta (kwh)])
+		formatString: #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 90074110-2037-4ba4-936f-069055bf699e
+
+	measure 'Qtde_Dias Industrializados' = DISTINCTCOUNT(DINVPB_PRODUCAOINDUS[_Data])
+		formatString: 0
+		displayFolder: 08. Industrializados
+		lineageTag: 7dfbcd93-3df5-480f-a4ea-033493dae3a2
+
+	measure 'Consumo de P/FP (Unit)' = DIVIDE([Consumo de P/FP (Vlr)],[Consumo de P/FP (kwh)])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: b7a6d8a9-44b6-4437-873b-492e5063ee2e
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Consumo de P/FP (Vlr)' = CALCULATE([Consumo de Ponta (Vlr)]+[Consumo Fora de Ponta (Vlr)])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: d4d99b0b-718d-4379-a6d8-0de30e8e8c78
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'DTV Hora Indus' = SUM(IMPUT_DTVINDUS[DECIMAL])/60
+		formatString: #,0.00
+		displayFolder: 08. Industrializados
+		lineageTag: 13d8cb7a-7f73-47be-89ae-1994453038ef
+
+	measure 'Peso Produzido (Ton)' = CALCULATE(([Peso Abatido] + [Peso Miudos/Graxaria] + [Peso Saída Desossa] + [Peso Industrializados] + [_Volume Prod. Grax Oeste] + [_Volume Prod. Fabrica Rac] + 'Volume Mov. valinhos'[_Volume Movimentado])/1000) + SUM(CONFINAMENTOS[VOLUME])
+		lineageTag: 9f3ce011-0d68-4b77-8863-68c66ffe1297
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Energia (R$/TonProcessada)' = if([Total da Fatura] = BLANK(), BLANK(), (DIVIDE([Total da Fatura], [Peso Produzido (Ton)],0)))
+		formatString: "R$"\ #,0.000;-"R$"\ #,0.000;"R$"\ #,0.000
+		displayFolder: 10. Energia Eletrica
+		lineageTag: ecf20ca0-d253-472e-8d99-50a982c9bb2a
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Energia (R$/Kwh)' = if([Total da Fatura] = BLANK(), BLANK(), (DIVIDE([Total da Fatura],[Consumo de P/FP (Kwh)],0)))
+		formatString: "R$"\ #,0.000;-"R$"\ #,0.000;"R$"\ #,0.000
+		displayFolder: 10. Energia Eletrica
+		lineageTag: 0fb40865-0aee-42f3-a7fe-6ae92b91a311
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Energia (Kwh/TonProduzida)' = if([Consumo de P/FP (Kwh)] = BLANK(), BLANK(), (DIVIDE([Consumo de P/FP (Kwh)],[Peso Produzido (Ton)],0)))
+		formatString: #,0.00
+		displayFolder: 10. Energia Eletrica
+		lineageTag: a84adf75-fc1e-423e-b088-8876dde19464
+
+	measure 'Func Expedição Emprestimo' =
+			
+			VAR SETOR = {"EXPEDICAO","PALETIZACAO", "ARMAZENAGEM", "ARMAZENAGEM INDIRETA","EXPEDICAO NOTURNO", "EXPEDICAO DIURNA", "PALETIZAÇÃO DIURNO", "PALETIZAÇÃO", "EXPEDIÇÃO"}
+			VAR COLABORADOR = {"Colaborador"}
+			VAR EXCELEMPRESTA = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN COLABORADOR,'EXCEL_COLABEMPRESTADO'[Origem/Destino] IN {"Origem"}))*-1
+			VAR EXCELRECEBE = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN COLABORADOR,'EXCEL_COLABEMPRESTADO'[Origem/Destino] IN {"Destino"}))
+			RETURN
+			IF([Hora Abate Trabalhadas]<>0,EXCELRECEBE+EXCELEMPRESTA,BLANK())
+		displayFolder: 07. Expedição
+		lineageTag: 40c88d17-3a9e-4080-a996-a80bbf8dd597
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Expedição Diarista' =
+			
+			VAR SETOR = {"EXPEDICAO","PALETIZACAO", "ARMAZENAGEM", "ARMAZENAGEM INDIRETA","EXPEDICAO NOTURNO", "EXPEDICAO DIURNA", "PALETIZAÇÃO DIURNO", "PALETIZAÇÃO", "EXPEDIÇÃO"}
+			VAR DIARISTA = {"Diarista"}
+			VAR EXCEL = AVERAGEX(VALUES('Calendário'[Data]),CALCULATE(SUM('EXCEL_COLABEMPRESTADO'[Qtd.]),'EXCEL_COLABEMPRESTADO'[Setor] IN SETOR, 'EXCEL_COLABEMPRESTADO'[Tipo] IN DIARISTA))
+			RETURN
+			EXCEL
+		displayFolder: 07. Expedição
+		lineageTag: 98b5ca94-9028-49b9-8595-cdf35296174b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Horas Expedição' = ```
+			
+			VAR HORAS = CALCULATE(
+			    SUM(Ponto[_Horas Trabalhadas]), 
+			    'Base Funcionários'[SETOR] in {"EXPEDICAO","PALETIZACAO", "ARMAZENAGEM", "ARMAZENAGEM INDIRETA","EXPEDICAO NOTURNO", "EXPEDICAO DIURNA", "PALETIZAÇÃO DIURNO", "PALETIZAÇÃO", "EXPEDIÇÃO"})
+			RETURN
+			IF(SUMX('Calendário','Calendário'[_Filtro RH])=0,HORAS,BLANK())
+			```
+		displayFolder: 07. Expedição
+		lineageTag: 2fb2915e-f299-4720-a7b0-59b053b94add
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Horas Expedição Trabalhadas' =
+			
+			var TOTVS = DIVIDE([Horas Expedição] , [Func Expedição Real])
+			RETURN
+			IF(SUMX('Calendário','Calendário'[_Filtro RH])>0,BLANK(),TOTVS)
+		displayFolder: 07. Expedição
+		lineageTag: ca1a4251-7f83-43ab-8c72-c562cfeea940
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_% Meta Absenteismo Desossa' =
+			
+			IF(
+			    ISINSCOPE('BD METAS BI'[Data]),
+			    SUM('BD METAS BI'[Absenteísmo]),
+			    AVERAGEX(
+			        VALUES('BD METAS BI'[Data]),
+			        CALCULATE(SUM('BD METAS BI'[Absenteísmo]))
+			    )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 100. Metas
+		lineageTag: 45cbfbcb-0ee4-4a96-9712-186de5070748
+
+	measure '_% Meta Rendimento Desossa Tupã' =
+			
+			IF(
+			    ISINSCOPE('BD METAS BI'[Data]),
+			    SUM('BD METAS BI'[Rendimento Desossa 4]),
+			    AVERAGEX(
+			        VALUES('BD METAS BI'[Data]),
+			        CALCULATE(SUM('BD METAS BI'[Rendimento Desossa 4]))
+			    )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 100. Metas
+		lineageTag: 917ef8f0-5fa9-49db-85f3-98d612f53cb4
+
+	measure '_% Meta Produtividade Desossa' =
+			
+			IF(
+			    ISINSCOPE('BD METAS BI'[Data]),
+			    SUM('BD METAS BI'[Eficiencia Desossa – (Kg/Hhr)]),
+			    AVERAGEX(
+			        VALUES('BD METAS BI'[Data]),
+			        CALCULATE(SUM('BD METAS BI'[Eficiencia Desossa – (Kg/Hhr)]))
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: 100. Metas
+		lineageTag: f7084b16-ed35-4e2c-881c-d6e3129a7798
+
+	measure '_% Meta Rendimento Tr China' = SUM('BD METAS BI'[CHINA – Rend. Traseiro ])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 100. Metas
+		lineageTag: 238a7145-9afd-4b60-8ea7-d002755e4783
+
+	measure '_% Meta Rendimento Dt China' = SUM('BD METAS BI'[CHINA – Rend. Dianteiro ])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 100. Metas
+		lineageTag: 603ea53f-49fa-4f83-ad61-6ec1970ea7c9
+
+	measure '_% Meta Rendimento Pa China' = SUM('BD METAS BI'[CHINA – Rend. Ponta de Agulha ])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 100. Metas
+		lineageTag: 51d9b7b7-a745-46d8-8bf0-0e5b0541469e
+
+	measure '_% Meta Rendimento Tr Mi' = SUM('BD METAS BI'[MI – Rend. Traseiro ])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 100. Metas
+		lineageTag: 3c18349d-dadb-4cba-af31-82a6ba45a0ba
+
+	measure '_% Meta Rendimento Dt Mi' = SUM('BD METAS BI'[MI – Rend. Dianteiro ])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 100. Metas
+		lineageTag: 68c45434-b49b-4335-bdfb-f1bdf67903c5
+
+	measure '_% Meta Rendimento Pa Mi' = SUM('BD METAS BI'[MI – Rend. Ponta de Agulha ])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 100. Metas
+		lineageTag: 6759eb82-e103-438d-95e4-b794b7b3cd2e
+
+	measure '_% Meta Absenteismo Abate' =
+			
+			IF(
+			    ISINSCOPE('BD METAS BI'[Data]),
+			    SUM('BD METAS BI'[Absenteísmo – Abate]),
+			    AVERAGEX(
+			        VALUES('BD METAS BI'[Data]),
+			        CALCULATE(SUM('BD METAS BI'[Absenteísmo – Abate]))
+			    )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 100. Metas
+		lineageTag: fbd457bc-2352-4baa-9243-39d601f654bd
+
+	measure '_% Meta Absenteismo Miudos' =
+			
+			IF(
+			    ISINSCOPE('BD METAS BI'[Setor]),
+			    SUM('BD METAS BI'[Absenteísmo – Miúdos]),
+			    AVERAGE('BD METAS BI'[Absenteísmo – Miúdos])
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 100. Metas
+		lineageTag: 72347bd7-46fb-4b89-aca6-02ecad231335
+
+	measure '_% Meta Rendimento Miudos' =
+			
+			IF(
+			    ISINSCOPE('BD METAS BI'[Data]),
+			    SUM('BD METAS BI'[Rendimento Miúdos]),
+			    AVERAGEX(
+			        VALUES('BD METAS BI'[Data]),
+			        CALCULATE(SUM('BD METAS BI'[Rendimento Miúdos]))
+			    )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 100. Metas
+		lineageTag: 78afe04e-b4f9-4cfc-ab84-23e449436e50
+
+	measure '_% Meta Rendimento SubPr' =
+			
+			IF(
+			    ISINSCOPE('BD METAS BI'[Data]),
+			    SUM('BD METAS BI'[Rendimento Subprodutos]),
+			    AVERAGEX(
+			        VALUES('BD METAS BI'[Data]),
+			        CALCULATE(SUM('BD METAS BI'[Rendimento Subprodutos]))
+			    )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 100. Metas
+		lineageTag: 3107d8d8-60af-43b4-b0c4-211846b43ece
+
+	measure '_% Meta Eficiencia Abate' =
+			
+			IF(
+			    ISINSCOPE('BD METAS BI'[Data]),
+			    SUM('BD METAS BI'[Eficiência Abate]),
+			    AVERAGEX(
+			        VALUES('BD METAS BI'[Data]),
+			        CALCULATE(SUM('BD METAS BI'[Eficiência Abate]))
+			    )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 100. Metas
+		lineageTag: 21ff075a-c267-442b-9fd8-a76f278ce0ca
+
+	measure '_ Meta produtividade Abate' =
+			
+			IF(
+			    ISINSCOPE('BD METAS BI'[Data]),
+			    SUM('BD METAS BI'[Eficiencia Abate (Cbç/Hhr)]),
+			    AVERAGEX(
+			        VALUES('BD METAS BI'[Data]),
+			        CALCULATE(SUM('BD METAS BI'[Eficiencia Abate (Cbç/Hhr)]))
+			    )
+			)
+		displayFolder: 100. Metas
+		lineageTag: d8c63602-5d4d-465d-bd89-f0c5b600bd7c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_Meta produtividade Abate KG' =
+			
+			IF(
+			    ISINSCOPE('BD METAS BI'[Data]),
+			    SUM('BD METAS BI'[Eficiencia Abate (Kg/Hhr)]),
+			    AVERAGEX(
+			        VALUES('BD METAS BI'[Data]),
+			        CALCULATE(SUM('BD METAS BI'[Eficiencia Abate (Kg/Hhr)]))
+			    )
+			)
+		displayFolder: 100. Metas
+		lineageTag: 43b1e05d-95ed-47f2-ba3a-410530044afa
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_ Meta produtividade Miudos KG' =
+			
+			IF(
+			    ISINSCOPE('BD METAS BI'[Data]),
+			    SUM('BD METAS BI'[Eficiencia Miúdos(Kg/Hhr)]),
+			    AVERAGEX(
+			        VALUES('BD METAS BI'[Data]),
+			        CALCULATE(SUM('BD METAS BI'[Eficiencia Miúdos(Kg/Hhr)]))
+			    )
+			)
+		displayFolder: 100. Metas
+		lineageTag: 4a73ee39-057c-4e30-b649-dacc14268a70
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_% Meta RendimentoVivo Abate' =
+			
+			IF(
+			    ISINSCOPE('BD METAS BI'[Data]),
+			    SUM('BD METAS BI'[Rendimento Vivo ]),
+			    AVERAGEX(
+			        VALUES('BD METAS BI'[Data]),
+			        CALCULATE(SUM('BD METAS BI'[Rendimento Vivo ]))
+			    )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 100. Metas
+		lineageTag: f5daf070-c83c-4692-bed3-44edc20bbb8b
+
+	measure 'Valor por Volume Oeste' = [Lenha Vlr.Total]/[_Volume Prod. Grax Oeste]
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 09. Lenha
+		lineageTag: 2d12fabe-3ce7-4542-b9f0-c5c8bf0dfe6f
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '_Frete por @' = ([Valor Frete]/([Peso Abatido]/15))
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 01.2 Compra de Gado
+		lineageTag: c19f79c9-8bff-4ee9-8b11-291b6ebac9a4
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '_Meta Eficiencia Pç' = DIVIDE([Peças Desossa SUINO],SUM('BD METAS BI'[Peças Dia]),0)
+		formatString: 0%;-0%;0%
+		displayFolder: 100. Metas
+		lineageTag: d3e0ab64-052f-4914-b6dd-b7948833f219
+
+	measure 'Func Abate Faltas' =
+			
+			IF (
+			    HASONEVALUE ( 'Calendário'[Data] ),
+			    [Func Abate Faltas Base],  -- mostra cálculo diário
+			    AVERAGEX (                 -- no total, média dos dias
+			        VALUES ( 'Calendário'[Data] ),
+			        [Func Abate Faltas Base]
+			    )
+			)
+		displayFolder: 01. Abate
+		lineageTag: 6066ab8d-0c1d-4b8f-9dc2-dca7ebcca24a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Miudos Faltas' =
+			
+			IF (
+			    HASONEVALUE ( 'Calendário'[Data] ),
+			    [Func Miudos Faltas Base],  -- cálculo no nível diário
+			    AVERAGEX (                  -- no total, média das datas visíveis
+			        VALUES ( 'Calendário'[Data] ),
+			        [Func Miudos Faltas Base]
+			    )
+			)
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: b67787f9-1e92-4375-a648-9b637e720a32
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Desossa Faltas' =
+			
+			IF (
+			    HASONEVALUE ( 'Calendário'[Data] ),
+			    [Func Desossa Faltas Base],   -- cálculo diário
+			    AVERAGEX (                    -- no total, média das datas visíveis
+			        VALUES ( 'Calendário'[Data] ),
+			        [Func Desossa Faltas Base]
+			    )
+			)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 381bc91a-ec98-48f5-bd7b-f21d3868e76f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Caixaria Faltas' =
+			
+			IF (
+			    HASONEVALUE ( 'Calendário'[Data] ),
+			    [Func Caixaria Faltas Base],   -- cálculo no detalhe
+			    AVERAGEX (                     -- no total, média das datas visíveis
+			        VALUES ( 'Calendário'[Data] ),
+			        [Func Caixaria Faltas Base]
+			    )
+			)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 73c7b008-6450-4149-b110-e63388bbc6eb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Func Graxaria Faltas' =
+			
+			IF (
+			    HASONEVALUE ( 'Calendário'[Data] ),
+			    [Func Graxaria Faltas Base],   -- cálculo no detalhe (dia a dia)
+			    AVERAGEX (                     -- no total, média dos dias visíveis
+			        VALUES ( 'Calendário'[Data] ),
+			        [Func Graxaria Faltas Base]
+			    )
+			)
+		displayFolder: 04. SubProduto
+		lineageTag: b139ff1e-95e4-4fbe-94b9-e766e0bc7255
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Industrializados Retrabalho' =
+			
+			CALCULATE(
+			    SUM(DINVPB_PRODUCAOINDUS[PESOLIQUIDO]),
+			    DINVPB_PRODUCAOINDUS[_TIPO] = "RETRABALHO"
+			)
+		displayFolder: 08. Industrializados
+		lineageTag: c49c0c1f-b9f5-4c42-8012-dfa3f5e6c186
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peso Saída Subprodutos' =
+			
+			CALCULATE(
+			    SUM(DINVPB_PRODUCAODESOSSA[PESOLIQUIDOSAIDA]),
+			    DINVPB_PRODUCAODESOSSA[TIPOPRODUTO] = "SUBPRODUTOS")
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 224540a9-7338-4697-8a85-4491eb45ccf0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Velocidade Desossa Pçs/H' = DIVIDE([Peças Processadas Desossa], [Hora Desossa Trab.])
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 2e5f84bd-ccfd-4740-9abd-2d4a2cdf7003
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Eficiência Desossa' = DIVIDE([Velocidade Desossa Pçs/H], AVERAGE(DINVPB_PRODUCAODESOSSA[_Meta Pçs/H Desossa]))
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: e37f7e8f-a775-49bc-b204-4875d8f5c7ef
+
+	measure 'Desvio DIF' = SUM('DESVIOS DIF'[Valor])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 01. Abate
+		lineageTag: 76ff47b2-f7e8-4e64-b2d2-a605751c9afb
+
+	measure '_% Rendimento DT Massa' = ```
+			
+			CALCULATE(
+			    DIVIDE([Peso Saída Desossa Ajus], [_Ajuste Peso Entrada Desossa Fralda]),
+			    'DEPARADESOSSA'[DESCRFAMILIA] = "DIANTEIRO"
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 8cee340c-56dd-4fc8-bb93-c155dd8a6a85
+
+	measure '_% Rendimento TR Massa' = ```
+			
+			CALCULATE(
+			    DIVIDE([Peso Saída Desossa Ajus], [_Ajuste Peso Entrada Desossa Fralda]),
+			    'DEPARADESOSSA'[DESCRFAMILIA] = "TRASEIRO"
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 3d03e7f5-c530-4452-9c5e-c08601c574bd
+
+	measure '_% Rendimento PA Massa' = ```
+			
+			CALCULATE(
+			    DIVIDE([Peso Saída Desossa Ajus], [_Ajuste Peso Entrada Desossa Fralda]),
+			    'DEPARADESOSSA'[DESCRFAMILIA] = "PONTA DE AGULHA"
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 998d5592-9950-444a-8ab2-80be7f695a2b
+
+	measure 'Peso Saída Desossa Ajus' =
+			
+			CALCULATE(
+			    SUM(DINVPB_PRODUCAODESOSSA[PESOLIQUIDOSAIDA]),
+			    DINVPB_PRODUCAODESOSSA[_Turno] <> BLANK()
+			)
+			+ [Peso Saída Aproveitamento]
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 4471f321-361f-4ecf-9937-79e1b8b440e2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_% Meta Cbç Hab.' =
+			
+			IF(
+			    ISINSCOPE('BD METAS BI'[Data]),
+			    SUM('BD METAS BI'[Cbç Hab. Exp]),
+			    AVERAGEX(
+			        VALUES('BD METAS BI'[Data]),
+			        CALCULATE(SUM('BD METAS BI'[Cbç Hab. Exp]))
+			    )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 100. Metas
+		lineageTag: b76a2ea6-e4d5-4806-b91f-8df1444fe19d
+
+	measure 'Peso Saída Códigos Peru' = ```
+			
+			    CALCULATE(
+			        [Peso Saída Cortes Desossa] + [Peso Saída Retalhos]
+			            , DINVPB_PRODUCAODESOSSA[_ProdutoPeru] = "Peru")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: e61be0e5-c2d3-4886-9a8d-bdf868761728
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition _Medidas-74963159-bb36-4404-b085-4b17917db92f = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Coluna 1" = _t]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Coluna 1", type text}}),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Tipo Alterado",{"Coluna 1"})
+				in
+				    #"Colunas Removidas"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

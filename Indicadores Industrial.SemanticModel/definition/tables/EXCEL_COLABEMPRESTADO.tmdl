@@ -1,0 +1,86 @@
+table EXCEL_COLABEMPRESTADO
+	lineageTag: 3e26d9cd-ab84-466d-a641-08f6f1ba16e1
+
+	column Empresa
+		dataType: int64
+		formatString: 0
+		lineageTag: deef4a90-d7d0-4de1-a930-de029687c8bf
+		summarizeBy: none
+		sourceColumn: Empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: af8b1faf-7a35-4cf6-b824-77cd171f5b0b
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Tipo
+		dataType: string
+		lineageTag: aa0a331b-f3a0-48f1-9886-5adbe534c7e8
+		summarizeBy: none
+		sourceColumn: Tipo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Qtd.'
+		dataType: int64
+		formatString: 0
+		lineageTag: ef4e1b9c-e5b7-4169-8d8c-2723aa6a8032
+		summarizeBy: sum
+		sourceColumn: Qtd.
+
+		annotation SummarizationSetBy = Automatic
+
+	column Turno
+		dataType: string
+		lineageTag: 032dc862-d006-44f8-a112-7e4d82b4f1f6
+		summarizeBy: none
+		sourceColumn: Turno
+
+		annotation SummarizationSetBy = Automatic
+
+	column Origem/Destino
+		dataType: string
+		lineageTag: 92c59f97-d79b-4249-ac71-db2c4b3be2c8
+		summarizeBy: none
+		sourceColumn: Origem/Destino
+
+		annotation SummarizationSetBy = Automatic
+
+	column Setor
+		dataType: string
+		lineageTag: 4b1d287c-7a26-401f-9395-29f90a330d44
+		summarizeBy: none
+		sourceColumn: Setor
+
+		annotation SummarizationSetBy = Automatic
+
+	partition EXCEL_COLABEMPRESTADO = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("\\192.168.2.167\controladoria\05 - INDICADORES\\09. Power BI\Colaboradores - Diaria_Emprestimo.xlsx"), null, true),
+				    Lista_Sheet = Fonte{[Item="Lista",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Lista_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Column1", type any}, {"Column2", type any}, {"Column3", type text}, {"Listagem de colaboradores/ diaristas", type any}, {"Column5", type text}, {"Column6", type text}, {"Column7", type text}}),
+				    #"Linhas Superiores Removidas" = Table.Skip(#"Tipo Alterado",1),
+				    #"Cabeçalhos Promovidos1" = Table.PromoteHeaders(#"Linhas Superiores Removidas", [PromoteAllScalars=true]),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos1",{{"Empresa", Int64.Type}, {"Data", type date}, {"Tipo", type text}, {"Qtd.", Int64.Type}, {"Turno", type text}, {"Setor Origem", type text}, {"Setor Destino", type text}}),
+				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Tipo Alterado1",{{"Data", type date}}),
+				    #"Colunas Não Dinâmicas" = Table.UnpivotOtherColumns(#"Tipo Alterado2", {"Empresa", "Data", "Tipo", "Qtd.", "Turno"}, "Atributo", "Valor"),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Colunas Não Dinâmicas","Setor ","",Replacer.ReplaceText,{"Atributo"}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Valor Substituído",{{"Atributo", "Origem/Destino"}, {"Valor", "Setor"}})
+				in
+				    #"Colunas Renomeadas"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

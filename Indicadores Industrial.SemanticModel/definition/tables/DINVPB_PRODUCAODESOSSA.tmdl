@@ -1,0 +1,468 @@
+table DINVPB_PRODUCAODESOSSA
+	lineageTag: d49bd57e-1251-4155-ba7f-0c67eed9210b
+
+	column NROEMPRESA
+		dataType: int64
+		lineageTag: 673e2a36-7b14-4470-ae1f-d745e355712c
+		summarizeBy: sum
+		sourceColumn: NROEMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SEQPROGPRODUCAO
+		dataType: int64
+		lineageTag: a43931dc-608e-43ca-badc-7603d1907ed4
+		summarizeBy: sum
+		sourceColumn: SEQPROGPRODUCAO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NROPROGPRODUCAO
+		dataType: int64
+		lineageTag: 3abbe2be-328a-4e27-9553-e656d85a2be4
+		summarizeBy: sum
+		sourceColumn: NROPROGPRODUCAO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TIPOFORMAPRODUCAO
+		dataType: int64
+		lineageTag: 33b131ec-04ec-43c2-b4bd-60e1040ee187
+		summarizeBy: sum
+		sourceColumn: TIPOFORMAPRODUCAO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FORMAPRODUCAO
+		dataType: string
+		lineageTag: a7b5a9b9-607c-460c-a099-e05d85f7611e
+		summarizeBy: none
+		sourceColumn: FORMAPRODUCAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column CODBARRAINTERNO
+		dataType: string
+		lineageTag: bfe74a1f-71c1-4efe-b252-6b636db70a4e
+		summarizeBy: none
+		sourceColumn: CODBARRAINTERNO
+
+		annotation SummarizationSetBy = Automatic
+
+	column TIPOPROGPRODUCAO
+		dataType: string
+		lineageTag: 0047e853-9c75-45d2-9d68-3a0ffcdefde9
+		summarizeBy: none
+		sourceColumn: TIPOPROGPRODUCAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column TIPOPRODUTO
+		dataType: string
+		lineageTag: d390c59e-1b85-4be7-92b1-15f0b45b5670
+		summarizeBy: none
+		sourceColumn: TIPOPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column LOTE
+		dataType: int64
+		formatString: 0
+		lineageTag: 0511d523-0451-4f8e-8e6d-0b80b3be3858
+		summarizeBy: sum
+		sourceColumn: LOTE
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRLOTE
+		dataType: string
+		lineageTag: 882895e4-58a3-4674-b7fd-8047a132e1e2
+		summarizeBy: none
+		sourceColumn: DESCRLOTE
+
+		annotation SummarizationSetBy = Automatic
+
+	column DTARENDIMENTO
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 972cdf97-c6d2-4dd3-ba7c-2cca575254d7
+		summarizeBy: none
+		sourceColumn: DTARENDIMENTO
+
+		variation Variation
+			isDefault
+			relationship: c3f57d46-41be-4bde-8f68-51937696c8f4
+			defaultHierarchy: LocalDateTable_642b509e-abbb-46f0-957c-74a725f61545.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column DTAPRODUCAO
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8332b2b1-8696-41b7-b2eb-89ed0268e627
+		summarizeBy: none
+		sourceColumn: DTAPRODUCAO
+
+		variation Variation
+			isDefault
+			relationship: cf4605b9-2565-4771-ad38-c3cea3ffbd2b
+			defaultHierarchy: LocalDateTable_32add856-365c-46e5-8029-6a433d340a71.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATAENT
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: dc78923f-890f-4568-a437-5f1d5ed3214a
+		summarizeBy: none
+		sourceColumn: DATAENT
+
+		variation Variation
+			isDefault
+			relationship: 2f716c3d-09c9-4732-8326-d8d71a8a2713
+			defaultHierarchy: LocalDateTable_5bd39ed5-e742-46fd-a3cf-a01db963031c.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATAHORAENT
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: cd43a983-aadf-4682-80ea-e285db78c1e0
+		summarizeBy: none
+		sourceColumn: DATAHORAENT
+
+		variation Variation
+			isDefault
+			relationship: c928274a-9cb6-40b0-a0f9-a8f2f06b29d7
+			defaultHierarchy: LocalDateTable_1389ff20-9f2b-4504-a70d-0d19f930aa3f.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQPRODUTO
+		dataType: int64
+		lineageTag: 4734e187-6025-44af-84ed-8e6578e701c2
+		summarizeBy: sum
+		sourceColumn: SEQPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DESCRPRODUTO
+		dataType: string
+		lineageTag: b90f56d5-326f-4772-b864-d09a5b562925
+		summarizeBy: none
+		sourceColumn: DESCRPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column GRUPOPROD
+		dataType: int64
+		lineageTag: ccc43229-ae80-4b6e-8930-531f160cca0c
+		summarizeBy: sum
+		sourceColumn: GRUPOPROD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DESCRGRUPOPRODUTO
+		dataType: string
+		lineageTag: f2257249-8926-4051-8862-85ff15c5356d
+		summarizeBy: none
+		sourceColumn: DESCRGRUPOPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUBGRUPOPROD
+		dataType: int64
+		lineageTag: 38d7799c-bb8b-4481-9e7b-bbc07ad9b581
+		summarizeBy: sum
+		sourceColumn: SUBGRUPOPROD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DESCRSUBGRUPOPRODUTO
+		dataType: string
+		lineageTag: edc5ae02-d35c-4742-b99d-eeaee843058d
+		summarizeBy: none
+		sourceColumn: DESCRSUBGRUPOPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column FAMILIAPROD
+		dataType: int64
+		lineageTag: 016166a7-18fa-4916-b817-1fe386fae31e
+		summarizeBy: sum
+		sourceColumn: FAMILIAPROD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DESCRFAMILIA
+		dataType: string
+		lineageTag: bd49fc41-efdd-4669-ab79-1446f785dadc
+		summarizeBy: none
+		sourceColumn: DESCRFAMILIA
+
+		annotation SummarizationSetBy = Automatic
+
+	column CONSERVACAO
+		dataType: string
+		lineageTag: 8a0f76f4-b1ad-48a3-998c-a6cf1ba684d7
+		summarizeBy: none
+		sourceColumn: CONSERVACAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column UNIDADE
+		dataType: string
+		lineageTag: e7809b0c-abb2-4fc8-a56b-e3cedff020b7
+		summarizeBy: none
+		sourceColumn: UNIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+	column QUANTIDADE
+		dataType: double
+		lineageTag: 2374a1eb-524c-4b26-b59b-5533fe40934b
+		summarizeBy: sum
+		sourceColumn: QUANTIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TIPOCALCULO
+		dataType: int64
+		lineageTag: bc35c7c2-4970-4fda-8afc-f414cf8fa3e0
+		summarizeBy: sum
+		sourceColumn: TIPOCALCULO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RENDIMENTOPADRAO
+		dataType: double
+		lineageTag: 0073a42c-b994-4d23-aab4-cee0a39eae35
+		summarizeBy: sum
+		sourceColumn: RENDIMENTOPADRAO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column QUANTIDADE2
+		dataType: double
+		lineageTag: 5fb7819d-fa1e-403b-952d-3cf8d1500e59
+		summarizeBy: sum
+		sourceColumn: QUANTIDADE2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column QTDEMBALAGEM
+		dataType: double
+		lineageTag: f2004841-cddc-429b-aedb-0c3f81ab5436
+		summarizeBy: sum
+		sourceColumn: QTDEMBALAGEM
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PESOLIQUIDOSAIDA
+		dataType: double
+		lineageTag: becf70d3-ce8a-4be0-950f-182761871f5c
+		summarizeBy: sum
+		sourceColumn: PESOLIQUIDOSAIDA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column _DK = DINVPB_PRODUCAODESOSSA[NROPROGPRODUCAO]&DINVPB_PRODUCAODESOSSA[LOTE]&DINVPB_PRODUCAODESOSSA[NROEMPRESA]
+		lineageTag: 278d9618-b3c8-44d6-8460-ff47b4864898
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column _Turno =
+			
+			var var01 = IF(DINVPB_PRODUCAODESOSSA[LOTE] = 18 ||DINVPB_PRODUCAODESOSSA[LOTE] = 20 || DINVPB_PRODUCAODESOSSA[LOTE] = 21 || DINVPB_PRODUCAODESOSSA[LOTE] > 30 ,"Noturno" ,"Diurno")
+			RETURN
+			IF(RELATED(DEPARADESOSSA[DESCRFAMILIA]) = "CUPIM", BLANK(), IF(DINVPB_PRODUCAODESOSSA[NROEMPRESA] <> 2, "Diurno",var01))
+			//IF( 'DINVPB_PRODUCAODESOSSA'[NROEMPRESA] = 2 , IF('DINVPB_PRODUCAODESOSSA'[LOTE] <=30, "Diurno", "Noturno") , "Noturno")
+			//Se mudar essa formula, trocar em ENTRADADESOSSA / PRODUÇÃO DESOSSA / DEPARADESOSSA)))
+		lineageTag: 853d85d5-129e-415c-b92a-997001c457a9
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_Contar Linhas' = ```
+			CALCULATE(
+			    COUNTROWS(DINVPB_PRODUCAODESOSSA), 
+			    ALLEXCEPT(DINVPB_PRODUCAODESOSSA, DINVPB_PRODUCAODESOSSA[DTARENDIMENTO], DEPARADESOSSA[NROEMPRESA], DINVPB_PRODUCAODESOSSA[_Turno]), DINVPB_PRODUCAODESOSSA[_Verificação] = "Considerar")
+			```
+		formatString: 0
+		lineageTag: 7dc50009-b9f3-426d-90bb-0b7ee275703f
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column _Verificação = ```
+			
+			IF(DATEDIFF(DINVPB_PRODUCAODESOSSA[DTARENDIMENTO], DINVPB_PRODUCAODESOSSA[DATAHORAENT], HOUR ) >= 30, "Desconsiderar", 
+			IF(DATE(YEAR(DINVPB_PRODUCAODESOSSA[DATAHORAENT]), MONTH(DINVPB_PRODUCAODESOSSA[DATAHORAENT]), DAY(DINVPB_PRODUCAODESOSSA[DATAHORAENT])) > DINVPB_PRODUCAODESOSSA[DTARENDIMENTO] && DINVPB_PRODUCAODESOSSA[_Turno] = "Diurno", "Desconsiderar",
+			IF( DINVPB_PRODUCAODESOSSA[_Turno] = "Noturno" && HOUR(DINVPB_PRODUCAODESOSSA[DATAHORAENT]) >=5 && HOUR(DINVPB_PRODUCAODESOSSA[DATAHORAENT]) <= 13 || 
+			    DINVPB_PRODUCAODESOSSA[_Turno] = "Diurno" && HOUR(DINVPB_PRODUCAODESOSSA[DATAHORAENT]) > 0 && HOUR(DINVPB_PRODUCAODESOSSA[DATAHORAENT]) < 5 ||
+			    DINVPB_PRODUCAODESOSSA[_Turno] = "Diurno" && HOUR(DINVPB_PRODUCAODESOSSA[DATAHORAENT]) >= 16 && HOUR(DINVPB_PRODUCAODESOSSA[DATAHORAENT]) <= 23,
+			     "Desconsiderar", "Considerar")))
+			```
+		lineageTag: e232f4c9-4151-4bb8-b804-3e0ead863fe3
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column _Mercado
+		dataType: string
+		lineageTag: cef0e893-2b9c-4d3c-a1fb-412903031626
+		summarizeBy: none
+		sourceColumn: _Mercado
+
+		annotation SummarizationSetBy = Automatic
+
+	column _cProduto = DINVPB_PRODUCAODESOSSA[DESCRPRODUTO]&" - "&DINVPB_PRODUCAODESOSSA[SEQPRODUTO]
+		lineageTag: 43f20588-e3ee-4866-88cb-998a81efe259
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column _ProdutoChina
+		dataType: string
+		lineageTag: a4a6e78b-632c-4e4f-8baa-ad93bf5f828c
+		summarizeBy: none
+		sourceColumn: _ProdutoChina
+
+		annotation SummarizationSetBy = Automatic
+
+	column _SK = DINVPB_PRODUCAODESOSSA[NROEMPRESA]&DINVPB_PRODUCAODESOSSA[NROPROGPRODUCAO]&DINVPB_PRODUCAODESOSSA[SEQPRODUTO]
+		lineageTag: 7fc1b67e-7d5e-4fe8-952d-385f3c0a77b1
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column _DIVIDO
+		dataType: double
+		lineageTag: 42017d5b-de0b-4a9d-bccf-539bc0454ed6
+		summarizeBy: sum
+		sourceColumn: _DIVIDO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column _ProdutoFilipinas
+		dataType: string
+		lineageTag: f9c5aa8b-70ab-4b83-88de-4bd458e21236
+		summarizeBy: none
+		sourceColumn: _ProdutoFilipinas
+
+		annotation SummarizationSetBy = Automatic
+
+	column _ProdutoSingapura
+		dataType: string
+		lineageTag: 969022c2-6664-4d93-807b-feb02b20bd0f
+		summarizeBy: none
+		sourceColumn: _ProdutoSingapura
+
+		annotation SummarizationSetBy = Automatic
+
+	column _ProdutoEuropa
+		dataType: string
+		lineageTag: 48f670fd-76ae-4092-8dbb-57b2a6ddff40
+		summarizeBy: none
+		sourceColumn: _ProdutoEuropa
+
+		annotation SummarizationSetBy = Automatic
+
+	column _PK = DINVPB_PRODUCAODESOSSA[DTARENDIMENTO]&DINVPB_PRODUCAODESOSSA[NROPROGPRODUCAO]&DINVPB_PRODUCAODESOSSA[LOTE]&DINVPB_PRODUCAODESOSSA[NROEMPRESA]&DINVPB_PRODUCAODESOSSA[SEQPRODUTO]
+		lineageTag: 69751725-00ff-4233-a391-dee2ad99295c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_Meta Pçs/H Desossa' = ```
+			
+			SWITCH(
+			    TRUE(),
+			    DINVPB_PRODUCAODESOSSA[NROEMPRESA] = 2, 500,
+			    DINVPB_PRODUCAODESOSSA[NROEMPRESA] = 104, 380,
+			    DINVPB_PRODUCAODESOSSA[NROEMPRESA] = 4, 260, BLANK())   
+			```
+		formatString: 0
+		lineageTag: ad804b7d-f638-4a5c-82e2-9024518c6c2c
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column _ProdutoPeru
+		dataType: string
+		lineageTag: 8503c6f9-00f0-40e5-811c-f4cbe8d418f0
+		summarizeBy: none
+		sourceColumn: _ProdutoPeru
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DINVPB_PRODUCAODESOSSA-2c87737b-dc80-4c6a-a832-3c59abdbef6a = m
+		mode: import
+		queryGroup: 'Fluxo Industrial'
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
+				    #"37d71bd8-02a7-4bae-aa23-9f7b98610d23" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="37d71bd8-02a7-4bae-aa23-9f7b98610d23"]}[Data],
+				
+				    // Carregando as três entidades
+				    DINVPB_PRODUCAODESOSSA_MTZ = #"37d71bd8-02a7-4bae-aa23-9f7b98610d23"{[entity="DINVPB_PRODUCAODESOSSA_MTZ", version=""]}[Data],
+				    DINVPB_PRODUCAODESOSSA_TUP = #"37d71bd8-02a7-4bae-aa23-9f7b98610d23"{[entity="DINVPB_PRODUCAODESOSSA_TUP", version=""]}[Data],
+				    DINVPB_PRODUCAODESOSSA_SLG = #"37d71bd8-02a7-4bae-aa23-9f7b98610d23"{[entity="DINVPB_PRODUCAODESOSSA_SLG", version=""]}[Data],
+				
+				    // Combinando todas
+				    ProducoesCombinadas = Table.Combine({DINVPB_PRODUCAODESOSSA_MTZ, DINVPB_PRODUCAODESOSSA_TUP, DINVPB_PRODUCAODESOSSA_SLG}),
+				
+				    // Transformações
+				    #"Coluna Condicional Adicionada" = Table.AddColumn(ProducoesCombinadas, "_Mercado", each if Text.Contains([DESCRSUBGRUPOPRODUTO], "EXP") then "ME" else "MI"),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Coluna Condicional Adicionada",{{"_Mercado", type text}}),
+				    #"Coluna Condicional Adicionada1" = Table.AddColumn(#"Tipo Alterado", "_ProdutoChina", each if Text.Contains([DESCRPRODUTO], "CHINA") then "CHN" else null),
+				    #"Coluna Condicional Adicionada2" = Table.AddColumn(#"Coluna Condicional Adicionada1", "_DIVIDO", each if Text.Contains([DESCRPRODUTO], "AO MEIO") then 2 else null),
+				    #"Coluna Condicional Adicionada3" = Table.AddColumn(#"Coluna Condicional Adicionada2", "_ProdutoFilipinas", each if Text.Contains([DESCRPRODUTO], "FILIPINAS") then "FILIPINAS" else null),
+				    #"Coluna Condicional Adicionada4" = Table.AddColumn(#"Coluna Condicional Adicionada3", "_ProdutoSingapura", each if Text.Contains([DESCRPRODUTO], "SINGAPURA") then "SINGAPURA" else null),
+				    #"Coluna Condicional Adicionada5" = Table.AddColumn(#"Coluna Condicional Adicionada4", "_ProdutoEuropa", each if Text.Contains([DESCRPRODUTO], "U.E") then "Europa" else null),
+				    #"Coluna Condicional Adicionada6" = Table.AddColumn(#"Coluna Condicional Adicionada5", "_ProdutoPeru", each if Text.Contains([DESCRPRODUTO], "PERU") then "Peru" else null),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Coluna Condicional Adicionada6",{{"_DIVIDO", type number}, {"_ProdutoFilipinas", type text}, {"_ProdutoChina", type text}, {"_ProdutoSingapura", type text},{"_ProdutoPeru", type text}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado1",{{"PESOLIQUIDO", "PESOLIQUIDOSAIDA"}}),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Colunas Renomeadas", each ([LOTE] <> "19"))
+				in
+				    #"Linhas Filtradas"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navegação
+

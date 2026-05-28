@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Indicadores Industrial"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "b5ab626b-b19e-4b3a-9bb2-88b8706d8443"
+  }
+}

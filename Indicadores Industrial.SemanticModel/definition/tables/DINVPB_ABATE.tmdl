@@ -1,0 +1,620 @@
+table DINVPB_ABATE
+	lineageTag: 18c07a2e-91a7-4247-8206-791e1e4be504
+
+	column NROEMPRESA
+		dataType: int64
+		lineageTag: e0726626-35a2-45f5-9552-bb9cca287416
+		summarizeBy: none
+		sourceColumn: NROEMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DATA
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: dda42ce3-ef71-4195-b88c-afa069c491a2
+		summarizeBy: none
+		sourceColumn: DATA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column HR
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: 99427017-6cc1-4330-9c45-ab0755463926
+		summarizeBy: none
+		sourceColumn: HR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column SEQUENCIADIA
+		dataType: int64
+		lineageTag: 6156ed90-032f-4570-88a1-ed0a58e34ba0
+		summarizeBy: sum
+		sourceColumn: SEQUENCIADIA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SEQPRODUTO
+		dataType: int64
+		lineageTag: ebb84cd1-3672-4826-a44a-a6fcb8b900b5
+		summarizeBy: sum
+		sourceColumn: SEQPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DESCRPRODUTO
+		dataType: string
+		lineageTag: 77e90ae8-b82e-4248-8254-de7f771db7de
+		summarizeBy: none
+		sourceColumn: DESCRPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column BANDA
+		dataType: string
+		lineageTag: 6766bfef-a94c-4353-858b-22419423e956
+		summarizeBy: none
+		sourceColumn: BANDA
+
+		annotation SummarizationSetBy = Automatic
+
+	column PESOLIQUIDO
+		dataType: double
+		lineageTag: a2c72071-4041-4315-8e42-26235fb0a361
+		summarizeBy: sum
+		sourceColumn: PESOLIQUIDO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PESOLIQUIDOQUEBRA
+		dataType: double
+		lineageTag: 66f90bd1-38f6-4809-b085-64bdb9ef0523
+		summarizeBy: sum
+		sourceColumn: PESOLIQUIDOQUEBRA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SEXO
+		dataType: string
+		lineageTag: 49762e14-63aa-465d-9494-d2b6508b7409
+		summarizeBy: none
+		sourceColumn: SEXO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRSEXO
+		dataType: string
+		lineageTag: e5798f44-66b9-4f08-a1b7-c9061419162e
+		summarizeBy: none
+		sourceColumn: DESCRSEXO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRREDCLASSIFICACAO
+		dataType: string
+		lineageTag: 0a66cd60-6d5d-4cca-9d71-4d3ab3414189
+		summarizeBy: none
+		sourceColumn: DESCRREDCLASSIFICACAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRCLASSIFICACAO
+		dataType: string
+		lineageTag: 97704964-65ad-4728-b655-aff87bf6ada6
+		summarizeBy: none
+		sourceColumn: DESCRCLASSIFICACAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQCLASSIFABATE
+		dataType: int64
+		lineageTag: bd1bd9ac-6b17-49e7-b01c-21ecf64814ca
+		summarizeBy: sum
+		sourceColumn: SEQCLASSIFABATE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DESCRCLASSIFABATE
+		dataType: string
+		lineageTag: 67c9a39a-f6be-416c-bfd0-1e54b846088f
+		summarizeBy: none
+		sourceColumn: DESCRCLASSIFABATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRCLASSIFACABAMENTO
+		dataType: string
+		lineageTag: d044a439-842d-482b-8a50-6f2248c2eb82
+		summarizeBy: none
+		sourceColumn: DESCRCLASSIFACABAMENTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRREDCLASSIFABATE
+		dataType: string
+		lineageTag: c1b2afa3-b72b-4d18-9885-4fa7395aea0b
+		summarizeBy: none
+		sourceColumn: DESCRREDCLASSIFABATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQCLASSIFMATURIDADE
+		dataType: int64
+		lineageTag: 216c35d7-03e6-427b-bcbb-b21fd6085b11
+		summarizeBy: sum
+		sourceColumn: SEQCLASSIFMATURIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DESCRCLASSIFMATURIDADE
+		dataType: string
+		lineageTag: 84be6ee2-38a0-466e-8397-d0ef773f3ef9
+		summarizeBy: none
+		sourceColumn: DESCRCLASSIFMATURIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRREDCLASSIFMATURIDADE
+		dataType: int64
+		formatString: 0
+		lineageTag: 2eb3102e-d5fa-4c3a-a364-58c226c774b3
+		summarizeBy: sum
+		sourceColumn: DESCRREDCLASSIFMATURIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQCLASSIFRACA
+		dataType: int64
+		lineageTag: f4857e10-5aaf-479a-bf30-ba4126f36e34
+		summarizeBy: sum
+		sourceColumn: SEQCLASSIFRACA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DESCRCLASSIFRACA
+		dataType: string
+		lineageTag: d137e160-2424-4dd2-96fd-094a533be652
+		summarizeBy: none
+		sourceColumn: DESCRCLASSIFRACA
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQCLASSIFCONFORMIDADE
+		dataType: int64
+		lineageTag: 2d867718-7144-4c64-8929-03ee76470c7e
+		summarizeBy: sum
+		sourceColumn: SEQCLASSIFCONFORMIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DESCRCLASSIFCONFORMIDADE
+		dataType: string
+		lineageTag: 70c77521-d2e9-4ffa-805c-179af800bb47
+		summarizeBy: none
+		sourceColumn: DESCRCLASSIFCONFORMIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRREDCLASSIFCONFORMIDADE
+		dataType: string
+		lineageTag: 379a632c-9077-48a5-a749-753ad20c77a1
+		summarizeBy: none
+		sourceColumn: DESCRREDCLASSIFCONFORMIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+	column ASPERSAO
+		dataType: string
+		lineageTag: 60970635-81f9-4df0-a998-36b1b99063a5
+		summarizeBy: none
+		sourceColumn: ASPERSAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column CONFORME
+		dataType: string
+		lineageTag: 7b0e9165-1521-47fa-b735-6af36d8c582c
+		summarizeBy: none
+		sourceColumn: CONFORME
+
+		annotation SummarizationSetBy = Automatic
+
+	column NROPEDIDO
+		dataType: int64
+		lineageTag: a9355d93-56c8-431d-a97d-facfef019962
+		summarizeBy: sum
+		sourceColumn: NROPEDIDO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NROLOTE
+		dataType: int64
+		lineageTag: 93418bae-59cb-42c9-83bf-e787dc300297
+		summarizeBy: sum
+		sourceColumn: NROLOTE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SEQVENDEDOR
+		dataType: int64
+		lineageTag: baa20c5c-c0cb-40c1-8f69-b0d3b4be7ea7
+		summarizeBy: sum
+		sourceColumn: SEQVENDEDOR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SEQPESSOA
+		dataType: int64
+		lineageTag: 59da9fbd-07df-4d43-9168-2fd522ef4b6b
+		summarizeBy: none
+		sourceColumn: SEQPESSOA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NOMEPESSOA
+		dataType: string
+		lineageTag: 15ce37a6-c792-4780-9588-ea37d5e21c4e
+		summarizeBy: none
+		sourceColumn: NOMEPESSOA
+
+		annotation SummarizationSetBy = Automatic
+
+	column NOMEPROPRIEDADE
+		dataType: string
+		lineageTag: 1072351d-5e5f-4a4c-a01d-6ff5540de399
+		summarizeBy: none
+		sourceColumn: NOMEPROPRIEDADE
+
+		annotation SummarizationSetBy = Automatic
+
+	column CIDADEPROPRIEDADE
+		dataType: string
+		lineageTag: 8f6153a7-1a99-4bd3-86b1-5f074f739ed6
+		summarizeBy: none
+		sourceColumn: CIDADEPROPRIEDADE
+
+		annotation SummarizationSetBy = Automatic
+
+	column UFPROPRIEDADE
+		dataType: string
+		lineageTag: 6e07b831-7fcb-47d7-ae02-6d1869cf0ef2
+		summarizeBy: none
+		sourceColumn: UFPROPRIEDADE
+
+		annotation SummarizationSetBy = Automatic
+
+	column GRUPOPROD
+		dataType: int64
+		lineageTag: a91b8478-fb32-406e-9a7d-d0ce7687830f
+		summarizeBy: sum
+		sourceColumn: GRUPOPROD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SUBGRUPOPROD
+		dataType: int64
+		lineageTag: 0fc19111-36eb-4834-b5f1-6f46149d2878
+		summarizeBy: sum
+		sourceColumn: SUBGRUPOPROD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FAMILIAPROD
+		dataType: int64
+		lineageTag: 87420f6d-9398-4bc0-b090-2d8370fbb407
+		summarizeBy: sum
+		sourceColumn: FAMILIAPROD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Data e Hora'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f938d105-ff00-4132-9535-580c2a05e534
+		summarizeBy: none
+		sourceColumn: Data e Hora
+
+		variation Variation
+			isDefault
+			relationship: 1288af84-7988-482d-a1fd-82213f911e19
+			defaultHierarchy: LocalDateTable_34a6dae2-0f79-474a-a1ca-3a8499d7d999.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column _HoraMax = ```
+			CALCULATE(
+			    MAX(DINVPB_ABATE[Data e Hora Ajustada]), 
+			    ALLEXCEPT(DINVPB_ABATE, DINVPB_ABATE[DATA],DINVPB_ABATE[NROEMPRESA], DINVPB_ABATE[Turno]))
+			
+			
+			```
+		formatString: General Date
+		lineageTag: f9822f21-b78c-43ed-8746-eea90a8c7bde
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: b9b1e8cd-c883-433d-a3ff-2263594d7e36
+			defaultHierarchy: LocalDateTable_210d1742-7523-491f-8c77-f21d82641ab2.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column _HoraMin =
+			
+			VAR Base =
+			    ALLEXCEPT (
+			        DINVPB_ABATE,
+			        DINVPB_ABATE[DATA],
+			        DINVPB_ABATE[NROEMPRESA],
+			        DINVPB_ABATE[Turno]
+			    )
+			RETURN
+			CALCULATE (
+			    MIN ( DINVPB_ABATE[Data e Hora] ),
+			    FILTER (
+			        Base,
+			        DINVPB_ABATE[Data e Hora] - TRUNC ( DINVPB_ABATE[Data e Hora] ) >= TIME ( 4, 0, 0 )
+			    )
+			)
+		formatString: General Date
+		lineageTag: 11e86c66-5a84-49b8-a2bf-3baf420dc812
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 78e8680d-4188-4d95-853f-8c8abba56108
+			defaultHierarchy: LocalDateTable_e837a536-a1e3-4025-8eda-f10c55963e2e.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_Contar Linhas' = ```
+			CALCULATE(
+			    COUNTROWS(DINVPB_ABATE), 
+			    ALLEXCEPT(DINVPB_ABATE, DINVPB_ABATE[DATA], DINVPB_ABATE[NROEMPRESA], DINVPB_ABATE[Turno]))
+			```
+		formatString: 0
+		lineageTag: 3da4e325-8b86-411e-8add-ec91d1c7ad1d
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column _Sexo = IF(DINVPB_ABATE[NROEMPRESA] IN {2,12},IF(DINVPB_ABATE[DESCRSEXO] = "Macho Inteiro" || DINVPB_ABATE[DESCRSEXO] = "Macho Castrado", "Macho", DINVPB_ABATE[DESCRSEXO]),IF (DINVPB_ABATE[NROEMPRESA] IN {4,104}, "Suino",DINVPB_ABATE[DESCRSEXO]))
+		lineageTag: f3eb06c8-8d9a-4a4a-b668-aad4de1512e1
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column CLASSIFICAÇÃO
+		dataType: string
+		lineageTag: a1288c2f-037d-44c2-8d0c-456b7c6a0c33
+		summarizeBy: none
+		sourceColumn: CLASSIFICAÇÃO
+
+		annotation SummarizationSetBy = Automatic
+
+	column _Origem = IF(or(DINVPB_ABATE[SEQPESSOA] IN { 108386 , 109457 , 164805 , 180622}, RELATED(FPBI_PESSOA[GRUPO]) in {"INTEGRADOS - TERMINACAO","INTEGRADOS - CRECHE","INTEGRADOS - CRECHE REFUGO","INTEGRADOS - UPL", "INTEGRADOS - TERMINACAO REFUGO"}), "Próprio", IF(DINVPB_ABATE[SEQPESSOA] = 248257, "Boitel", "Terceiro"))
+		lineageTag: ecb76d10-6399-4ba6-ab51-bddb96342b0a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_Meta Cbç/H Abate' = ```
+			
+			SWITCH(
+			    TRUE(),
+			    DINVPB_ABATE[NROEMPRESA] = 2, 120,
+			    DINVPB_ABATE[NROEMPRESA] = 12, 100,
+			    DINVPB_ABATE[NROEMPRESA] = 104, 300,
+			    DINVPB_ABATE[NROEMPRESA] = 4, 200, BLANK())   
+			```
+		formatString: 0
+		lineageTag: bcf02b57-64c4-4ed0-bc45-029410f42202
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_Meta Orçado Abate' = ```
+			
+			var ANO = 
+			    SWITCH(
+			    TRUE(),
+			    DINVPB_ABATE[NROEMPRESA] = 2, 1500,
+			    DINVPB_ABATE[NROEMPRESA] = 12, 600,
+			    DINVPB_ABATE[NROEMPRESA] = 104, 1500,
+			    DINVPB_ABATE[NROEMPRESA] = 4, 1800, BLANK())
+			var TRI = 
+			    SWITCH(
+			    TRUE(),
+			    DINVPB_ABATE[NROEMPRESA] = 2, 850,
+			    DINVPB_ABATE[NROEMPRESA] = 12, 450,
+			    DINVPB_ABATE[NROEMPRESA] = 104, 1350,
+			    DINVPB_ABATE[NROEMPRESA] = 4, 1400, BLANK())
+			var FDS = 
+			    SWITCH(
+			    TRUE(),
+			    DINVPB_ABATE[NROEMPRESA] = 2, IF (MONTH(DINVPB_ABATE[DATA]) IN {1,2}, TRI, ANO),
+			    DINVPB_ABATE[NROEMPRESA] = 12, IF (MONTH(DINVPB_ABATE[DATA]) IN {1,2}, TRI, ANO),
+			    DINVPB_ABATE[NROEMPRESA] = 104, 0,
+			    DINVPB_ABATE[NROEMPRESA] = 4, 0, BLANK())
+			RETURN
+			IF(WEEKDAY(DINVPB_ABATE[DATA],1) = 1 , BLANK(), 
+			    IF(WEEKDAY(DINVPB_ABATE[DATA],1) = 7 , FDS, 
+			        IF(YEAR(DINVPB_ABATE[DATA]) = 2024 , IF (MONTH(DINVPB_ABATE[DATA]) IN {1,2}, TRI, ANO))))
+			```
+		formatString: #,0
+		lineageTag: 5185eea0-7cba-4cdd-a176-bd20fa13f049
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column CLASSIFICACAORED
+		dataType: string
+		lineageTag: e14c2457-2d5e-497c-8e68-94564e838fd6
+		summarizeBy: none
+		sourceColumn: CLASSIFICACAORED
+
+		annotation SummarizationSetBy = Automatic
+
+	column _NOVACLASSIFRED = ```
+			
+			SWITCH( 
+			    TRUE(),
+			    DINVPB_ABATE[DESCRREDCLASSIFABATE] = "G.", "GRAXARIA",
+			    DINVPB_ABATE[DESCRREDCLASSIFABATE] = "O.", "CONSERVA",
+			    DINVPB_ABATE[DESCRREDCLASSIFABATE] = "E.C.", "EMB.COZIDO",
+			    DINVPB_ABATE[DESCRREDCLASSIFABATE] = "TF", "TRAT.FRIO",
+			    DINVPB_ABATE[DESCRREDCLASSIFABATE] = "GRAXARIA", "GRAXARIA",
+			    DINVPB_ABATE[DESCRREDCLASSIFABATE] = "CONSERVA", "CONSERVA",
+			    DINVPB_ABATE[DESCRREDCLASSIFABATE] <> BLANK(),"NORMAL",
+			    DINVPB_ABATE[DESCRREDCLASSIFABATE])
+			```
+		lineageTag: 14c15c74-1552-4b9f-ac1c-d2b03f81b474
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Pk = DINVPB_ABATE[NROEMPRESA]&DINVPB_ABATE[NROPEDIDO]
+		lineageTag: 6521ed68-1a67-44e2-a98f-6e091548c196
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Turno =
+			
+			VAR Unidade = DINVPB_ABATE[NROEMPRESA]
+			VAR HoraMinSeg = DINVPB_ABATE[Data e Hora] - TRUNC ( DINVPB_ABATE[Data e Hora] )
+			RETURN
+			IF (
+			    Unidade IN { 4 ,12, 104},
+			    "Diurno",
+			    IF ( HoraMinSeg <= TIME ( 15, 59, 59 ) && HoraMinSeg >= TIME(04,00,00), "Diurno", "Noturno" )
+			)
+		lineageTag: 3b97c78b-18ff-40fc-aade-a700f1b7f812
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data e Hora Ajustada' = ```
+			
+			VAR DataHora = DINVPB_ABATE[Data e Hora]
+			VAR Hora = DataHora - TRUNC ( DataHora )
+			RETURN
+			IF (
+			    Hora >= TIME ( 0, 0, 0 )
+			        && Hora < TIME ( 4, 0, 0 ),
+			     DataHora  + 1,
+			     DataHora 
+			)
+			
+			
+			
+			```
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 947b92ef-db23-429d-b83f-eb7f30cb79d0
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: b1b318e2-bc81-40d9-a4c1-506c7c8afc84
+			defaultHierarchy: LocalDateTable_48603b85-48e9-41e1-bf94-a056b597dcff.'Hierarquia de datas'
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DINVPB_ABATE-015b6fe3-14d3-4263-8b79-ed9f3ce91f0c = m
+		mode: import
+		queryGroup: 'Fluxo Industrial'
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
+				    #"35024cdc-6a08-4e80-8a93-36e024176d14" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="35024cdc-6a08-4e80-8a93-36e024176d14"]}[Data],
+				
+				    // Carrega as quatro entidades
+				    ABATE_MTZ = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_MTZ", version=""]}[Data],
+				    ABATE_RND = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_RND", version=""]}[Data],
+				    ABATE_SLG = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_SLG", version=""]}[Data],
+				    ABATE_TUP = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_TUP", version=""]}[Data],
+				
+				    // Combina todas as entidades
+				    DINVPB_ABATE_Combined = Table.Combine({ABATE_MTZ, ABATE_RND, ABATE_SLG, ABATE_TUP}),
+				
+				    // Resto do processamento
+				    #"Tipo Alterado" = Table.TransformColumnTypes(DINVPB_ABATE_Combined, {
+				        {"NROEMPRESA", Int64.Type}, {"DATA", type date}, {"HR", type time}, {"SEQUENCIADIA", Int64.Type},
+				        {"SEQPRODUTO", Int64.Type}, {"DESCRPRODUTO", type text}, {"BANDA", type text}, {"PESOLIQUIDO", type number},
+				        {"PESOLIQUIDOQUEBRA", type number}, {"SEXO", type text}, {"DESCRSEXO", type text}, {"DESCRREDCLASSIFICACAO", type text},
+				        {"DESCRCLASSIFICACAO", type text}, {"SEQCLASSIFABATE", Int64.Type}, {"DESCRCLASSIFABATE", type text},
+				        {"DESCRCLASSIFACABAMENTO", type text}, {"DESCRREDCLASSIFABATE", type text}, {"SEQCLASSIFMATURIDADE", Int64.Type},
+				        {"DESCRCLASSIFMATURIDADE", type text}, {"DESCRREDCLASSIFMATURIDADE", Int64.Type}, {"SEQCLASSIFRACA", Int64.Type},
+				        {"DESCRCLASSIFRACA", type text}, {"SEQCLASSIFCONFORMIDADE", Int64.Type}, {"DESCRCLASSIFCONFORMIDADE", type text},
+				        {"DESCRREDCLASSIFCONFORMIDADE", type text}, {"ASPERSAO", type text}, {"CONFORME", type text},
+				        {"NROPEDIDO", Int64.Type}, {"NROLOTE", Int64.Type}, {"SEQVENDEDOR", Int64.Type}, {"SEQPESSOA", Int64.Type},
+				        {"NOMEPESSOA", type text}, {"NOMEPROPRIEDADE", type text}, {"CIDADEPROPRIEDADE", type text},
+				        {"UFPROPRIEDADE", type text}, {"GRUPOPROD", Int64.Type}, {"SUBGRUPOPROD", Int64.Type}, {"FAMILIAPROD", Int64.Type}
+				    }),
+				    #"Data e Hora Mescladas Inseridas" = Table.AddColumn(#"Tipo Alterado", "Data e Hora", each [DATA] & [HR], type datetime),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Data e Hora Mescladas Inseridas", {"DESCRREDCLASSIFCONFORMIDADE"}, #"Classificação Aux", {"DESCRREDCLASSIFCONFORMIDADE"}, "Classificação Aux", JoinKind.LeftOuter),
+				    #"Classificação Aux Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Classificação Aux", {"CLASSIFICAÇÃO", "CLASSIFICACAORED"}, {"CLASSIFICAÇÃO", "CLASSIFICACAORED"}),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Classificação Aux Expandido", {
+				        {"NROEMPRESA", Int64.Type}, {"DATA", type date}, {"HR", type time}, {"SEQUENCIADIA", Int64.Type},
+				        {"SEQPRODUTO", Int64.Type}, {"DESCRPRODUTO", type text}, {"BANDA", type text}, {"PESOLIQUIDO", type number},
+				        {"PESOLIQUIDOQUEBRA", type number}, {"SEXO", type text}, {"DESCRSEXO", type text}, {"DESCRREDCLASSIFICACAO", type text},
+				        {"DESCRCLASSIFICACAO", type text}, {"SEQCLASSIFABATE", Int64.Type}, {"DESCRCLASSIFABATE", type text},
+				        {"DESCRCLASSIFACABAMENTO", type text}, {"DESCRREDCLASSIFABATE", type text}, {"SEQCLASSIFMATURIDADE", Int64.Type},
+				        {"DESCRCLASSIFMATURIDADE", type text}, {"DESCRREDCLASSIFMATURIDADE", Int64.Type}, {"SEQCLASSIFRACA", Int64.Type},
+				        {"DESCRCLASSIFRACA", type text}, {"SEQCLASSIFCONFORMIDADE", Int64.Type}, {"DESCRCLASSIFCONFORMIDADE", type text},
+				        {"DESCRREDCLASSIFCONFORMIDADE", type text}, {"ASPERSAO", type text}, {"CONFORME", type text},
+				        {"NROPEDIDO", Int64.Type}, {"NROLOTE", Int64.Type}, {"SEQVENDEDOR", Int64.Type}, {"SEQPESSOA", Int64.Type},
+				        {"NOMEPESSOA", type text}, {"NOMEPROPRIEDADE", type text}, {"CIDADEPROPRIEDADE", type text},
+				        {"UFPROPRIEDADE", type text}, {"GRUPOPROD", Int64.Type}, {"SUBGRUPOPROD", Int64.Type},
+				        {"FAMILIAPROD", Int64.Type}, {"Data e Hora", type datetime}, {"CLASSIFICAÇÃO", type text}
+				    }),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Tipo Alterado1")
+				in
+				    #"Duplicatas Removidas"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

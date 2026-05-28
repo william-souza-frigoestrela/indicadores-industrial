@@ -1,0 +1,155 @@
+table FPBI_ABSENTEISMO
+	lineageTag: 3acd6261-fa3d-4cb1-a8f6-673c31599be5
+
+	column NROEMPRESA
+		dataType: double
+		lineageTag: edb533c6-c370-40aa-aa0c-8ec32aa01f76
+		summarizeBy: none
+		sourceColumn: NROEMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DATA
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 587486b1-c4dc-49e0-b6d0-3ef6b32b66a8
+		summarizeBy: none
+		sourceColumn: DATA
+
+		annotation SummarizationSetBy = Automatic
+
+	column CODFUNCIONARIO
+		dataType: double
+		lineageTag: 44709ae8-9ed2-4b8d-a5d4-10e46eefb088
+		summarizeBy: sum
+		sourceColumn: CODFUNCIONARIO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CODDEPARTAMENTO
+		dataType: double
+		lineageTag: 1d1f61ea-da51-41cb-8da1-a077cae3c25b
+		summarizeBy: sum
+		sourceColumn: CODDEPARTAMENTO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CODSETOR
+		dataType: double
+		lineageTag: 454d5b98-fafd-4171-ac16-4d4eaaa8d95b
+		summarizeBy: sum
+		sourceColumn: CODSETOR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CODSECAO
+		dataType: double
+		lineageTag: 6b0ad85f-51b6-4e9e-970c-23b368d578c2
+		summarizeBy: sum
+		sourceColumn: CODSECAO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column OCORRENCIA
+		dataType: string
+		lineageTag: 917083f9-3aca-41c6-9d5a-825d0bc23754
+		summarizeBy: none
+		sourceColumn: OCORRENCIA
+
+		annotation SummarizationSetBy = Automatic
+
+	column QTDABSTENCIA
+		dataType: double
+		lineageTag: 3f59d8d6-e720-41cf-98c9-200866392c07
+		summarizeBy: sum
+		sourceColumn: QTDABSTENCIA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Descrição
+		dataType: string
+		lineageTag: 5912e163-a8a7-48a2-a7c5-29633874485a
+		summarizeBy: none
+		sourceColumn: Descrição
+
+		annotation SummarizationSetBy = Automatic
+
+	column _UK = FPBI_ABSENTEISMO[NROEMPRESA]&"-"&FPBI_ABSENTEISMO[CODFUNCIONARIO]
+		lineageTag: fe56c606-d218-470e-aa09-393c42f61e4f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_Verifica Dia' =
+			
+			VAR ABATE = CALCULATE(
+			    MAX(FPBI_RESUMOABATE[DATA]),
+			    FILTER(
+			        FPBI_RESUMOABATE,
+			        FPBI_RESUMOABATE[DATA] = FPBI_ABSENTEISMO[DATA]))
+			VAR MIUDOS = CALCULATE(
+			    MAX(FPBI_RESUMOABATE[DATA]),
+			    FILTER(
+			        FPBI_RESUMOABATE,
+			        FPBI_RESUMOABATE[DATA] = FPBI_ABSENTEISMO[DATA]))
+			VAR DESOSSA = CALCULATE(
+			    MAX(DINVPB_ENTRADADESOSSA[DTARENDIMENTO]),
+			    FILTER(
+			        DINVPB_ENTRADADESOSSA,
+			        DINVPB_ENTRADADESOSSA[DTARENDIMENTO] = FPBI_ABSENTEISMO[DATA]))
+			VAR INDUS = CALCULATE(
+			    MAX(DINVPB_PRODUCAOINDUS[_Data]),
+			    FILTER(
+			        DINVPB_PRODUCAOINDUS,
+			        DINVPB_PRODUCAOINDUS[_Data] = FPBI_ABSENTEISMO[DATA]))
+			RETURN IF(
+			SWITCH(
+			    TRUE(),
+			    FPBI_ABSENTEISMO[CODSETOR] IN {1, 2, 4, 7, 10, 22} && FPBI_ABSENTEISMO[CODDEPARTAMENTO] IN {1,6,12,20}, FPBI_ABSENTEISMO[DATA] = ABATE,
+			    FPBI_ABSENTEISMO[CODSETOR] IN {3, 5, 6, 12, 13, 14} && FPBI_ABSENTEISMO[CODDEPARTAMENTO] IN {1,20}, FPBI_ABSENTEISMO[DATA] = MIUDOS,
+			    FPBI_ABSENTEISMO[CODSETOR] IN {8,9,13,18,20} && FPBI_ABSENTEISMO[CODDEPARTAMENTO] IN {1,20}, FPBI_ABSENTEISMO[DATA] = DESOSSA,
+			    FPBI_ABSENTEISMO[CODDEPARTAMENTO] = 21, FPBI_ABSENTEISMO[DATA] = INDUS)= TRUE(), 1, 0)
+		formatString: 0
+		lineageTag: ecb67cba-4262-44bf-a488-d9ad6b4efae7
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column _Turno = RELATED(FPBI_FUNCIONARIO[_Turno])
+		lineageTag: da3980ed-7e58-49c1-b9e7-51cf7ccbcf1c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FPBI_ABSENTEISMO = m
+		mode: import
+		queryGroup: 'Ponto Funcionário'
+		source =
+				let
+				    Fonte = Oracle.Database("datavale", [HierarchicalNavigation=true]),
+				    DATAVALE = Fonte{[Schema="DATAVALE"]}[Data],
+				    #"Linhas Filtradas" = Table.SelectRows(DATAVALE, each ([Name] = "FPBIM_FUNCPONTO" or [Name] = "FPBI_ABSENTEISMO")),
+				    FPBI_ABSENTEISMO = #"Linhas Filtradas"{[Name="FPBI_ABSENTEISMO"]}[Data],
+				    #"Linhas Filtradas1" = Table.SelectRows(FPBI_ABSENTEISMO, each [NROEMPRESA] = 2 or [NROEMPRESA] = 4 or [NROEMPRESA] = 104 or [NROEMPRESA] = 12 or [NROEMPRESA] = 72 or [NROEMPRESA] = 18 or [NROEMPRESA] = 27),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Linhas Filtradas1", {"OCORRENCIA"}, #"Eventos Aux", {"Código"}, "Eventos Aux", JoinKind.LeftOuter),
+				    #"Eventos Aux Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Eventos Aux", {"Descrição"}, {"Descrição"}),
+				    #"Linhas Filtradas2" = Table.SelectRows(#"Eventos Aux Expandido", each ([DATA] > #datetime(2020, 09, 01, 0, 0, 0) or [DATA] < #datetime(2020, 04, 01, 0, 0, 0)  )),
+				    #"Linhas Filtradas3" = Table.SelectRows(#"Linhas Filtradas2", each ([CODDEPARTAMENTO] = 20 or [CODDEPARTAMENTO] = 21)),
+				    #"Linhas Filtradas4" = Table.SelectRows(#"Linhas Filtradas3", each [DATA] >= #datetime(2023, 1, 1, 0, 0, 0) and [DATA] < #datetime(2023, 4, 1, 0, 0, 0))
+				in
+				    #"Linhas Filtradas4"
+
+	annotation PBI_ResultType = Exception
+

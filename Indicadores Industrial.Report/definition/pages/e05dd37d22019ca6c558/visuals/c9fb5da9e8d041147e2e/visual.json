@@ -1,0 +1,361 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "c9fb5da9e8d041147e2e",
+  "position": {
+    "x": 134.68102734051368,
+    "y": 285.26926263463133,
+    "z": 2000,
+    "height": 434.79701739850867,
+    "width": 1010.6379453189726,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DGE_EMPRESAMATRIZ"
+                    }
+                  },
+                  "Property": "NOMEFILIAL"
+                }
+              },
+              "queryRef": "DGE_EMPRESAMATRIZ.NOMEFILIAL",
+              "nativeQueryRef": "NOMEFILIAL",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Turno"
+                    }
+                  },
+                  "Property": "Turno"
+                }
+              },
+              "queryRef": "_Turno.Turno",
+              "nativeQueryRef": "Turno",
+              "active": true
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DEPARADESOSSA"
+                    }
+                  },
+                  "Property": "DESCRFAMILIA"
+                }
+              },
+              "queryRef": "DEPARADESOSSA.DESCRFAMILIA",
+              "nativeQueryRef": "DESCRFAMILIA",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DINVPB_PRODUCAODESOSSA"
+                    }
+                  },
+                  "Property": "_cProduto"
+                }
+              },
+              "queryRef": "DINVPB_PRODUCAODESOSSA._cProduto",
+              "nativeQueryRef": "_cProduto",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DEPARADESOSSA"
+                    }
+                  },
+                  "Property": "_CLASSIF.REND"
+                }
+              },
+              "queryRef": "DEPARADESOSSA._CLASSIF.REND",
+              "nativeQueryRef": "_CLASSIF.REND",
+              "active": false
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DEPARADESOSSA"
+                    }
+                  },
+                  "Property": "NROPROGPRODUCAO"
+                }
+              },
+              "queryRef": "DEPARADESOSSA.NROPROGPRODUCAO",
+              "nativeQueryRef": "NROPROGPRODUCAO",
+              "active": false
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "_Ajuste Peso Entrada Desossa Fralda"
+                }
+              },
+              "queryRef": "_Medidas._Ajuste Peso Entrada Desossa Fralda",
+              "nativeQueryRef": "_Ajuste Peso Entrada Desossa Fralda"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Peso Saída Cortes Desossa"
+                }
+              },
+              "queryRef": "_Medidas.Peso Saída Cortes Desossa",
+              "nativeQueryRef": "Peso Saída Cortes Desossa"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Peso Saída Desossa Ajus"
+                }
+              },
+              "queryRef": "_Medidas.Peso Saída Desossa Ajus",
+              "nativeQueryRef": "Peso Saída Desossa Ajus"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Peso Saída Aproveitamento"
+                }
+              },
+              "queryRef": "_Medidas.Peso Saída Aproveitamento",
+              "nativeQueryRef": "Peso Saída Aproveitamento"
+            }
+          ]
+        }
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "DEPARADESOSSA.DESCRFAMILIA"
+            ],
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DEPARADESOSSA"
+                    }
+                  },
+                  "Property": "DESCRFAMILIA"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "DINVPB_PRODUCAODESOSSA._cProduto"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "DEPARADESOSSA._CLASSIF.REND"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DEPARADESOSSA"
+                    }
+                  },
+                  "Property": "_CLASSIF.REND"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "DEPARADESOSSA.NROPROGPRODUCAO"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DEPARADESOSSA"
+                    }
+                  },
+                  "Property": "NROPROGPRODUCAO"
+                }
+              }
+            ],
+            "isPinned": true
+          }
+        ],
+        "root": {}
+      }
+    ],
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "Filter2e667fb3a0819581b8e5",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DGE_EMPRESAMATRIZ"
+              }
+            },
+            "Property": "NOMEFILIAL"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "DGE_EMPRESAMATRIZ",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "NOMEFILIAL"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'002-FRIG.CARNE'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "126f2a501af7209af811",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Turno"
+              }
+            },
+            "Property": "Turno"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_Turno",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "_"
+                          }
+                        },
+                        "Property": "Turno"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Diurno'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

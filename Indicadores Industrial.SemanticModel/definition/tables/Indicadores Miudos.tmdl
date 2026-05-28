@@ -1,0 +1,88 @@
+table 'Indicadores Miudos'
+	lineageTag: 578f8bc1-3da8-4089-b536-e588eb27757c
+
+	measure ValorIndicadorLinhasMiudos = ```
+			
+			VAR ind = SELECTEDVALUE('Indicadores Miudos'[IndicadorMiudos])
+			RETURN
+			SWITCH(
+			    ind,
+			    "% Rendimento Miudos Cortes",  [% Rendimento Miudos Cortes],
+			    "Produtividade Miudos Kg/Hh",  [Produtividade Miudos Kg/Hh],
+			    "Produtividade Miudos Cxs/Hh", [Produtividade Miudos Cxs/Hh],
+			    "% Absenteísmo Miudos",        [Absenteísmo Miudos], 
+			    "% Absenteísmo SubProdutos",   [Absenteísmo Graxaria],
+			    "% Rendimento Subpodutos",     [% Rendimento Graxaria],
+			    "SupProdutos Kgs/Cbç",         [Kg Subproduto/Cabeça],
+			    BLANK()
+			)
+			```
+		lineageTag: 353c63bc-5509-4c33-9848-406bc67940ed
+
+		formatStringDefinition =
+				
+				VAR _un = SELECTEDVALUE('Indicadores Miudos'[Un])
+				
+				RETURN
+				LOOKUPVALUE(UnidadeInidicadores[Formato], UnidadeInidicadores[Unidade], _un, "#,##0.00" --Fornato padrão caso não encontre
+				)
+
+	measure ValorIndicadorMiudios = ```
+			
+			VAR tipo = SELECTEDVALUE(TipoValor[Tipo])
+			RETURN
+			IF( tipo = "Meta", [Meta Indicador], [ValorIndicadorLinhasMiudos] )
+			
+			```
+		lineageTag: dad6a7da-f174-402b-8b2e-a56202732b56
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IndicadorMiudos
+		lineageTag: a17985c6-fe76-45c7-b085-0aa065ca46fb
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [IndicadorMiudos]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordem
+		formatString: 0
+		lineageTag: 35784e37-7f56-4e22-8c1a-f9ed2fa441ce
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Ordem]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Un
+		lineageTag: 571eebfa-be91-40da-b189-c68bcd586b26
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Un]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Indicadores Miudos' = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "IndicadorMiudos", STRING,
+				    "Un", STRING,
+				    "Ordem", INTEGER,
+				    {
+				        {"% Rendimento Miudos Cortes","%", 0},
+				        {"Produtividade Miudos Kg/Hh","Kg/Hhr", 1},
+				        {"Produtividade Miudos Cxs/Hh","Cxs/Hhr", 2},
+				        {"% Absenteísmo Miudos","%", 3},
+				        {"% Rendimento Subpodutos","%",4},
+				        {"% Absenteísmo SubProdutos","%",5},
+				        {"SupProdutos Kgs/Cbç","Kgs/Cbç",6}
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = 16d23f63a26e421b8d0d84dfa908ebef
+

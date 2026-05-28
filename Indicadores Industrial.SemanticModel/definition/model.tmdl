@@ -1,0 +1,175 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup 'Fluxo Industrial'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Ponto Funcionário'
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup 'Transformar Arquivo de Quebra de Frio'
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup 'Transformar Arquivo de Quebra de Frio\Consultas Auxiliares'
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation PBI_QueryOrder = ["_Medidas","DEPARADESOSSA","DINVPB_ABATE","Classificação Aux","DINVPB_ENTRADADESOSSA","DINVPB_PRODUCAODESOSSA","DINVPB_PRODUCAOMIUDOS","FPBI_RESUMOABATE","DINVPB_PESOVIVO","DCEV_CONSUMOALMOXARIFADO","_Hora de Atualização","_Turno","_FiltroCompra","Calendário","AnoMin","AnoMax","MesInicioAnoFiscal","DiaInicioMes","Base Funcionários","Ponto","FPBI_PESSOA","DGE_EMPRESAMATRIZ","DCVV_PROGABATE","FPBI_FUNCIONARIO","FPBI_ABSENTEISMO","FPBI_PONTODIARIO","Eventos Aux","ESTV_FUNCDIASAFASTADOS","AFASTADOS ATUALMENTE","DCUVQ_COMPRAGADOPRAZO","EXCEL_FUNRURAL","EXCEL_COMPLEMENTOAUX","DINVPB_PAUSADESOSSA","DINVPB_ABATEPAUSA","SINCRONISMO_DIARIOABATE","CLASSIFAUX","DINVPB_PAUSATOTAL","FPBI_TRANSBORDODEORDEM","DEPARABANHA","DINVPB_ENTRADABANHA","DINVPB_PRODUCAO_BANHA","PASTA_ENERGIA","Aux Compra","DEPARAINDUS","DINVPB_ENTRADAINDUS","DINVPB_PRODUCAOINDUS","EXCEL_APROVEITAMENTO","EXCEL_PESOVIVOAUX","EXCEL_QUEBRADEFRIO","Parâmetro1","Arquivo de Amostra","Transformar Arquivo","EXCEL_COLABEMPRESTADO","IMPUT_DTVINDUS","BD METAS BI","Volume Mov. valinhos","OESTE","IJUI","DCUVM_COMPRASUINO","CONFINAMENTOS","DESVIOS DIF","TVM_QUEBRAPORBANDA","EXCEL_METAS","FPBI_CORTESPEDIDOS","FPBI_OCORRENCIASPEDIDOS","DGEVQ_HIERARQUIAVENDA","Cadastro de Produto"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","DevMode"]
+
+ref table DEPARADESOSSA
+ref table DateTableTemplate_5bc41b26-3c89-495e-adf0-6d63305cdc46
+ref table DINVPB_ABATE
+ref table DINVPB_ENTRADADESOSSA
+ref table LocalDateTable_a8846c51-9792-434c-a7bf-de00c8b8274f
+ref table LocalDateTable_18a467c4-49a0-425f-a4b1-eb198e07f6bf
+ref table DINVPB_PRODUCAODESOSSA
+ref table LocalDateTable_642b509e-abbb-46f0-957c-74a725f61545
+ref table LocalDateTable_32add856-365c-46e5-8029-6a433d340a71
+ref table LocalDateTable_5bd39ed5-e742-46fd-a3cf-a01db963031c
+ref table LocalDateTable_1389ff20-9f2b-4504-a70d-0d19f930aa3f
+ref table DINVPB_PRODUCAOMIUDOS
+ref table FPBI_RESUMOABATE
+ref table Calendário
+ref table _Medidas
+ref table 'Base Funcionários'
+ref table LocalDateTable_5426901d-050c-4217-83d4-27105caaad97
+ref table LocalDateTable_299fd3a2-0125-4302-bd9b-d666077edc08
+ref table LocalDateTable_04aeb074-bf6e-4832-a090-5356a212798e
+ref table Ponto
+ref table LocalDateTable_8680d3b5-d6ad-4178-9bf0-b1c0e6247af0
+ref table LocalDateTable_7b44932f-9132-47d4-8e31-ce4d697d0515
+ref table LocalDateTable_3ea0ee60-32a4-418a-8ca6-9182c22dd6e0
+ref table DGE_EMPRESAMATRIZ
+ref table LocalDateTable_34a6dae2-0f79-474a-a1ca-3a8499d7d999
+ref table LocalDateTable_210d1742-7523-491f-8c77-f21d82641ab2
+ref table LocalDateTable_28d05925-fd63-46eb-94dc-ed3c4fab02cb
+ref table DINVPB_PESOVIVO
+ref table LocalDateTable_955878e6-f32f-43e8-a681-cc9cb4c00dd6
+ref table '_Hora de Atualização'
+ref table LocalDateTable_92f39db5-53f0-4473-b951-03be73af666b
+ref table _Turno
+ref table LocalDateTable_d0e2527b-57bb-4626-8f0a-1a4411e0ad32
+ref table FPBI_PESSOA
+ref table _FiltroCompra
+ref table DCVV_PROGABATE
+ref table DCEV_CONSUMOALMOXARIFADO
+ref table FPBI_ABSENTEISMO
+ref table FPBI_FUNCIONARIO
+ref table LocalDateTable_2f21e5a7-5ce2-4036-836b-8842768446ef
+ref table LocalDateTable_84cd189a-2e9a-41c4-a837-12cf6abdc790
+ref table FPBI_PONTODIARIO
+ref table LocalDateTable_9baff6eb-f164-4793-a30f-5bde4ed3730d
+ref table DCUVQ_COMPRAGADOPRAZO
+ref table LocalDateTable_3d8a06f1-4257-4781-8d6f-dc04098e983f
+ref table DINVPB_PAUSATOTAL
+ref table LocalDateTable_1a28032a-d2fa-4d34-97de-d8983c688b4e
+ref table LocalDateTable_efad3444-f850-4ec7-9e42-22546be722bd
+ref table FPBI_TRANSBORDODEORDEM
+ref table LocalDateTable_76d57e7a-f247-434d-98c6-4f7a5ff4dede
+ref table LocalDateTable_2420dc1b-86c6-4670-9c3f-2d9ab720633e
+ref table LocalDateTable_21a4bf1a-0414-4a27-8a56-a733eba7cd40
+ref table LocalDateTable_d01258ff-96ac-48d2-8b09-4a68845c9771
+ref table EXCEL_FUNRURAL
+ref table DINVPB_PRODUCAO_BANHA
+ref table LocalDateTable_323074ba-8c15-42ba-965c-34b482c25f26
+ref table PASTA_ENERGIA
+ref table LocalDateTable_e09f079d-0f0f-4898-b06e-6e06df7f8b7f
+ref table LocalDateTable_53395e87-3567-49d5-b6cb-f265caa894c5
+ref table EXCEL_COMPLEMENTOAUX
+ref table LocalDateTable_ec6cae52-9f8e-4a34-adbe-b033ef68553b
+ref table LocalDateTable_a61ff82d-20a3-4219-a044-6b2c3ddd6e35
+ref table DEPARABANHA
+ref table DINVPB_ENTRADABANHA
+ref table LocalDateTable_6973b3d1-7710-4f5d-ae5b-e54225b7d8f6
+ref table LocalDateTable_9868b7dc-5484-4779-a13c-00379c5d1fa0
+ref table LocalDateTable_a6477aa2-7704-44e6-b376-c9bff6064429
+ref table EXCEL_APROVEITAMENTO
+ref table LocalDateTable_2104c72f-c014-48a1-9e80-4ad388117071
+ref table LocalDateTable_76692756-4e77-4c16-81a6-10e42d3e9093
+ref table LocalDateTable_d5e39d46-f440-4244-886e-04eb6384871b
+ref table LocalDateTable_3c257bbf-6703-4fa8-870c-e21981d691bf
+ref table LocalDateTable_ffbb4936-9f17-4cfd-ba5b-8360b55bd111
+ref table LocalDateTable_90d03484-596d-4a2f-a0b2-fad5cb8732e1
+ref table LocalDateTable_cd0f39b5-c75c-48fb-a45a-9c2f23f62c03
+ref table LocalDateTable_2ed67bff-d597-4fa3-a8b8-47b66533f5ac
+ref table DEPARAINDUS
+ref table DINVPB_ENTRADAINDUS
+ref table LocalDateTable_f6338826-ac70-4557-9a84-55905d901d89
+ref table LocalDateTable_dcb32169-d540-490a-8ade-87004c451014
+ref table LocalDateTable_2f700a6e-c45d-4d24-99e3-d36ecd8cac11
+ref table LocalDateTable_5177db18-da6c-433f-a1b2-c88c9f461d17
+ref table DINVPB_PRODUCAOINDUS
+ref table LocalDateTable_3035678d-1017-4233-9a2c-62016d2e8a05
+ref table LocalDateTable_8c02171c-46e0-40f0-be48-28a17b86b413
+ref table LocalDateTable_90a4ca11-4a39-408f-815f-d80b762ca6b5
+ref table LocalDateTable_19973d9f-5ae5-431b-b867-5e400c60d54a
+ref table LocalDateTable_631bbc18-85ae-49a5-9e07-f31cd5b6ef2a
+ref table EXCEL_PESOVIVOAUX
+ref table LocalDateTable_d3a4803f-247f-4f0c-a3b7-89d0d35f17fa
+ref table LocalDateTable_47233974-bce1-4f57-bb86-021e4c0133b0
+ref table LocalDateTable_f0bc2f66-a307-46b5-96d9-e556298c4aa6
+ref table LocalDateTable_d7f32ea0-799b-4cdf-aa70-d49835976cfd
+ref table EXCEL_QUEBRADEFRIO
+ref table LocalDateTable_1b35b7dd-bb19-4b34-9102-5ee7e661ec7e
+ref table LocalDateTable_4c4aaf05-8b0d-494b-83e3-f94ef1d4994b
+ref table LocalDateTable_7516b52b-628f-4f3d-9b5d-9bc690a325bb
+ref table EXCEL_COLABEMPRESTADO
+ref table IMPUT_DTVINDUS
+ref table 'BD METAS BI'
+ref table 'Volume Mov. valinhos'
+ref table OESTE
+ref table LocalDateTable_09de61f2-6430-4af8-ab95-ca374ead8cee
+ref table IJUI
+ref table DCUVM_COMPRASUINO
+ref table LocalDateTable_36dabd0e-b14e-4cc4-a9bd-b6c13535c240
+ref table LocalDateTable_4e58fef5-1d79-4e06-8ada-347f66cdb745
+ref table LocalDateTable_8391d043-eb21-4c76-9f4d-b3609fc48896
+ref table LocalDateTable_52cfa444-2e71-4a1e-aa1e-a4e20349e748
+ref table LocalDateTable_1d1ee3e5-efa1-453b-ae07-0f1ca383b41b
+ref table CONFINAMENTOS
+ref table 'DESVIOS DIF'
+ref table LocalDateTable_e837a536-a1e3-4025-8eda-f10c55963e2e
+ref table LocalDateTable_48603b85-48e9-41e1-bf94-a056b597dcff
+ref table 'Indicadores Abate'
+ref table TipoValor
+ref table TVM_QUEBRAPORBANDA
+ref table LocalDateTable_c27b0290-a468-42d5-b38c-da4662dad6d8
+ref table 'Indicadores Miudos'
+ref table LocalDateTable_b582371c-dfca-498d-b550-1a7525bb893b
+ref table EXCEL_METAS
+ref table LocalDateTable_224871de-7b73-4d97-b7e0-f9bc29cdc704
+ref table 'Grafico Abate Prod Eixo'
+ref table LocalDateTable_8344b0be-9966-4d10-b36f-25c8bc05ab86
+ref table LocalDateTable_4e3e68b0-43fc-4e4a-ad2d-bef409b6d39e
+ref table 'Indicadores Desossa'
+ref table 'Indicadores Medidas Gerais'
+ref table 'Grafico Desossa Prod Eixo'
+ref table TabelaGraficoMercado
+ref table UnidadeInidicadores
+ref table 'Tipo Visual'
+ref table LocalDateTable_e63b2294-cee1-48f9-af44-e98f177b9650
+ref table FPBI_CORTESPEDIDOS
+ref table LocalDateTable_0d105b46-c0cb-4abd-a3ee-a817a325ee65
+ref table LocalDateTable_0c3b7d84-7b5d-4073-9057-c8c3090600cc
+ref table FPBI_OCORRENCIASPEDIDOS
+ref table LocalDateTable_35cea96c-fe3d-4d5a-87b3-a90636b876eb
+ref table DGEVQ_HIERARQUIAVENDA
+ref table LocalDateTable_59dda717-3717-44a1-946f-8d565b457239
+ref table 'Cadastro de Produto'
+ref table LocalDateTable_c165c10e-5fd4-4686-8405-cba6da9d2fbe
+
+ref cultureInfo pt-BR
+

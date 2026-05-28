@@ -1,0 +1,42 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainerMobileState/2.4.0/schema.json",
+  "position": {
+    "x": 74,
+    "y": 0,
+    "z": 17,
+    "height": 90,
+    "width": 250
+  },
+  "objects": {
+    "general": [
+      {
+        "properties": {
+          "paragraphs": [
+            {
+              "textRuns": [
+                {
+                  "value": "FRIGOESTRELA S.A.",
+                  "textStyle": {
+                    "fontWeight": "bold",
+                    "fontSize": "14pt"
+                  }
+                }
+              ]
+            },
+            {
+              "textRuns": [
+                {
+                  "value": "INDICADORES - Demonstrativo",
+                  "textStyle": {
+                    "fontSize": "14pt",
+                    "color": "#000000"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,78 @@
+table 'Volume Mov. valinhos'
+	lineageTag: 5e106ff4-3ae3-493c-8caf-a3e8e0a073a0
+
+	measure '_Volume Movimentado' = SUM('Volume Mov. valinhos'[VOLUME])
+		lineageTag: ac49744b-0f02-4831-9e39-23b08b4f7d0b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EMPRESA
+		dataType: int64
+		formatString: 0
+		lineageTag: 3b8c0a1f-89b5-4b4d-9cf1-ce1fcef0291d
+		summarizeBy: none
+		sourceColumn: EMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEMANA
+		dataType: int64
+		formatString: 0
+		lineageTag: 894cd52b-2197-4749-9d9b-5f6e3fe89240
+		summarizeBy: sum
+		sourceColumn: SEMANA
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATA
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1ee0c727-c134-4931-8121-9552508d6296
+		summarizeBy: none
+		sourceColumn: DATA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column VOLUME
+		dataType: double
+		lineageTag: 522b043d-5080-4293-922e-2070116c2404
+		summarizeBy: sum
+		sourceColumn: VOLUME
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'GRUPO PRODUTO'
+		dataType: string
+		lineageTag: d3ac0e88-1105-4c41-b6f4-1b9f4083d74e
+		summarizeBy: none
+		sourceColumn: GRUPO PRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column6
+		dataType: string
+		lineageTag: 081b5003-2de9-4f94-bb95-bd8aba4f6eeb
+		summarizeBy: none
+		sourceColumn: Column6
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Volume Mov. valinhos' = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("\\192.168.2.167\controladoria\05 - INDICADORES\09. Power BI\Volume Valinhos.xlsx"), null, true),
+				    VALINHOS_Sheet = Fonte{[Item="VALINHOS",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(VALINHOS_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"EMPRESA", Int64.Type}, {"SEMANA", Int64.Type}, {"DATA", type date}, {"VOLUME", type number}, {"GRUPO PRODUTO", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

@@ -1,0 +1,274 @@
+table TVM_QUEBRAPORBANDA
+	lineageTag: f50f5262-24c0-4843-b0ab-e64c539fad6b
+
+	measure PesoQuebra = ```
+			
+			
+			var calc = CALCULATE(sum(TVM_QUEBRAPORBANDA[PESO_QUEBRA])) 
+			RETURN 
+			
+			IF(SELECTEDVALUE(TVM_QUEBRAPORBANDA[NROEMPRESA]) in ({2}),calc *  (1 + (3 / 100)),
+			                                                      calc 
+			
+			)
+			```
+		lineageTag: a2dd9d55-6c7e-42b4-aa2b-664f63753810
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PesoAbate = ```
+			
+			
+			VAR Empresa = SELECTEDVALUE( TVM_QUEBRAPORBANDA[NROEMPRESA] )
+			VAR CalcGeral =
+			    CALCULATE( SUM( TVM_QUEBRAPORBANDA[PESO_ABATE] ) )
+			VAR CalcEmpresa2_ExcluiQuebraPositiva =
+			    CALCULATE(
+			        SUM( TVM_QUEBRAPORBANDA[PESO_ABATE] ),
+			        KEEPFILTERS( TVM_QUEBRAPORBANDA[PESO_QUEBRA] > 0 )
+			    )
+			RETURN
+			IF(
+			    Empresa = 2,
+			    CalcEmpresa2_ExcluiQuebraPositiva,   -- para empresa 2, ignora linhas com PESO_QUEBRA > 0
+			    CalcGeral                            -- demais empresas, cálculo normal
+			)
+			
+			
+			//var calc = CALCULATE(sum(TVM_QUEBRAPORBANDA[PESO_ABATE]))
+			//var Empresa = SELECTEDVALUE(TVM_QUEBRAPORBANDA[NROEMPRESA])
+			//var PesoQuebraAtual = CALCULATE(SUM(TVM_QUEBRAPORBANDA[PESO_QUEBRA]))
+			
+			//RETURN 
+			//IF(Empresa = 2 && PesoQuebraAtual <> 0 , calc)
+			
+			
+			//IF(SELECTEDVALUE(TVM_QUEBRAPORBANDA[NROEMPRESA]) in ({12}),calc *  (1 + (2 / 100)),
+			//                                                      calc  ))))
+			```
+		lineageTag: c535065c-f18a-452a-9d03-f89cef0d0c5b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PesoAbate_D2 = ```
+			
+			
+			//VAR Tipo = SELECTEDVALUE('Tipo Visual'[Tipo])
+			//VAR DataRef = SELECTEDVALUE(TVM_QUEBRAPORBANDA[DataReferencia])
+			//RETURN
+			//SWITCH(
+			//    Tipo,
+			//
+			//    "Diario",
+			//        CALCULATE(
+			//            SUM(TVM_QUEBRAPORBANDA[PESO_ABATE]),
+			//            TREATAS( { DataRef }, TVM_QUEBRAPORBANDA[DATA_ABATE] )
+			//        ),
+			//
+			//    "Mensal",
+			//        CALCULATE(
+			//            SUM(TVM_QUEBRAPORBANDA[PESO_ABATE]),
+			//            DATESMTD(TVM_QUEBRAPORBANDA[DATA_ABATE])
+			//        )
+			//)
+			
+			```
+		lineageTag: 79bef4e0-beac-4f2c-a8ac-082ff4365012
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PesoQuebra_D2 = ```
+			
+			
+			//VAR Tipo = SELECTEDVALUE('Tipo Visual'[Tipo])
+			//VAR DataRef = SELECTEDVALUE(TVM_QUEBRAPORBANDA[DataReferencia])
+			//RETURN
+			//SWITCH(
+			//    Tipo,
+			//
+			//    "Diario",
+			//        CALCULATE(
+			//            SUM(TVM_QUEBRAPORBANDA[PESO_QUEBRA]),
+			//            TREATAS( { DataRef }, TVM_QUEBRAPORBANDA[DATA_ABATE] )
+			//        ),
+			//
+			//    "Mensal",
+			//        CALCULATE(
+			//            SUM(TVM_QUEBRAPORBANDA[PESO_QUEBRA]),
+			//            DATESMTD(TVM_QUEBRAPORBANDA[DATA_ABATE])
+			//        )
+			//)
+			
+			```
+		lineageTag: cacbe9ec-9f63-4e4d-a6f6-5162178b0bd6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DATA_ABATE
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 05e76a2a-c938-437b-8497-85a119ae84c1
+		summarizeBy: none
+		sourceColumn: DATA_ABATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQUENCIADIA
+		dataType: int64
+		formatString: 0
+		lineageTag: 94d5a0bf-6985-46df-a5d3-f7b0d5fcf35f
+		summarizeBy: sum
+		sourceColumn: SEQUENCIADIA
+
+		annotation SummarizationSetBy = Automatic
+
+	column BANDA
+		dataType: string
+		lineageTag: cdc81f65-0575-468d-8ce1-a2bd9568e8d2
+		summarizeBy: none
+		sourceColumn: BANDA
+
+		annotation SummarizationSetBy = Automatic
+
+	column NROLOTE
+		dataType: int64
+		formatString: 0
+		lineageTag: e631a584-8237-4518-9173-37c7e22c1240
+		summarizeBy: sum
+		sourceColumn: NROLOTE
+
+		annotation SummarizationSetBy = Automatic
+
+	column CODIGO
+		dataType: int64
+		formatString: 0
+		lineageTag: 24211652-c913-478a-ac8d-c25853a3ac29
+		summarizeBy: sum
+		sourceColumn: CODIGO
+
+		annotation SummarizationSetBy = Automatic
+
+	column PRODUTO
+		dataType: string
+		lineageTag: cca58107-0bb5-4c53-9c04-bc3674250c47
+		summarizeBy: none
+		sourceColumn: PRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQCAMARA
+		dataType: double
+		lineageTag: f66986ef-c0dc-48c5-a92a-b7bb8967d95d
+		summarizeBy: sum
+		sourceColumn: SEQCAMARA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CAMARA
+		dataType: string
+		lineageTag: 78d87492-03eb-42d6-a9e1-24e4ea5b1db3
+		summarizeBy: none
+		sourceColumn: CAMARA
+
+		annotation SummarizationSetBy = Automatic
+
+	column PESO_ABATE
+		dataType: double
+		lineageTag: 59a16dbf-5be5-4b85-a181-fde169e0c5b1
+		summarizeBy: sum
+		sourceColumn: PESO_ABATE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PESO_QUEBRA
+		dataType: double
+		lineageTag: 71d86114-9611-4152-a421-6efe6a20c6f5
+		summarizeBy: sum
+		sourceColumn: PESO_QUEBRA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column QUEBRA
+		dataType: double
+		lineageTag: 8415e116-d0fc-48e3-aad3-b20c258fdee7
+		summarizeBy: sum
+		sourceColumn: QUEBRA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CONTADOR
+		dataType: double
+		lineageTag: af87cd5e-5e2c-40c5-9973-2533be6f59df
+		summarizeBy: sum
+		sourceColumn: CONTADOR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PERC_QUEBRA
+		dataType: double
+		lineageTag: 5c5982c8-6b09-45b0-80a0-4d3b52217c40
+		summarizeBy: sum
+		sourceColumn: PERC_QUEBRA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NROEMPRESA
+		dataType: int64
+		formatString: 0
+		lineageTag: c30adacf-4723-44e1-ac1c-9e59d56d8971
+		summarizeBy: none
+		sourceColumn: NROEMPRESA
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataReferencia
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 5bdd1368-be7b-491e-8dce-37845fbf2e5e
+		summarizeBy: none
+		sourceColumn: DataReferencia
+
+		variation Variation
+			isDefault
+			relationship: 233781e3-3fae-40b2-b913-3bbac40ee946
+			defaultHierarchy: LocalDateTable_e63b2294-cee1-48f9-af44-e98f177b9650.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	partition TVM_QUEBRAPORBANDA = m
+		mode: import
+		source = ```
+				let
+				    Fonte = Oracle.Database("datavale", [HierarchicalNavigation=true, Query="select t.*, '4' as nroempresa from TVM_QUEBRAPORBANDA2@DTVIND04 t#(lf)#(lf)union all#(lf)#(lf)select r.*, '12' as nroempresa from TVM_QUEBRAPORBANDA2@DTVIND12 r#(lf)#(lf)union all #(lf)#(lf)select s.*, '104' as nroempresa from TVM_QUEBRAPORBANDA2@DTVIND104 s#(lf)#(lf)union all #(lf)#(lf)select e.*, '2' as nroempresa from TVM_QUEBRAPORBANDA2@DTVIND02 e"]),
+				    Personalizar1 = Table.SelectRows(Fonte, each [CODIGO] <> 1015 and [CODIGO] <> 1012),
+				    #"Personalização Adicionada" = Table.AddColumn(Personalizar1, "Personalizar", each if Date.DayOfWeek([DATA_ABATE], Day.Monday) = 4 
+				    then Date.AddDays([DATA_ABATE], 3)
+				    else Date.AddDays([DATA_ABATE], 2)),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Personalização Adicionada",{{"Personalizar", type date}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado",{{"Personalizar", "DataReferencia"}})
+				in
+				    #"Colunas Renomeadas"
+				```
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

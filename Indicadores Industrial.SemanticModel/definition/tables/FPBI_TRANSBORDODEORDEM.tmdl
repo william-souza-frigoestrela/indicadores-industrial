@@ -1,0 +1,128 @@
+table FPBI_TRANSBORDODEORDEM
+	lineageTag: 2378ed86-d05c-4d88-a143-813a5bd804e6
+
+	column SEQPRODUTO
+		dataType: int64
+		formatString: 0
+		lineageTag: 883271fb-2950-41ad-b3e0-bb054f4c18eb
+		summarizeBy: sum
+		sourceColumn: SEQPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column HISTORICOENT
+		dataType: string
+		lineageTag: 232a1358-efee-41ed-836e-972b810b7c04
+		summarizeBy: none
+		sourceColumn: HISTORICOENT
+
+		annotation SummarizationSetBy = Automatic
+
+	column QUANTIDADE
+		dataType: int64
+		formatString: 0
+		lineageTag: a71a5730-b2d1-4506-89af-1ab4c65ece83
+		summarizeBy: sum
+		sourceColumn: QUANTIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+	column QTDEMBALAGEM
+		dataType: int64
+		formatString: 0
+		lineageTag: 0e6fd8bf-7338-4565-a7b5-2b656ffe3f63
+		summarizeBy: sum
+		sourceColumn: QTDEMBALAGEM
+
+		annotation SummarizationSetBy = Automatic
+
+	column PESOLIQUIDO
+		dataType: double
+		lineageTag: 1ef5cf0e-968d-4372-aae6-0598625db67f
+		summarizeBy: sum
+		sourceColumn: PESOLIQUIDO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PESOBRUTO
+		dataType: double
+		lineageTag: b358ac70-2ebd-46e0-a5d5-16bb340ec63b
+		summarizeBy: sum
+		sourceColumn: PESOBRUTO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NROEMPRESA
+		dataType: int64
+		formatString: 0
+		lineageTag: 62ce2cb6-2647-4de7-ad27-4fcdedc3e0cc
+		summarizeBy: sum
+		sourceColumn: NROEMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+	column DE
+		dataType: int64
+		formatString: 0
+		lineageTag: 53071d46-c591-4d38-a39a-5f4c1f57953c
+		summarizeBy: sum
+		sourceColumn: DE
+
+		annotation SummarizationSetBy = Automatic
+
+	column PARA
+		dataType: int64
+		formatString: 0
+		lineageTag: 09c05641-cdbf-4a75-8612-83931ecb1181
+		summarizeBy: sum
+		sourceColumn: PARA
+
+		annotation SummarizationSetBy = Automatic
+
+	column _SK = FPBI_TRANSBORDODEORDEM[NROEMPRESA]&FPBI_TRANSBORDODEORDEM[DE]&FPBI_TRANSBORDODEORDEM[SEQPRODUTO]
+		lineageTag: c59cbe1d-0a00-4dc1-89da-4bf2f7ebd301
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FPBI_TRANSBORDODEORDEM = m
+		mode: import
+		queryGroup: 'Fluxo Industrial'
+		source = ```
+				let
+				    // Fonte de dados
+				    Fonte = PowerPlatform.Dataflows([]),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
+				    
+				    // Carregar as entidades
+				    FPBI_TRANSBORDODEORDEM_MTZ_ = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="ae60fe13-fbb4-4ed6-bf71-80ae1ec0e4f5"]}[Data]{[entity="FPBI_TRANSBORDODEORDEM_MTZ", version=""]}[Data],
+				    FPBI_TRANSBORDODEORDEM_SLG_ = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="ae60fe13-fbb4-4ed6-bf71-80ae1ec0e4f5"]}[Data]{[entity="FPBI_TRANSBORDODEORDEM_SLG", version=""]}[Data],
+				    FPBI_TRANSBORDODEORDEM_TUP_ = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="ae60fe13-fbb4-4ed6-bf71-80ae1ec0e4f5"]}[Data]{[entity="FPBI_TRANSBORDODEORDEM_TUP", version=""]}[Data],
+				    FPBI_TRANSBORDODEORDEM_RND_ = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="ae60fe13-fbb4-4ed6-bf71-80ae1ec0e4f5"]}[Data]{[entity="FPBI_TRANSBORDODEORDEM_RND", version=""]}[Data],
+				    
+				    // Combina todas as tabelas
+				    TodasAsTabelas = Table.Combine({FPBI_TRANSBORDODEORDEM_MTZ_, FPBI_TRANSBORDODEORDEM_SLG_, FPBI_TRANSBORDODEORDEM_TUP_, FPBI_TRANSBORDODEORDEM_RND_}),
+				    
+				    // Realizando as transformações (igual ao código original)
+				    #"Outras Colunas Removidas" = Table.SelectColumns(TodasAsTabelas,{"SEQPRODUTO", "HISTORICOENT", "QUANTIDADE", "QTDEMBALAGEM", "PESOLIQUIDO", "PESOBRUTO", "NROEMPRESA"}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Outras Colunas Removidas","Transbordo da Ordem Produção/Contrato: ","",Replacer.ReplaceText,{"HISTORICOENT"}),
+				    #"Valor Substituído1" = Table.ReplaceValue(#"Valor Substituído","Ordem Produção/Contrato: ‹","",Replacer.ReplaceText,{"HISTORICOENT"}),
+				    #"Valor Substituído2" = Table.ReplaceValue(#"Valor Substituído1"," / ›","",Replacer.ReplaceText,{"HISTORICOENT"}),
+				    #"Valor Substituído3" = Table.ReplaceValue(#"Valor Substituído2",". ","",Replacer.ReplaceText,{"HISTORICOENT"}),
+				    #"Texto Inserido Antes do Delimitador" = Table.AddColumn(#"Valor Substituído3", "DE", each Text.BeforeDelimiter([HISTORICOENT], " para"), type text),
+				    #"Texto Inserido Após o Delimitador" = Table.AddColumn(#"Texto Inserido Antes do Delimitador", "PARA", each Text.AfterDelimiter([HISTORICOENT], "para "), type text),
+				    #"Texto Extraído Após o Delimitador" = Table.TransformColumns(#"Texto Inserido Após o Delimitador", {{"DE", each Text.AfterDelimiter(_, " "), type text}, {"PARA", each Text.AfterDelimiter(_, " "), type text}}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Texto Extraído Após o Delimitador",{{"SEQPRODUTO", Int64.Type}, {"HISTORICOENT", type text}, {"QUANTIDADE", Int64.Type}, {"QTDEMBALAGEM", Int64.Type}, {"PESOLIQUIDO", type number}, {"PESOBRUTO", type number}, {"NROEMPRESA", Int64.Type}, {"DE", Int64.Type}, {"PARA", Int64.Type}})
+				in
+				    #"Tipo Alterado"
+				```
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

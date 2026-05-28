@@ -1,0 +1,522 @@
+table DCUVM_COMPRASUINO
+	lineageTag: 001fe9de-0699-4793-87e4-aebb06d35fb1
+
+	column NROEMPRESA
+		dataType: double
+		lineageTag: d224e2bf-2954-475c-8af9-3ad9e0d225cc
+		summarizeBy: none
+		sourceColumn: NROEMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CODLINK
+		dataType: double
+		lineageTag: e6acd14b-faa8-4caf-810b-e530619ac4ce
+		summarizeBy: sum
+		sourceColumn: CODLINK
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TABLINK
+		dataType: string
+		lineageTag: d5163985-fce9-4c85-adaf-e53be3155456
+		summarizeBy: none
+		sourceColumn: TABLINK
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATA
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d5e35d66-e230-4a9d-9f69-9301f32fced4
+		summarizeBy: none
+		sourceColumn: DATA
+
+		annotation SummarizationSetBy = Automatic
+
+	column TIPONOTA
+		dataType: string
+		lineageTag: 41bec608-fb12-41ff-878f-77be8cc42eda
+		summarizeBy: none
+		sourceColumn: TIPONOTA
+
+		annotation SummarizationSetBy = Automatic
+
+	column ANOMES
+		dataType: double
+		lineageTag: f0ce5bc6-2662-4345-994f-012bf224d6db
+		summarizeBy: sum
+		sourceColumn: ANOMES
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SEQPEDIDO
+		dataType: double
+		lineageTag: 67d1fe49-d469-4d0f-a73c-2307662438ce
+		summarizeBy: sum
+		sourceColumn: SEQPEDIDO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SEQPEDIDOORIGEM
+		dataType: double
+		lineageTag: b858c5e6-a50e-4618-bc78-68d903b8ce21
+		summarizeBy: sum
+		sourceColumn: SEQPEDIDOORIGEM
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NROPEDIDO
+		dataType: double
+		lineageTag: 4a1fdb29-7f46-4817-99ec-d50570133faa
+		summarizeBy: sum
+		sourceColumn: NROPEDIDO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SEQPRODUTOR
+		dataType: double
+		lineageTag: 67e00ae5-7b17-4c2d-9598-41953e367e20
+		summarizeBy: none
+		sourceColumn: SEQPRODUTOR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PRODUTOR
+		dataType: string
+		lineageTag: 4dc873dc-cad6-466e-a1e1-81d286957ab6
+		summarizeBy: none
+		sourceColumn: PRODUTOR
+
+		annotation SummarizationSetBy = Automatic
+
+	column PROPRIEDADE
+		dataType: string
+		lineageTag: abccede1-9e02-4ddc-9a0b-8cf78b6a3790
+		summarizeBy: none
+		sourceColumn: PROPRIEDADE
+
+		annotation SummarizationSetBy = Automatic
+
+	column CIDADE
+		dataType: string
+		lineageTag: 52050312-e6a7-4d51-9e01-ba2d476a2327
+		summarizeBy: none
+		sourceColumn: CIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+	column UF
+		dataType: string
+		lineageTag: e06c271c-1bf1-4632-b823-7e7bd2552833
+		summarizeBy: none
+		sourceColumn: UF
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQPRODUTOORIGEM
+		dataType: double
+		lineageTag: 4a78e430-1feb-49c6-8b02-773254ef1257
+		summarizeBy: sum
+		sourceColumn: SEQPRODUTOORIGEM
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CODLINKPRODUTOORIGEMPEDIDO
+		dataType: double
+		lineageTag: 813378c6-dbaa-4f54-8119-be51e76c3b4f
+		summarizeBy: sum
+		sourceColumn: CODLINKPRODUTOORIGEMPEDIDO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TIPOPESO
+		dataType: string
+		lineageTag: 00c67938-4a3d-432d-ab39-bb24101c31c5
+		summarizeBy: none
+		sourceColumn: TIPOPESO
+
+		annotation SummarizationSetBy = Automatic
+
+	column CODLINKITEM
+		dataType: double
+		lineageTag: 1531760e-324b-4f5a-8d4f-1efc5063aaa0
+		summarizeBy: sum
+		sourceColumn: CODLINKITEM
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SEQPRODUTO
+		dataType: double
+		lineageTag: 04b45108-8d0f-4483-91bf-0e93259536e0
+		summarizeBy: sum
+		sourceColumn: SEQPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PRODUTO
+		dataType: string
+		lineageTag: 418c2d9b-df26-498c-abcd-b1ba2316eeab
+		summarizeBy: none
+		sourceColumn: PRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column CLASSINDUSTRIA
+		dataType: string
+		lineageTag: 1bc11565-b564-420f-a723-48b215556fd2
+		summarizeBy: none
+		sourceColumn: CLASSINDUSTRIA
+
+		annotation SummarizationSetBy = Automatic
+
+	column CLASSIFABATERED
+		dataType: string
+		lineageTag: bef10c39-6047-4355-ae10-7547e4ed2400
+		summarizeBy: none
+		sourceColumn: CLASSIFABATERED
+
+		annotation SummarizationSetBy = Automatic
+
+	column CLASSIFABATE
+		dataType: string
+		lineageTag: 7ddb1201-d897-4102-b586-21e7f6f5b4ff
+		summarizeBy: none
+		sourceColumn: CLASSIFABATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQPRODUTOKIT
+		dataType: string
+		lineageTag: 9ef5deb6-5b13-4d68-961b-2352f01f17af
+		summarizeBy: none
+		sourceColumn: SEQPRODUTOKIT
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEXO
+		dataType: string
+		lineageTag: f36caead-cd1b-4d8b-a403-fd843012e409
+		summarizeBy: none
+		sourceColumn: SEXO
+
+		annotation SummarizationSetBy = Automatic
+
+	column CODSETOR
+		dataType: double
+		lineageTag: f82aba4d-2986-42b8-bda0-14d2edcd4566
+		summarizeBy: sum
+		sourceColumn: CODSETOR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GRUPOPROD
+		dataType: double
+		lineageTag: 1b77ac12-f66f-4d93-949f-5669c84dbfd8
+		summarizeBy: sum
+		sourceColumn: GRUPOPROD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GRUPOPRODUTO
+		dataType: string
+		lineageTag: ac4b1830-666e-4d2f-9325-0c3b6f5fb026
+		summarizeBy: none
+		sourceColumn: GRUPOPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column FAMILIAPROD
+		dataType: double
+		lineageTag: 5e446213-d104-46c2-84a3-6eb86866d9ca
+		summarizeBy: sum
+		sourceColumn: FAMILIAPROD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DESCRFAMILIA
+		dataType: string
+		lineageTag: ad90204b-730c-4e37-869b-b7bd74e6db6c
+		summarizeBy: none
+		sourceColumn: DESCRFAMILIA
+
+		annotation SummarizationSetBy = Automatic
+
+	column QUANTIDADE
+		dataType: double
+		lineageTag: 66a63d4f-8711-4126-ab15-1ba09f144b97
+		summarizeBy: sum
+		sourceColumn: QUANTIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PESO
+		dataType: double
+		lineageTag: f437dac7-b202-47b2-a297-8f726923cffc
+		summarizeBy: sum
+		sourceColumn: PESO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PESOKIT
+		dataType: double
+		lineageTag: 9bbcbc68-297f-4d70-8f84-8a9a599b55da
+		summarizeBy: sum
+		sourceColumn: PESOKIT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TIPOCALCULO
+		dataType: double
+		lineageTag: 3e801527-5709-4075-9e5b-a18e3f5e684e
+		summarizeBy: sum
+		sourceColumn: TIPOCALCULO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VALORMERCADOKIT
+		dataType: double
+		lineageTag: 5352363a-2ac2-4fb1-bd19-9df3dab50f7c
+		summarizeBy: sum
+		sourceColumn: VALORMERCADOKIT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VLRPRODUTO
+		dataType: double
+		lineageTag: e34ac749-adbe-4795-8425-c5fb7bb416fb
+		summarizeBy: sum
+		sourceColumn: VLRPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VLRPRODUTOCONTABIL
+		dataType: double
+		lineageTag: ef69a86a-151e-484e-9e9a-fb5a0bbc8983
+		summarizeBy: sum
+		sourceColumn: VLRPRODUTOCONTABIL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VLRDESCONTO
+		dataType: double
+		lineageTag: 9c6ddaf0-86e6-4254-afa5-5decbd6471d2
+		summarizeBy: sum
+		sourceColumn: VLRDESCONTO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VLRICMS
+		dataType: double
+		lineageTag: b72d8e96-2dee-4446-b92b-c735cd8b450d
+		summarizeBy: sum
+		sourceColumn: VLRICMS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VLRICMSCONTABIL
+		dataType: double
+		lineageTag: e2d1a798-959e-45b9-9c0e-fec59d5c2da7
+		summarizeBy: sum
+		sourceColumn: VLRICMSCONTABIL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VLRCOMISSAO
+		dataType: double
+		lineageTag: 968a5c3c-8e46-4025-ad7b-3cabde938063
+		summarizeBy: sum
+		sourceColumn: VLRCOMISSAO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VLRIPI
+		dataType: double
+		lineageTag: 6476a86d-8a10-4c01-b274-383e0c9d979b
+		summarizeBy: sum
+		sourceColumn: VLRIPI
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VLRDNTI
+		dataType: double
+		lineageTag: 47635306-dbf6-4603-9220-1980e8be60a3
+		summarizeBy: sum
+		sourceColumn: VLRDNTI
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VLRDTI
+		dataType: double
+		lineageTag: cd46cb52-abaf-4c1d-a93e-b15ce61d8a6f
+		summarizeBy: sum
+		sourceColumn: VLRDTI
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VLRDNTNI
+		dataType: double
+		lineageTag: 091a0f23-1a57-4184-9282-12a6ae1b8f69
+		summarizeBy: sum
+		sourceColumn: VLRDNTNI
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VLRDTNI
+		dataType: double
+		lineageTag: 98694ec2-0294-4143-b99c-b05ac2de7f5a
+		summarizeBy: sum
+		sourceColumn: VLRDTNI
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VLRPISCREDITO
+		dataType: double
+		lineageTag: e7cf8bd0-65b8-4e5c-b694-0b7a01aec2d8
+		summarizeBy: sum
+		sourceColumn: VLRPISCREDITO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VLRCOFINSCREDITO
+		dataType: double
+		lineageTag: b71857ba-742a-460d-8c48-7c1d15602fe1
+		summarizeBy: sum
+		sourceColumn: VLRCOFINSCREDITO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VLRCOFINS
+		dataType: double
+		lineageTag: 230395f6-78f4-4789-83a6-2657d891c9af
+		summarizeBy: sum
+		sourceColumn: VLRCOFINS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VLRPIS
+		dataType: double
+		lineageTag: 4dbb25e8-fe4b-4920-94bf-5f7e02c97ea0
+		summarizeBy: sum
+		sourceColumn: VLRPIS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VLRFRETE
+		dataType: double
+		lineageTag: f7b54157-83da-425f-a5c6-27c2bbdba880
+		summarizeBy: sum
+		sourceColumn: VLRFRETE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VLRICMSFRETE
+		dataType: double
+		lineageTag: d366d73e-c9e4-4ba5-a385-e1867feae6db
+		summarizeBy: sum
+		sourceColumn: VLRICMSFRETE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column QTDCALCULO
+		dataType: double
+		lineageTag: c67572e0-e7b4-4d17-b6c8-9feb858a55a0
+		summarizeBy: sum
+		sourceColumn: QTDCALCULO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PESOVIVO
+		dataType: double
+		lineageTag: e5aefeda-91e6-4ccb-bdc1-677638adf44b
+		summarizeBy: sum
+		sourceColumn: PESOVIVO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition DCUVM_COMPRASUINO = m
+		mode: import
+		source =
+				let
+				    Fonte = Oracle.Database("datavale", [HierarchicalNavigation=true]),
+				    DATAVALE = Fonte{[Schema="DATAVALE"]}[Data],
+				    DCUVM_COMPRASUINO1 = DATAVALE{[Name="DCUVM_COMPRASUINO"]}[Data]
+				in
+				    DCUVM_COMPRASUINO1
+

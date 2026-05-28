@@ -1,0 +1,56 @@
+table DCVV_PROGABATE
+	lineageTag: 681a7f9d-07ad-4bed-8412-417d492d4b09
+
+	column SEQPROGABATE
+		dataType: double
+		lineageTag: e471dd98-e6a9-43bd-bd04-5fb4df0e9a92
+		summarizeBy: sum
+		sourceColumn: SEQPROGABATE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NROPLANTA
+		dataType: double
+		lineageTag: 97bc0517-cd59-4e88-ae04-5246520a2548
+		summarizeBy: none
+		sourceColumn: NROPLANTA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DTAABATE
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: eb9e4179-daff-404c-93b7-db8d9351b43e
+		summarizeBy: none
+		sourceColumn: DTAABATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column QTDPROGRAMADA
+		dataType: double
+		lineageTag: 96af17bc-dc80-4b1f-872d-8eb8d6584cca
+		summarizeBy: sum
+		sourceColumn: QTDPROGRAMADA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition DCVV_PROGABATE = m
+		mode: import
+		source =
+				let
+				    Fonte = Oracle.Database("DATAVALE", [HierarchicalNavigation=true]),
+				    DATAVALE = Fonte{[Schema="DATAVALE"]}[Data],
+				    DCVV_PROGABATE1 = DATAVALE{[Name="DCVV_PROGABATE"]}[Data],
+				    #"Colunas Removidas" = Table.RemoveColumns(DCVV_PROGABATE1,{"OBSERVACAO", "FAMILIAPROD"}),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Colunas Removidas", each [DTAABATE] > #datetime(2023, 1, 1, 0, 0, 0))
+				in
+				    #"Linhas Filtradas"
+
+	annotation PBI_ResultType = Table
+

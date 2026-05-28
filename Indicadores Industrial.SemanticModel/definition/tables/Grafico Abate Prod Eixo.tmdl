@@ -1,0 +1,297 @@
+table 'Grafico Abate Prod Eixo'
+	lineageTag: 38bf31bc-4b49-4ee2-8bf2-1a798ffd2b5c
+
+	measure RealDiaGraf = [Realizado]
+		lineageTag: 196b826d-f0b2-41fd-9b52-2675cc88a5cf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure RealAcumMesGraf =
+			
+			CALCULATE([Realizado], DATESYTD('Calendário'[Data]))
+		lineageTag: c07eb450-861b-4028-b872-8ba374eedc9d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_Intervalo Datas (alternativa)' = ```
+			
+			VAR Tipo = SELECTEDVALUE ( 'Grafico Abate Prod Eixo'[Tipo] )
+			VAR Rot  = SELECTEDVALUE ( 'Grafico Abate Prod Eixo'[Rotulo] )
+			VAR Hoje = TODAY()
+			VAR Ano  = YEAR ( Hoje )
+			VAR Mes  = MONTH ( Hoje )
+			RETURN
+			SWITCH (
+			    TRUE(),
+			    Tipo = "Mes",
+			        VAR MesNum =
+			            SWITCH ( Rot,
+			                "jan",1,"fev",2,"mar",3,"abr",4,"mai",5,"jun",6,
+			                "jul",7,"ago",8,"set",9,"out",10,"nov",11,"dez",12
+			            )
+			        VAR InicioMes = DATE ( Ano, MesNum, 1 )
+			        VAR FimMes    = EOMONTH ( InicioMes, 0 )
+			        RETURN DATESBETWEEN ( 'Calendário'[Data], InicioMes, FimMes ),
+			
+			    Tipo = "Dia",
+			        VAR DiaNum = VALUE ( Rot )
+			        VAR DataAlvo = DATE ( Ano, Mes, DiaNum )
+			        RETURN DATESBETWEEN ( 'Calendário'[Data], DataAlvo, DataAlvo )
+			)
+			
+			```
+		formatString: General Date
+		lineageTag: 6a44b010-7907-452b-b9c4-eca3162e4c42
+
+	measure SerieRealDiaGraf = ```
+			
+			
+			VAR Tipo = SELECTEDVALUE ( 'Grafico Abate Prod Eixo'[Tipo] )
+			RETURN
+			IF (
+			    Tipo = "Dia",
+			    VAR Rot      = SELECTEDVALUE ( 'Grafico Abate Prod Eixo'[Rotulo] )
+			    VAR DiaNum   = VALUE ( Rot )                       -- só roda quando Tipo="Dia"
+			    VAR AnoSel   = SELECTEDVALUE ( 'Calendário'[Ano],   YEAR ( TODAY() ) )
+			    VAR MesSel   = SELECTEDVALUE ( 'Calendário'[MesNo], MONTH ( TODAY() ) )   -- 1..12
+			    VAR DataAlvo = DATE ( AnoSel, MesSel, DiaNum )
+			    VAR FimMes   = EOMONTH ( DATE ( AnoSel, MesSel, 1 ), 0 )
+			
+			    VAR ValorDia =
+			        CALCULATE (
+			            [RealDiaGraf],                              -- sua medida [Realizado]
+			            DATESBETWEEN ( 'Calendário'[Data], DataAlvo, DataAlvo )
+			        )
+			    RETURN
+			        IF (
+			            DataAlvo <= FimMes                          -- corta 29–31 quando não existem
+			            && NOT ISBLANK ( ValorDia ) && ValorDia <> 0,  -- só dias com produção
+			            ValorDia,
+			            BLANK()
+			        )
+			)
+			
+			```
+		lineageTag: d3c68efe-2489-4347-89bc-8b0912db186f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure SerieRealMesGraf = ```
+			
+			
+			VAR Tipo = SELECTEDVALUE ( 'Grafico Abate Prod Eixo'[Tipo] )
+			VAR Rot  = SELECTEDVALUE ( 'Grafico Abate Prod Eixo'[Rotulo] )
+			
+			-- Ano vindo do filtro/slicer da página (funciona mesmo se o eixo for desconectado)
+			VAR AnoSelFromSlicer =
+			    CALCULATE (
+			        SELECTEDVALUE ( 'Calendário'[Ano] ),
+			        ALLSELECTED ( 'Calendário' )
+			    )
+			VAR AnoSel = COALESCE ( AnoSelFromSlicer, YEAR ( TODAY() ) )
+			
+			-- Mês a partir do rótulo do eixo
+			VAR MesNum =
+			    SWITCH (
+			        TRUE (),
+			        Rot = "jan", 1, Rot = "fev", 2, Rot = "mar", 3, Rot = "abr", 4,
+			        Rot = "mai", 5, Rot = "jun", 6, Rot = "jul", 7, Rot = "ago", 8,
+			        Rot = "set", 9, Rot = "out", 10, Rot = "nov", 11, Rot = "dez", 12
+			    )
+			
+			VAR InicioMes = DATE ( AnoSel, MesNum, 1 )
+			VAR FimMes    = EOMONTH ( InicioMes, 0 )
+			
+			RETURN
+			IF (
+			    Tipo = "Mes" && NOT ISBLANK ( MesNum ),
+			    CALCULATE (
+			        [RealDiaGraf],                                -- sua medida base
+			        DATESBETWEEN ( 'Calendário'[Data], InicioMes, FimMes ),
+			        -- Garante que o ANO do slicer esteja aplicado dentro do cálculo
+			        KEEPFILTERS (
+			            FILTER ( ALL ( 'Calendário'[Data] ), YEAR ( 'Calendário'[Data] ) = AnoSel )
+			        )
+			    )
+			)
+			
+			```
+		lineageTag: 9b9a117e-f262-4d33-9be5-985cb9a55856
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure MetaDiaGraf = ```
+			
+			
+			//VAR Tipo = SELECTEDVALUE ( 'Grafico Prod Eixo'[Tipo] )
+			//RETURN
+			//IF (
+			//    Tipo = "Dia",
+			//    CALCULATE ( [Valor Meta], REMOVEFILTERS ( 'Calendário'[Data] ) )
+			//)
+			
+			VAR Tipo = SELECTEDVALUE ( 'Grafico Abate Prod Eixo'[Tipo] )
+			RETURN
+			IF (
+			    Tipo = "Dia",
+			    VAR Rot      = SELECTEDVALUE ( 'Grafico Abate Prod Eixo'[Rotulo] )
+			    VAR DiaNum   = VALUE ( Rot )
+			    VAR AnoSel   = SELECTEDVALUE ( 'Calendário'[Ano],   YEAR ( TODAY() ) )
+			    VAR MesSel   = SELECTEDVALUE ( 'Calendário'[MesNo], MONTH ( TODAY() ) )
+			    VAR DataAlvo = DATE ( AnoSel, MesSel, DiaNum )
+			    VAR FimMes   = EOMONTH ( DATE ( AnoSel, MesSel, 1 ), 0 )
+			
+			    VAR RealNoDia =
+			        CALCULATE ( [RealDiaGraf], DATESBETWEEN ( 'Calendário'[Data], DataAlvo, DataAlvo ) )
+			
+			    VAR MetaNoDia =
+			        CALCULATE ( [Valor Meta],  DATESBETWEEN ( 'Calendário'[Data], DataAlvo, DataAlvo ) )
+			
+			    RETURN
+			        IF (
+			            DataAlvo > FimMes || ISBLANK(RealNoDia) || RealNoDia = 0,
+			            BLANK(),                    -- sem produção: não plota (eixo limpa a categoria)
+			            COALESCE ( MetaNoDia, 0 )   -- com produção e sem meta: plota 0 (linha contínua, sem pico)
+			        )
+			)
+			
+			```
+		lineageTag: 3752cbfb-91f4-4734-86d9-1dafb81788c2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MetaDiaGraf (reescalada)' = ```
+			
+			VAR MaxColunaNoContexto =
+			    CALCULATE(
+			        MAXX(
+			            VALUES('Grafico Abate Prod Eixo'[Rotulo]),
+			            [SerieRealDiaGraf]  -- suas colunas (real dia)
+			        ),
+			        ALLSELECTED('Grafico Abate Prod Eixo'),
+			        KEEPFILTERS('Grafico Abate Prod Eixo'[Tipo] = "Dia")
+			    )
+			VAR MaxMetaNoContexto =
+			    CALCULATE(
+			        MAXX(
+			            VALUES('Grafico Abate Prod Eixo'[Rotulo]),
+			            [MetaDiaGraf]       -- sua meta diária original (sem reescala)
+			        ),
+			        ALLSELECTED('Grafico Abate Prod Eixo'),
+			        KEEPFILTERS('Grafico Abate Prod Eixo'[Tipo] = "Dia")
+			    )
+			VAR Fator =
+			    VAR f = DIVIDE(MaxColunaNoContexto, MaxMetaNoContexto)
+			    RETURN IF( ISBLANK(f) || f = 0, 1, f )  -- fallback: evita linha sumir
+			VAR ValorMeta = [MetaDiaGraf]               -- valor da meta no ponto atual
+			RETURN
+			IF(
+			    SELECTEDVALUE('Grafico Abate Prod Eixo'[Tipo]) = "Dia",
+			    COALESCE( ValorMeta * Fator, 0 ),       -- plota 0 (não BLANK) para manter linha contínua
+			    BLANK()                                 -- não plota nos rótulos de "Mes"
+			)
+			
+			
+			```
+		lineageTag: 9a1fc7d3-4e2c-4a62-b0aa-3e698838d3c5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure GraficoValor = ```
+			
+			COALESCE( SELECTEDMEASURE(), 0 )
+			
+			```
+		lineageTag: 9e0931ba-fefb-44ae-b669-a9a5200dd149
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure IndiceEscala = ```
+			// 10
+			
+			VAR Meta = [Meta Indicador]
+			RETURN
+			IF(
+			    Meta = 0,
+			    1,
+			    10
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 9e4c65a0-b872-417e-bd49-0809deec643c
+
+	measure 'SerieRealMesGraf Ajuste' = ```
+			
+			
+			VAR Tipo = SELECTEDVALUE( 'Grafico Abate Prod Eixo'[Tipo] )
+			VAR RealMes = [SerieRealMesGraf]        -- valor mensal REAL
+			VAR Ajustado = DIVIDE( RealMes, [IndiceEscala] )
+			RETURN
+			    IF(
+			        Tipo = "Mes" && NOT ISBLANK(RealMes),
+			        Ajustado,
+			        BLANK()
+			    )
+			
+			```
+		lineageTag: 84696919-e026-4905-bdf6-ea2a6b76294e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Tipo
+		lineageTag: fc3aea67-b6e3-4293-a59b-9e92e7a17fb1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Tipo]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Rotulo
+		lineageTag: 97f44532-0b88-4c35-94c9-a6a2469abcf2
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Rotulo]
+		sortByColumn: Ordem
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordem
+		formatString: 0
+		lineageTag: 9d622660-ffbf-41e8-8eed-fa47bec6a4bc
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Ordem]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Grafico Abate Prod Eixo' = calculated
+		mode: import
+		source = ```
+				
+				
+				VAR Meses =
+				    SELECTCOLUMNS (
+				        GENERATESERIES ( 1, 12, 1 ),
+				        "Tipo",   "Mes",
+				        "Rotulo", SWITCH ( [Value],
+				                    1,"jan", 2,"fev", 3,"mar", 4,"abr",
+				                    5,"mai", 6,"jun", 7,"jul", 8,"ago",
+				                    9,"set", 10,"out", 11,"nov", 12,"dez"
+				                 ),
+				        "Ordem",  [Value]
+				    )
+				VAR Dias =
+				    SELECTCOLUMNS (
+				        GENERATESERIES ( 1, 31, 1 ),
+				        "Tipo",   "Dia",
+				        "Rotulo", FORMAT ( [Value], "0" ),
+				        "Ordem",  100 + [Value]
+				    )
+				RETURN
+				    UNION ( Meses, Dias )
+				
+				```
+
+	annotation PBI_Id = 49092ba1eddb4d44a89ba1c4a36986b7
+

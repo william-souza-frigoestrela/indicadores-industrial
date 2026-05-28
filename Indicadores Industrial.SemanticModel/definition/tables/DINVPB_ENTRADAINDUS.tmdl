@@ -1,0 +1,288 @@
+table DINVPB_ENTRADAINDUS
+	lineageTag: 0161ee55-f0c4-4db3-ae7d-d00b626c9948
+
+	column NROPROGPRODUCAO
+		dataType: int64
+		formatString: 0
+		lineageTag: 5191a723-fe68-4916-ac28-2c4b14a5366c
+		summarizeBy: sum
+		sourceColumn: NROPROGPRODUCAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRFORMAPRODUCAO
+		dataType: string
+		lineageTag: 904ded4d-9c65-4ec5-95a0-d928209d30bf
+		summarizeBy: none
+		sourceColumn: DESCRFORMAPRODUCAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column OBSERVACAO
+		dataType: string
+		lineageTag: 4c7bb7f6-8d58-4c4c-8d27-185e3e94a713
+		summarizeBy: none
+		sourceColumn: OBSERVACAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column TIPOPROGPRODUCAO
+		dataType: string
+		lineageTag: 5fdd0ed3-48bb-4dc8-9e5a-9d0c9ecb6d18
+		summarizeBy: none
+		sourceColumn: TIPOPROGPRODUCAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column TIPOPRODUTO
+		dataType: string
+		lineageTag: 6c151059-3b37-4d4a-a975-96facf2d0811
+		summarizeBy: none
+		sourceColumn: TIPOPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column STATUSPROGPRODUCAO
+		dataType: double
+		lineageTag: f337e575-5042-4514-89f4-6001b092e2fd
+		summarizeBy: sum
+		sourceColumn: STATUSPROGPRODUCAO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LOTE
+		dataType: int64
+		formatString: 0
+		lineageTag: b81819d5-ec1f-42dc-a517-86fdc147de6d
+		summarizeBy: sum
+		sourceColumn: LOTE
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATAHORA
+		dataType: string
+		lineageTag: 95162910-0686-4857-bcf4-8cb7ac94f09f
+		summarizeBy: none
+		sourceColumn: DATAHORA
+
+		annotation SummarizationSetBy = Automatic
+
+	column DTARENDIMENTO
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c6381f1d-133d-477c-a503-43b78ba1df81
+		summarizeBy: none
+		sourceColumn: DTARENDIMENTO
+
+		variation Variation
+			isDefault
+			relationship: 110dc073-22a3-4e9b-9841-45ee29c88895
+			defaultHierarchy: LocalDateTable_f6338826-ac70-4557-9a84-55905d901d89.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column DTAPRODUCAO
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 310a9c51-a8bb-484b-b751-7b7af84e5d63
+		summarizeBy: none
+		sourceColumn: DTAPRODUCAO
+
+		variation Variation
+			isDefault
+			relationship: 4a735666-036b-4594-b29d-4bce1a636668
+			defaultHierarchy: LocalDateTable_dcb32169-d540-490a-8ade-87004c451014.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATAENT
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1fe316e3-e6bc-4b6f-a80f-0210b8a5d087
+		summarizeBy: none
+		sourceColumn: DATAENT
+
+		variation Variation
+			isDefault
+			relationship: af9d9738-7a04-451e-a70d-a58f46cde2af
+			defaultHierarchy: LocalDateTable_2f700a6e-c45d-4d24-99e3-d36ecd8cac11.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQPRODUTO
+		dataType: int64
+		formatString: 0
+		lineageTag: 6aed05ea-76ac-4415-9b04-095c9a8991f5
+		summarizeBy: none
+		sourceColumn: SEQPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRICAO
+		dataType: string
+		lineageTag: 3a30f9c2-e624-4270-9cf0-78c392b71363
+		summarizeBy: none
+		sourceColumn: DESCRICAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUBGRUPO
+		dataType: string
+		lineageTag: 22babaa0-c089-4d6e-b87c-cddc2014e400
+		summarizeBy: none
+		sourceColumn: SUBGRUPO
+
+		annotation SummarizationSetBy = Automatic
+
+	column GRUPO
+		dataType: string
+		lineageTag: 06bf8e80-79e9-4faa-aaf7-f32370e2b7d3
+		summarizeBy: none
+		sourceColumn: GRUPO
+
+		annotation SummarizationSetBy = Automatic
+
+	column FAMILIAPROD
+		dataType: int64
+		formatString: 0
+		lineageTag: dca76140-3c9e-4bdb-b2ad-d792f239b212
+		summarizeBy: sum
+		sourceColumn: FAMILIAPROD
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRFAMILIA
+		dataType: string
+		lineageTag: 91b97201-79b4-4e90-991b-bdfa049523c6
+		summarizeBy: none
+		sourceColumn: DESCRFAMILIA
+
+		annotation SummarizationSetBy = Automatic
+
+	column CONSERVACAO
+		dataType: string
+		lineageTag: 98b76f0c-6b7b-4b81-9e41-c8e621efab6e
+		summarizeBy: none
+		sourceColumn: CONSERVACAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column CODBARRAINTERNO
+		dataType: string
+		lineageTag: a9081c0a-2ac4-49b9-b454-de160c99ec3b
+		summarizeBy: none
+		sourceColumn: CODBARRAINTERNO
+
+		annotation SummarizationSetBy = Automatic
+
+	column QUANTIDADE
+		dataType: double
+		lineageTag: ff58ab44-6c3a-46b9-9ad0-cd19ab8b0a0f
+		summarizeBy: sum
+		sourceColumn: QUANTIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column QTDEMBALAGEM
+		dataType: double
+		lineageTag: 6785782f-75f3-4401-a73e-583b31a485d7
+		summarizeBy: sum
+		sourceColumn: QTDEMBALAGEM
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PESOLIQUIDO
+		dataType: double
+		lineageTag: 4f7dc9e4-8dfe-4504-8291-8280eb9edac7
+		summarizeBy: sum
+		sourceColumn: PESOLIQUIDO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TARA
+		dataType: double
+		lineageTag: 526c1431-fa34-45b2-bf3a-f451402dbba4
+		summarizeBy: sum
+		sourceColumn: TARA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PESOBRUTO
+		dataType: double
+		lineageTag: 6de31e24-4606-4a9f-af34-36a59e77c61e
+		summarizeBy: sum
+		sourceColumn: PESOBRUTO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column USUARIO
+		dataType: string
+		lineageTag: c6bd44c5-2e81-4a41-b8ea-42a53d3ab8b1
+		summarizeBy: none
+		sourceColumn: USUARIO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DTAHORAREGISTRO
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2167a1eb-992f-4d53-8958-baa5b3e3a064
+		summarizeBy: none
+		sourceColumn: DTAHORAREGISTRO
+
+		variation Variation
+			isDefault
+			relationship: d74b309c-df65-42cd-9288-6f70d90e851e
+			defaultHierarchy: LocalDateTable_5177db18-da6c-433f-a1b2-c88c9f461d17.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column NROEMPRESA
+		dataType: string
+		lineageTag: ed66364a-9895-47be-9b12-216102ed02f1
+		summarizeBy: none
+		sourceColumn: NROEMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+	column _DK = DINVPB_ENTRADAINDUS[NROPROGPRODUCAO]&DINVPB_ENTRADAINDUS[LOTE]&DINVPB_ENTRADAINDUS[NROEMPRESA]
+		lineageTag: e9d78c56-beae-4c13-86d3-cb4c5a7c5828
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column _Turno = IF(DINVPB_ENTRADAINDUS[LOTE] = 20 || DINVPB_ENTRADAINDUS[LOTE] = 21 || DINVPB_ENTRADAINDUS[LOTE] > 30,"Noturno" ,"Diurno")
+		lineageTag: dc056073-f7a2-404c-ac3a-4968f559cd6f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DINVPB_ENTRADAINDUS = m
+		mode: import
+		queryGroup: 'Fluxo Industrial'
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
+				    #"316346b5-24e3-456e-b119-0fe7250fa321" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="316346b5-24e3-456e-b119-0fe7250fa321"]}[Data],
+				    DINVPB_ENTRADAINDUS_ = #"316346b5-24e3-456e-b119-0fe7250fa321"{[entity="DINVPB_ENTRADAINDUS",version=""]}[Data]
+				in
+				    DINVPB_ENTRADAINDUS_
+
+	annotation PBI_ResultType = Table
+

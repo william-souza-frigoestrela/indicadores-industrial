@@ -1,0 +1,93 @@
+table FPBI_PESSOA
+	lineageTag: 75e3eb70-65ef-4d4e-b401-67b666196597
+
+	column SEQPESSOA
+		dataType: double
+		lineageTag: 0ce3e97f-004a-4a6c-a536-ac6d1b354032
+		summarizeBy: none
+		sourceColumn: SEQPESSOA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column STATUS
+		dataType: string
+		lineageTag: 2e3160e8-9db7-4f83-a3f3-2acdcf1fd3f6
+		summarizeBy: none
+		sourceColumn: STATUS
+
+		annotation SummarizationSetBy = Automatic
+
+	column NOMERAZAO
+		dataType: string
+		lineageTag: df4aa7f7-6fa3-4f3a-b04a-380936239d45
+		summarizeBy: none
+		sourceColumn: NOMERAZAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column FANTASIA
+		dataType: string
+		lineageTag: 2417d2b4-97c8-4cb3-b05c-8b3beb9c4aa7
+		summarizeBy: none
+		sourceColumn: FANTASIA
+
+		annotation SummarizationSetBy = Automatic
+
+	column CIDADE
+		dataType: string
+		lineageTag: 7412b4a4-2d38-4b1c-9d1c-308bc5b4e1aa
+		summarizeBy: none
+		sourceColumn: CIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+	column UF
+		dataType: string
+		lineageTag: dfea9426-aa30-406c-902f-8bd619c920c4
+		summarizeBy: none
+		sourceColumn: UF
+
+		annotation SummarizationSetBy = Automatic
+
+	column GRUPO
+		dataType: string
+		lineageTag: c72f84d0-22fc-4570-bb8a-7b0945d18dba
+		summarizeBy: none
+		sourceColumn: GRUPO
+
+		annotation SummarizationSetBy = Automatic
+
+	column ATIVIDADE
+		dataType: string
+		lineageTag: 58555039-a7fb-4150-ae36-8ac513ad5266
+		summarizeBy: none
+		sourceColumn: ATIVIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+	column _Produtor = FPBI_PESSOA[NOMERAZAO]& " - "&FPBI_PESSOA[SEQPESSOA]
+		lineageTag: 319bc9d6-1b16-469b-83b0-69ffc91c2dd1
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column _Origem = IF(or(FPBI_PESSOA[SEQPESSOA] IN { 108386 , 109457 , 164805 , 180622},FPBI_PESSOA[GRUPO] in {"INTEGRADOS - TERMINACAO","INTEGRADOS - CRECHE","INTEGRADOS - CRECHE REFUGO","INTEGRADOS - UPL", "INTEGRADOS - TERMINACAO REFUGO"}), "Próprio", IF(FPBI_PESSOA[SEQPESSOA] = 248257, "Boitel", "Terceiro"))
+		lineageTag: 42deb1ee-866d-4bbb-a0c7-c96f1913c1c5
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FPBI_PESSOA = m
+		mode: import
+		source =
+				let
+				    Fonte = Oracle.Database("DATAVALE", [HierarchicalNavigation=true]),
+				    DATAVALE = Fonte{[Schema="DATAVALE"]}[Data],
+				    FPBI_PESSOA1 = DATAVALE{[Name="FPBI_PESSOA"]}[Data]
+				in
+				    FPBI_PESSOA1
+
+	annotation PBI_ResultType = Table
+

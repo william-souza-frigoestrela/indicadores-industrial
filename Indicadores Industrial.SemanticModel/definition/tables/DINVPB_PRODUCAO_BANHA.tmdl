@@ -1,0 +1,276 @@
+table DINVPB_PRODUCAO_BANHA
+	lineageTag: 4ec5231b-3ffc-40e7-b457-79ca79ac896e
+
+	column NROEMPRESA
+		dataType: int64
+		formatString: 0
+		lineageTag: 4544e366-14e6-4fb2-a199-1fb03232692e
+		summarizeBy: sum
+		sourceColumn: NROEMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+	column ANOMES
+		dataType: double
+		lineageTag: f93567d6-3599-42ab-8674-7da999470d7f
+		summarizeBy: sum
+		sourceColumn: ANOMES
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DATA
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: dabd563b-12fe-4016-b6bc-c04d45d62b6d
+		summarizeBy: none
+		sourceColumn: DATA
+
+		variation Variation
+			isDefault
+			relationship: f1f2ffec-673d-4ffd-9a56-e948a91ae5d5
+			defaultHierarchy: LocalDateTable_323074ba-8c15-42ba-965c-34b482c25f26.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column TIPOFORMAPRODUCAO
+		dataType: int64
+		formatString: 0
+		lineageTag: d11150c5-dec3-40ec-a7bd-2f6fa1064d5c
+		summarizeBy: sum
+		sourceColumn: TIPOFORMAPRODUCAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column FORMAPRODUCAO
+		dataType: string
+		lineageTag: 4e22a973-9a31-4c46-9592-0da141d7c3c7
+		summarizeBy: none
+		sourceColumn: FORMAPRODUCAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column TIPOPROGPRODUCAO
+		dataType: string
+		lineageTag: 022552c1-0900-4dce-b50a-4ad62430e0b1
+		summarizeBy: none
+		sourceColumn: TIPOPROGPRODUCAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQPROGPRODUCAO
+		dataType: int64
+		formatString: 0
+		lineageTag: 3cd2a7d5-d688-4e91-8aff-bab5b412b5be
+		summarizeBy: sum
+		sourceColumn: SEQPROGPRODUCAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column NROPROGPRODUCAO
+		dataType: int64
+		formatString: 0
+		lineageTag: 075585f4-81f1-430e-a69a-e4e41ec47758
+		summarizeBy: sum
+		sourceColumn: NROPROGPRODUCAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column NRONOTAFISCAL
+		dataType: string
+		lineageTag: e4921edc-b7ad-463b-a8fc-8ee4db4b52ab
+		summarizeBy: none
+		sourceColumn: NRONOTAFISCAL
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQPEDIDO
+		dataType: string
+		lineageTag: 1f2ec817-cd30-4ac3-9e22-79a377156f55
+		summarizeBy: none
+		sourceColumn: SEQPEDIDO
+
+		annotation SummarizationSetBy = Automatic
+
+	column GRUPOPROD
+		dataType: int64
+		formatString: 0
+		lineageTag: 28e7e925-2e35-4975-8dd2-dc4544be21c2
+		summarizeBy: sum
+		sourceColumn: GRUPOPROD
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRGRUPOPRODUTO
+		dataType: string
+		lineageTag: f167a593-7fce-4fa2-b2c1-b04f8186e55d
+		summarizeBy: none
+		sourceColumn: DESCRGRUPOPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUBGRUPOPROD
+		dataType: int64
+		formatString: 0
+		lineageTag: dfd90993-a5d5-4277-b619-ecc9ed2af808
+		summarizeBy: sum
+		sourceColumn: SUBGRUPOPROD
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRSUBGRUPOPRODUTO
+		dataType: string
+		lineageTag: aff6958f-9c57-4921-b3f8-fec95dff9af2
+		summarizeBy: none
+		sourceColumn: DESCRSUBGRUPOPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column FAMILIAPROD
+		dataType: int64
+		formatString: 0
+		lineageTag: db266bad-93c4-47fc-a6c5-f23747c02f33
+		summarizeBy: sum
+		sourceColumn: FAMILIAPROD
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRFAMILIA
+		dataType: string
+		lineageTag: b18e008c-9d84-45ad-9a21-e5535a0a7803
+		summarizeBy: none
+		sourceColumn: DESCRFAMILIA
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQPRODUTO
+		dataType: int64
+		formatString: 0
+		lineageTag: e4e13219-4a70-4972-92b2-686bcfff8646
+		summarizeBy: none
+		sourceColumn: SEQPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRPRODUTO
+		dataType: string
+		lineageTag: 61d3dc92-1c9a-481a-a43d-6cbc7c07edc7
+		summarizeBy: none
+		sourceColumn: DESCRPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column RENDIMENTOPADRAO
+		dataType: double
+		lineageTag: 79d37b21-ed41-44ea-8eac-89b4b9075743
+		summarizeBy: sum
+		sourceColumn: RENDIMENTOPADRAO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column UNIDADE
+		dataType: string
+		lineageTag: b0a0c592-8e13-4532-baa2-8decaa86d127
+		summarizeBy: none
+		sourceColumn: UNIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+	column QUANTIDADE
+		dataType: double
+		lineageTag: f0e65069-2885-4ce4-8375-f6631ac868dd
+		summarizeBy: sum
+		sourceColumn: QUANTIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TIPOCALCULO
+		dataType: int64
+		formatString: 0
+		lineageTag: 8b8ae54e-82b8-40fa-bc93-cb38fb8d47d4
+		summarizeBy: sum
+		sourceColumn: TIPOCALCULO
+
+		annotation SummarizationSetBy = Automatic
+
+	column LOTE
+		dataType: string
+		lineageTag: 09122ea8-5dcb-4e0f-8757-450e0e69b749
+		summarizeBy: none
+		sourceColumn: LOTE
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRLOTE
+		dataType: string
+		lineageTag: 888cb6e5-62f2-4679-ae39-ffe1ae10c7f4
+		summarizeBy: none
+		sourceColumn: DESCRLOTE
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQFORMULA
+		dataType: int64
+		formatString: 0
+		lineageTag: 71f4d6e7-ec8c-4edf-91a2-b57e8284f26d
+		summarizeBy: sum
+		sourceColumn: SEQFORMULA
+
+		annotation SummarizationSetBy = Automatic
+
+	column QUANTIDADE2
+		dataType: double
+		lineageTag: b0e354bf-10b9-49da-bbc5-5c6ccb54f277
+		summarizeBy: sum
+		sourceColumn: QUANTIDADE2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column QTDEMBALAGEM
+		dataType: double
+		lineageTag: 638b7b98-15e3-4238-ac8e-fa9aaffbb53f
+		summarizeBy: sum
+		sourceColumn: QTDEMBALAGEM
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PESOLIQUIDO
+		dataType: double
+		lineageTag: a572a016-e07f-4e25-922d-f18be97ad940
+		summarizeBy: sum
+		sourceColumn: PESOLIQUIDO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column _DK = DINVPB_PRODUCAO_BANHA[NROPROGPRODUCAO]&DINVPB_PRODUCAO_BANHA[LOTE]&DINVPB_PRODUCAO_BANHA[NROEMPRESA]
+		lineageTag: 2a6f4b15-e57a-4b41-bb99-a06afb2e8319
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DINVPB_PRODUCAO_BANHA = m
+		mode: import
+		queryGroup: 'Fluxo Industrial'
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
+				    #"b0beee32-ebc0-4498-b2d6-ea010a03ede5" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="b0beee32-ebc0-4498-b2d6-ea010a03ede5"]}[Data],
+				    DINVPB_PRODUCAO_BANHA_ = #"b0beee32-ebc0-4498-b2d6-ea010a03ede5"{[entity="DINVPB_PRODUCAO_BANHA",version=""]}[Data]
+				in
+				    DINVPB_PRODUCAO_BANHA_
+
+	annotation PBI_ResultType = Exception
+

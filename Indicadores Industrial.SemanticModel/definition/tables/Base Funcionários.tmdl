@@ -1,0 +1,209 @@
+table 'Base Funcionários'
+	lineageTag: fb1f8543-b5db-4982-a6f8-56f2939d3cfa
+
+	column CODFILIAL
+		dataType: int64
+		lineageTag: 56056549-294f-4444-b202-44682c7bfd61
+		summarizeBy: sum
+		sourceColumn: CODFILIAL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CHAPA
+		dataType: string
+		lineageTag: c661b493-104e-4969-9ea8-7adebc1ae44d
+		summarizeBy: none
+		sourceColumn: CHAPA
+
+		annotation SummarizationSetBy = Automatic
+
+	column CODIGO
+		dataType: int64
+		lineageTag: af4711c4-6cd9-4f71-abb2-220632d6048d
+		summarizeBy: sum
+		sourceColumn: CODIGO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NOME
+		dataType: string
+		lineageTag: 25642814-e258-426d-bf9d-3d422512e0be
+		summarizeBy: none
+		sourceColumn: NOME
+
+		annotation SummarizationSetBy = Automatic
+
+	column DTNASCIMENTO
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 07198904-0967-425f-a5a1-4a04f3e43d0b
+		summarizeBy: none
+		sourceColumn: DTNASCIMENTO
+
+		variation Variation
+			isDefault
+			relationship: 4cd4c5db-c6bf-41b6-9d01-5653aff72a54
+			defaultHierarchy: LocalDateTable_5426901d-050c-4217-83d4-27105caaad97.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column CODCOLIGADA
+		dataType: int64
+		lineageTag: a620c516-3f68-489d-a61f-70e9c8ceb5bd
+		summarizeBy: sum
+		sourceColumn: CODCOLIGADA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DEPARTAMENTO
+		dataType: string
+		lineageTag: c29da394-0c91-4742-bfa6-2853b4295920
+		summarizeBy: none
+		sourceColumn: DEPARTAMENTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column SETOR
+		dataType: string
+		lineageTag: b399614c-1f59-4d04-a492-2986069635bf
+		summarizeBy: none
+		sourceColumn: SETOR
+
+		annotation SummarizationSetBy = Automatic
+
+	column SECAO
+		dataType: string
+		lineageTag: 68278ad5-7a5b-46b5-8f69-13d1ccafb501
+		summarizeBy: none
+		sourceColumn: SECAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEXO
+		dataType: string
+		lineageTag: 02a54b91-d98d-4996-85c4-8e87d7ff701c
+		summarizeBy: none
+		sourceColumn: SEXO
+
+		annotation SummarizationSetBy = Automatic
+
+	column CPF
+		dataType: string
+		lineageTag: cadc05bb-8a61-495b-bee8-237d38d1befd
+		summarizeBy: none
+		sourceColumn: CPF
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATAADMISSAO
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f887566b-45e1-41e7-8597-a8edc0c7af16
+		summarizeBy: none
+		sourceColumn: DATAADMISSAO
+
+		variation Variation
+			isDefault
+			relationship: 80d5fd72-104e-4d22-b53c-5653f6261bdf
+			defaultHierarchy: LocalDateTable_299fd3a2-0125-4302-bd9b-d666077edc08.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATADEMISSAO
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5543ec71-098e-4e9c-9321-d77a4cef81a2
+		summarizeBy: none
+		sourceColumn: DATADEMISSAO
+
+		variation Variation
+			isDefault
+			relationship: 1d53a4ea-2d46-4851-9b84-5bd6a4efec9c
+			defaultHierarchy: LocalDateTable_04aeb074-bf6e-4832-a090-5356a212798e.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column CODSITUACAO
+		dataType: string
+		lineageTag: c4ece38b-7b7a-4356-b76d-8113d6f3b12d
+		summarizeBy: none
+		sourceColumn: CODSITUACAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column FUNCAO
+		dataType: string
+		lineageTag: fb403fc1-8ba4-4150-8884-cfdc8713d255
+		summarizeBy: none
+		sourceColumn: FUNCAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column TURNO
+		dataType: string
+		lineageTag: 147c4be0-3e8c-4934-8b80-1a2923789be4
+		summarizeBy: none
+		sourceColumn: TURNO
+
+		annotation SummarizationSetBy = Automatic
+
+	column _TK = 'Base Funcionários'[CODFILIAL]&'Base Funcionários'[CHAPA]
+		lineageTag: 1574c70d-7074-407b-99cf-9f0e51f169f7
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column CODRM
+		dataType: string
+		lineageTag: 5ae62772-75a7-40ff-bac4-43a3be609102
+		summarizeBy: none
+		sourceColumn: CODRM
+
+		annotation SummarizationSetBy = Automatic
+
+	column _Turno = if ('Base Funcionários'[TURNO] in {"Administrativo","Primeiro Turno"}, "Diurno", "Noturno")
+		lineageTag: 8f527d58-0e28-4043-ba7a-bf3afc682f79
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column DTDEMISSAOPREVISTA
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 3a5a7dd8-df2d-459e-ac9d-e5192c7eaf70
+		summarizeBy: none
+		sourceColumn: DTDEMISSAOPREVISTA
+
+		variation Variation
+			isDefault
+			relationship: a9181506-e600-4dd6-ac29-20e5b9f4a302
+			defaultHierarchy: LocalDateTable_2420dc1b-86c6-4670-9c3f-2d9ab720633e.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Base Funcionários-f9df49b4-ff8a-47ff-8145-d4ed34b970c4' = m
+		mode: import
+		queryGroup: 'Ponto Funcionário'
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"8dd6533e-04ae-4778-8f93-34a5a63f992f" = Workspaces{[workspaceId="8dd6533e-04ae-4778-8f93-34a5a63f992f"]}[Data],
+				    #"63e31cad-db88-4abd-8b43-4a7879461d6b" = #"8dd6533e-04ae-4778-8f93-34a5a63f992f"{[dataflowId="63e31cad-db88-4abd-8b43-4a7879461d6b"]}[Data],
+				    #"Base Funcionários_" = #"63e31cad-db88-4abd-8b43-4a7879461d6b"{[entity="Base Funcionários",version=""]}[Data],
+				    #"Linhas Filtradas" = Table.SelectRows(#"Base Funcionários_", each [CODFILIAL] = 2 or [CODFILIAL] = 4 or [CODFILIAL] = 12 or [CODFILIAL] = 104 or [CODFILIAL] = 27 or [CODFILIAL] = 18 or [CODFILIAL] = 72),
+				    #"Texto Aparado" = Table.TransformColumns(#"Linhas Filtradas",{{"DEPARTAMENTO", Text.Trim, type text}, {"SETOR", Text.Trim, type text}, {"SECAO", Text.Trim, type text}}),
+				    #"Texto Limpo" = Table.TransformColumns(#"Texto Aparado",{{"DEPARTAMENTO", Text.Clean, type text}, {"SETOR", Text.Clean, type text}, {"SECAO", Text.Clean, type text}}),
+				    #"Coluna Condicional Adicionada" = Table.AddColumn(#"Texto Limpo", "TURNO", each if Text.Contains([SECAO], "1º TURNO") then "Primeiro Turno" else if Text.Contains([SECAO], "2º TURNO") then "Segundo Turno" else if Text.Contains([SECAO], "3º TURNO") then "Segundo Turno" else if Text.Contains([SECAO], "2ºTURNO") then "Segundo Turno" else if Text.Contains([SECAO], "3ºTURNO") then "Segundo Turno" else if Text.Contains([SECAO], "1ºTURNO") then "Primeiro Turno" else "Administrativo"),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Coluna Condicional Adicionada",{{"TURNO", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Exception
+

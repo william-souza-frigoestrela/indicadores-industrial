@@ -1,0 +1,64 @@
+table CONFINAMENTOS
+	lineageTag: 879125ce-ba28-4173-91ff-bfdc6e7482fe
+
+	column EMPRESA
+		dataType: int64
+		formatString: 0
+		lineageTag: 1176a84e-6e43-42db-9fd7-b2e89ebf8a1e
+		summarizeBy: none
+		sourceColumn: EMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEMANA
+		dataType: int64
+		formatString: 0
+		lineageTag: 301183c7-ba1b-4487-b6bc-cf934558b8ce
+		summarizeBy: sum
+		sourceColumn: SEMANA
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATA
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5d3b3857-2192-4662-a327-e2c0b94556e5
+		summarizeBy: none
+		sourceColumn: DATA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column VOLUME
+		dataType: int64
+		formatString: 0
+		lineageTag: 6c633025-12fa-40f0-8fa4-2ca558176a96
+		summarizeBy: sum
+		sourceColumn: VOLUME
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'GRUPO PRODUTO'
+		dataType: string
+		lineageTag: f39ec0be-d375-4414-aea4-92c3d40a885f
+		summarizeBy: none
+		sourceColumn: GRUPO PRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CONFINAMENTOS = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("\\192.168.2.167\controladoria\05 - INDICADORES\09. Power BI\Quantidade Animais Confinados.xlsx"), null, true),
+				    CONFINAMENTOS_Sheet = Fonte{[Item="CONFINAMENTOS",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(CONFINAMENTOS_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"EMPRESA", Int64.Type}, {"SEMANA", Int64.Type}, {"DATA", type date}, {"VOLUME", Int64.Type}, {"GRUPO PRODUTO", type any}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

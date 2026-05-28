@@ -1,0 +1,206 @@
+table DINVPB_PESOVIVO
+	lineageTag: 7d46310d-8fe6-4739-838d-d513cb973f68
+
+	column DATA
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 41c71f49-b3eb-4225-9801-7e4fd9ba5d43
+		summarizeBy: none
+		sourceColumn: DATA
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQPEDIDO
+		dataType: int64
+		formatString: 0
+		lineageTag: bda8eac4-f6c9-41f5-9a63-f7dd9de45711
+		summarizeBy: sum
+		sourceColumn: SEQPEDIDO
+
+		annotation SummarizationSetBy = Automatic
+
+	column NROLOTE
+		dataType: int64
+		formatString: 0
+		lineageTag: 6a6df6a8-845e-4467-94b0-87fba45d8318
+		summarizeBy: sum
+		sourceColumn: NROLOTE
+
+		annotation SummarizationSetBy = Automatic
+
+	column NOMEPESSOA
+		dataType: string
+		lineageTag: 612a3451-8a28-485c-8e19-1e132997a9ea
+		summarizeBy: none
+		sourceColumn: NOMEPESSOA
+
+		annotation SummarizationSetBy = Automatic
+
+	column FAMILIA
+		dataType: string
+		lineageTag: 5a0d66e4-e551-4cce-9a44-c72a8ec60d4a
+		summarizeBy: none
+		sourceColumn: FAMILIA
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQPRODUTO
+		dataType: double
+		lineageTag: 33995f7f-819a-4c51-8e44-0479ccc52221
+		summarizeBy: sum
+		sourceColumn: SEQPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DESCRICAO
+		dataType: string
+		lineageTag: fe67ed23-8d9f-4d01-b44e-1ea76457683a
+		summarizeBy: none
+		sourceColumn: DESCRICAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column UNIDADE
+		dataType: string
+		lineageTag: c2db1baf-0774-4315-bda6-0089317e8b9e
+		summarizeBy: none
+		sourceColumn: UNIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+	column CONFORMIDADE
+		dataType: string
+		lineageTag: 35961981-8d61-457b-8c40-c3f79902785e
+		summarizeBy: none
+		sourceColumn: CONFORMIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+	column QUANTIDADE
+		dataType: double
+		lineageTag: 83e23e80-f71a-4467-9cec-8eb67165a772
+		summarizeBy: sum
+		sourceColumn: QUANTIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PESOMETA
+		dataType: double
+		lineageTag: 509bd819-2343-483e-a013-6a37505ad319
+		summarizeBy: sum
+		sourceColumn: PESOMETA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PESOPRODUCAO
+		dataType: double
+		lineageTag: ee392271-ff6b-4d50-985e-8b3ec0ad6170
+		summarizeBy: sum
+		sourceColumn: PESOPRODUCAO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PESODIFERENCA
+		dataType: double
+		lineageTag: 40cc269f-e45b-425a-aff0-bd20d304c997
+		summarizeBy: sum
+		sourceColumn: PESODIFERENCA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PERCMETA
+		dataType: double
+		lineageTag: 34a812c2-015e-4f6c-97b6-333470a9b146
+		summarizeBy: sum
+		sourceColumn: PERCMETA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PERCREAL
+		dataType: double
+		lineageTag: 5cdc6bd9-49ad-4ed5-aacf-c04e600b29b0
+		summarizeBy: sum
+		sourceColumn: PERCREAL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PERCQUEBRA
+		dataType: double
+		lineageTag: c88cb49e-f7a2-44d1-ba08-dc3586d5fcca
+		summarizeBy: sum
+		sourceColumn: PERCQUEBRA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MEDIAKGABATE
+		dataType: double
+		lineageTag: 69cffaca-af2e-4284-902e-bc4a5cc578c5
+		summarizeBy: sum
+		sourceColumn: MEDIAKGABATE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NROEMPRESA
+		dataType: string
+		lineageTag: a677e000-d44c-46b7-b89b-72d64def528d
+		summarizeBy: none
+		sourceColumn: NROEMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQPESSOA
+		dataType: int64
+		formatString: 0
+		lineageTag: ea9d2fc3-477c-4d2e-8205-b57f293f5435
+		summarizeBy: sum
+		sourceColumn: SEQPESSOA
+
+		annotation SummarizationSetBy = Automatic
+
+	column _Turno = "Diurno"
+		lineageTag: 23e3fedd-73ab-4b1a-88e3-0c1f6294bb4f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DINVPB_PESOVIVO = m
+		mode: import
+		queryGroup: 'Fluxo Industrial'
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
+				    #"35024cdc-6a08-4e80-8a93-36e024176d14" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="35024cdc-6a08-4e80-8a93-36e024176d14"]}[Data],
+				
+				    // Carregando as duas entidades desejadas
+				    DINVPB_PESOVIVO_SLG = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_PESOVIVO_SLG", version=""]}[Data],
+				    DINVPB_PESOVIVO_TUP = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_PESOVIVO_TUP", version=""]}[Data],
+				
+				    // Combinando os dados das duas entidades
+				    DadosCombinados = Table.Combine({DINVPB_PESOVIVO_SLG, DINVPB_PESOVIVO_TUP})
+				in
+				    DadosCombinados
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navegação
+

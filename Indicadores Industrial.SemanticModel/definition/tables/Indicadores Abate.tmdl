@@ -1,0 +1,153 @@
+table 'Indicadores Abate'
+	lineageTag: 2a5c7c68-b862-46f1-bec9-7197a1b060ed
+
+	measure 'Valor do Indicador (Linha)' = ```
+			
+			VAR ind = SELECTEDVALUE('Indicadores Abate'[Indicador])
+			RETURN
+			SWITCH(
+			    ind,
+			    "Cabeças Abatidas",           [Cabeças Abatidas],
+			    "Produtividade Abate Kg/Hh",  [Produtividade Abate Kg/Hh],
+			    "Produtividade Abate Cbç/Hh", [Produtividade Abate Cbç/Hh],
+			    "Velocidade Abate Cbç/H",     [Velocidade Abate Cbç/H],
+			    "% Eficiência Abate",         [Eficiência Abate],
+			    "% Rendimento Vivo",          [% Rendimento Vivo],
+			    "% Habilitado ME - CHN/UE",   [% Habilitado ME - CHN/UE],
+			    "% Habilitado ME - LG/LE",    [% Habilitado ME - LG/LE],
+			    "% Absenteísmo Abate",        [Absenteísmo Abate], 
+			    "% Quebra Frio / Asperção",   [Quebra Frio / Asperção],
+			    //"% Quebra Frio / Asperção",   [Quebra Frio / Asperção (D-2)],
+			    "% Desvio DIF",               [% Desvio DIF],
+			    BLANK()
+			)
+			```
+		lineageTag: 30465e11-883b-4497-a7b9-76c9675e745c
+
+		formatStringDefinition =
+				
+				VAR _un = SELECTEDVALUE('Indicadores Abate'[Un])
+				
+				RETURN
+				LOOKUPVALUE(UnidadeInidicadores[Formato], UnidadeInidicadores[Unidade], _un, "#,##0.00" --Fornato padrão caso não encontre
+				)
+
+	measure D_Turno = ```
+			
+			DATATABLE(
+			    "Turno", STRING,
+			    { {"Diurno"}, {"Noturno"} }
+			)
+			
+			
+			```
+		lineageTag: 8e8b6fa8-9048-45b8-91a8-747a215ca7c5
+
+	measure 'Valor Indicador' = ```
+			
+			VAR tipo = SELECTEDVALUE(TipoValor[Tipo])
+			RETURN
+			IF( tipo = "Meta", [Meta Indicador], [Valor do Indicador (Linha)] )
+			
+			
+			```
+		lineageTag: 558ca7c4-0efd-4420-b906-bae3cfcf5755
+
+		formatStringDefinition = ""
+
+	measure 'Quebra Frio / Asperção' = ```
+			
+			//VAR PesoQuebra =  SUM(TVM_QUEBRAPORBANDA[PESO_QUEBRA])
+			//VAR PesoAbate = SUM(TVM_QUEBRAPORBANDA[PESO_ABATE])//
+			//RETURN
+			DIVIDE([PesoQuebra] , [PesoAbate])-1
+			
+			
+			```
+		lineageTag: 43f9973e-e521-4546-b3dc-1749083ae5ff
+
+		formatStringDefinition = ""
+
+	measure '% Desvio DIF' = ```
+			
+			VAR _dias = VALUES('Calendário'[Data])
+			RETURN
+			IF(
+			    ISINSCOPE('Calendário'[Data]),
+			    [Desvio DIF],
+			    DIVIDE(
+			        SUMX(_dias, CALCULATE([Desvio DIF]) * CALCULATE([Cabeças Abatidas])),
+			        SUMX(_dias, CALCULATE([Cabeças Abatidas]))
+			    )
+			)
+			
+			```
+		lineageTag: d7efe8ae-6f32-4249-bdb1-8402735f7da1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Quebra Frio / Asperção (D-2)' = ```
+			
+			DIVIDE ( [PesoQuebra_D2], [PesoAbate_D2] ) - 1
+			
+			
+			
+			```
+		lineageTag: 1b3e7e7f-f4f2-4e94-b939-82ebc01360c1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Indicador
+		lineageTag: 81f35284-b42a-4742-bb68-516221605cdb
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Indicador]
+		sortByColumn: Ordem
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordem
+		formatString: 0
+		lineageTag: 0a97e55a-f6cf-491f-8640-e24d8e9cc066
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Ordem]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Un
+		lineageTag: 626fe65f-e433-4858-afeb-0ff39ea8bf18
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Un]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Indicadores Abate' = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "Indicador", STRING,
+				    "Un", STRING, 
+				    "Ordem", INTEGER,
+				    {
+				        {"Cabeças Abatidas","Qtde", 0},
+				        {"Produtividade Abate Kg/Hh","Kg/Hhr", 1},
+				        {"Produtividade Abate Cbç/Hh","Cbç/Hhr", 2},
+				        {"Velocidade Abate Cbç/H","Cbç/Hhr", 3},
+				        {"% Eficiência Abate","%", 4},
+				        {"% Rendimento Vivo","%", 5},
+				        {"% Habilitado ME - CHN/UE","%", 6},
+				        {"% Habilitado ME - LG/LE","%", 7},
+				        {"% Absenteísmo Abate","%", 8},
+				        {"% Quebra Frio / Asperção","%",9},
+				        {"% Desvio DIF","%",10}
+				    
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = fce916d00a1245bc92b779c89a05fb0e
+

@@ -1,0 +1,109 @@
+table 'Indicadores Desossa'
+	lineageTag: eae5aae4-44f0-469e-b362-5d40f402ae66
+
+	measure ValorIndicadorLinhaDesossa = ```
+			
+			
+			VAR ind = SELECTEDVALUE('Indicadores Desossa'[IndicadorDesossa])
+			RETURN
+			SWITCH(
+			    ind,
+			    "Peças Processadas Grossa",     [Peças Processadas Desossa],
+			    "Peças Processadas PA",         [Peças Desossa PA],
+			    "Peso Entrada (Ton)",           [Peso Entrada Desossa]/1000,
+			    "Peso Saída (Ton)",             [Peso Saída Desossa]/1000,
+			    "% Rendimento Desossa Massa",   [_% Rendimento TR/DT],
+			    "% Rendimento PA",              [_% Rendimento PA Massa],
+			    "% Rendimento Traseiro",        [_% Rendimento TR Massa],
+			    "% Rendimento Dianteiro",       [_% Rendimento DT Massa],    
+			    "% Proporção MI",              [% Mercado MI],
+			    "% Proporção ME",               [% Mercado ME], 
+			    "% Eficiência Desossa",         [Eficiência Desossa],
+			    "Produtivudade (Pç/Hhr)",       [Produtividade Desossa Pç/Hh],
+			    "Produtividade (Kg/Hhr)",       [Produtividade Desossa Kg/HHr],
+			    "% Absenteismo",                [Func Desossa Absenteismo],
+			
+			    BLANK()
+			)
+			
+			```
+		lineageTag: 8425afc1-3040-4744-be56-2c809f01fd0b
+
+		formatStringDefinition =
+				VAR _un = SELECTEDVALUE('Indicadores Desossa'[Un])
+				
+				RETURN
+				LOOKUPVALUE(UnidadeInidicadores[Formato], UnidadeInidicadores[Unidade], _un, "#,##0.00" --Fornato padrão caso não encontre
+				)
+
+	measure 'Valor Indicador Deossa' =
+			
+			VAR tipo = SELECTEDVALUE(TipoValor[Tipo])
+			RETURN
+			IF( tipo = "Meta", [Meta Indicador], [ValorIndicadorLinhaDesossa] )
+		lineageTag: 5d651fc3-c94a-432e-8b74-fcbd80a9b570
+
+		formatStringDefinition =
+				VAR _un = SELECTEDVALUE('Indicadores Desossa'[Un])
+				
+				RETURN
+				LOOKUPVALUE(UnidadeInidicadores[Formato], UnidadeInidicadores[Unidade], _un, "#,##0.00" --Fornato padrão caso não encontre
+				)
+
+	column IndicadorDesossa
+		lineageTag: bd649942-99a6-4616-ac5f-183ba71d56ab
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [IndicadorDesossa]
+		sortByColumn: Ordem
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordem
+		formatString: 0
+		lineageTag: aa01af7d-32a1-4b22-aaf7-2dd7dcc289c5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Ordem]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Un
+		lineageTag: fc3ad64e-f0c9-421d-b218-77e5cebb4bac
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Un]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Indicadores Desossa' = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "IndicadorDesossa", STRING,
+				    "Un", STRING,
+				    "Ordem", INTEGER,
+				    {
+				        {"Peças Processadas Grossa","Qtde", 0},
+				        {"Peças Processadas PA","Qtde",1},
+				        {"Peso Entrada (Ton)","Ton", 2},
+				        {"Peso Saída (Ton)","Ton", 3},
+				        {"% Rendimento Desossa Massa","%", 4},
+				        {"% Rendimento PA","%",5},
+				        {"% Rendimento Traseiro","%",6},
+				        {"% Rendimento Dianteiro","%",7},
+				        {"% Proporção MI","%",8},
+				        {"% Proporção ME","%",9},
+				        {"% Eficiência Desossa","%",10},
+				        {"Produtivudade (Pç/Hhr)","Pç/Hhr",11},
+				        {"Produtividade (Kg/Hhr)","Kg/Hhr",12},
+				        {"% Absenteismo","%",13}
+				
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = b7fd29deae0e438ca9382ee289fd5664
+

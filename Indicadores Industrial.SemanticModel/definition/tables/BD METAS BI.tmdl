@@ -1,0 +1,310 @@
+table 'BD METAS BI'
+	lineageTag: afebb297-ed92-449a-b18c-d9cd2fc0a46e
+
+	column Empresa
+		dataType: int64
+		formatString: 0
+		lineageTag: bbf1af3e-9524-4428-ada8-86dbe3dfe2ef
+		summarizeBy: none
+		sourceColumn: Empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column Setor
+		dataType: string
+		lineageTag: 6baffa80-0b0d-42fa-89fa-37bcc6a728aa
+		summarizeBy: none
+		sourceColumn: Setor
+
+		annotation SummarizationSetBy = Automatic
+
+	column Turno
+		dataType: string
+		lineageTag: 95a67fbe-b625-406e-a628-6e3be0eaf407
+		summarizeBy: none
+		sourceColumn: Turno
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Eficiencia Desossa – (Kg/Hhr)'
+		dataType: double
+		lineageTag: d38edeb0-ec4b-43c7-b844-0c07e5e221bb
+		summarizeBy: sum
+		sourceColumn: Eficiencia Desossa – (Kg/Hhr)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'CHINA – Rend. Traseiro '
+		dataType: double
+		lineageTag: 9cd09712-91af-44b6-971b-60a844eeea2c
+		summarizeBy: sum
+		sourceColumn: "CHINA – Rend. Traseiro "
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'CHINA – Rend. Dianteiro '
+		dataType: double
+		lineageTag: f886d766-4170-4490-9fb7-58db54dd7047
+		summarizeBy: sum
+		sourceColumn: "CHINA – Rend. Dianteiro "
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'CHINA – Rend. Ponta de Agulha '
+		dataType: double
+		lineageTag: 3dce8308-64ad-4b5c-bbe2-f803c64da075
+		summarizeBy: sum
+		sourceColumn: "CHINA – Rend. Ponta de Agulha "
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'MI – Rend. Traseiro '
+		dataType: double
+		lineageTag: 12ef92e5-d2ae-4d1d-9dde-ee8cf9c5d35a
+		summarizeBy: sum
+		sourceColumn: "MI – Rend. Traseiro "
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'MI – Rend. Dianteiro '
+		dataType: double
+		lineageTag: 0d016b24-7592-4270-bb71-798297fc0898
+		summarizeBy: sum
+		sourceColumn: "MI – Rend. Dianteiro "
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'MI – Rend. Ponta de Agulha '
+		dataType: double
+		lineageTag: 195ff79a-faef-431c-af26-7f7be0ff0d9b
+		summarizeBy: sum
+		sourceColumn: "MI – Rend. Ponta de Agulha "
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Absenteísmo
+		dataType: double
+		lineageTag: 6b194af7-5af4-4c07-8f85-2890e84751f3
+		summarizeBy: sum
+		sourceColumn: Absenteísmo
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Rendimento Miúdos'
+		dataType: double
+		lineageTag: 52243b48-d2ef-41b4-b4d0-bd24408bc3cc
+		summarizeBy: sum
+		sourceColumn: Rendimento Miúdos
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Rendimento Subprodutos'
+		dataType: double
+		lineageTag: 8e010116-1ed9-4775-aca4-314e90497367
+		summarizeBy: sum
+		sourceColumn: Rendimento Subprodutos
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Eficiencia Abate (Kg/Hhr)'
+		dataType: double
+		lineageTag: 525727da-9b14-46d4-abab-9c37a21031d0
+		summarizeBy: sum
+		sourceColumn: Eficiencia Abate (Kg/Hhr)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Eficiencia Abate (Cbç/Hhr)'
+		dataType: double
+		lineageTag: 70b939b5-79a4-413a-b32e-25d36a4b9661
+		summarizeBy: sum
+		sourceColumn: Eficiencia Abate (Cbç/Hhr)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Eficiencia Miúdos(Kg/Hhr)'
+		dataType: double
+		lineageTag: b783ebd6-0a21-4468-bf59-12ec8436ed70
+		summarizeBy: sum
+		sourceColumn: Eficiencia Miúdos(Kg/Hhr)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Eficiência Abate'
+		dataType: double
+		lineageTag: 4c5cd244-2594-42ae-9dae-1e7d87a3f71e
+		summarizeBy: sum
+		sourceColumn: Eficiência Abate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Absenteísmo – Abate'
+		dataType: double
+		formatString: 0
+		lineageTag: 2ff22100-a99e-438d-a4f0-689f860b4265
+		summarizeBy: sum
+		sourceColumn: Absenteísmo – Abate
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Absenteísmo – Miúdos'
+		dataType: double
+		formatString: 0
+		lineageTag: bd641b21-ea52-4069-b65d-46fe22d87b1e
+		summarizeBy: sum
+		sourceColumn: Absenteísmo – Miúdos
+
+		annotation SummarizationSetBy = Automatic
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 26ecf280-a6e0-48da-8105-134bce13b19a
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Rendimento Vivo '
+		dataType: double
+		lineageTag: 1acb4c3a-8e09-4821-acae-cac8db79aa54
+		summarizeBy: sum
+		sourceColumn: "Rendimento Vivo "
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Eficiencia Miúdos(Cx/Hhr)'
+		dataType: string
+		lineageTag: 54b67aa9-610d-47b8-9a45-c4235bafc7b8
+		summarizeBy: none
+		sourceColumn: Eficiencia Miúdos(Cx/Hhr)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rendimento Desossa 1'
+		dataType: double
+		lineageTag: 7a2cb09d-16b6-46b8-bc82-968a63543ef9
+		summarizeBy: sum
+		sourceColumn: Rendimento Desossa 1
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Rendimento Desossa 2'
+		dataType: double
+		lineageTag: 3e0cf352-4c50-4b32-98a9-a0f3d4cdae17
+		summarizeBy: sum
+		sourceColumn: Rendimento Desossa 2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Rendimento Desossa 3'
+		dataType: double
+		lineageTag: 13418874-ee91-4eb5-89c5-f771200f7d03
+		summarizeBy: sum
+		sourceColumn: Rendimento Desossa 3
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Rendimento Desossa 4'
+		dataType: double
+		lineageTag: c1afcf81-f901-4ac8-84fd-76dac4306c0f
+		summarizeBy: sum
+		sourceColumn: Rendimento Desossa 4
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Peças Dia'
+		dataType: double
+		lineageTag: 7cd8f4a9-0324-4f0c-9965-1d2ac1f3b98c
+		summarizeBy: sum
+		sourceColumn: Peças Dia
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Absenteísmo Subprodutos'
+		dataType: string
+		lineageTag: eb9d5ba2-07ee-405d-b559-dd0eeee2cf15
+		summarizeBy: none
+		sourceColumn: Absenteísmo Subprodutos
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cbç Hab. Exp'
+		dataType: double
+		lineageTag: 0f9f5415-2de2-478b-acbc-c6eea7ea6d26
+		summarizeBy: sum
+		sourceColumn: Cbç Hab. Exp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Absenteísmo Banha'
+		dataType: string
+		lineageTag: ac84eff7-bde8-48e0-9e90-7099c9be8bb5
+		summarizeBy: none
+		sourceColumn: Absenteísmo Banha
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'BD METAS BI' = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("\\192.168.2.167\controladoria\05 - INDICADORES\09. Power BI\INDICADORES POWER BI.xlsx"), null, true),
+				    #"BD METAS BI_Sheet" = Fonte{[Item="BD METAS BI",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"BD METAS BI_Sheet", [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Empresa", Int64.Type}, {"Data", type date}, {"Setor", type text}, {"Turno", type text}, {"Rendimento Desossa 1", type number}, {"Rendimento Desossa 2", type number}, {"Rendimento Desossa 3", type number}, {"Rendimento Desossa 4", type any}, {"Eficiencia Desossa – (Kg/Hhr)", type number}, {"Peças Dia", type any}, {"CHINA – Rend. Traseiro ", type number}, {"CHINA – Rend. Dianteiro ", type number}, {"CHINA – Rend. Ponta de Agulha ", type number}, {"MI – Rend. Traseiro ", type number}, {"MI – Rend. Dianteiro ", type number}, {"MI – Rend. Ponta de Agulha ", type number}, {"Absenteísmo", type number}, {"Eficiencia Abate (Kg/Hhr)", type number}, {"Eficiencia Abate (Cbç/Hhr)", type number}, {"Eficiência Abate", type number}, {"Rendimento Vivo ", type number}, {"Absenteísmo – Abate", type number}, {"Rendimento Miúdos", type number}, {"Eficiencia Miúdos(Kg/Hhr)", type number}, {"Eficiencia Miúdos(Cx/Hhr)", type any}, {"Absenteísmo – Miúdos", type number}, {"Rendimento Subprodutos", type number}, {"Cbç Hab. Exp", type number}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

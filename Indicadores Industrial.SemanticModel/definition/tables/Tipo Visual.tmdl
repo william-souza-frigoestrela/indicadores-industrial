@@ -1,0 +1,37 @@
+table 'Tipo Visual'
+	lineageTag: eaf6ba68-093c-49f3-b983-ccc47f42fe7a
+
+	column Tipo
+		lineageTag: 9f36acd6-ccf6-42cb-9488-b627ecae5efb
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Tipo]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordem
+		formatString: 0
+		lineageTag: 75204c4d-f812-4a53-a492-dc22275223e3
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Ordem]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Tipo Visual' = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "Tipo", STRING,
+				    "Ordem", INTEGER,
+				    {
+				        {"Diario", 0},
+				        {"Mensal", 1}
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = 1e65cb492f984dad96845111ccee74b1
+

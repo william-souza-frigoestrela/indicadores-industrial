@@ -1,0 +1,40 @@
+table UnidadeInidicadores
+	lineageTag: dfcd7842-d70c-4e55-b929-629560363f67
+
+	column Unidade
+		lineageTag: 86d0fb04-24ef-433e-901e-96810f3d67f2
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Unidade]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Formato
+		lineageTag: 4bd5c9f4-21ce-4be5-9e1e-6f75cae8fe20
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Formato]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition UnidadeInidicadores = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "Unidade", STRING,
+				    "Formato", STRING,
+				    {
+				        {"Qtde","#,##0" },
+				        {"%","0.00%"},
+				        {"Kg/Hhr","#,##0.00"},
+				        {"Cbç/Hhr","#,##0.00"},
+				        {"Ton","#,##0.0"}
+				
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = 33f07379969844fba5d6660010c71873
+

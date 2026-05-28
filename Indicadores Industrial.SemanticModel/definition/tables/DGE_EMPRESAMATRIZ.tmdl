@@ -1,0 +1,106 @@
+table DGE_EMPRESAMATRIZ
+	lineageTag: 7cb96f57-6804-4673-89a0-dc35ca22b77a
+
+	column NROEMPRESA
+		dataType: int64
+		lineageTag: 927bf91f-2658-4123-9708-16576ff86ff9
+		summarizeBy: sum
+		sourceColumn: NROEMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NOMEMATRIZ
+		dataType: string
+		lineageTag: f5c2cca9-81d1-494b-8ed3-eb43a5d8536a
+		summarizeBy: none
+		sourceColumn: NOMEMATRIZ
+
+		annotation SummarizationSetBy = Automatic
+
+	column FILIAL
+		dataType: int64
+		lineageTag: d745a0e5-6d63-48d8-b380-bb291a7d270f
+		summarizeBy: none
+		sourceColumn: FILIAL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NOMEFILIAL
+		dataType: string
+		lineageTag: 979f52da-bfb5-4813-9d70-8802d9251cfc
+		summarizeBy: none
+		sourceColumn: NOMEFILIAL
+
+		annotation SummarizationSetBy = Automatic
+
+	column _TipoFilial = ```
+			
+			SWITCH(
+			TRUE(),
+			    VALUE(DGE_EMPRESAMATRIZ[FILIAL]) IN {2,12}, "Bovino",
+			    VALUE(DGE_EMPRESAMATRIZ[FILIAL]) IN {18,27} , "CD",   
+			    VALUE(DGE_EMPRESAMATRIZ[FILIAL]) = 105 , "Fab.Ração",   
+			    VALUE(DGE_EMPRESAMATRIZ[FILIAL]) = 72 , "Graxaria",
+			    VALUE(DGE_EMPRESAMATRIZ[FILIAL]) IN {4,104},"Suino",
+			    VALUE(DGE_EMPRESAMATRIZ[FILIAL]) IN {83,77}, "Fazenda")
+			```
+		lineageTag: 33db2770-d3ff-496b-b8c7-2d9a6dc7a735
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_Arroba Padrão' = if(DGE_EMPRESAMATRIZ[FILIAL] IN {2,12},15,IF(DGE_EMPRESAMATRIZ[FILIAL] IN {4,104},18.75,BLANK()))
+		lineageTag: a4d08757-03eb-4d30-9469-d8a3a2871815
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '_Meta KG/HHR' =
+			SWITCH(DGE_EMPRESAMATRIZ[FILIAL],2, 296,
+			        DGE_EMPRESAMATRIZ[FILIAL],4, 194,
+			        DGE_EMPRESAMATRIZ[FILIAL],12, 277,
+			        DGE_EMPRESAMATRIZ[FILIAL],104, 345)
+		lineageTag: a33fe821-1764-4881-9fa8-cfbba9539aec
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '_Meta Eficiência Abate' = IF(DGE_EMPRESAMATRIZ[FILIAL]=104,0.9,0)
+		lineageTag: fdcb96cf-69a7-4b0e-9efc-ca7dc29d41af
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition DGE_EMPRESAMATRIZ-c51f9abb-e95a-43df-b384-6b669a117145 = m
+		mode: import
+		source =
+				let
+				    Fonte = Oracle.Database("datavale", [HierarchicalNavigation=true, Query="Select distinct R.NROEMPRESA,
+				                E.NOMEREDUZIDO as NOMEMATRIZ,
+				                R.FILIAL,
+				                M.NOMEREDUZIDO as NOMEFILIAL
+				  From DATAVALE.DCTVPB_RAZAO R
+				  LEFT JOIN DATAVALE.DGEPB_EMPRESA E
+				    ON R.NROEMPRESA = E.NROEMPRESA
+				  LEFT JOIN DATAVALE.DGEPB_EMPRESA M
+				    ON R.FILIAL = M.NROEMPRESA
+				
+				"]),
+				    #"Duplicatas Removidas" = Table.Distinct(Fonte, {"FILIAL"})
+				in
+				    #"Duplicatas Removidas"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

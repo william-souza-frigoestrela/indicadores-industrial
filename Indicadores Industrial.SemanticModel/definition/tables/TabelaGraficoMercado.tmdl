@@ -1,0 +1,65 @@
+table TabelaGraficoMercado
+	lineageTag: 255741fc-edea-4142-aa24-3ac4cd3f07b3
+
+	measure 'Percentual Mercado' = ```
+			
+			VAR Cat = SELECTEDVALUE (TabelaGraficoMercado[Categoria])
+			RETURN
+			SWITCH(
+			    Cat,
+			    "Vaca", [% Abate Femea],
+			    "Boi",  [% Abate Macho]
+			)
+			
+			
+			```
+		lineageTag: d969232a-5c69-41b9-be15-2bdef929d4f9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cor Barra Mercado' =
+			
+			SWITCH(
+			    SELECTEDVALUE( 'TabelaGraficoMercado'[Categoria] ),
+			    "Boi",  "#1F77B4",   -- azul
+			    "Vaca", "#FF0000",   -- vermelho
+			    "#808080"            -- cinza padrão
+			)
+		lineageTag: d0910018-9826-4148-8d0d-3715604061c6
+
+	column Categoria
+		lineageTag: eb95dbf0-d9f3-4e3e-a8b3-6bddb80a26a0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Categoria]
+		sortByColumn: Ordem
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordem
+		formatString: 0
+		lineageTag: 66d2679e-b432-4faa-8ff1-7dfc25555872
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Ordem]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition TabelaGraficoMercado = calculated
+		mode: import
+		source = ```
+				
+				
+				DATATABLE(
+				    "Categoria", STRING,
+				    "Ordem", INTEGER,
+				{
+				    { "Boi", 0 },
+				    { "Vaca", 1  }
+				}
+				)
+				
+				```
+
+	annotation PBI_Id = 96e268b7efe64b4c806379c05cbd28f1
+

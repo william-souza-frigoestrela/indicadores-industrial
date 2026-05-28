@@ -1,0 +1,108 @@
+table EXCEL_APROVEITAMENTO
+	lineageTag: 4fb75b13-d28e-44bc-820e-632eb633c951
+
+	column 'Data de Rendimento'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d95bdc35-5ed2-4067-a9ea-fa840796418f
+		summarizeBy: none
+		sourceColumn: Data de Rendimento
+
+		variation Variation
+			isDefault
+			relationship: 9e704da7-0712-497f-b38c-fb762ce838a8
+			defaultHierarchy: LocalDateTable_2104c72f-c014-48a1-9e80-4ad388117071.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ordem de Produção'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6b4bf7db-b31d-4d62-99d4-04e4670bc800
+		summarizeBy: sum
+		sourceColumn: Ordem de Produção
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lote
+		dataType: int64
+		formatString: 0
+		lineageTag: e2a62486-0900-4689-8eb4-5fa1b90cd8cc
+		summarizeBy: sum
+		sourceColumn: Lote
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cód
+		dataType: int64
+		formatString: 0
+		lineageTag: de71d702-f33b-455b-b261-7a249900b948
+		summarizeBy: sum
+		sourceColumn: Cód
+
+		annotation SummarizationSetBy = Automatic
+
+	column Decrição
+		dataType: string
+		lineageTag: 4d9fd9a2-4db7-41f5-8289-31f6398f9f8f
+		summarizeBy: none
+		sourceColumn: Decrição
+
+		annotation SummarizationSetBy = Automatic
+
+	column Peso
+		dataType: double
+		lineageTag: 0012721f-d2b0-4f86-a789-45829b6ea53b
+		summarizeBy: sum
+		sourceColumn: Peso
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column _PK =
+			'EXCEL_APROVEITAMENTO'[Data de Rendimento]&'EXCEL_APROVEITAMENTO'[Ordem de Produção]&'EXCEL_APROVEITAMENTO'[Lote]&'EXCEL_APROVEITAMENTO'[NROEMPRESA]&'EXCEL_APROVEITAMENTO'[Cód]
+			//Aproveitamento Exportação
+		lineageTag: 675a53ef-281f-4030-8b65-7e266999cf49
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column NROEMPRESA
+		dataType: int64
+		formatString: 0
+		lineageTag: 38296216-8087-4d20-97da-fec65c87cabc
+		summarizeBy: sum
+		sourceColumn: NROEMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_Contar Linhas' = ```
+			CALCULATE(
+			    COUNTROWS('EXCEL_APROVEITAMENTO'), 
+			    ALLEXCEPT('EXCEL_APROVEITAMENTO', 'EXCEL_APROVEITAMENTO'[_PK]))
+			```
+		formatString: 0
+		lineageTag: 5ccdae3d-bfee-4876-a91d-f357f8b601c8
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition EXCEL_APROVEITAMENTO = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("\\192.168.2.167\controladoria\05 - INDICADORES\09. Power BI\MTZ - Aproveitamento.xlsx"), null, true),
+				    Aproveitamento_Sheet = Fonte{[Item="Aproveitamento",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Aproveitamento_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Data de Rendimento", type date}, {"Ordem de Produção", Int64.Type}, {"Lote", Int64.Type}, {"Cód", Int64.Type}, {"Decrição", type text}, {"Peso", type number}}),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Tipo Alterado", each [Peso] <> null and [Peso] <> ""),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Linhas Filtradas", "NROEMPRESA", each 2),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Personalização Adicionada",{{"NROEMPRESA", Int64.Type}, {"Data de Rendimento", type datetime}})
+				in
+				    #"Tipo Alterado1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

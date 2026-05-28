@@ -1,0 +1,62 @@
+table DEPARABANHA
+	lineageTag: df1120d3-a939-4fd4-b8b0-539ef855a877
+
+	column NROPROGPRODUCAO
+		dataType: int64
+		formatString: 0
+		lineageTag: a4af4194-0dff-4360-a0ae-659185bbc95b
+		summarizeBy: sum
+		sourceColumn: NROPROGPRODUCAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column LOTE
+		dataType: string
+		lineageTag: 985689ab-2c82-4eba-a5be-39d43b60d42e
+		summarizeBy: none
+		sourceColumn: LOTE
+
+		annotation SummarizationSetBy = Automatic
+
+	column DTARENDIMENTO
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 377b8d8f-26a7-4012-af29-f87613a16669
+		summarizeBy: none
+		sourceColumn: DTARENDIMENTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column NROEMPRESA
+		dataType: string
+		lineageTag: 9a317177-a69d-49e9-b3f8-3e40fcb40165
+		summarizeBy: none
+		sourceColumn: NROEMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+	column _DK = DEPARABANHA[NROPROGPRODUCAO]&DEPARABANHA[LOTE]&DEPARABANHA[NROEMPRESA]
+		lineageTag: 8e2e18e8-f565-4506-847b-785349d16f13
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DEPARABANHA = m
+		mode: import
+		queryGroup: 'Fluxo Industrial'
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
+				    #"b0beee32-ebc0-4498-b2d6-ea010a03ede5" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="b0beee32-ebc0-4498-b2d6-ea010a03ede5"]}[Data],
+				    DINVPB_ENTRADABANHA_ = #"b0beee32-ebc0-4498-b2d6-ea010a03ede5"{[entity="DINVPB_ENTRADABANHA",version=""]}[Data],
+				    #"Outras Colunas Removidas" = Table.SelectColumns(DINVPB_ENTRADABANHA_,{"NROPROGPRODUCAO", "LOTE", "DTARENDIMENTO", "NROEMPRESA"}),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Outras Colunas Removidas")
+				in
+				    #"Duplicatas Removidas"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navegação
+

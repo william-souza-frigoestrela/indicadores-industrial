@@ -1,0 +1,64 @@
+table EXCEL_FUNRURAL
+	lineageTag: e5b3245a-e406-41d5-a20d-f7dfd4d19770
+
+	column SEQPRODUTOR
+		dataType: int64
+		formatString: 0
+		lineageTag: c741361d-b43d-495d-bf67-fc3b8406546b
+		summarizeBy: none
+		sourceColumn: SEQPRODUTOR
+
+		annotation SummarizationSetBy = Automatic
+
+	column PRODUTOR
+		dataType: string
+		lineageTag: f101ef3a-9f82-4eaa-a941-143417fe6b3d
+		summarizeBy: none
+		sourceColumn: PRODUTOR
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQGRANJA
+		dataType: string
+		lineageTag: d6d31e7d-141c-45a8-9e3c-d1bf7020db1e
+		summarizeBy: none
+		sourceColumn: SEQGRANJA
+
+		annotation SummarizationSetBy = Automatic
+
+	column GRANJA
+		dataType: string
+		lineageTag: 1ce06194-3ee2-4933-a617-067de8bf0188
+		summarizeBy: none
+		sourceColumn: GRANJA
+
+		annotation SummarizationSetBy = Automatic
+
+	column %
+		dataType: double
+		lineageTag: 5c75ba2d-f3c7-4c68-9bfa-9a69d01ca807
+		summarizeBy: none
+		sourceColumn: %
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition EXCEL_FUNRURAL = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("\\192.168.1.203\controladoria\Granja x Produtores.xlsx"), null, true),
+				    Planilha1_Sheet = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Planilha1_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"SEQPRODUTOR", Int64.Type}, {"PRODUTOR", type text}, {"SEQGRANJA", type any}, {"GRANJA", type text}, {"%", type any}, {"Column6", type any}}),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Tipo Alterado",{"Column6"}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Colunas Removidas","CNPJ",0,Replacer.ReplaceValue,{"%"}),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Valor Substituído",{{"%", Percentage.Type}}),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Tipo Alterado1", each [SEQPRODUTOR] <> null and [SEQPRODUTOR] <> ""),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Linhas Filtradas", {"SEQPRODUTOR"})
+				in
+				    #"Duplicatas Removidas"
+
+	annotation PBI_ResultType = Table
+

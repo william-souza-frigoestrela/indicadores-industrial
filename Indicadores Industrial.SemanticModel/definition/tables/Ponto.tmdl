@@ -1,0 +1,633 @@
+table Ponto
+	lineageTag: 16ec64da-2487-4c08-b96e-97f2b2758e42
+
+	measure Medida
+		lineageTag: e18c3427-d053-46de-9ec5-33944b45b606
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	measure Hr_Trab = CALCULATE(sum(Ponto[HTRAB])/60,ALL(Ponto[_Classificação]))
+		lineageTag: 11abdcb8-d6a6-41a3-8ab1-4eccd7bb90d5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Absenteismo =
+			CALCULATE(
+			    DIVIDE(SUM(Ponto[_HrsAbsenteismo])/60,[Hr_Trab]) * 100) + 0
+		lineageTag: 043bcad2-bea0-4543-9dd6-fe30cac55de8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CODCOLIGADA
+		dataType: int64
+		lineageTag: c5a50477-ef06-4264-9676-cd9229c78b03
+		summarizeBy: sum
+		sourceColumn: CODCOLIGADA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CODFILIAL
+		dataType: int64
+		lineageTag: 4db1d3db-4ce6-4d2f-aba3-3a2e0666fbb2
+		summarizeBy: none
+		sourceColumn: CODFILIAL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CHAPA
+		dataType: string
+		lineageTag: 8341050e-660b-417c-864f-c2732012872f
+		summarizeBy: none
+		sourceColumn: CHAPA
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATA
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f1b15e67-2ecc-4729-899b-17a9e28bc65e
+		summarizeBy: none
+		sourceColumn: DATA
+
+		annotation SummarizationSetBy = Automatic
+
+	column NOME
+		dataType: string
+		lineageTag: 2597e290-e55b-4a68-aa15-0f91c1c3c081
+		summarizeBy: none
+		sourceColumn: NOME
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATAADMISSAO
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5d86b153-6245-4a1a-982d-83163a7f5155
+		summarizeBy: none
+		sourceColumn: DATAADMISSAO
+
+		variation Variation
+			isDefault
+			relationship: aaca810e-ea2d-4dcc-8195-9545dfaec42a
+			defaultHierarchy: LocalDateTable_8680d3b5-d6ad-4178-9bf0-b1c0e6247af0.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATADEMISSAO
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e396efb1-1455-4271-8ade-d21079a73660
+		summarizeBy: none
+		sourceColumn: DATADEMISSAO
+
+		variation Variation
+			isDefault
+			relationship: 904fe623-00c5-43fc-beca-2d090672a0fa
+			defaultHierarchy: LocalDateTable_7b44932f-9132-47d4-8e31-ce4d697d0515.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column CODSITUACAO
+		dataType: string
+		lineageTag: 9b07e888-a8e6-46f8-8839-a20bd71f9c99
+		summarizeBy: none
+		sourceColumn: CODSITUACAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPARTAMENTO
+		dataType: string
+		lineageTag: be528833-608e-4709-9f37-568b5611c9fe
+		summarizeBy: none
+		sourceColumn: DEPARTAMENTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column SETOR
+		dataType: string
+		lineageTag: 3f0f41d9-0ebf-4314-8063-6a2150222a2b
+		summarizeBy: none
+		sourceColumn: SETOR
+
+		annotation SummarizationSetBy = Automatic
+
+	column SECAO
+		dataType: string
+		lineageTag: 7ab7432c-07dd-4d7c-8d25-ae64cc1c5867
+		summarizeBy: none
+		sourceColumn: SECAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column FUNCAO
+		dataType: string
+		lineageTag: ce049c8b-b6bc-4122-8a73-70bf441f11a5
+		summarizeBy: none
+		sourceColumn: FUNCAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEXO
+		dataType: string
+		lineageTag: 96ee9302-9419-4821-82fa-5c091130761b
+		summarizeBy: none
+		sourceColumn: SEXO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DTNASCIMENTO
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 26f77f19-61c4-4f9e-a7aa-aa4cb265f51d
+		summarizeBy: none
+		sourceColumn: DTNASCIMENTO
+
+		variation Variation
+			isDefault
+			relationship: 4d56837f-8421-4d8a-aa89-e28f65145349
+			defaultHierarchy: LocalDateTable_3ea0ee60-32a4-418a-8ca6-9182c22dd6e0.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column ATRASO
+		dataType: int64
+		lineageTag: d6503b58-eb05-47ed-82fb-273b596a340e
+		summarizeBy: sum
+		sourceColumn: ATRASO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FALTA
+		dataType: int64
+		lineageTag: b0626265-f9c3-4504-82e6-8c07bce207b1
+		summarizeBy: sum
+		sourceColumn: FALTA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column HTRAB
+		dataType: int64
+		formatString: #,0
+		lineageTag: 6669408d-1016-4d0d-a047-86764f533e77
+		summarizeBy: sum
+		sourceColumn: HTRAB
+
+		annotation SummarizationSetBy = Automatic
+
+	column EXTRAEXECUTADO
+		dataType: int64
+		lineageTag: a9bbe5ec-bee3-454d-855c-55757929a25e
+		summarizeBy: sum
+		sourceColumn: EXTRAEXECUTADO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ADICIONAL
+		dataType: int64
+		lineageTag: dca7c872-ab3a-4e21-b030-438495088f1d
+		summarizeBy: sum
+		sourceColumn: ADICIONAL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ABONO
+		dataType: int64
+		lineageTag: 9cfbb097-ced4-4113-b60d-d7581c0c82a2
+		summarizeBy: sum
+		sourceColumn: ABONO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BASE
+		dataType: int64
+		lineageTag: 443e1f43-65cb-4ba9-9077-27b817d04e1e
+		summarizeBy: sum
+		sourceColumn: BASE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EXTRAAUTORIZADO
+		dataType: int64
+		lineageTag: d986fe95-0495-4f67-8bc3-e9e24d02f616
+		summarizeBy: sum
+		sourceColumn: EXTRAAUTORIZADO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COMPENSADO
+		dataType: int64
+		lineageTag: 30c3e398-fcdc-43b9-9327-94a05b018070
+		summarizeBy: sum
+		sourceColumn: COMPENSADO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DESCANSO
+		dataType: int64
+		lineageTag: 3e22b86f-ffbf-45b1-894f-f6430a829749
+		summarizeBy: sum
+		sourceColumn: DESCANSO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FERIADO
+		dataType: int64
+		lineageTag: 19dbef34-c6a1-4c7c-a93a-6031a57c0e3c
+		summarizeBy: sum
+		sourceColumn: FERIADO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CODABONO
+		dataType: string
+		lineageTag: 3cc74056-8d87-4424-afea-ff29cdf95671
+		summarizeBy: none
+		sourceColumn: CODABONO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRICAO
+		dataType: string
+		lineageTag: 6a65db02-62df-4714-b89c-a787af608e5e
+		summarizeBy: none
+		sourceColumn: DESCRICAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column BASE2
+		dataType: int64
+		lineageTag: 6143341b-ff84-4cd8-a147-5b10a76de8be
+		summarizeBy: sum
+		sourceColumn: BASE2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ABONO2
+		dataType: int64
+		lineageTag: 17b6f279-0590-4013-b177-638b1d498d57
+		summarizeBy: sum
+		sourceColumn: ABONO2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ABSENTEISMOABONO
+		dataType: string
+		lineageTag: e98bd908-9430-42a9-8c5b-28115ec1580a
+		summarizeBy: none
+		sourceColumn: ABSENTEISMOABONO
+
+		annotation SummarizationSetBy = Automatic
+
+	column TIPO
+		dataType: string
+		lineageTag: 9d356e84-0930-4b4a-bfbd-f5b091c7fa0b
+		summarizeBy: none
+		sourceColumn: TIPO
+
+		annotation SummarizationSetBy = Automatic
+
+	column ABSENTEISMOATESTADO
+		dataType: string
+		lineageTag: 8e3e9e95-a6ad-41a7-8b63-9ad33e4b6299
+		summarizeBy: none
+		sourceColumn: ABSENTEISMOATESTADO
+
+		annotation SummarizationSetBy = Automatic
+
+	column FERIAS
+		dataType: string
+		lineageTag: a6931165-001b-4aed-a85f-e26ee69635c4
+		summarizeBy: none
+		sourceColumn: FERIAS
+
+		annotation SummarizationSetBy = Automatic
+
+	column ABSENTEISMOFALTA
+		dataType: string
+		lineageTag: 3ef3e6f7-1838-4672-9f7b-0bceca1ad239
+		summarizeBy: none
+		sourceColumn: ABSENTEISMOFALTA
+
+		annotation SummarizationSetBy = Automatic
+
+	column MOTIVO
+		dataType: string
+		lineageTag: 93d7abd0-0308-4e51-a530-ecc93280e445
+		summarizeBy: none
+		sourceColumn: MOTIVO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DIAS
+		dataType: double
+		lineageTag: 3fdedc26-46e4-4c9e-963d-cd02da8f45d8
+		summarizeBy: sum
+		sourceColumn: DIAS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DESCRICAOCID
+		dataType: string
+		lineageTag: 5a639576-64d7-432c-b64a-ad813a874b2d
+		summarizeBy: none
+		sourceColumn: DESCRICAOCID
+
+		annotation SummarizationSetBy = Automatic
+
+	column _ABSENTEISMO = ```
+			
+			              IF(Ponto[HTRAB] > 0, "N",
+			              IF(Ponto[DESCANSO] >0,"N",
+			              IF(Ponto[FERIADO] >0 , "N",
+			              IF(Ponto[DIAS] < 15 && Ponto[DIAS] > 0, "S",
+			              IF(Ponto[DIAS] >= 15,"N",
+			              IF(Ponto[ATRASO] = Ponto[BASE] && Ponto[BASE] > 0, "S",
+			              IF(Ponto[FALTA] = Ponto[BASE] && Ponto[BASE] > 0, "S",
+			              IF(Ponto[CODABONO] IN {"0000","0002","0003","0013","0016","0020","0022","0014","0005"},"S",
+			              IF(Ponto[CODABONO] IN {"0021","0008","0018","0007","0006"},"N",
+			              IF(Ponto[CODABONO] = "0023" && Ponto[DATA] = Ponto[DATADEMISSAO],"N",
+			              IF(Ponto[CODABONO] = "0023" && Ponto[DATA] <> Ponto[DATADEMISSAO],"S",
+			              IF(Ponto[BASE] = 0 && Ponto[CODSITUACAO] IN {"A","V","Q","F"} ,"N",
+			              IF(Ponto[BASE] = 0,"N",
+			"")))))))))))))
+			```
+		lineageTag: 8dc0e0d0-db48-4041-becb-7c19b85a1424
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column _QtdFunc = IF(Ponto[DIAS] >= 15, 0 ,1)
+		formatString: 0
+		lineageTag: 1f8429e5-a8cc-427d-bd0c-d54108c6b8f1
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column _TK = Ponto[CODFILIAL]&Ponto[CHAPA]
+		lineageTag: 6c9114f4-2d0c-4762-acbc-387d3c073059
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column CABONO
+		dataType: double
+		lineageTag: 2fbe8926-64de-40ac-94f4-5fa53ad58c86
+		summarizeBy: sum
+		sourceColumn: CABONO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column _Turno
+		dataType: string
+		lineageTag: a7723e04-3963-4a51-a390-640a248cb159
+		summarizeBy: none
+		sourceColumn: _Turno
+
+		annotation SummarizationSetBy = Automatic
+
+	column _NomeEmpresaTurno = RELATED(DGE_EMPRESAMATRIZ[NOMEFILIAL])&" - "&Ponto[_Turno]
+		lineageTag: f5b85fd5-823c-4388-aa00-642a5ffc798d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_Horas Trabalhadas' = DIVIDE(Ponto[HTRAB], 60)
+		lineageTag: ca8446dd-2dc0-4178-bbde-7c64e1bb6029
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '_Verifica Dia' = ```
+			
+			VAR ABATE = CALCULATE(
+			    MAX(FPBI_RESUMOABATE[DATA]), 
+			    FILTER(
+			    FPBI_RESUMOABATE, 
+			    FPBI_RESUMOABATE[DATA] = Ponto[DATA]))
+			VAR MIUDOS = CALCULATE(
+			    MAX(FPBI_RESUMOABATE[DATA]), 
+			    FILTER(
+			    FPBI_RESUMOABATE, 
+			    FPBI_RESUMOABATE[DATA] = Ponto[DATA]))
+			VAR DESOSSA = CALCULATE(
+			    MAX(DINVPB_ENTRADADESOSSA[DTARENDIMENTO]), 
+			    FILTER(
+			    DINVPB_ENTRADADESOSSA, 
+			    DINVPB_ENTRADADESOSSA[DTARENDIMENTO] = Ponto[DATA]))
+			VAR INDUS = CALCULATE(
+			    MAX(DINVPB_PRODUCAOINDUS[DTARENDIMENTO]),
+			    FILTER(
+			    DINVPB_PRODUCAOINDUS, 
+			    DINVPB_PRODUCAOINDUS[DTARENDIMENTO] = Ponto[DATA]))
+			RETURN
+			IF(
+			SWITCH(
+			    TRUE(),
+			    Ponto[SETOR] IN {"CURRAL","POCILGA", "NATURA AREA QUENTE", "NATURA ÁREA QUENTE","NATURA AREA QUENTE","IN NATURA AREA QUENTE","TRIPARIA","BUCHARIA"}, Ponto[DATA] = ABATE,
+			    Ponto[SETOR] IN {"BUCHARIA", "MIUDOS", "BUCHARIA SUJA","BUCHARIA LIMPA", "BUCHARIA - LIMPA", "BUCHARIA - SUJA"}, Ponto[DATA] = MIUDOS,
+			    Ponto[SETOR] IN {"DESOSSA", "CAIXARIA", "DESOSSA DIURNO", "DESOSSA NOTURNO", "DESOSSA DIURNA", "DESOSSA NOTURNA", "CAIXARIA DIURNA", "CAIXARIA NOTURNA", "CAIXARIA NOTURNO", "CAIXARIA NOTURNO","CORTE", "CORTE"}, Ponto[DATA] = DESOSSA,
+			    Ponto[DEPARTAMENTO] IN {"INDUSTRIA INDUSTRIALIZADOS","INDUSTRIA EMBUTIDOS"," INDUSTRIA INDUSTRIALIZADOS"}, Ponto[DATA] = INDUS) = TRUE(), 1, 0)
+			```
+		formatString: 0
+		lineageTag: c84f5068-41d5-4a32-910e-190db0c07241
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column DTDEMISSAOPREVISTA
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 3e6df466-83fc-457a-969e-35ffaf0c784c
+		summarizeBy: none
+		sourceColumn: DTDEMISSAOPREVISTA
+
+		variation Variation
+			isDefault
+			relationship: 23514cf1-e660-440c-8efd-fed36efc755c
+			defaultHierarchy: LocalDateTable_76d57e7a-f247-434d-98c6-4f7a5ff4dede.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_Verifica Demissão' =
+			
+			SWITCH(
+			    TRUE(),
+			    Ponto[DATA] >= Ponto[DATAADMISSAO],1,
+			    Ponto[DATA] <= Ponto[DATADEMISSAO],1,
+			    0)
+		formatString: 0
+		lineageTag: 0566acf6-de66-4445-9255-1dd708fb3006
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_Horas Extras' = DIVIDE(Ponto[EXTRAAUTORIZADO],60,0)
+		lineageTag: d6c1a713-f356-470e-9ca7-d6ed88a45a3b
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '_Horas Falta' = DIVIDE(Ponto[FALTA],60,0)
+		lineageTag: 3479d54d-b2db-4eba-981f-9b3be5aeba41
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '_Horas Atraso' = DIVIDE(Ponto[ATRASO],60,0)
+		lineageTag: 3e411c74-b6e0-4b3f-a8b1-2f36e8e954f2
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '_Horas Extras Ad.Noturno' = DIVIDE(Ponto[ADICIONAL],60,0)
+		lineageTag: aed7984b-8f3f-421f-ba35-f3115c312002
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TipoAbseteismo =
+			
+			IF(Ponto[DIAS] >= 15,"AFASTAMENTO",
+			IF(Ponto[ATRASO] = Ponto[BASE] && Ponto[BASE] > 0 && Ponto[ABSENTEISMOATESTADO] = "NAO" && Ponto[FERIAS] = "NAO" && Ponto[ABSENTEISMOFALTA] = "NAO" && Ponto[CODABONO] = BLANK(),"ATRASO/FALTA",
+			IF(Ponto[ATRASO] > 0 && Ponto[EXTRAAUTORIZADO] = 0 && Ponto[BASE] > 0 && Ponto[ABSENTEISMOATESTADO] = "NAO" && Ponto[FERIAS] = "NAO" && Ponto[ABSENTEISMOFALTA] = "NAO" && Ponto[CODABONO] = BLANK(),"ATRASO",
+			IF(Ponto[ATRASO] > 0 && Ponto[EXTRAAUTORIZADO] > 0 && Ponto[BASE] > 0 && Ponto[ABSENTEISMOATESTADO] = "NAO" && Ponto[FERIAS] = "NAO" && Ponto[ABSENTEISMOFALTA] = "NAO","ATRASO ERRADO",
+			IF(Ponto[ABSENTEISMOFALTA] = "SIM","FALTA",
+			IF(Ponto[FERIAS] = "SIM","FERIAS",
+			IF(Ponto[DESCRICAO] <> BLANK(), Ponto[DESCRICAO],
+			IF(Ponto[ATRASO] = 0 && Ponto[HTRAB] = 0 && Ponto[BASE] = 0 && Ponto[DESCANSO] = 0, "SEM JORNADA",
+			IF(Ponto[ATRASO] = 0 && Ponto[HTRAB] = 0 && Ponto[BASE] = 0 && Ponto[DESCANSO] > 0, "SEM JORNADA",
+			IF(Ponto[DESCANSO] > 0 && Ponto[EXTRAEXECUTADO] > 0,"TRABALHO EM DIA SEM JORNADA",
+			IF(Ponto[FERIADO] > 0 && Ponto[BASE] = 0 && Ponto[EXTRAEXECUTADO] > 0 , "TRABALHO NO FERIADO",
+			IF(Ponto[ATRASO] = 0 && Ponto[EXTRAEXECUTADO] > 0 && Ponto[BASE] > 0 , "HR EXTRA NO DIA",
+			IF(Ponto[EXTRAEXECUTADO] > 0 && Ponto[BASE] = 0 , "TRABALHO EM DIA SEM JORNADA",
+			IF(Ponto[HTRAB] < Ponto[BASE] && Ponto[ABSENTEISMOATESTADO] = "NAO" && Ponto[CODABONO] = BLANK(), "ATRASO",
+			IF(Ponto[HTRAB] = Ponto[BASE], "JORNADA NORMAL",
+			IF(Ponto[HTRAB] > Ponto[BASE], "EXTRA DENTRO DE 10 MIN",
+			IF(Ponto[ABSENTEISMOATESTADO] = "SIM","ATESTADO MEDICO",
+			
+			"CLASSIFICAR")))))))))))))))))
+		lineageTag: ff97b291-a3c2-4dd2-b922-e362da891e87
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column _HrsAbsenteismo =
+			
+			IF(Ponto[TipoAbseteismo] = "ATESTADO DE HORAS", Ponto[ABONO],
+			IF(Ponto[TipoAbseteismo] = "ATESTADO JUDICIAL", Ponto[ABONO],
+			IF(Ponto[TipoAbseteismo] = "ATESTADO MEDICO" && Ponto[DIAS] < 15, Ponto[ABONO],
+			IF(Ponto[TipoAbseteismo] = "ATESTADO" && Ponto[DIAS] < 15, Ponto[ABONO],
+			IF(Ponto[TipoAbseteismo] = "ATESTADO OBITO", Ponto[ABONO],
+			IF(Ponto[TipoAbseteismo] = "DECLARACAO DE COMPARECIMENTO", Ponto[ABONO],
+			IF(Ponto[TipoAbseteismo] = "INTERNACAO CONJUGE", Ponto[ABONO],
+			IF(Ponto[TipoAbseteismo] = "LICENCA PATERNIDADE", Ponto[ABONO],
+			IF(Ponto[TipoAbseteismo] = "LICENCA MATRIMONIAL", Ponto[ABONO],
+			IF(Ponto[TipoAbseteismo] = "PROVAS ESCOLARES/VESTIBULAR", Ponto[ABONO],
+			IF(Ponto[TipoAbseteismo] = "PRESTAÇÃO SERVIÇO COMUNITARIO", Ponto[ABONO],
+			IF(Ponto[TipoAbseteismo] = "FALTA", Ponto[FALTA],
+			0))))))))))))
+		formatString: 0
+		lineageTag: 5705b9a2-e60f-409f-8d05-641fbb22e840
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column _Classificação =
+			
+			IF(
+			    Ponto[TipoAbseteismo] IN {
+			        "ATESTADO DE HORAS",
+			        "ATESTADO JUDICIAL",
+			        "ATESTADO OBITO",
+			        "LICENCA MATRIMONIAL",
+			        "LICENCA PATERNIDADE",
+			        "PRESTAÇÃO SERVIÇO COMUNITARIO",
+			        "PROVAS ESCOLARES/VESTIBULAR"
+			    }, "Legal",
+			IF(
+			    Ponto[TipoAbseteismo] IN {
+			        "DECLARACAO DE COMPARECIMENTO",
+			        "FALTA"
+			    }, "Injustificado",
+			IF(
+			    Ponto[TipoAbseteismo] IN {
+			        "ATESTADO MEDICO",
+			        "INTERNACAO CONJUGE"
+			    }, "Médico",
+			"Não Entra")))
+		lineageTag: 890fc3bd-0bf5-43c5-9d24-469386678e96
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Horas Trabalhadas Total Setor' =
+			
+			[Hora Abate Trabalhadas] + 0
+		formatString: 0
+		lineageTag: 5d65dbfe-6715-4cff-8e39-f97e726353ae
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Ponto-c24a0e2a-c890-468e-a626-ac6e6372a317 = m
+		mode: import
+		queryGroup: 'Ponto Funcionário'
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"8dd6533e-04ae-4778-8f93-34a5a63f992f" = Workspaces{[workspaceId="8dd6533e-04ae-4778-8f93-34a5a63f992f"]}[Data],
+				    #"63e31cad-db88-4abd-8b43-4a7879461d6b" = #"8dd6533e-04ae-4778-8f93-34a5a63f992f"{[dataflowId="63e31cad-db88-4abd-8b43-4a7879461d6b"]}[Data],
+				    Ponto_ = #"63e31cad-db88-4abd-8b43-4a7879461d6b"{[entity="Ponto",version=""]}[Data],
+				    #"Linhas Filtradas" = Table.SelectRows(Ponto_, each ([CODFILIAL] = 2 or [CODFILIAL] = 4 or [CODFILIAL] = 12 or [CODFILIAL] = 104 or [CODFILIAL] = 27 or [CODFILIAL] = 18 or [CODFILIAL] = 72)),
+				    #"Coluna Condicional Adicionada" = Table.AddColumn(#"Linhas Filtradas", "_Turno", each if Text.Contains([SECAO], "2º TURNO") then "Noturno" else if Text.Contains([SECAO], "2") then "Noturno" else "Diurno"),
+				    #"Texto Extraído Após o Delimitador" = Table.TransformColumns(#"Coluna Condicional Adicionada", {{"DEPARTAMENTO", each Text.AfterDelimiter(_, " "), type text}, {"SETOR", each Text.AfterDelimiter(_, " "), type text}, {"SECAO", each Text.AfterDelimiter(_, " "), type text}})
+				in
+				    #"Texto Extraído Após o Delimitador"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navegação
+

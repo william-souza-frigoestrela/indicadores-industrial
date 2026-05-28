@@ -1,0 +1,269 @@
+table 'Grafico Desossa Prod Eixo'
+	lineageTag: 4656ef75-eec3-48a6-bcf2-cd098020eb9b
+
+	measure '_Intervalo Datas Desossa (alternativa)' = ```
+			
+			VAR Tipo = SELECTEDVALUE ( 'Grafico Desossa Prod Eixo'[Tipo] )
+			VAR Rot  = SELECTEDVALUE ( 'Grafico Desossa Prod Eixo'[Rotulo] )
+			VAR Hoje = TODAY()
+			VAR Ano  = YEAR ( Hoje )
+			VAR Mes  = MONTH ( Hoje )
+			RETURN
+			SWITCH (
+			    TRUE(),
+			    Tipo = "Mes",
+			        VAR MesNum =
+			            SWITCH ( Rot,
+			                "jan",1,"fev",2,"mar",3,"abr",4,"mai",5,"jun",6,
+			                "jul",7,"ago",8,"set",9,"out",10,"nov",11,"dez",12
+			            )
+			        VAR InicioMes = DATE ( Ano, MesNum, 1 )
+			        VAR FimMes    = EOMONTH ( InicioMes, 0 )
+			        RETURN DATESBETWEEN ( 'Calendário'[Data], InicioMes, FimMes ),
+			
+			    Tipo = "Dia",
+			        VAR DiaNum = VALUE ( Rot )
+			        VAR DataAlvo = DATE ( Ano, Mes, DiaNum )
+			        RETURN DATESBETWEEN ( 'Calendário'[Data], DataAlvo, DataAlvo )
+			)
+			
+			```
+		formatString: General Date
+		lineageTag: 4826d580-3c65-4a89-8ad3-c3b0367219eb
+
+	measure MetaDiaGrafDesossa =
+			
+			
+			VAR Tipo = SELECTEDVALUE ( 'Grafico Desossa Prod Eixo'[Tipo] )
+			RETURN
+			IF (
+			    Tipo = "Dia",
+			    VAR Rot      = SELECTEDVALUE ( 'Grafico Desossa Prod Eixo'[Rotulo] )
+			    VAR DiaNum   = VALUE ( Rot )
+			    VAR AnoSel   = SELECTEDVALUE ( 'Calendário'[Ano],   YEAR ( TODAY() ) )
+			    VAR MesSel   = SELECTEDVALUE ( 'Calendário'[MesNo], MONTH ( TODAY() ) )
+			    VAR DataAlvo = DATE ( AnoSel, MesSel, DiaNum )
+			    VAR FimMes   = EOMONTH ( DATE ( AnoSel, MesSel, 1 ), 0 )
+			
+			    VAR RealNoDia =
+			        CALCULATE ( [RealDiaGrafDesossa], DATESBETWEEN ( 'Calendário'[Data], DataAlvo, DataAlvo ) )
+			
+			    VAR MetaNoDia =
+			        CALCULATE ( [Valor Meta],  DATESBETWEEN ( 'Calendário'[Data], DataAlvo, DataAlvo ) )
+			
+			    RETURN
+			        IF (
+			            DataAlvo > FimMes || ISBLANK(RealNoDia) || RealNoDia = 0,
+			            BLANK(),                    -- sem produção: não plota (eixo limpa a categoria)
+			            COALESCE ( MetaNoDia, 0 )   -- com produção e sem meta: plota 0 (linha contínua, sem pico)
+			        )
+			)
+		lineageTag: bf25e153-c4ed-438d-abc3-3361add833c9
+
+	measure 'MetaDiaGrafDesossa (reescalada)' = ```
+			
+			VAR MaxColunaNoContexto =
+			    CALCULATE(
+			        MAXX(
+			            VALUES('Grafico Desossa Prod Eixo'[Rotulo]),
+			            [SerieRealDiaGrafDesossa]  -- suas colunas (real dia)
+			        ),
+			        ALLSELECTED('Grafico Desossa Prod Eixo'),
+			        KEEPFILTERS('Grafico Desossa Prod Eixo'[Tipo] = "Dia")
+			    )
+			VAR MaxMetaNoContexto =
+			    CALCULATE(
+			        MAXX(
+			            VALUES('Grafico Desossa Prod Eixo'[Rotulo]),
+			            [MetaDiaGrafDesossa]       -- sua meta diária original (sem reescala)
+			        ),
+			        ALLSELECTED('Grafico Desossa Prod Eixo'),
+			        KEEPFILTERS('Grafico Desossa Prod Eixo'[Tipo] = "Dia")
+			    )
+			VAR Fator =
+			    VAR f = DIVIDE(MaxColunaNoContexto, MaxMetaNoContexto)
+			    RETURN IF( ISBLANK(f) || f = 0, 1, f )  -- fallback: evita linha sumir
+			VAR ValorMeta = [MetaDiaGrafDesossa]               -- valor da meta no ponto atual
+			RETURN
+			IF(
+			    SELECTEDVALUE('Grafico Desossa Prod Eixo'[Tipo]) = "Dia",
+			    COALESCE( ValorMeta * Fator, 0 ),       -- plota 0 (não BLANK) para manter linha contínua
+			    BLANK()                                 -- não plota nos rótulos de "Mes"
+			)
+			
+			
+			```
+		lineageTag: 2b3c11e7-4f6f-4f86-b0d3-c0619263b2e9
+
+	measure RealAcumMesGrafDesossa =
+			
+			CALCULATE([Realizado], DATESYTD('Calendário'[Data]))
+		lineageTag: a911a7c8-3f3d-4ea3-8066-aa325d3c2cfd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure RealDiaGrafDesossa = [Realizado]
+		lineageTag: bcb24ff1-f6d5-48ee-aa3f-59b459a1f757
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure SerieRealDiaGrafDesossa =
+			
+			
+			VAR Tipo = SELECTEDVALUE ( 'Grafico Desossa Prod Eixo'[Tipo] )
+			RETURN
+			IF (
+			    Tipo = "Dia",
+			    VAR Rot      = SELECTEDVALUE ( 'Grafico Desossa Prod Eixo'[Rotulo] )
+			    VAR DiaNum   = VALUE ( Rot )                       -- só roda quando Tipo="Dia"
+			    VAR AnoSel   = SELECTEDVALUE ( 'Calendário'[Ano],   YEAR ( TODAY() ) )
+			    VAR MesSel   = SELECTEDVALUE ( 'Calendário'[MesNo], MONTH ( TODAY() ) )   -- 1..12
+			    VAR DataAlvo = DATE ( AnoSel, MesSel, DiaNum )
+			    VAR FimMes   = EOMONTH ( DATE ( AnoSel, MesSel, 1 ), 0 )
+			
+			    VAR ValorDia =
+			        CALCULATE (
+			            [RealDiaGraf],                              -- sua medida [Realizado]
+			            DATESBETWEEN ( 'Calendário'[Data], DataAlvo, DataAlvo )
+			        )
+			    RETURN
+			        IF (
+			            DataAlvo <= FimMes                          -- corta 29–31 quando não existem
+			            && NOT ISBLANK ( ValorDia ) && ValorDia <> 0,  -- só dias com produção
+			            ValorDia,
+			            BLANK()
+			        )
+			)
+		lineageTag: a8a0a576-b91d-49a7-a8c8-23cc1a5e99bf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure SerieRealMesGrafDesossa = ```
+			
+			
+			VAR Tipo = SELECTEDVALUE ( 'Grafico Desossa Prod Eixo'[Tipo] )
+			VAR Rot  = SELECTEDVALUE ( 'Grafico Desossa Prod Eixo'[Rotulo] )
+			
+			-- Ano vindo do filtro/slicer da página (funciona mesmo se o eixo for desconectado)
+			VAR AnoSelFromSlicer =
+			    CALCULATE (
+			        SELECTEDVALUE ( 'Calendário'[Ano] ),
+			        ALLSELECTED ( 'Calendário' )
+			    )
+			VAR AnoSel = COALESCE ( AnoSelFromSlicer, YEAR ( TODAY() ) )
+			
+			-- Mês a partir do rótulo do eixo
+			VAR MesNum =
+			    SWITCH (
+			        TRUE (),
+			        Rot = "jan", 1, Rot = "fev", 2, Rot = "mar", 3, Rot = "abr", 4,
+			        Rot = "mai", 5, Rot = "jun", 6, Rot = "jul", 7, Rot = "ago", 8,
+			        Rot = "set", 9, Rot = "out", 10, Rot = "nov", 11, Rot = "dez", 12
+			    )
+			
+			VAR InicioMes = DATE ( AnoSel, MesNum, 1 )
+			VAR FimMes    = EOMONTH ( InicioMes, 0 )
+			
+			RETURN
+			IF (
+			    Tipo = "Mes" && NOT ISBLANK ( MesNum ),
+			    CALCULATE (
+			        [RealDiaGraf],                                -- sua medida base
+			        DATESBETWEEN ( 'Calendário'[Data], InicioMes, FimMes ),
+			        -- Garante que o ANO do slicer esteja aplicado dentro do cálculo
+			        KEEPFILTERS (
+			            FILTER ( ALL ( 'Calendário'[Data] ), YEAR ( 'Calendário'[Data] ) = AnoSel )
+			        )
+			    )
+			)
+			
+			```
+		lineageTag: f0b49e51-05bb-4593-880b-538a852091cf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure IndiceEscalaDesossa = ```
+			//10
+			
+			VAR Meta = [Meta Indicador]
+			RETURN
+			IF(
+			    Meta = 0,
+			    1,
+			    10
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 0a5a71df-a66e-44c3-b5ed-f0c43811074b
+
+	measure 'SerieRealMesDesossa Ajustado' =
+			
+			
+			VAR Tipo = SELECTEDVALUE( 'Grafico Desossa Prod Eixo'[Tipo] )
+			VAR RealMes = [SerieRealMesGrafDesossa]        -- valor mensal REAL
+			VAR Ajustado = DIVIDE( RealMes, [IndiceEscalaDesossa] )
+			RETURN
+			    IF(
+			        Tipo = "Mes" && NOT ISBLANK(RealMes),
+			        Ajustado,
+			        BLANK()
+			    )
+		lineageTag: af878f2d-6e7e-4f4f-9d4d-e281487b803e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Tipo
+		lineageTag: fc0c5987-65d8-46c1-8d9f-669b21360f8d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Tipo]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Rotulo
+		lineageTag: 0aea7fac-317e-448e-bfe5-c802e008d09f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Rotulo]
+		sortByColumn: Ordem
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordem
+		formatString: 0
+		lineageTag: bdf18ed2-ef73-4732-9d03-9cbc8e503245
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Ordem]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Grafico Desossa Prod Eixo' = calculated
+		mode: import
+		source =
+				
+				
+				VAR Meses =
+				    SELECTCOLUMNS (
+				        GENERATESERIES ( 1, 12, 1 ),
+				        "Tipo",   "Mes",
+				        "Rotulo", SWITCH ( [Value],
+				                    1,"jan", 2,"fev", 3,"mar", 4,"abr",
+				                    5,"mai", 6,"jun", 7,"jul", 8,"ago",
+				                    9,"set", 10,"out", 11,"nov", 12,"dez"
+				                 ),
+				        "Ordem",  [Value]
+				    )
+				VAR Dias =
+				    SELECTCOLUMNS (
+				        GENERATESERIES ( 1, 31, 1 ),
+				        "Tipo",   "Dia",
+				        "Rotulo", FORMAT ( [Value], "0" ),
+				        "Ordem",  100 + [Value]
+				    )
+				RETURN
+				    UNION ( Meses, Dias )
+
+	annotation PBI_Id = 14689ba434134b4b8c0a87d7beb0955f
+

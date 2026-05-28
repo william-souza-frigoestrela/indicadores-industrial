@@ -1,0 +1,552 @@
+table PASTA_ENERGIA
+	lineageTag: baf9e9fd-9dda-49ee-b5e7-b7340cf60514
+
+	column 'Mês de Ref.'
+		dataType: int64
+		formatString: 0
+		lineageTag: e840f074-0884-4bab-b44a-71d64e7fca2b
+		summarizeBy: sum
+		sourceColumn: Mês de Ref.
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ano de Ref.'
+		dataType: int64
+		formatString: 0
+		lineageTag: a02d7a4e-eae7-42d9-b270-9a4309132156
+		summarizeBy: sum
+		sourceColumn: Ano de Ref.
+
+		annotation SummarizationSetBy = Automatic
+
+	column Unidade
+		dataType: int64
+		formatString: 0
+		lineageTag: 102ae206-e8b8-496f-ad3a-453ff2c982be
+		summarizeBy: none
+		sourceColumn: Unidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Bi'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9e08ef85-dd80-408d-9fc3-56e5654e057d
+		summarizeBy: none
+		sourceColumn: Data Bi
+
+		variation Variation
+			isDefault
+			relationship: 542c1dab-053c-46f8-802a-3bd0b8da025b
+			defaultHierarchy: LocalDateTable_76692756-4e77-4c16-81a6-10e42d3e9093.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Data de Leitura Anterior'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 68d7ac95-df2f-4b79-b92c-cece06541058
+		summarizeBy: none
+		sourceColumn: Data de Leitura Anterior
+
+		variation Variation
+			isDefault
+			relationship: 056974c5-6a52-4108-9a09-ccb61a8b5721
+			defaultHierarchy: LocalDateTable_e09f079d-0f0f-4898-b06e-6e06df7f8b7f.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Data de Leitura Atual'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: aab68f46-7cf6-4df2-85e4-7766607a4061
+		summarizeBy: none
+		sourceColumn: Data de Leitura Atual
+
+		variation Variation
+			isDefault
+			relationship: ee56e123-eec1-4c63-bcc9-25bc82b105cf
+			defaultHierarchy: LocalDateTable_53395e87-3567-49d5-b6cb-f265caa894c5.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Dias Consumo'
+		dataType: int64
+		formatString: 0
+		lineageTag: b0588461-b850-4a1e-9827-a6059996e52d
+		summarizeBy: sum
+		sourceColumn: Dias Consumo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Consumo de Ponta [kWh]'
+		dataType: double
+		lineageTag: fa289bb2-7de6-4c94-89d3-5e677a03032c
+		summarizeBy: sum
+		sourceColumn: Consumo de Ponta [kWh]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Consumo Fora de Ponta [kWh]'
+		dataType: double
+		lineageTag: d9891c81-409d-451f-80da-c199adf3fdd0
+		summarizeBy: sum
+		sourceColumn: Consumo Fora de Ponta [kWh]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Consumo Total'
+		dataType: double
+		lineageTag: 43a910b8-8651-4ef4-a908-38edb7833432
+		summarizeBy: sum
+		sourceColumn: Consumo Total
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Consumo Reativo Exc.Ponta [Kwh]'
+		dataType: double
+		lineageTag: cc0d0e8b-6f8e-4825-931e-050a7b9cd005
+		summarizeBy: sum
+		sourceColumn: Consumo Reativo Exc.Ponta [Kwh]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Consumo Reativo Exc.Fora de Ponta [Kwh]'
+		dataType: double
+		lineageTag: 634ae00a-5277-41fb-b0be-6062de005654
+		summarizeBy: sum
+		sourceColumn: Consumo Reativo Exc.Fora de Ponta [Kwh]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Demanda Ponta [kW]'
+		dataType: int64
+		formatString: 0
+		lineageTag: 47103ed3-5623-41c8-b6cc-9c9af8effec5
+		summarizeBy: sum
+		sourceColumn: Demanda Ponta [kW]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Demanda Fora de Ponta [kW]'
+		dataType: int64
+		formatString: 0
+		lineageTag: 633ab3e1-c641-4be7-b86b-8aa321cb81ea
+		summarizeBy: sum
+		sourceColumn: Demanda Fora de Ponta [kW]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Demanda Ponta e Fora de Ponta [kW]'
+		dataType: double
+		lineageTag: d06e2302-297e-45ef-970a-95dc1f977e26
+		summarizeBy: sum
+		sourceColumn: Demanda Ponta e Fora de Ponta [kW]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Demanda Não Utilizada Ponta [kW]'
+		dataType: int64
+		formatString: 0
+		lineageTag: 7b9a7bea-36ac-4d0a-a2a5-bd4d02986f16
+		summarizeBy: sum
+		sourceColumn: Demanda Não Utilizada Ponta [kW]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Demanda Não Utilizada Fora de Ponta [kW]'
+		dataType: int64
+		formatString: 0
+		lineageTag: 2236af37-1268-4b01-8ba4-548f473604d3
+		summarizeBy: sum
+		sourceColumn: Demanda Não Utilizada Fora de Ponta [kW]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Demanda Não Utilizada Ponta e Fora de Ponta [kW]'
+		dataType: double
+		lineageTag: bffb5a73-604b-4736-8ea9-19c01a193bb0
+		summarizeBy: sum
+		sourceColumn: Demanda Não Utilizada Ponta e Fora de Ponta [kW]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Demanda Reativa Ponta [kW]'
+		dataType: int64
+		formatString: 0
+		lineageTag: af31edc7-b906-4b89-aa88-39442f590a70
+		summarizeBy: sum
+		sourceColumn: Demanda Reativa Ponta [kW]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Demanda Reativa Fora de Ponta [kW]'
+		dataType: double
+		lineageTag: ff7ea1bc-89e6-484d-bbe7-cbeda84eb47f
+		summarizeBy: sum
+		sourceColumn: Demanda Reativa Fora de Ponta [kW]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Demanda Reativa Ponta e Fora de Ponta [kW]'
+		dataType: double
+		lineageTag: 800225ac-a46a-4ebf-a889-a31aa2c3dac4
+		summarizeBy: sum
+		sourceColumn: Demanda Reativa Ponta e Fora de Ponta [kW]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Demanda Ultra Ponta [kW]'
+		dataType: int64
+		formatString: 0
+		lineageTag: 56c2354b-3a45-409a-a802-c04382513048
+		summarizeBy: sum
+		sourceColumn: Demanda Ultra Ponta [kW]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Demanda Ultra Fora de Ponta [kW]'
+		dataType: int64
+		formatString: 0
+		lineageTag: 7cd96ed0-9d02-4163-93fd-62cfe3738704
+		summarizeBy: sum
+		sourceColumn: Demanda Ultra Fora de Ponta [kW]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Demanda Ultra Ponta e Fora de Ponta [kW]'
+		dataType: double
+		lineageTag: 26487af7-db9e-48d9-8696-7c44fba5d975
+		summarizeBy: sum
+		sourceColumn: Demanda Ultra Ponta e Fora de Ponta [kW]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Demanda Contratada Ponta [kW]'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6310f904-75d7-417e-973a-710f52e472c2
+		summarizeBy: sum
+		sourceColumn: Demanda Contratada Ponta [kW]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Demanda Contratada Fora de Ponta [kW]'
+		dataType: int64
+		formatString: 0
+		lineageTag: ef34a90c-3cad-4b38-ab04-89d91e19ff21
+		summarizeBy: sum
+		sourceColumn: Demanda Contratada Fora de Ponta [kW]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Demanda Contratada Ponta e Fora de Ponta [kW]'
+		dataType: int64
+		formatString: 0
+		lineageTag: 481d4844-f565-48b1-bf68-b27dabb64c41
+		summarizeBy: sum
+		sourceColumn: Demanda Contratada Ponta e Fora de Ponta [kW]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor de Ponta [R$]'
+		dataType: double
+		lineageTag: f9f2bbc0-7f61-4e94-b9a7-169d0162de23
+		summarizeBy: sum
+		sourceColumn: Valor de Ponta [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Valor Fora de Ponta [R$]'
+		dataType: double
+		lineageTag: 55a4017d-7623-493b-9daa-2ed2be401818
+		summarizeBy: sum
+		sourceColumn: Valor Fora de Ponta [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Valor Adicional Bandeira Amarela [R$]'
+		dataType: double
+		lineageTag: 85e0a1b8-cbac-40df-bd2f-57784f949766
+		summarizeBy: sum
+		sourceColumn: Valor Adicional Bandeira Amarela [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Valor Adicional Bandeira Vermelha [R$]'
+		dataType: double
+		lineageTag: dbfbaa17-7a7a-4c08-8e50-77a76e04b891
+		summarizeBy: sum
+		sourceColumn: Valor Adicional Bandeira Vermelha [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Valor Reativo Exc.Ponta [R$]'
+		dataType: double
+		lineageTag: 58cf8895-9181-420b-9b98-ad38d91c1ff5
+		summarizeBy: sum
+		sourceColumn: Valor Reativo Exc.Ponta [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Valor Reativo Exc.Fora de Ponta [R$]'
+		dataType: double
+		lineageTag: 6825f5b3-815a-4712-b45e-7e96a8b018f4
+		summarizeBy: sum
+		sourceColumn: Valor Reativo Exc.Fora de Ponta [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Valor Reativo'
+		dataType: double
+		lineageTag: 73727569-a047-4e3d-9413-94230eb89c4a
+		summarizeBy: sum
+		sourceColumn: Valor Reativo
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Valor Demanda Ponta [R$]'
+		dataType: int64
+		formatString: 0
+		lineageTag: 3bf5e1f3-a831-4de3-b6f4-ca0132d0aee3
+		summarizeBy: sum
+		sourceColumn: Valor Demanda Ponta [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor Demanda Fora de Ponta [R$]'
+		dataType: int64
+		formatString: 0
+		lineageTag: 78fe583b-829b-4b39-b34c-c30eae8147f0
+		summarizeBy: sum
+		sourceColumn: Valor Demanda Fora de Ponta [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor Demanda Ponta e Fora de Ponta [R$]'
+		dataType: double
+		lineageTag: 15b7dc90-7707-442a-b1db-cf1ebabd3ce2
+		summarizeBy: sum
+		sourceColumn: Valor Demanda Ponta e Fora de Ponta [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Valor Demanda Não Utilizada Ponta [R$]'
+		dataType: int64
+		formatString: 0
+		lineageTag: 19f45a3f-f9bb-4a93-b195-186a4f86d6ad
+		summarizeBy: sum
+		sourceColumn: Valor Demanda Não Utilizada Ponta [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor Demanda Não Utilizada Fora de Ponta [R$]'
+		dataType: int64
+		formatString: 0
+		lineageTag: 74ea26f9-a6be-45e6-9e32-90e5c8d3cd05
+		summarizeBy: sum
+		sourceColumn: Valor Demanda Não Utilizada Fora de Ponta [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor Demanda Não Utilizada Ponta e Fora de Ponta [R$]'
+		dataType: double
+		lineageTag: 2aa3c9f4-6328-495e-af27-a2f2cc4b4e9f
+		summarizeBy: sum
+		sourceColumn: Valor Demanda Não Utilizada Ponta e Fora de Ponta [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Valor Demanda Reativa Ponta [R$]'
+		dataType: int64
+		formatString: 0
+		lineageTag: d9763613-8a63-40e6-8325-e4f983c5219c
+		summarizeBy: sum
+		sourceColumn: Valor Demanda Reativa Ponta [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor Demanda Reativa Fora de Ponta [R$]'
+		dataType: double
+		lineageTag: c2b806a8-8a04-4a61-9b00-4d8053338fa5
+		summarizeBy: sum
+		sourceColumn: Valor Demanda Reativa Fora de Ponta [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Valor Demanda Reativa Ponta e Fora de Ponta [R$]'
+		dataType: double
+		lineageTag: 7d06c554-6d82-48f2-b93f-6fa84f03110d
+		summarizeBy: sum
+		sourceColumn: Valor Demanda Reativa Ponta e Fora de Ponta [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Valor Demanda Ultra Ponta [R$]'
+		dataType: int64
+		formatString: 0
+		lineageTag: 85dac60b-1414-4426-b562-afd89fec9713
+		summarizeBy: sum
+		sourceColumn: Valor Demanda Ultra Ponta [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor Demanda Ultra Fora de Ponta [R$]'
+		dataType: int64
+		formatString: 0
+		lineageTag: 86def4c9-668e-4208-819d-a8108d53785d
+		summarizeBy: sum
+		sourceColumn: Valor Demanda Ultra Fora de Ponta [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor Demanda Ultra Ponta e Fora de Ponta [R$]'
+		dataType: double
+		lineageTag: 92625ed0-f5d8-41fa-bd70-3457936b422f
+		summarizeBy: sum
+		sourceColumn: Valor Demanda Ultra Ponta e Fora de Ponta [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Valor de Tarifas [R$]'
+		dataType: double
+		lineageTag: 4c39c4c5-6253-46f4-a86c-c17f87f52b16
+		summarizeBy: sum
+		sourceColumn: Valor de Tarifas [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Valor de Descontos [R$]'
+		dataType: double
+		lineageTag: 444bc5ea-3590-43c2-b8b7-af864b985b9f
+		summarizeBy: sum
+		sourceColumn: Valor de Descontos [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Valor Total [R$]'
+		dataType: double
+		lineageTag: 3c9c4caf-81c1-40b2-8763-79f6c30e2b4a
+		summarizeBy: sum
+		sourceColumn: Valor Total [R$]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Nota Fiscal de Serviço'
+		dataType: int64
+		formatString: 0
+		lineageTag: e639f14a-575a-4d7b-99d1-97d81b83e2e1
+		summarizeBy: sum
+		sourceColumn: Nota Fiscal de Serviço
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Consumo de Energia Comprada'
+		dataType: double
+		lineageTag: ff22bdee-7556-4bae-ab7e-8ff193f36c29
+		summarizeBy: sum
+		sourceColumn: Consumo de Energia Comprada
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Energia Comprada'
+		dataType: double
+		lineageTag: b56e62c0-3596-49e5-80dd-16ae6f294b02
+		summarizeBy: sum
+		sourceColumn: Energia Comprada
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 93f5d075-38c9-4449-9126-792e8675f8ae
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition PASTA_ENERGIA = m
+		mode: import
+		queryGroup: 'Fluxo Industrial'
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
+				    #"c8fff005-032f-4253-806f-f8bd404edba0" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="c8fff005-032f-4253-806f-f8bd404edba0"]}[Data],
+				    PASTA_ENERGIA_ = #"c8fff005-032f-4253-806f-f8bd404edba0"{[entity="PASTA_ENERGIA",version=""]}[Data],
+				    #"Outras Colunas Removidas" = Table.SelectColumns(PASTA_ENERGIA_,{"Mês de Ref.", "Ano de Ref.", "Unidade", "Data Bi", "Data de Leitura Anterior", "Data de Leitura Atual", "Dias Consumo", "Consumo de Ponta [kWh]", "Consumo Fora de Ponta [kWh]", "Consumo Total", "Consumo Reativo Exc.Ponta [Kwh]", "Consumo Reativo Exc.Fora de Ponta [Kwh]", "Demanda Ponta [kW]", "Demanda Fora de Ponta [kW]", "Demanda Ponta e Fora de Ponta [kW]", "Demanda Não Utilizada Ponta [kW]", "Demanda Não Utilizada Fora de Ponta [kW]", "Demanda Não Utilizada Ponta e Fora de Ponta [kW]", "Demanda Reativa Ponta [kW]", "Demanda Reativa Fora de Ponta [kW]", "Demanda Reativa Ponta e Fora de Ponta [kW]", "Demanda Ultra Ponta [kW]", "Demanda Ultra Fora de Ponta [kW]", "Demanda Ultra Ponta e Fora de Ponta [kW]", "Demanda Contratada Ponta [kW]", "Demanda Contratada Fora de Ponta [kW]", "Demanda Contratada Ponta e Fora de Ponta [kW]", "Valor de Ponta [R$]", "Valor Fora de Ponta [R$]", "Valor Adicional Bandeira Amarela [R$]", "Valor Adicional Bandeira Vermelha [R$]", "Valor Reativo Exc.Ponta [R$]", "Valor Reativo Exc.Fora de Ponta [R$]", "Valor Reativo", "Valor Demanda Ponta [R$]", "Valor Demanda Fora de Ponta [R$]", "Valor Demanda Ponta e Fora de Ponta [R$]", "Valor Demanda Não Utilizada Ponta [R$]", "Valor Demanda Não Utilizada Fora de Ponta [R$]", "Valor Demanda Não Utilizada Ponta e Fora de Ponta [R$]", "Valor Demanda Reativa Ponta [R$]", "Valor Demanda Reativa Fora de Ponta [R$]", "Valor Demanda Reativa Ponta e Fora de Ponta [R$]", "Valor Demanda Ultra Ponta [R$]", "Valor Demanda Ultra Fora de Ponta [R$]", "Valor Demanda Ultra Ponta e Fora de Ponta [R$]", "Valor de Tarifas [R$]", "Valor de Descontos [R$]", "Valor Total [R$]", "Nota Fiscal de Serviço", "Consumo de Energia Comprada", "Energia Comprada"}),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Outras Colunas Removidas", each [Unidade] <> null and [Unidade] <> ""),
+				    #"Coluna Personalizada Adicionada" = Table.AddColumn(#"Linhas Filtradas", "Data", each Text.Combine({Text.Middle(Text.From([#"Ano de Ref."], "pt-BR"), 1, 2), "/", Text.PadStart(Text.From([#"Mês de Ref."], "pt-BR"), 2, "0"), Text.PadStart(Text.From([#"Ano de Ref."], "pt-BR"), 5, "/")}), type text),
+				    #"Linhas Filtradas1" = Table.SelectRows(#"Coluna Personalizada Adicionada", each [#"Ano de Ref."] >= 2023),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Linhas Filtradas1",{{"Data", type date}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

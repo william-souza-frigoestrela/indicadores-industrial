@@ -1,0 +1,143 @@
+table 'Cadastro de Produto'
+	lineageTag: 492ab4b2-312f-4050-9905-2e2eb9fe8c10
+
+	column SEQPRODUTO
+		dataType: int64
+		formatString: 0
+		lineageTag: 358f38fe-c49c-4274-9892-ada81a73b124
+		summarizeBy: none
+		sourceColumn: SEQPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column PRODUTO
+		dataType: string
+		lineageTag: dd2e775c-175e-4545-8c4d-b4f1939696d3
+		summarizeBy: none
+		sourceColumn: PRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column STATUSPRODUTO
+		dataType: string
+		lineageTag: 07c71b30-38ff-4dd3-982f-1aaf9048ca6f
+		summarizeBy: none
+		sourceColumn: STATUSPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column GRUPOPRODUTO
+		dataType: string
+		lineageTag: cfb61812-47ae-4e1a-aa50-fbf1c741cb01
+		summarizeBy: none
+		sourceColumn: GRUPOPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUBGRUPOPRODUTO
+		dataType: string
+		lineageTag: 571b7c23-9d43-4254-aa39-987e01e5ebed
+		summarizeBy: none
+		sourceColumn: SUBGRUPOPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column TRIBUTACAO
+		dataType: string
+		lineageTag: f3f3e58a-dbdc-4442-a4db-c5b001a1f8d5
+		summarizeBy: none
+		sourceColumn: TRIBUTACAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column TIPOPROD
+		dataType: string
+		lineageTag: def6f35d-677f-4f17-b793-2247c66dc13e
+		summarizeBy: none
+		sourceColumn: TIPOPROD
+
+		annotation SummarizationSetBy = Automatic
+
+	column FAMILIAPRODUTO
+		dataType: string
+		lineageTag: 79804b86-73bb-4f21-9637-c76571ce1b8f
+		summarizeBy: none
+		sourceColumn: FAMILIAPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column TIPOPRODUTO
+		dataType: string
+		lineageTag: 49fb16dd-1f88-40b5-8853-18abe2f42039
+		summarizeBy: none
+		sourceColumn: TIPOPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column GRUPOCONTABILPRODUTO
+		dataType: string
+		lineageTag: 24b6f3b3-685b-4968-a59e-e473020022e3
+		summarizeBy: none
+		sourceColumn: GRUPOCONTABILPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column NCM
+		dataType: string
+		lineageTag: ab259857-7469-4341-b85c-b26a548c5b25
+		summarizeBy: none
+		sourceColumn: NCM
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRICAONCM
+		dataType: string
+		lineageTag: 15d9b522-63a7-480d-8a0a-ffa531686d35
+		summarizeBy: none
+		sourceColumn: DESCRICAONCM
+
+		annotation SummarizationSetBy = Automatic
+
+	column USUINCLUSAO
+		dataType: string
+		lineageTag: a82aca3f-5efa-47fc-bc49-05410bcf07bb
+		summarizeBy: none
+		sourceColumn: USUINCLUSAO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DTAINCLUSAO
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 28299ee5-9c9f-48d1-8c19-896417590e1a
+		summarizeBy: none
+		sourceColumn: DTAINCLUSAO
+
+		variation Variation
+			isDefault
+			relationship: 32acd90d-8679-4b3a-877b-d734d9061028
+			defaultHierarchy: LocalDateTable_c165c10e-5fd4-4686-8405-cba6da9d2fbe.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column CONSERVACAO
+		dataType: string
+		lineageTag: 9e00fdb6-ba1e-42ac-b7f1-7a4e74744823
+		summarizeBy: none
+		sourceColumn: CONSERVACAO
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Cadastro de Produto' = m
+		mode: import
+		source =
+				let
+				    Fonte = Oracle.Database("datavale", [HierarchicalNavigation=true, Query="SELECT * FROM DATAVALE.dgevpb_cadastroproduto"]),
+				    #"Linhas Filtradas" = Table.SelectRows(Fonte, each ([STATUSPRODUTO] = "Ativo") and ([TIPOPRODUTO] = "CARNES E INDUSTRIALIZADOS") and ([SUBGRUPOPRODUTO] <> "13-SUB-PRODUTOS BOVINOS - TRIP" and [SUBGRUPOPRODUTO] <> "13-SUB-PRODUTOS BOVINOS -DESOS" and [SUBGRUPOPRODUTO] <> "13-SUB-PRODUTOS BOVINOS- MIUDO" and [SUBGRUPOPRODUTO] <> "13-SUB-PRODUTOS SUINOS EXP DES" and [SUBGRUPOPRODUTO] <> "13-SUB-PRODUTOS SUINOS-DESOSSA" and [SUBGRUPOPRODUTO] <> "14-GRAXARIA" and [SUBGRUPOPRODUTO] <> "17-TRIPAS BOVINAS EXPORTAÇÃO" and [SUBGRUPOPRODUTO] <> "51 - MATERIA-PRIMA EMB-MIUDOS " and [SUBGRUPOPRODUTO] <> "51- MATERIA PRIMA -MIUDOS" and [SUBGRUPOPRODUTO] <> "51-CARNE -MATERIA PRIMA" and [SUBGRUPOPRODUTO] <> "51-EMBUTIDOS- MATERIA PRIMA" and [SUBGRUPOPRODUTO] <> "51-EMBUTIDOS-MATERIA PRIMA" and [SUBGRUPOPRODUTO] <> "51-MATERIA PRIMA MUIDOS SUINO" and [SUBGRUPOPRODUTO] <> "51-MATERIA-PRIMA EMBUTIDOS" and [SUBGRUPOPRODUTO] <> "GRAXARIA" and [SUBGRUPOPRODUTO] <> "GRAXARIA ABATE" and [SUBGRUPOPRODUTO] <> "GRAXARIA DESOSSA" and [SUBGRUPOPRODUTO] <> "GRAXARIA SALGA" and [SUBGRUPOPRODUTO] <> "MAT. PRIMA DESOSSA P/EMBUTIDO" and [SUBGRUPOPRODUTO] <> "MATERIA PRIMA DESOS- TCHE" and [SUBGRUPOPRODUTO] <> "MATERIA PRIMA INDUSTRIALIZADO" and [SUBGRUPOPRODUTO] <> "MATERIA PRIMA MIUDOS - TCHE" and [SUBGRUPOPRODUTO] <> "MATERIA PRIMA MIUDOS CONG-TCHE" and [SUBGRUPOPRODUTO] <> "MATERIA-PRIMA TRIPARIA" and [SUBGRUPOPRODUTO] <> "QUEIJOS" and [SUBGRUPOPRODUTO] <> "RESIDUOS " and [SUBGRUPOPRODUTO] <> "TEMPERO"))
+				in
+				    #"Linhas Filtradas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

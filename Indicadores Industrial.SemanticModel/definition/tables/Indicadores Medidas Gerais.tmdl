@@ -1,0 +1,441 @@
+table 'Indicadores Medidas Gerais'
+	lineageTag: 2ccf8a54-6777-458a-95bf-46d62c0fce28
+
+	measure Realizado =
+			
+			VAR RealValorIndicador = [Valor Indicador]
+			VAR RealValIndicadorMiudos = [ValorIndicadorMiudios]
+			VAR RealValIndicadorDesossa = [ValorIndicadorLinhaDesossa]
+			
+			RETURN
+			COALESCE(RealValorIndicador,RealValIndicadorMiudos,RealValIndicadorDesossa)
+		lineageTag: c9ddcf30-d41c-436d-bfad-797040f258df
+
+		formatStringDefinition = ```
+				VAR unAbate   = SELECTEDVALUE('Indicadores Abate'[Un])
+				VAR unMiudos  = SELECTEDVALUE('Indicadores Miudos'[Un])
+				VAR unDesossa = SELECTEDVALUE('Indicadores Desossa'[Un])
+				
+				-- pega a unidade correta entre as 3
+				VAR un = COALESCE(unAbate, unMiudos, unDesossa)
+				
+				RETURN
+				LOOKUPVALUE(
+				    UnidadeInidicadores[Formato],
+				    UnidadeInidicadores[Unidade], un,
+				    "#,##0.00"   -- formato padrão caso não encontre
+				)
+				
+				```
+
+	measure 'Pct Aceitavel' = ```
+			
+			
+			VAR vMeta   = [Meta Dia (linha)]
+			VAR vTurno  = SELECTEDVALUE( Excel_Metas[Turno], "Diurno" )
+			
+			VAR vIndic =
+			    COALESCE(
+			        SELECTEDVALUE('Indicadores Abate'[Indicador]),
+			        SELECTEDVALUE('Indicadores Miudos'[IndicadorMiudos]),
+			        SELECTEDVALUE(Excel_Metas[Indicador]),
+			        SELECTEDVALUE('Indicadores Desossa'[IndicadorDesossa])
+			    )
+			
+			VAR vFilial = SELECTEDVALUE( DGE_EMPRESAMATRIZ[FILIAL],       SELECTEDVALUE( Excel_Metas[FILIAL] ) )
+			
+			VAR vPct =
+			    CALCULATE(
+			        MAX( Excel_Metas[%Aceitavel] ),
+			        KEEPFILTERS( Excel_Metas[Indicador] = vIndic ),
+			        KEEPFILTERS( Excel_Metas[FILIAL]    = vFilial ),
+			        KEEPFILTERS( Excel_Metas[Turno]     = vTurno )
+			    )
+			
+			VAR vRegra0 =
+			    CALCULATE(
+			        MAX( Excel_Metas[Regra] ),
+			        KEEPFILTERS( Excel_Metas[Indicador] = vIndic ),
+			        KEEPFILTERS( Excel_Metas[FILIAL]    = vFilial ),
+			        KEEPFILTERS( Excel_Metas[Turno]     = vTurno )
+			    )
+			
+			VAR vRegra = UPPER( TRIM( vRegra0 ) )
+			RETURN
+			        IF(
+			        ISBLANK(vMeta) || ISBLANK(vPct),
+			        BLANK(),
+			        SWITCH(
+			            vRegra,
+			            ">", vMeta * vPct,       -- maior melhor
+			            "<", vMeta * vPct,       -- menor melhor (ajuste aqui se quiser outro critério, p.ex. vMeta / vPct)
+			                 vMeta * vPct
+			        )
+			    )
+			
+			```
+		lineageTag: 5685394f-3284-4438-b1fd-e5d7f77ccb54
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Regra (Meta)' = ```
+			
+			
+			VAR vIndic =
+			    COALESCE(
+			        SELECTEDVALUE('Indicadores Abate'[Indicador]),
+			        SELECTEDVALUE('Indicadores Miudos'[IndicadorMiudos]),
+			        SELECTEDVALUE(Excel_Metas[Indicador]),
+			        SELECTEDVALUE('Indicadores Desossa'[IndicadorDesossa])
+			    )
+			
+			VAR vFilial = SELECTEDVALUE(DGE_EMPRESAMATRIZ[FILIAL])
+			VAR vTurno  = SELECTEDVALUE(Excel_Metas[Turno], "Diurno")
+			
+			RETURN
+			CALCULATE(
+			    MAX(Excel_Metas[Regra]),
+			    KEEPFILTERS(Excel_Metas[Indicador] = vIndic),
+			    KEEPFILTERS(Excel_Metas[FILIAL]    = vFilial),
+			    KEEPFILTERS(Excel_Metas[Turno]     = vTurno)
+			)
+			
+			```
+		lineageTag: 3c706fd8-6f61-4ab6-8efa-0c6dc731d96e
+
+	measure 'Meta Dia (linha)' = ```
+			
+			COALESCE( [Meta Indicador], 0 )
+			
+			```
+		lineageTag: 87cbeece-dae3-4fbc-a6d9-e85f84ee5f7a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Meta Indicador' = ```
+			
+			
+			VAR MetaDia =
+			    MAX(EXCEL_METAS[VlrMeta])
+			
+			VAR SomaTipo1 =
+			    CALCULATE(
+			        SUM(EXCEL_METAS[VlrMeta]),
+			        EXCEL_METAS[TipoMeta] = 1
+			    )
+			
+			VAR MaxTipo0 =
+			    CALCULATE(
+			        MAX(EXCEL_METAS[VlrMeta]),
+			        EXCEL_METAS[TipoMeta] = 0
+			    )
+			
+			VAR MetaMes = COALESCE(SomaTipo1,0) + COALESCE(MaxTipo0,0)
+			
+			RETURN
+			IF(
+			    ISINSCOPE('Calendário'[Data]),
+			    MetaDia,
+			    MetaMes
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 753b807d-c6e7-4c79-ae34-92105b6e5783
+
+	measure 'Valor Meta' = ```
+			
+			[Meta Indicador]
+			
+			```
+		lineageTag: 89e5e861-3c56-4ed3-a244-348e6f49ec79
+
+		formatStringDefinition = ```
+				
+				VAR unAbate   = SELECTEDVALUE('Indicadores Abate'[Un])
+				VAR unMiudos  = SELECTEDVALUE('Indicadores Miudos'[Un])
+				VAR unDesossa = SELECTEDVALUE('Indicadores Desossa'[Un])
+				
+				-- pega a unidade correta entre as 3
+				VAR un = COALESCE(unAbate, unMiudos, unDesossa)
+				
+				RETURN
+				LOOKUPVALUE(
+				    UnidadeInidicadores[Formato],
+				    UnidadeInidicadores[Unidade], un,
+				    "#,##0.00"   -- formato padrão caso não encontre
+				)
+				
+				```
+
+	measure 'Variação (Real - Meta)' = ```
+			
+			VAR real = [Valor Indicador]
+			VAR meta = [Meta Indicador]
+			RETURN
+			IF(
+			    ISBLANK(real) || ISBLANK(meta),
+			    BLANK(),
+			    real - meta
+			)
+			
+			```
+		lineageTag: 66ad84ce-cae0-4b43-9c42-6e7733a185bb
+
+		formatStringDefinition = ```
+				VAR ind = SELECTEDVALUE ( 'Indicadores Abate'[Indicador] )
+				RETURN
+				SWITCH (
+				    TRUE(),
+				
+				    -- Cabeças Abatidas → inteiro sem casas
+				    ind = "Cabeças Abatidas", "#,##0",
+				
+				    -- Indicadores percentuais (começam com %)
+				    LEFT(ind,1) = "%", "0.00%",
+				
+				    -- Demais indicadores → 2 casas decimais
+				    "#,##0.00"
+				)
+				
+				```
+
+	measure 'Cor Var % (Auto)' = ```
+			
+			//VAR VarValor = [Variação%]  -- sua medida de variação em %
+			//VAR indAbate= SELECTEDVALUE('Indicadores Abate'[Indicador])
+			//VAR indMiudos = SELECTEDVALUE('Indicadores Miudos'[IndicadorMiudos])
+			//VAR IndDesossa =  SELECTEDVALUE('Indicadores Desossa'[IndicadorDesossa])
+			//VAR rawInd = COALESCE(indAbate, indMiudos, IndDesossa)
+			//Var Ind = IF(ISBLANK(rawInd), BLANK(), UPPER(TRIM(rawInd)))
+			//VAR IndicadorAtual = Ind
+			
+			/* Normaliza o texto para facilitar a detecção "contém Absenteísmo":
+			//   - lowercase
+			//   - remove acentos usados em "Absenteísmo" (í, ê)
+			//*/
+			//VAR IndicadorNorm_1 = LOWER ( IndicadorAtual )
+			//VAR IndicadorNorm_2 = SUBSTITUTE ( IndicadorNorm_1, "í", "i" )
+			//VAR IndicadorNorm_3 = SUBSTITUTE ( IndicadorNorm_2, "ê", "e" )
+			//VAR IndicadorNorm   = IndicadorNorm_3
+			
+			///* True se o nome do indicador (já normalizado) contiver "absenteismo" */
+			//VAR EhAbsenteismo =
+			//    NOT ISBLANK ( IndicadorAtual )
+			//        && CONTAINSSTRING ( IndicadorNorm, "absenteismo" )
+			//
+			//RETURN
+			//SWITCH (
+			//    TRUE(),
+			//    ISBLANK ( VarValor ), "#A3A3A3",                  -- neutro (sem valor)
+			//    VarValor = 0,            "#A3A3A3",               -- neutro (zero)
+			//
+			//    /* --- EXCEÇÃO: qualquer indicador que contenha "Absenteísmo" --- */
+			//    EhAbsenteismo && VarValor > 0, "#D13438",          -- positivo = vermelho (piorou)
+			//    EhAbsenteismo && VarValor < 0, "#107C10",          -- negativo = verde (melhorou)
+			//
+			//    /* --- Regras normais para os demais --- */
+			//    VarValor > 0,             "#107C10",               -- positivo = verde
+			//    VarValor < 0,             "#D13438",               -- negativo = vermelho
+			//
+			//    "#A3A3A3"
+			//)
+			
+			VAR V = [Variação%]
+			
+			VAR VEff =
+			    IF (
+			        MAX ( EXCEL_METAS[Regra] ) = "MENOR",
+			        -V,
+			        V
+			    )
+			
+			RETURN
+			SWITCH (
+			    TRUE(),
+			    ISBLANK ( VEff ) || VEff = 0, "#A3A3A3",
+			    VEff > 0, "#107C10",
+			    VEff < 0, "#D13438",
+			    "#A3A3A3"
+			)
+			
+			```
+		lineageTag: 413b0c35-44c8-4c52-ba7c-52303d78ce9a
+
+	measure 'Cor Velocimetro' = ```
+			
+			VAR Azul  = "#0078D4"
+			VAR Verm  = "#D13438"
+			VAR Cinza = "#D9D9D9"
+			
+			-- resolve o Realizado para abate ou miúdos
+			VAR vReal =
+			    COALESCE( [Valor Indicador], [ValorIndicadorMiudios] , [Valor Indicador Deossa])
+			
+			-- resolve a Meta (usa a MESMA meta independente do indicador)
+			VAR vMeta = [Meta Dia (linha)]
+			
+			-- resolve aceitável
+			VAR vAceit = [Pct Aceitavel]
+			
+			VAR vRegra =
+			    UPPER( TRIM( [Regra (Meta)] ) )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    ISBLANK(vReal) || ISBLANK(vMeta) || ISBLANK(vAceit), Cinza,
+			
+			    vRegra = "MAIOR",
+			        IF( vReal >= vMeta || vReal >= vAceit, Azul, Verm ),
+			
+			    vRegra = "MENOR",
+			        IF( vReal <= vMeta || vReal <= vAceit, Azul, Verm ),
+			
+			    IF( vReal >= vMeta || vReal >= vAceit, Azul, Verm )
+			)
+			
+			```
+		lineageTag: 14bea89e-04e3-4c36-a163-111eb0d7568f
+
+	measure 'Farol Var % (Auto)' = ```
+			
+			//VAR V = [Variação%]
+			//VAR indAbate = SELECTEDVALUE('Indicadores Abate'[Indicador])
+			//VAR indMiudos = SELECTEDVALUE('Indicadores Miudos'[IndicadorMiudos])
+			//VAR indDesossa = SELECTEDVALUE('Indicadores Desossa'[IndicadorDesossa])
+			//VAR rawInd = COALESCE(indAbate, indMiudos, indDesossa)
+			//VAR Ind = IF(ISBLANK(rawInd), BLANK(), UPPER(TRIM(rawInd)))
+			//VAR Ind1 = LOWER( Ind )
+			//VAR Ind2 = SUBSTITUTE( Ind1, "í", "i" )
+			//VAR Ind3 = SUBSTITUTE( Ind2, "ê", "e" )
+			//VAR EhAbs = NOT ISBLANK(Ind) && CONTAINSSTRING( Ind3, "Absenteismo" )
+			
+			//VAR VEff = 
+			//    IF ( EhAbs, -V, V )   -- inverte só para Absenteísmo
+			//RETURN
+			//SWITCH(
+			//    TRUE(),
+			//    ISBLANK(VEff) || VEff = 0, "🟡",
+			//    VEff > 0, "🟢",
+			//    VEff < 0, "🔴",
+			//    "🟡"//
+			//)
+			
+			VAR V = [Variação%]
+			
+			VAR VEff =
+			    IF (
+			        MAX ( EXCEL_METAS[Regra] ) = "MENOR",
+			        -V,
+			        V
+			    )
+			
+			RETURN
+			SWITCH (
+			    TRUE(),
+			    ISBLANK ( VEff ) || VEff = 0, "🟡",
+			    VEff > 0, "🟢",
+			    VEff < 0, "🔴"
+			)
+			
+			```
+		lineageTag: 40871454-b1cd-4f6f-bf0b-f1de639e674d
+
+	measure 'Var% Graf' = [AtingmentoMeta] + ([Variação%])
+		lineageTag: 62e38f4b-60b1-4c21-b63e-565eeeb2b6bf
+
+		formatStringDefinition = "0.00%"
+
+	measure Variacao =
+			
+			VAR real = [Realizado]
+			VAR meta = [Meta Indicador]
+			RETURN
+			//IF(
+			//    ISBLANK(real) || ISBLANK(meta),
+			//    BLANK(),
+			//    real - meta
+			//)
+			
+			real - meta
+		lineageTag: f4d08b96-7988-45ef-b282-51743d0e75de
+
+		formatStringDefinition = ```
+				
+				VAR unAbate   = SELECTEDVALUE('Indicadores Abate'[Un])
+				VAR unMiudos  = SELECTEDVALUE('Indicadores Miudos'[Un])
+				VAR unDesossa = SELECTEDVALUE('Indicadores Desossa'[Un])
+				
+				-- pega a unidade correta entre as 3
+				VAR un = COALESCE(unAbate, unMiudos, unDesossa)
+				
+				RETURN
+				LOOKUPVALUE(
+				    UnidadeInidicadores[Formato],
+				    UnidadeInidicadores[Unidade], un,
+				    "#,##0.00"   -- formato padrão caso não encontre
+				)
+				
+				```
+
+	measure Variação% =
+			
+			VAR real = [Realizado]
+			VAR meta = [Meta Indicador]
+			RETURN
+			//IF(
+			//    ISBLANK(real) || ISBLANK(meta) || meta = 0,
+			//    BLANK(),
+			//    DIVIDE( real - meta, meta )
+			//)
+			DIVIDE(real - meta,meta,BLANK())
+		lineageTag: 48c318f4-08c8-48f1-b00a-6b7331bba7f1
+
+		formatStringDefinition = "0.00%"
+
+	measure VariacaoGraf = IF([Variacao] < 0 , [Variacao]*-1, [Variacao])
+		lineageTag: 319971f8-df0c-4199-9fcd-d9359964bcf6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure AtingmentoMeta = 1
+		lineageTag: 472f1002-d566-4a3a-b489-a062649f9fd5
+
+		formatStringDefinition = "0.00%"
+
+	measure 'Status Var % (Num)' = ```
+			
+			VAR V = [Variação%]
+			RETURN
+			IF (
+			    ISBLANK(V),
+			    0,
+			    SIGN (
+			        IF (
+			            MAX ( EXCEL_METAS[Regra] ) = "MENOR",
+			            -V,
+			            V
+			        )
+			    )
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 05ed160c-cc34-421a-aa2d-3a2851e7f388
+
+	column Column
+		formatString: 0
+		lineageTag: 5e7fe5fd-4d83-47b0-b072-21d15b91d6a1
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Indicadores Medidas Gerais' = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 7db7ded67bc74711bc4213fa57632033
+

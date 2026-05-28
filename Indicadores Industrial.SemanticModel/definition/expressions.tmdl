@@ -1,0 +1,379 @@
+expression AnoMin = 2023 meta [IsParameterQuery=true, Type="Number", IsParameterQueryRequired=true]
+	lineageTag: 0b5eb06e-26bb-4220-b1bf-c56fa37b4056
+
+	annotation PBI_ResultType = Number
+
+expression AnoMax = 2026 meta [IsParameterQuery=true, Type="Number", IsParameterQueryRequired=true]
+	lineageTag: df35d546-37bf-47c6-900d-f6d2d598c42d
+
+	annotation PBI_ResultType = Number
+
+	annotation PBI_NavigationStepName = Navegação
+
+expression MesInicioAnoFiscal = 1 meta [IsParameterQuery=true, Type="Number", IsParameterQueryRequired=true]
+	lineageTag: f75303ae-cb59-4166-86d4-2b918d66c649
+
+	annotation PBI_ResultType = Number
+
+expression DiaInicioMes = 1 meta [IsParameterQuery=true, Type="Number", IsParameterQueryRequired=true]
+	lineageTag: 2f7ce29a-f43d-47a2-97b5-7c193e3f3ba7
+
+	annotation PBI_ResultType = Number
+
+expression 'Eventos Aux' =
+		let
+		    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("XVLLbtswEPyVhc9pAQPtpTdFqVIZcmJIvgU5bKStswVFGpTkQ3+jn9CDkXP7B/yx7pJSavjIGc4+ZvbpaZWtblbZSMOInVs93wiwu0Bgh75lNInZClNxSzacEbY4krfcYUeJ3auu5Y7sSNAR7D2+oHmdq25i1Y+wmTp+r3grYO76I9kBPdx+i2BeKzr5wUFNLbcGD9QnRlvkeMSWRwzn8NvBnsIfzy1G/q4S/o4RKhr55OADbNyJesiOnmzHP+OnQv4UaMYkKXJ9OnNAyJ096WpSNlL3Wu1efZCFvkhNhvWn9ed1JEvhSsEPHv8rmqU0NNwfDQ0R/apoePOM6V0Ws9bbeYmCF5vK/JrLw1/7Yzokj6vsMoHMkPjQi99JXF3n47l3dvG62l2yu6v0tkVMT7JA+ypZxJEAHWzDmwSWGjxqXuHXC88NNajHafTzYrUOL5GZaVgcqZsIif+DjKlGijUSRTsP1ejIDfkTh7P0YiML+cTouA/qQKkXxd9FM1+oMs006NUsfaqHy+WsymrqJ0seOwn6+R8=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Código = _t, Descrição = _t]),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Código", type text}, {"Descrição", type text}})
+		in
+		    #"Tipo Alterado"
+	lineageTag: 3eb5026d-7d51-4387-a48a-979d9dc5664a
+	queryGroup: 'Ponto Funcionário'
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Exception
+
+expression ESTV_FUNCDIASAFASTADOS =
+		let
+		    Fonte = Oracle.Database("datavale", [HierarchicalNavigation=true]),
+		    DATAVALE = Fonte{[Schema="DATAVALE"]}[Data],
+		    ESTV_FUNCDIASAFASTADOS1 = DATAVALE{[Name="ESTV_FUNCDIASAFASTADOS"]}[Data],
+		    #"Linhas Filtradas" = Table.SelectRows(ESTV_FUNCDIASAFASTADOS1, each ([NROEMPRESA] = 2 or [NROEMPRESA] = 4 or [NROEMPRESA] = 12 or [NROEMPRESA] = 18 or [NROEMPRESA] = 72 or [NROEMPRESA] = 104)),
+		    #"Linhas Filtradas1" = Table.SelectRows(#"Linhas Filtradas", each [DIASAFASTADOS] > 15),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Linhas Filtradas1",{{"DTAAFASTAMENTO", type date}, {"DTARETORNO", type date}}),
+		    #"Linhas Filtradas2" = Table.SelectRows(#"Tipo Alterado", each ([DESCRDEPARTAMENTO] = "INDUSTRIA CARNE" or [DESCRDEPARTAMENTO] = "INDUSTRIA EMBUTIDOS")),
+		    #"Valor Substituído" = Table.ReplaceValue(#"Linhas Filtradas2",null,#date(2023, 12, 31),Replacer.ReplaceValue,{"DTARETORNO"}),
+		    #"Personalização Adicionada" = Table.AddColumn(#"Valor Substituído", "Intervalo", each {Number.From([DTAAFASTAMENTO])..Number.From([DTARETORNO])}),
+		    #"Intervalo Expandido" = Table.ExpandListColumn(#"Personalização Adicionada", "Intervalo"),
+		    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Intervalo Expandido",{{"Intervalo", type date}})
+		in
+		    #"Tipo Alterado1"
+	lineageTag: aa11da38-8b07-434c-984e-e7b4d9ec89d0
+	queryGroup: 'Ponto Funcionário'
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Exception
+
+expression 'AFASTADOS ATUALMENTE' =
+		let
+		    Fonte = Oracle.Database("datavale", [HierarchicalNavigation=true]),
+		    DATAVALE = Fonte{[Schema="DATAVALE"]}[Data],
+		    ESTV_FUNCDIASAFASTADOS1 = DATAVALE{[Name="ESTV_FUNCDIASAFASTADOS"]}[Data],
+		    #"Linhas Filtradas" = Table.SelectRows(ESTV_FUNCDIASAFASTADOS1, each ([NROEMPRESA] = 2 or [NROEMPRESA] = 4 or [NROEMPRESA] = 12 or [NROEMPRESA] = 18 or [NROEMPRESA] = 72 or [NROEMPRESA] = 104)),
+		    #"Linhas Filtradas1" = Table.SelectRows(#"Linhas Filtradas", each [DIASAFASTADOS] > 15),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Linhas Filtradas1",{{"DTAAFASTAMENTO", type date}, {"DTARETORNO", type date}}),
+		    #"Linhas Filtradas2" = Table.SelectRows(#"Tipo Alterado", each ([DESCRDEPARTAMENTO] = "INDUSTRIA CARNE" or [DESCRDEPARTAMENTO] = "INDUSTRIA EMBUTIDOS")),
+		    #"Valor Substituído" = Table.ReplaceValue(#"Linhas Filtradas2",null,#date(2023, 12, 31),Replacer.ReplaceValue,{"DTARETORNO"}),
+		    #"Personalização Adicionada" = Table.AddColumn(#"Valor Substituído", "Intervalo", each {Number.From([DTAAFASTAMENTO])..Number.From([DTARETORNO])}),
+		    #"Intervalo Expandido" = Table.ExpandListColumn(#"Personalização Adicionada", "Intervalo"),
+		    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Intervalo Expandido",{{"Intervalo", type date}}),
+		    #"Linhas Filtradas3" = Table.SelectRows(#"Tipo Alterado1", each [SITUACAOATUAL] = "Afastado"),
+		    #"Duplicatas Removidas" = Table.Distinct(#"Linhas Filtradas3", {"CODFUNCIONARIO"})
+		in
+		    #"Duplicatas Removidas"
+	lineageTag: 1fed5d81-5e32-4c70-bd65-cc65e3cb21d3
+	queryGroup: 'Ponto Funcionário'
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Exception
+
+expression 'Classificação Aux' = ```
+		let
+		    Fonte = PowerPlatform.Dataflows(null),
+		    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+		    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
+		    #"35024cdc-6a08-4e80-8a93-36e024176d14" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="35024cdc-6a08-4e80-8a93-36e024176d14"]}[Data],
+		
+		    // Importando as quatro entidades
+		    AbateMTZ = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_MTZ", version=""]}[Data],
+		    AbateRND = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_RND", version=""]}[Data],
+		    AbateSLG = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_SLG", version=""]}[Data],
+		    AbateTUP = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_TUP", version=""]}[Data],
+		
+		    // Selecionando apenas as colunas desejadas e combinando
+		    AbateMTZ_sel = Table.SelectColumns(AbateMTZ, {"DESCRREDCLASSIFCONFORMIDADE", "DESCRCLASSIFCONFORMIDADE"}),
+		    AbateRND_sel = Table.SelectColumns(AbateRND, {"DESCRREDCLASSIFCONFORMIDADE", "DESCRCLASSIFCONFORMIDADE"}),
+		    AbateSLG_sel = Table.SelectColumns(AbateSLG, {"DESCRREDCLASSIFCONFORMIDADE", "DESCRCLASSIFCONFORMIDADE"}),
+		    AbateTUP_sel = Table.SelectColumns(AbateTUP, {"DESCRREDCLASSIFCONFORMIDADE", "DESCRCLASSIFCONFORMIDADE"}),
+		
+		    DadosCombinados = Table.Combine({AbateMTZ_sel, AbateRND_sel, AbateSLG_sel, AbateTUP_sel}),
+		    #"Duplicatas Removidas" = Table.Distinct(DadosCombinados),
+		
+		    // Adicionando as colunas condicionais
+		    #"Coluna Condicional Adicionada" = Table.AddColumn(#"Duplicatas Removidas", "CLASSIFICAÇÃO", each 
+		        if Text.Contains([DESCRREDCLASSIFCONFORMIDADE], "CHN") then "MERCADO EXTERNO" 
+		        else if Text.Contains([DESCRREDCLASSIFCONFORMIDADE], "MB") then "MERCADO EXTERNO" 
+		        else if Text.Contains([DESCRREDCLASSIFCONFORMIDADE], "UE") then "MERCADO EXTERNO" 
+		        else "MERCADO INTERNO"),
+		
+		    #"Coluna Condicional Adicionada1" = Table.AddColumn(#"Coluna Condicional Adicionada", "CLASSIFICACAORED", each 
+		        if [DESCRREDCLASSIFCONFORMIDADE] = "UE/CHN" then "01. UE/CHN" 
+		        else if Text.Contains([DESCRREDCLASSIFCONFORMIDADE], "CHN") then "02. CHN" 
+		        else if Text.Contains([DESCRREDCLASSIFCONFORMIDADE], "MB") then "02. CHN" 
+		        else if [DESCRREDCLASSIFCONFORMIDADE] = "UE" then "01. UE" 
+		        else if Text.Contains([DESCRREDCLASSIFCONFORMIDADE], "LG") then "03. LG/LE" 
+		        else if Text.Contains([DESCRREDCLASSIFCONFORMIDADE], "LE") then "03. LG/LE" 
+		        else if Text.Contains([DESCRREDCLASSIFCONFORMIDADE], "NE") then "NE" 
+		        else if Text.Contains([DESCRREDCLASSIFCONFORMIDADE], "RA") then "03. LG/LE" 
+		        else [DESCRREDCLASSIFCONFORMIDADE]),
+		
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Coluna Condicional Adicionada1",{
+		        {"DESCRREDCLASSIFCONFORMIDADE", type text}, 
+		        {"DESCRCLASSIFCONFORMIDADE", type text}, 
+		        {"CLASSIFICAÇÃO", type text}, 
+		        {"CLASSIFICACAORED", type text}
+		    })
+		in
+		    #"Tipo Alterado"
+		```
+	lineageTag: 9ba6b4db-986a-49ca-93b1-961130bf0241
+	queryGroup: 'Fluxo Industrial'
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Exception
+
+expression DINVPB_PAUSADESOSSA = ```
+		let
+		    Fonte = PowerPlatform.Dataflows(null),
+		    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+		    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
+		    #"37d71bd8-02a7-4bae-aa23-9f7b98610d23" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="37d71bd8-02a7-4bae-aa23-9f7b98610d23"]}[Data],
+		
+		    // Novas fontes
+		    SLG = #"37d71bd8-02a7-4bae-aa23-9f7b98610d23"{[entity="DINVPB_PAUSADESOSSA_SLG", version=""]}[Data],
+		    TUP = #"37d71bd8-02a7-4bae-aa23-9f7b98610d23"{[entity="DINVPB_PAUSADESOSSA_TUP", version=""]}[Data],
+		    MTZ = #"37d71bd8-02a7-4bae-aa23-9f7b98610d23"{[entity="DINVPB_PAUSADESOSSA_MTZ", version=""]}[Data],
+		
+		    // Combina as três tabelas
+		    TabelasUnidas = Table.Combine({SLG, TUP, MTZ}),
+		
+		    // Remove colunas indesejadas
+		    #"Colunas Removidas" = Table.RemoveColumns(TabelasUnidas, {"SEQPAUSA", "SEQPONTO", "TIPO", "DESCRICAO", "Hora"}),
+		
+		    // Adiciona coluna TIPO com valor fixo "DESOSSA"
+		    #"Personalização Adicionada" = Table.AddColumn(#"Colunas Removidas", "TIPO", each "DESOSSA"),
+		
+		    // Altera tipos de dados
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Personalização Adicionada", {
+		        {"DTAHORAINICIAL", type datetime}, 
+		        {"DTAHORAFINAL", type datetime}, 
+		        {"MOTIVO", type text}, 
+		        {"NROEMPRESA", Int64.Type}, 
+		        {"TIPO", type text}
+		    })
+		in
+		    #"Tipo Alterado"
+		```
+	lineageTag: 0a0bd8bf-4d89-4cc9-9580-cef32948330c
+	queryGroup: 'Fluxo Industrial'
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Exception
+
+expression DINVPB_ABATEPAUSA =
+		let
+		    Fonte = PowerPlatform.Dataflows(null),
+		    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+		    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
+		    #"35024cdc-6a08-4e80-8a93-36e024176d14" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="35024cdc-6a08-4e80-8a93-36e024176d14"]}[Data],
+		
+		    // Carregar e transformar cada tabela
+		    TransformarTabela = (tabela as table, nomeUnidade as text) =>
+		        let
+		            TipoAlterado = Table.TransformColumnTypes(tabela, {
+		                {"DATAINICIAL", type date}, {"HORAINICIAL", Int64.Type},
+		                {"DATAFINAL", type date}, {"HORAFINAL", Int64.Type},
+		                {"MOTIVO", type text}, {"HRINICIAL", type time},
+		                {"HRFINAL", type time}, {"NROEMPRESA", Int64.Type}
+		            }),
+		            DataHoraInicial = Table.AddColumn(TipoAlterado, "INICIAL", each [DATAINICIAL] & [HRINICIAL], type datetime),
+		            DataHoraFinal = Table.AddColumn(DataHoraInicial, "FINAL", each [DATAFINAL] & [HRFINAL], type datetime),
+		            ColunasRemovidas = Table.RemoveColumns(DataHoraFinal, {"DATAINICIAL", "HORAINICIAL", "DATAFINAL", "HORAFINAL", "HRINICIAL", "HRFINAL"}),
+		            ColunasRenomeadas = Table.RenameColumns(ColunasRemovidas, {{"INICIAL", "DTAHORAINICIAL"}, {"FINAL", "DTAHORAFINAL"}}),
+		            ColunaTipo = Table.AddColumn(ColunasRenomeadas, "TIPO", each "ABATE", type text),
+		            ColunaUnidade = Table.AddColumn(ColunaTipo, "UNIDADE", each nomeUnidade, type text),
+		            TiposFinais = Table.TransformColumnTypes(ColunaUnidade, {
+		                {"MOTIVO", type text}, {"NROEMPRESA", Int64.Type},
+		                {"DTAHORAINICIAL", type datetime}, {"DTAHORAFINAL", type datetime},
+		                {"TIPO", type text}, {"UNIDADE", type text}
+		            })
+		        in
+		            TiposFinais,
+		
+		    // Carregar os dados brutos
+		    Tabela_MTZ = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATEPAUSA_MTZ", version=""]}[Data],
+		    Tabela_RND = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATEPAUSA_RND", version=""]}[Data],
+		    Tabela_SLG = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATEPAUSA_SLG", version=""]}[Data],
+		    Tabela_TUP = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATEPAUSA_TUP", version=""]}[Data],
+		
+		    // Aplicar transformações
+		    Transformada_MTZ = TransformarTabela(Tabela_MTZ, "MTZ"),
+		    Transformada_RND = TransformarTabela(Tabela_RND, "RND"),
+		    Transformada_SLG = TransformarTabela(Tabela_SLG, "SLG"),
+		    Transformada_TUP = TransformarTabela(Tabela_TUP, "TUP"),
+		
+		    // Combinar todas
+		    TabelaUnificada = Table.Combine({
+		        Transformada_MTZ,
+		        Transformada_RND,
+		        Transformada_SLG,
+		        Transformada_TUP
+		    })
+		in
+		    TabelaUnificada
+	lineageTag: fec40ee5-89ba-4b7d-901a-3fa5028b4fe7
+	queryGroup: 'Fluxo Industrial'
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Exception
+
+expression CLASSIFAUX =
+		let
+		    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("bY47DsIwEESvsnINhiT8UiIkpBQoIKCKUiyJiSwZO9rYJ6LgABwhFyO2W8qZeTuzVcUSNmPLhMMZCVscoHyQ7NCOX5I4sHpWsdQTKYeyF4SNNBpV8DPvZxxOqJ0VevyMbwNzKJ0lEy9XnlhxuBbHoNderzkcjJ4YJaAVcHGoZIutCMTGExsON9FwKPTT0AtDcUi3/xfvVsaKuLrz1G5aFdaQGPzIvjcyVuQ+zKcXHBGqxdk0UnXI6voH", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [AUX = _t, AUXDESCRICAO = _t]),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"AUX", Int64.Type}, {"AUXDESCRICAO", type text}})
+		in
+		    #"Tipo Alterado"
+	lineageTag: 6722ca01-39e2-4c71-ba5c-161bcf57914e
+	queryGroup: 'Fluxo Industrial'
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
+expression 'Aux Compra' = ```
+		let
+		    Fonte = PowerPlatform.Dataflows(null),
+		    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+		    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
+		    #"35024cdc-6a08-4e80-8a93-36e024176d14" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="35024cdc-6a08-4e80-8a93-36e024176d14"]}[Data],
+		
+		    // Novas fontes
+		    MTZ = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_MTZ", version=""]}[Data],
+		    RND = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_RND", version=""]}[Data],
+		    SLG = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_SLG", version=""]}[Data],
+		    TUP = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_TUP", version=""]}[Data],
+		
+		    // Combina todas
+		    TabelasUnidas = Table.Combine({MTZ, RND, SLG, TUP}),
+		
+		    // Tipagem das colunas
+		    #"Tipo Alterado" = Table.TransformColumnTypes(TabelasUnidas, {
+		        {"NROEMPRESA", Int64.Type}, 
+		        {"DATA", type date}, 
+		        {"HR", type time}, 
+		        {"SEQUENCIADIA", Int64.Type}, 
+		        {"SEQPRODUTO", Int64.Type}, 
+		        {"DESCRPRODUTO", type text}, 
+		        {"BANDA", type text}, 
+		        {"PESOLIQUIDO", type number}, 
+		        {"PESOLIQUIDOQUEBRA", type number}, 
+		        {"SEXO", type text}, 
+		        {"DESCRSEXO", type text}, 
+		        {"DESCRREDCLASSIFICACAO", type text}, 
+		        {"DESCRCLASSIFICACAO", type text}, 
+		        {"SEQCLASSIFABATE", Int64.Type}, 
+		        {"DESCRCLASSIFABATE", type text}, 
+		        {"DESCRCLASSIFACABAMENTO", type text}, 
+		        {"DESCRREDCLASSIFABATE", type text}, 
+		        {"SEQCLASSIFMATURIDADE", Int64.Type}, 
+		        {"DESCRCLASSIFMATURIDADE", type text}, 
+		        {"DESCRREDCLASSIFMATURIDADE", Int64.Type}, 
+		        {"SEQCLASSIFRACA", Int64.Type}, 
+		        {"DESCRCLASSIFRACA", type text}, 
+		        {"SEQCLASSIFCONFORMIDADE", Int64.Type}, 
+		        {"DESCRCLASSIFCONFORMIDADE", type text}, 
+		        {"DESCRREDCLASSIFCONFORMIDADE", type text}, 
+		        {"ASPERSAO", type text}, 
+		        {"CONFORME", type text}, 
+		        {"NROPEDIDO", Int64.Type}, 
+		        {"NROLOTE", Int64.Type}, 
+		        {"SEQVENDEDOR", Int64.Type}, 
+		        {"SEQPESSOA", Int64.Type}, 
+		        {"NOMEPESSOA", type text}, 
+		        {"NOMEPROPRIEDADE", type text}, 
+		        {"CIDADEPROPRIEDADE", type text}, 
+		        {"UFPROPRIEDADE", type text}, 
+		        {"GRUPOPROD", Int64.Type}, 
+		        {"SUBGRUPOPROD", Int64.Type}, 
+		        {"FAMILIAPROD", Int64.Type}
+		    }),
+		
+		    // Seleciona apenas colunas necessárias
+		    #"Outras Colunas Removidas" = Table.SelectColumns(#"Tipo Alterado", {"NROEMPRESA", "DATA", "NROPEDIDO"}),
+		
+		    // Remove duplicatas
+		    #"Duplicatas Removidas" = Table.Distinct(#"Outras Colunas Removidas"),
+		
+		    // Cria coluna Mesclado (NROEMPRESA + NROPEDIDO)
+		    #"Coluna Mesclada Inserida" = Table.AddColumn(#"Duplicatas Removidas", "Mesclado", each Text.Combine({Text.From([NROEMPRESA], "pt-BR"), Text.From([NROPEDIDO], "pt-BR")}, ""), type text)
+		in
+		    #"Coluna Mesclada Inserida"
+		```
+	lineageTag: de612fa2-9cb3-44ea-ba46-32d83753d6da
+	queryGroup: 'Fluxo Industrial'
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Exception
+
+expression SINCRONISMO_DIARIOABATE =
+		let
+		    Fonte = Odbc.DataSource("dsn=MariaBD", [HierarchicalNavigation=true]),
+		    mytable_Database = Fonte{[Name="mytable",Kind="Database"]}[Data],
+		    diario_abate_View = mytable_Database{[Name="diario_abate",Kind="View"]}[Data],
+		    #"Valor Substituído" = Table.ReplaceValue(diario_abate_View,"","[Em Branco]",Replacer.ReplaceValue,{"Setor"}),
+		    #"Outras Colunas Removidas" = Table.SelectColumns(#"Valor Substituído",{"Setor", "Inicio", "Fim"}),
+		    #"Personalização Adicionada" = Table.AddColumn(#"Outras Colunas Removidas", "NROEMPRESA", each 02),
+		    #"Personalização Adicionada1" = Table.AddColumn(#"Personalização Adicionada", "TIPO", each "ABATE"),
+		    #"Colunas Renomeadas" = Table.RenameColumns(#"Personalização Adicionada1",{{"Setor", "MOTIVO"}, {"Inicio", "DTAHORAINICIAL"}, {"Fim", "DTAHORAFINAL"}})
+		in
+		    #"Colunas Renomeadas"
+	lineageTag: b6129fbd-6cb0-4c97-a194-454e73a93323
+	queryGroup: 'Fluxo Industrial'
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
+expression Parâmetro1 = #"Arquivo de Amostra" meta [IsParameterQuery=true, BinaryIdentifier=#"Arquivo de Amostra", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: bd5924cd-cb3b-432d-8f1b-541a0c45aaa8
+	queryGroup: 'Transformar Arquivo de Quebra de Frio\Consultas Auxiliares'
+
+	annotation PBI_ResultType = Table
+
+expression 'Arquivo de Amostra' =
+		let
+		    Fonte = Folder.Files("\\192.168.2.167\controladoria\05 - INDICADORES\09. Power BI\Quebra de Frio"),
+		    #"P:\05 - INDICADORES\Quebra de Frio\_MTZ - Quebra de Frio xlsx1" = Fonte{[#"Folder Path"="\\192.168.2.167\controladoria\05 - INDICADORES\09. Power BI\Quebra de Frio\",Name="MTZ - Quebra de Frio.xlsx"]}[Content],
+		    #"Pasta de Trabalho Importada do Excel" = Excel.Workbook(#"P:\05 - INDICADORES\Quebra de Frio\_MTZ - Quebra de Frio xlsx1")
+		in
+		    #"Pasta de Trabalho Importada do Excel"
+	lineageTag: b7422485-c136-49e7-891a-4b65d82caf28
+	queryGroup: 'Transformar Arquivo de Quebra de Frio\Consultas Auxiliares'
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+
+expression 'Transformar Arquivo' =
+		let
+		    Fonte = (Parâmetro1 as binary) => let
+		    Fonte = Excel.Workbook(Parâmetro1, null, true),
+		        #"BASE DE DADOS_Sheet" = Fonte{[Item="BASE DE DADOS",Kind="Sheet"]}[Data],
+		    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"BASE DE DADOS_Sheet", [PromoteAllScalars=true])
+		in
+		    #"Cabeçalhos Promovidos"
+		in
+		    Fonte
+	lineageTag: 642b4d9c-d587-4b4b-af64-042d5be64478
+	queryGroup: 'Transformar Arquivo de Quebra de Frio\Consultas Auxiliares'
+
+	annotation PBI_ResultType = Function
+
+	annotation PBI_NavigationStepName = Navegação
+

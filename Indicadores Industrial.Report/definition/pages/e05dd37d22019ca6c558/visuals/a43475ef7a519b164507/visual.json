@@ -1,0 +1,85 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "a43475ef7a519b164507",
+  "position": {
+    "x": 10.930828351836038,
+    "y": 0,
+    "z": 0,
+    "height": 687.54910333048679,
+    "width": 900.70025619128955,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DINVPB_PRODUCAODESOSSA"
+                    }
+                  },
+                  "Property": "SEQPRODUTO"
+                }
+              },
+              "queryRef": "Sum(DINVPB_PRODUCAODESOSSA.SEQPRODUTO)",
+              "nativeQueryRef": "SEQPRODUTO"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DINVPB_PRODUCAODESOSSA"
+                    }
+                  },
+                  "Property": "_cProduto"
+                }
+              },
+              "queryRef": "DINVPB_PRODUCAODESOSSA._cProduto",
+              "nativeQueryRef": "_cProduto"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DINVPB_PRODUCAODESOSSA"
+                        }
+                      },
+                      "Property": "PESOLIQUIDOSAIDA"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(DINVPB_PRODUCAODESOSSA.PESOLIQUIDOSAIDA)",
+              "nativeQueryRef": "Soma de PESOLIQUIDOSAIDA"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Peso Saída Cortes Desossa"
+                }
+              },
+              "queryRef": "_Medidas.Peso Saída Cortes Desossa",
+              "nativeQueryRef": "Peso Saída Cortes Desossa"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

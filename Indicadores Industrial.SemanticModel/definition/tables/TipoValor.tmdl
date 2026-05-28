@@ -1,0 +1,40 @@
+table TipoValor
+	lineageTag: 8e7a5a07-83bb-46d8-be1e-4229f1198437
+
+	measure 'Valor Indicadorx'
+		lineageTag: 45bebafd-89ff-4478-9393-6c024a5e57ae
+
+	column Tipo
+		lineageTag: 18a2fa13-333e-401d-bea7-b9ba5c509377
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Tipo]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordem
+		formatString: 0
+		lineageTag: d9a1a8d2-aa6e-4065-a868-d6a56d6dcde7
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Ordem]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition TipoValor = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "Tipo", STRING,
+				    "Ordem", INTEGER,
+				    {
+				        {"Metas", 0},
+				        {"Real", 1}
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = bf6de87bf0234e42bf24e298a9f04c85
+

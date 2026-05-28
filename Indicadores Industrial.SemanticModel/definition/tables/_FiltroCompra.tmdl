@@ -1,0 +1,22 @@
+table _FiltroCompra
+	lineageTag: fc7d0838-6247-4d12-958b-43dde3b2a430
+
+	column 'Indicador Compra'
+		dataType: string
+		lineageTag: a899f681-5495-44a5-a781-3fc78f594dbd
+		summarizeBy: none
+		sourceColumn: Indicador Compra
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _FiltroCompra = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WCixNzCvJTElMSVVwTkxKPbw8sVgpVidaKSC1OF/BsagoPylRwQEsEpaYk1+ETagAiKF6kURD8ksSc5RiYwE=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Indicador Compra" = _t]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Indicador Compra", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+

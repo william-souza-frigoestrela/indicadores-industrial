@@ -1,0 +1,803 @@
+relationship dccfee94-d119-4a05-a03b-03a45382bbd0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADADESOSSA.DTAPRODUCAO
+	toColumn: LocalDateTable_a8846c51-9792-434c-a7bf-de00c8b8274f.Date
+
+relationship 6f95a1c5-53d0-4a02-8d4f-821f8f0dbee5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADADESOSSA.DATAENT
+	toColumn: LocalDateTable_18a467c4-49a0-425f-a4b1-eb198e07f6bf.Date
+
+relationship c3f57d46-41be-4bde-8f68-51937696c8f4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_PRODUCAODESOSSA.DTARENDIMENTO
+	toColumn: LocalDateTable_642b509e-abbb-46f0-957c-74a725f61545.Date
+
+relationship cf4605b9-2565-4771-ad38-c3cea3ffbd2b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_PRODUCAODESOSSA.DTAPRODUCAO
+	toColumn: LocalDateTable_32add856-365c-46e5-8029-6a433d340a71.Date
+
+relationship 2f716c3d-09c9-4732-8326-d8d71a8a2713
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_PRODUCAODESOSSA.DATAENT
+	toColumn: LocalDateTable_5bd39ed5-e742-46fd-a3cf-a01db963031c.Date
+
+relationship c928274a-9cb6-40b0-a0f9-a8f2f06b29d7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_PRODUCAODESOSSA.DATAHORAENT
+	toColumn: LocalDateTable_1389ff20-9f2b-4504-a70d-0d19f930aa3f.Date
+
+relationship 35b73ba5-5410-4cbb-b312-99a29c4580a0
+	fromColumn: DINVPB_ABATE.DATA
+	toColumn: Calendário.Data
+
+relationship 81bf00e0-55f8-4dd8-aeab-064be5c5f4df
+	fromColumn: DEPARADESOSSA.DTARENDIMENTO
+	toColumn: Calendário.Data
+
+relationship 0578d080-18fb-4a3c-b707-f2eb0d25288d
+	fromColumn: FPBI_RESUMOABATE.DATA
+	toColumn: Calendário.Data
+
+relationship 450c53b8-703c-42a2-bf55-d9dc0efbb7e4
+	fromColumn: DINVPB_PRODUCAOMIUDOS.DATA
+	toColumn: Calendário.Data
+
+relationship 4cd4c5db-c6bf-41b6-9d01-5653aff72a54
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Base Funcionários'.DTNASCIMENTO
+	toColumn: LocalDateTable_5426901d-050c-4217-83d4-27105caaad97.Date
+
+relationship 80d5fd72-104e-4d22-b53c-5653f6261bdf
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Base Funcionários'.DATAADMISSAO
+	toColumn: LocalDateTable_299fd3a2-0125-4302-bd9b-d666077edc08.Date
+
+relationship 1d53a4ea-2d46-4851-9b84-5bd6a4efec9c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Base Funcionários'.DATADEMISSAO
+	toColumn: LocalDateTable_04aeb074-bf6e-4832-a090-5356a212798e.Date
+
+relationship aaca810e-ea2d-4dcc-8195-9545dfaec42a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Ponto.DATAADMISSAO
+	toColumn: LocalDateTable_8680d3b5-d6ad-4178-9bf0-b1c0e6247af0.Date
+
+relationship 904fe623-00c5-43fc-beca-2d090672a0fa
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Ponto.DATADEMISSAO
+	toColumn: LocalDateTable_7b44932f-9132-47d4-8e31-ce4d697d0515.Date
+
+relationship 4d56837f-8421-4d8a-aa89-e28f65145349
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Ponto.DTNASCIMENTO
+	toColumn: LocalDateTable_3ea0ee60-32a4-418a-8ca6-9182c22dd6e0.Date
+
+relationship e997ae4f-5ee1-47d8-ac62-9496f65b3d3c
+	fromColumn: Ponto.DATA
+	toColumn: Calendário.Data
+
+relationship 8248b6f8-b580-476b-9ead-49db0fb90dbc
+	fromColumn: FPBI_RESUMOABATE.NROEMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship b1c171dc-6425-4483-b2e4-a44d43803016
+	fromColumn: DINVPB_ABATE.NROEMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship ab457c2c-52f2-4296-b09e-6271aa5e461f
+	fromColumn: Ponto.CODFILIAL
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship a1634643-ba4f-47cf-ba44-b61ac4ba687c
+	fromColumn: DINVPB_PRODUCAOMIUDOS.NROEMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 1288af84-7988-482d-a1fd-82213f911e19
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ABATE.'Data e Hora'
+	toColumn: LocalDateTable_34a6dae2-0f79-474a-a1ca-3a8499d7d999.Date
+
+relationship b9b1e8cd-c883-433d-a3ff-2263594d7e36
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ABATE._HoraMax
+	toColumn: LocalDateTable_210d1742-7523-491f-8c77-f21d82641ab2.Date
+
+relationship b742dfd7-2f9c-42ed-83da-1bda05ef92fd
+	fromColumn: Ponto._TK
+	toColumn: 'Base Funcionários'._TK
+
+relationship 7a97b89a-deaa-44f5-aaff-9b81b2b36288
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADADESOSSA.DATAHORA
+	toColumn: LocalDateTable_28d05925-fd63-46eb-94dc-ed3c4fab02cb.Date
+
+relationship 24c28217-9d43-40be-8554-b8b0045d14b0
+	fromColumn: DEPARADESOSSA.NROEMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 8caa475b-345b-48fd-b208-306c4c2db7b4
+	fromColumn: DINVPB_PRODUCAODESOSSA._DK
+	toColumn: DEPARADESOSSA._DK
+
+relationship c6e70ec2-5ce3-4ec1-a6c7-1c0d8b2a9db5
+	fromColumn: DINVPB_ENTRADADESOSSA._DK
+	toColumn: DEPARADESOSSA._DK
+
+relationship 387fc5d5-dc5d-46fd-b44e-9564bd66d071
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADADESOSSA._DataHoraMin
+	toColumn: LocalDateTable_955878e6-f32f-43e8-a681-cc9cb4c00dd6.Date
+
+relationship 6db38e4b-a1bb-46d3-916e-f5cf66e5c7e9
+	fromColumn: DINVPB_PESOVIVO.DATA
+	toColumn: Calendário.Data
+
+relationship aa83a086-1068-40a1-8886-40f9c3210820
+	fromColumn: DINVPB_PESOVIVO.NROEMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship c2bd3dcc-20b0-4933-85d2-307a02d8e7d3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: '_Hora de Atualização'.'Ultima Atulização'
+	toColumn: LocalDateTable_92f39db5-53f0-4473-b951-03be73af666b.Date
+
+relationship 5ad47f4f-5fc4-4b0d-9cd5-0c49ae77b4ee
+	fromColumn: Ponto._Turno
+	toColumn: _Turno.Turno
+
+relationship 36cc0b38-34dd-4ce7-acdd-41ac75130cde
+	fromColumn: DEPARADESOSSA._Turno
+	toColumn: _Turno.Turno
+
+relationship 5a432291-1c77-4bb9-b6f7-14ec9b4d7829
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADADESOSSA.DTARENDIMENTO
+	toColumn: LocalDateTable_d0e2527b-57bb-4626-8f0a-1a4411e0ad32.Date
+
+relationship d13289ec-7fd6-4b14-8941-11470fea2160
+	fromColumn: DINVPB_ABATE.SEQPESSOA
+	toColumn: FPBI_PESSOA.SEQPESSOA
+
+relationship 15436ff3-adf5-43c4-8e01-898736b201b1
+	fromColumn: DCVV_PROGABATE.DTAABATE
+	toColumn: Calendário.Data
+
+relationship b43f78d3-d424-4e14-821f-88a58d00ff56
+	fromColumn: DCVV_PROGABATE.NROPLANTA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship bc7e0d67-6e8a-425b-a48a-e36455d3a13a
+	fromColumn: DCEV_CONSUMOALMOXARIFADO.DTALANCAMENTO
+	toColumn: Calendário.Data
+
+relationship d88340bd-32e6-48c5-b220-85171fac71a3
+	fromColumn: DCEV_CONSUMOALMOXARIFADO.NROEMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 01605ab9-e6fb-4671-a9ca-fd1833f06dec
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FPBI_FUNCIONARIO.DTAADMISSAO
+	toColumn: LocalDateTable_2f21e5a7-5ce2-4036-836b-8842768446ef.Date
+
+relationship f4a885b4-8945-44ed-9034-fcc26bf91da0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FPBI_FUNCIONARIO.DTADEMISSAO
+	toColumn: LocalDateTable_84cd189a-2e9a-41c4-a837-12cf6abdc790.Date
+
+relationship a6fe679d-844b-44ed-9efe-22e16b359071
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FPBI_PONTODIARIO.AnoMes
+	toColumn: LocalDateTable_9baff6eb-f164-4793-a30f-5bde4ed3730d.Date
+
+relationship 058cd531-8f08-4fda-8efc-c36ba519e902
+	fromColumn: FPBI_ABSENTEISMO._UK
+	toColumn: FPBI_FUNCIONARIO._UK
+
+relationship e6f47dd3-9ce1-45cd-9bb7-06c3a1043906
+	fromColumn: FPBI_PONTODIARIO.DATA
+	toColumn: Calendário.Data
+
+relationship 3957c3c0-9f06-4df6-940f-a6223504f526
+	fromColumn: FPBI_ABSENTEISMO.DATA
+	toColumn: Calendário.Data
+
+relationship 8efe1dbc-d685-40fe-8859-d93e6c4e20bb
+	fromColumn: FPBI_PONTODIARIO.NROEMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 900ddb0d-50c2-475e-90ed-07ec670bb36b
+	fromColumn: FPBI_ABSENTEISMO.NROEMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 501bfbc7-36da-43cc-9e87-b7a2d0d79061
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DCUVQ_COMPRAGADOPRAZO.DTAATUALIZACAO
+	toColumn: LocalDateTable_3d8a06f1-4257-4781-8d6f-dc04098e983f.Date
+
+relationship bedc1b70-a924-49ee-a4f1-fcffabf80199
+	fromColumn: DCUVQ_COMPRAGADOPRAZO.NROEMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship e1f1c9ae-83c6-4ca2-adcf-19d232683287
+	fromColumn: DCUVQ_COMPRAGADOPRAZO.SEQPRODUTOR
+	toColumn: FPBI_PESSOA.SEQPESSOA
+
+relationship 30008517-9ecd-44f7-8f5f-dd83c29e1642
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_PAUSATOTAL.DTAHORAINICIAL
+	toColumn: LocalDateTable_1a28032a-d2fa-4d34-97de-d8983c688b4e.Date
+
+relationship 4dcfa9bc-eb7d-42bb-b047-20a1d2bc2cf7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_PAUSATOTAL.DTAHORAFINAL
+	toColumn: LocalDateTable_efad3444-f850-4ec7-9e42-22546be722bd.Date
+
+relationship ebeef2ef-528f-48b4-8f36-a26f717b52be
+	fromColumn: DINVPB_PAUSATOTAL.NROEMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 9c2db884-0514-4c81-ab94-3bb4678399bc
+	fromColumn: DINVPB_PAUSATOTAL._Turno
+	toColumn: _Turno.Turno
+
+relationship 16103306-036c-4dbc-93c6-beda0163d173
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: FPBI_TRANSBORDODEORDEM._SK
+	toColumn: DINVPB_PRODUCAODESOSSA._SK
+
+relationship 23514cf1-e660-440c-8efd-fed36efc755c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Ponto.DTDEMISSAOPREVISTA
+	toColumn: LocalDateTable_76d57e7a-f247-434d-98c6-4f7a5ff4dede.Date
+
+relationship a9181506-e600-4dd6-ac29-20e5b9f4a302
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Base Funcionários'.DTDEMISSAOPREVISTA
+	toColumn: LocalDateTable_2420dc1b-86c6-4670-9c3f-2d9ab720633e.Date
+
+relationship 10eeefc4-5134-43aa-a41e-c5a1fc6fe973
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DCUVQ_COMPRAGADOPRAZO.DATACHEGADA
+	toColumn: LocalDateTable_21a4bf1a-0414-4a27-8a56-a733eba7cd40.Date
+
+relationship cea87aee-3e3e-4570-abe7-18952c6c4b63
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DCUVQ_COMPRAGADOPRAZO.DATA
+	toColumn: LocalDateTable_d01258ff-96ac-48d2-8b09-4a68845c9771.Date
+
+relationship AutoDetected_85ad0dc1-8a33-4a81-823b-716c02b0e6f6
+	fromColumn: DCUVQ_COMPRAGADOPRAZO.SEQPRODUTOR
+	toColumn: EXCEL_FUNRURAL.SEQPRODUTOR
+
+relationship f1f2ffec-673d-4ffd-9a56-e948a91ae5d5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_PRODUCAO_BANHA.DATA
+	toColumn: LocalDateTable_323074ba-8c15-42ba-965c-34b482c25f26.Date
+
+relationship 056974c5-6a52-4108-9a09-ccb61a8b5721
+	joinOnDateBehavior: datePartOnly
+	fromColumn: PASTA_ENERGIA.'Data de Leitura Anterior'
+	toColumn: LocalDateTable_e09f079d-0f0f-4898-b06e-6e06df7f8b7f.Date
+
+relationship ee56e123-eec1-4c63-bcc9-25bc82b105cf
+	joinOnDateBehavior: datePartOnly
+	fromColumn: PASTA_ENERGIA.'Data de Leitura Atual'
+	toColumn: LocalDateTable_53395e87-3567-49d5-b6cb-f265caa894c5.Date
+
+relationship 3684fed5-36c7-43ac-9bc0-2830653667f8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: EXCEL_COMPLEMENTOAUX.'Data Abate'
+	toColumn: LocalDateTable_ec6cae52-9f8e-4a34-adbe-b033ef68553b.Date
+
+relationship 7fd08236-6e26-646e-0826-e70688e8918a
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: DCUVQ_COMPRAGADOPRAZO.NROPEDIDO
+	toColumn: EXCEL_COMPLEMENTOAUX.'Nro Pedido'
+
+relationship be03a7a4-cd16-482d-804e-9d29711d489b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DCUVQ_COMPRAGADOPRAZO.DATATESTE
+	toColumn: LocalDateTable_a61ff82d-20a3-4219-a044-6b2c3ddd6e35.Date
+
+relationship 133b7399-3e96-fcdf-ae28-d6951e510093
+	fromColumn: DCUVQ_COMPRAGADOPRAZO.'Aux Compra.DATA'
+	toColumn: Calendário.Data
+
+relationship eba7fbb7-e665-4677-9c48-969e45e9e016
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADABANHA.DTARENDIMENTO
+	toColumn: LocalDateTable_6973b3d1-7710-4f5d-ae5b-e54225b7d8f6.Date
+
+relationship 487a42ad-f024-4d20-9b95-8a6dce21a8a7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADABANHA.DTAPRODUCAO
+	toColumn: LocalDateTable_9868b7dc-5484-4779-a13c-00379c5d1fa0.Date
+
+relationship 79906d8f-7bac-456d-9be2-cce4ad092447
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADABANHA.DATAENT
+	toColumn: LocalDateTable_a6477aa2-7704-44e6-b376-c9bff6064429.Date
+
+relationship 89f3dff7-505e-4e14-a5e9-0d677a529734
+	fromColumn: PASTA_ENERGIA.Unidade
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 9e704da7-0712-497f-b38c-fb762ce838a8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: EXCEL_APROVEITAMENTO.'Data de Rendimento'
+	toColumn: LocalDateTable_2104c72f-c014-48a1-9e80-4ad388117071.Date
+
+relationship 45bfcd42-dd7f-8e40-2626-9843aeb67564
+	crossFilteringBehavior: bothDirections
+	fromColumn: DINVPB_PRODUCAODESOSSA._PK
+	toColumn: EXCEL_APROVEITAMENTO._PK
+
+relationship 542c1dab-053c-46f8-802a-3bd0b8da025b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: PASTA_ENERGIA.'Data Bi'
+	toColumn: LocalDateTable_76692756-4e77-4c16-81a6-10e42d3e9093.Date
+
+relationship 5a36d647-75ff-49d5-b6aa-fdade0eb5896
+	fromColumn: PASTA_ENERGIA.Data
+	toColumn: Calendário.Data
+
+relationship 152bec62-cc1c-46ef-b559-dbc60a92617e
+	fromColumn: DINVPB_ENTRADABANHA._DK
+	toColumn: DEPARABANHA._DK
+
+relationship 564c595a-6473-4d07-857c-a115ff2bb27c
+	fromColumn: DINVPB_PRODUCAO_BANHA._DK
+	toColumn: DEPARABANHA._DK
+
+relationship c560ae2d-bb05-432c-9e8a-e8fd7ac85873
+	fromColumn: DEPARABANHA.NROEMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 1b59af83-9b9d-485a-8c6f-91d792178386
+	fromColumn: DEPARABANHA.DTARENDIMENTO
+	toColumn: Calendário.Data
+
+relationship f748d80f-08be-46b9-ad02-a2dad80a5431
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADABANHA._Entrada
+	toColumn: LocalDateTable_d5e39d46-f440-4244-886e-04eb6384871b.Date
+
+relationship 503f04c4-34cb-4622-823a-d8c442bcabd5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADABANHA._Saída
+	toColumn: LocalDateTable_3c257bbf-6703-4fa8-870c-e21981d691bf.Date
+
+relationship 549b4729-da0a-4295-90b5-c841cf88a017
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADABANHA.DATAHORA
+	toColumn: LocalDateTable_ffbb4936-9f17-4cfd-ba5b-8360b55bd111.Date
+
+relationship e4f6ceae-40b1-4fb8-a988-daec4a22b966
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADABANHA._DataHoraMax
+	toColumn: LocalDateTable_90d03484-596d-4a2f-a0b2-fad5cb8732e1.Date
+
+relationship 30d66d88-bfd4-4353-a98f-0d7551496708
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADABANHA._DataHoraMin
+	toColumn: LocalDateTable_cd0f39b5-c75c-48fb-a45a-9c2f23f62c03.Date
+
+relationship 151773ad-3a4c-4f14-914a-6d39f890b379
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADADESOSSA._DataHoraMax
+	toColumn: LocalDateTable_2ed67bff-d597-4fa3-a8b8-47b66533f5ac.Date
+
+relationship 110dc073-22a3-4e9b-9841-45ee29c88895
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADAINDUS.DTARENDIMENTO
+	toColumn: LocalDateTable_f6338826-ac70-4557-9a84-55905d901d89.Date
+
+relationship 4a735666-036b-4594-b29d-4bce1a636668
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADAINDUS.DTAPRODUCAO
+	toColumn: LocalDateTable_dcb32169-d540-490a-8ade-87004c451014.Date
+
+relationship af9d9738-7a04-451e-a70d-a58f46cde2af
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADAINDUS.DATAENT
+	toColumn: LocalDateTable_2f700a6e-c45d-4d24-99e3-d36ecd8cac11.Date
+
+relationship d74b309c-df65-42cd-9288-6f70d90e851e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ENTRADAINDUS.DTAHORAREGISTRO
+	toColumn: LocalDateTable_5177db18-da6c-433f-a1b2-c88c9f461d17.Date
+
+relationship 51d2d98f-cc60-48b3-9b50-1d52170a17fc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_PRODUCAOINDUS.DTARENDIMENTO
+	toColumn: LocalDateTable_3035678d-1017-4233-9a2c-62016d2e8a05.Date
+
+relationship a1da4e21-95be-4136-9d96-40d1c8f6c3c1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_PRODUCAOINDUS.DTAPRODUCAO
+	toColumn: LocalDateTable_8c02171c-46e0-40f0-be48-28a17b86b413.Date
+
+relationship 8b073b4b-a487-4365-9574-4fc36bd83bba
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_PRODUCAOINDUS.DATAENT
+	toColumn: LocalDateTable_90a4ca11-4a39-408f-815f-d80b762ca6b5.Date
+
+relationship 5c8c73f2-5b9c-4c1d-aba1-2adb7241aabd
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_PRODUCAOINDUS.DATAHORAENT
+	toColumn: LocalDateTable_19973d9f-5ae5-431b-b867-5e400c60d54a.Date
+
+relationship 39b811de-1c77-4e67-9140-9262528e7ae1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_PRODUCAOINDUS.DTAHORAREGISTRO
+	toColumn: LocalDateTable_631bbc18-85ae-49a5-9e07-f31cd5b6ef2a.Date
+
+relationship 155cec1e-b22b-439a-949a-f2665c5a2a4f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: EXCEL_PESOVIVOAUX.Data
+	toColumn: LocalDateTable_d3a4803f-247f-4f0c-a3b7-89d0d35f17fa.Date
+
+relationship ed14966e-24c1-87e8-8396-54f7327a85e0
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: DCUVQ_COMPRAGADOPRAZO.NROPEDIDO
+	toColumn: EXCEL_PESOVIVOAUX.'Nro Pedido'
+
+relationship ea5d00b1-a7b9-421a-8b21-ac95a9969986
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_PRODUCAOINDUS.Entrada
+	toColumn: LocalDateTable_47233974-bce1-4f57-bb86-021e4c0133b0.Date
+
+relationship c03ab4f1-802a-49e0-8835-4d4f26cbc51e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_PRODUCAOINDUS.Saída
+	toColumn: LocalDateTable_f0bc2f66-a307-46b5-96d9-e556298c4aa6.Date
+
+relationship afaf2a18-d526-4fd7-8e5b-60751354a2a5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DEPARAINDUS.DATAENT
+	toColumn: LocalDateTable_d7f32ea0-799b-4cdf-aa70-d49835976cfd.Date
+
+relationship 974ca3cd-30f9-3218-688f-74e4abba5f98
+	fromColumn: DINVPB_PRODUCAOINDUS._Data
+	toColumn: Calendário.Data
+
+relationship 0ae747bd-e181-0011-2b44-4e29874fbf59
+	fromColumn: DINVPB_PRODUCAOINDUS.NROEMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 8059540d-71fb-9ea6-26f7-08f4f632c225
+	fromColumn: DINVPB_PRODUCAOINDUS._Turno
+	toColumn: _Turno.Turno
+
+relationship 48a840f8-0e18-4563-b9b7-ca3e1bdfbaf8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: EXCEL_QUEBRADEFRIO.'DTAHORA ASPERSÃO / FECHAMENTO'
+	toColumn: LocalDateTable_1b35b7dd-bb19-4b34-9102-5ee7e661ec7e.Date
+
+relationship b9f94347-429a-4e90-bb23-8651f4c7dca7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: EXCEL_QUEBRADEFRIO.'DTAHORA QUARTEIO'
+	toColumn: LocalDateTable_4c4aaf05-8b0d-494b-83e3-f94ef1d4994b.Date
+
+relationship 9bf1a250-5ef0-29b2-da5e-0c322f77ee8c
+	fromColumn: EXCEL_QUEBRADEFRIO.'NRO EMPRESA'
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 9bef653b-3373-3a70-37c6-77ec6c6ed648
+	fromColumn: EXCEL_QUEBRADEFRIO.DATA
+	toColumn: Calendário.Data
+
+relationship 2c4aa5cc-02c0-4f5b-b96c-26dbd1966af9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendário._Mês/Ano
+	toColumn: LocalDateTable_7516b52b-628f-4f3d-9b5d-9bc690a325bb.Date
+
+relationship AutoDetected_94ed2a6f-edab-4264-b038-0b902e9bcb84
+	fromColumn: EXCEL_COLABEMPRESTADO.Turno
+	toColumn: _Turno.Turno
+
+relationship cda8df11-e957-fdf3-2091-a506818d7768
+	fromColumn: EXCEL_COLABEMPRESTADO.Data
+	toColumn: Calendário.Data
+
+relationship 6f94e8eb-0cad-f86e-0d04-958ce52f11a7
+	fromColumn: EXCEL_COLABEMPRESTADO.Empresa
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 20ba60e2-269a-49f5-bbbd-cdc4755b1bb2
+	fromColumn: IMPUT_DTVINDUS.NROEMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 26e67cec-4ab7-4881-8811-5ebaa2107ad5
+	fromColumn: IMPUT_DTVINDUS.PERIODO
+	toColumn: _Turno.Turno
+
+relationship 828d2fa0-675b-43fa-b6e5-61a053c857df
+	fromColumn: IMPUT_DTVINDUS.DATA
+	toColumn: Calendário.Data
+
+relationship 30679e05-85da-4f77-9cca-38faeeff152a
+	fromColumn: FPBI_ABSENTEISMO._Turno
+	toColumn: _Turno.Turno
+
+relationship 4c7aa2eb-c5b8-455d-b8cf-07f1fe39a50c
+	fromColumn: FPBI_PONTODIARIO.'_Turno v2'
+	toColumn: _Turno.Turno
+
+relationship 3fa78c7c-75c8-4954-89f7-cb546e094e20
+	fromColumn: FPBI_PONTODIARIO._UK
+	toColumn: FPBI_FUNCIONARIO._UK
+
+relationship a213ce95-f139-4744-9033-292917a6f379
+	fromColumn: DINVPB_PAUSATOTAL.Data
+	toColumn: Calendário.Data
+
+relationship AutoDetected_1b2d3404-aa60-4919-b936-81eca19ddd59
+	fromColumn: 'BD METAS BI'.Turno
+	toColumn: _Turno.Turno
+
+relationship 64df5520-f77c-29b3-8c26-e7020adf26dc
+	fromColumn: 'BD METAS BI'.Empresa
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 26ba9adf-9f34-07b3-31b6-4f2b87564086
+	fromColumn: 'BD METAS BI'.Data
+	toColumn: Calendário.Data
+
+relationship 2b178cee-7b06-95a0-52ca-3b147883a50a
+	fromColumn: 'Volume Mov. valinhos'.DATA
+	toColumn: Calendário.Data
+
+relationship 084304bd-3354-d4de-663f-a3b11bec4f3d
+	fromColumn: 'Volume Mov. valinhos'.EMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 539ad877-11e5-4612-b081-75d62546882e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: OESTE.'DATA INÍCIO'
+	toColumn: LocalDateTable_09de61f2-6430-4af8-ab95-ca374ead8cee.Date
+
+relationship d7d34728-4216-30e1-db72-1b9629be6a5e
+	fromColumn: OESTE.'DATA FINAL'
+	toColumn: Calendário.Data
+
+relationship b321335e-3aa5-55be-cb19-4570fb3cb872
+	fromColumn: OESTE.EMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 2f8532fd-aa6a-4709-4307-13317bc696f4
+	fromColumn: IJUI.EMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 83e95b3a-50c1-6306-d23f-f7c14f42b409
+	fromColumn: IJUI.DATA
+	toColumn: Calendário.Data
+
+relationship 1c468fff-223b-2f74-dda1-efe4c5711ecd
+	fromColumn: DCUVM_COMPRASUINO.NROEMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship de83b485-148f-24aa-f9fa-de9e9e4996d5
+	fromColumn: DCUVM_COMPRASUINO.SEQPRODUTOR
+	toColumn: FPBI_PESSOA.SEQPESSOA
+
+relationship a3add218-1d5d-8ad9-8464-fdbfac3b9b73
+	fromColumn: DCUVM_COMPRASUINO.DATA
+	toColumn: Calendário.Data
+
+relationship 3b65f2fe-a30f-4635-88c1-2ea7d07eda93
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DEPARADESOSSA.DTAPRODUCAO
+	toColumn: LocalDateTable_36dabd0e-b14e-4cc4-a9bd-b6c13535c240.Date
+
+relationship 09ce9cb3-9dda-4510-906b-5edc2f019ca9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DEPARADESOSSA.DATAENT
+	toColumn: LocalDateTable_4e58fef5-1d79-4e06-8ada-347f66cdb745.Date
+
+relationship 4070279b-4e95-4a31-a12e-affa8a3c49c5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DEPARAINDUS.DTARENDIMENTO
+	toColumn: LocalDateTable_8391d043-eb21-4c76-9f4d-b3609fc48896.Date
+
+relationship 02887d1b-b24d-4420-b2c5-63ae27df60da
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DEPARAINDUS.DTAPRODUCAO
+	toColumn: LocalDateTable_52cfa444-2e71-4a1e-aa1e-a4e20349e748.Date
+
+relationship e6dd6d8b-73d3-4c0a-8684-7e311fff4eb6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DEPARAINDUS.DTAHORAREGISTRO
+	toColumn: LocalDateTable_1d1ee3e5-efa1-453b-ae07-0f1ca383b41b.Date
+
+relationship 3689c32c-5d43-faa4-4f55-80bb6302be12
+	fromColumn: CONFINAMENTOS.EMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship c60b7be0-933d-9c27-2eca-c32789a51749
+	fromColumn: CONFINAMENTOS.DATA
+	toColumn: Calendário.Data
+
+relationship aae596d0-8860-ac83-3356-3c502125cb2d
+	fromColumn: DINVPB_ABATE.Turno
+	toColumn: _Turno.Turno
+
+relationship 323a4bd7-ddf1-3f98-dd59-5345f7dec5c6
+	fromColumn: DINVPB_PESOVIVO._Turno
+	toColumn: _Turno.Turno
+
+relationship 45566a38-83ff-0eaa-f67e-c1d1701dfd5f
+	fromColumn: 'DESVIOS DIF'.Data
+	toColumn: Calendário.Data
+
+relationship 87a64024-617b-dca8-1aef-52133c15fe33
+	fromColumn: 'DESVIOS DIF'.Empresa
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship AutoDetected_4aa4308e-9810-4059-ae9c-b5bb561cfd7e
+	fromColumn: 'DESVIOS DIF'.Turno
+	toColumn: _Turno.Turno
+
+relationship 78e8680d-4188-4d95-853f-8c8abba56108
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ABATE._HoraMin
+	toColumn: LocalDateTable_e837a536-a1e3-4025-8eda-f10c55963e2e.Date
+
+relationship b1b318e2-bc81-40d9-a4c1-506c7c8afc84
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_ABATE.'Data e Hora Ajustada'
+	toColumn: LocalDateTable_48603b85-48e9-41e1-bf94-a056b597dcff.Date
+
+relationship 2c2c115f-e58f-4ba1-bcdc-9be55448af54
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendário.InicioDoMesMeta
+	toColumn: LocalDateTable_c27b0290-a468-42d5-b38c-da4662dad6d8.Date
+
+relationship d4622976-3d64-50a5-3a4c-ab78f858c037
+	fromColumn: TVM_QUEBRAPORBANDA.NROEMPRESA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 63bbeeaa-f003-4ff1-b38c-05279d1055f4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendário.Data
+	toColumn: LocalDateTable_b582371c-dfca-498d-b550-1a7525bb893b.Date
+
+relationship 42ac0ce2-5626-436d-a546-ed4a02dce713
+	joinOnDateBehavior: datePartOnly
+	fromColumn: EXCEL_METAS.VigenciaFim
+	toColumn: LocalDateTable_224871de-7b73-4d97-b7e0-f9bc29cdc704.Date
+
+relationship AutoDetected_b89ad495-dbc7-443d-9665-d4b7742f4fca
+	fromColumn: EXCEL_METAS.FILIAL
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship b70cd6e1-247c-4cc0-be54-3ff29ed42e26
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DINVPB_PRODUCAOMIUDOS.DATAHORAENT
+	toColumn: LocalDateTable_8344b0be-9966-4d10-b36f-25c8bc05ab86.Date
+
+relationship d941a0a4-69f3-4ce2-8af8-4c68e7c9e151
+	joinOnDateBehavior: datePartOnly
+	fromColumn: EXCEL_METAS.VigenciaInicio
+	toColumn: LocalDateTable_4e3e68b0-43fc-4e4a-ad2d-bef409b6d39e.Date
+
+relationship 56a0f257-c18f-3bb5-4785-f4275e51ec4c
+	fromColumn: EXCEL_METAS.Turno
+	toColumn: _Turno.Turno
+
+relationship 233781e3-3fae-40b2-b913-3bbac40ee946
+	joinOnDateBehavior: datePartOnly
+	fromColumn: TVM_QUEBRAPORBANDA.DataReferencia
+	toColumn: LocalDateTable_e63b2294-cee1-48f9-af44-e98f177b9650.Date
+
+relationship b14c8d91-bcf8-f289-92b2-9c3c8c8127eb
+	fromColumn: TVM_QUEBRAPORBANDA.DATA_ABATE
+	toColumn: Calendário.Data
+
+relationship 4201817d-2102-acd8-61cc-65a24d706e6d
+	fromColumn: EXCEL_METAS.Data
+	toColumn: Calendário.Data
+
+relationship 749d9c13-f421-29bb-42aa-8c3b610db065
+	fromColumn: EXCEL_METAS.Indicador
+	toColumn: 'Indicadores Desossa'.IndicadorDesossa
+
+relationship 98125356-9cd7-dce6-9129-d91020f813ac
+	fromColumn: EXCEL_METAS.Indicador
+	toColumn: 'Indicadores Abate'.Indicador
+
+relationship 5c112613-9c63-aacf-d8e8-b9986b664ffc
+	fromColumn: EXCEL_METAS.Indicador
+	toColumn: 'Indicadores Miudos'.IndicadorMiudos
+
+relationship c8e24cf6-74d1-448a-9be9-cb858dd69978
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FPBI_CORTESPEDIDOS.DTAPEDIDO
+	toColumn: LocalDateTable_0d105b46-c0cb-4abd-a3ee-a817a325ee65.Date
+
+relationship 3c0ed613-52bd-4705-b55a-df0897e9a4d7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FPBI_CORTESPEDIDOS.DTAINCLUSAO
+	toColumn: LocalDateTable_0c3b7d84-7b5d-4073-9057-c8c3090600cc.Date
+
+relationship ef04004d-53ad-4e2c-ab0d-90165429d09f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FPBI_OCORRENCIASPEDIDOS.DATA
+	toColumn: LocalDateTable_35cea96c-fe3d-4d5a-87b3-a90636b876eb.Date
+
+relationship faaee5a8-89fc-480a-b8c4-39ef821f86c2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DGEVQ_HIERARQUIAVENDA.DTAFINAL
+	toColumn: LocalDateTable_59dda717-3717-44a1-946f-8d565b457239.Date
+
+relationship 32acd90d-8679-4b3a-877b-d734d9061028
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Cadastro de Produto'.DTAINCLUSAO
+	toColumn: LocalDateTable_c165c10e-5fd4-4686-8405-cba6da9d2fbe.Date
+
+relationship AutoDetected_f0922e11-138c-427e-84ca-293ca0e44456
+	fromColumn: DEPARADESOSSA.SEQPRODUTO
+	toColumn: 'Cadastro de Produto'.SEQPRODUTO
+
+relationship AutoDetected_2852ddd2-c6d4-4708-9910-9ba9852b4d1d
+	isActive: false
+	fromColumn: DINVPB_ENTRADADESOSSA.SEQPRODUTO
+	toColumn: 'Cadastro de Produto'.SEQPRODUTO
+
+relationship AutoDetected_45e829a6-467a-43ae-8bf4-6ab7ca962dec
+	isActive: false
+	fromColumn: DINVPB_PRODUCAODESOSSA.SEQPRODUTO
+	toColumn: 'Cadastro de Produto'.SEQPRODUTO
+
+relationship AutoDetected_d2a0ae63-715d-4bd4-b406-83b578c5f4c8
+	fromColumn: DINVPB_PRODUCAOMIUDOS.SEQPRODUTO
+	toColumn: 'Cadastro de Produto'.SEQPRODUTO
+
+relationship AutoDetected_e0f76b1a-a7a4-4561-a0fe-294ef6954081
+	isActive: false
+	fromColumn: FPBI_TRANSBORDODEORDEM.SEQPRODUTO
+	toColumn: 'Cadastro de Produto'.SEQPRODUTO
+
+relationship AutoDetected_cd4b4137-5b8a-4b7a-93c6-0e8331e10991
+	fromColumn: DINVPB_PRODUCAO_BANHA.SEQPRODUTO
+	toColumn: 'Cadastro de Produto'.SEQPRODUTO
+
+relationship AutoDetected_fe232cd0-0fc5-48a5-8457-2d0e6ec49a7c
+	fromColumn: DEPARAINDUS.SEQPRODUTO
+	toColumn: 'Cadastro de Produto'.SEQPRODUTO
+
+relationship AutoDetected_7d531c7a-6f20-4e85-920e-7e79ab0530b9
+	fromColumn: DINVPB_ENTRADAINDUS.SEQPRODUTO
+	toColumn: 'Cadastro de Produto'.SEQPRODUTO
+
+relationship AutoDetected_d3283362-5d48-4508-aaa8-16387867a3ba
+	fromColumn: DINVPB_PRODUCAOINDUS.SEQPRODUTO
+	toColumn: 'Cadastro de Produto'.SEQPRODUTO
+
+relationship d6c78dd7-d399-8c38-5965-1536d0726fa3
+	fromColumn: FPBI_CORTESPEDIDOS.SEQPRODUTO
+	toColumn: 'Cadastro de Produto'.SEQPRODUTO
+
+relationship e8689680-ee48-d08f-6dcd-f5022427bc5c
+	fromColumn: FPBI_CORTESPEDIDOS.Chave2
+	toColumn: DGEVQ_HIERARQUIAVENDA.Chave
+
+relationship 5d2a3aa9-3de9-7576-0598-d22fd745598e
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: FPBI_OCORRENCIASPEDIDOS.Chave
+	toColumn: FPBI_CORTESPEDIDOS.Chave
+
+relationship 0d9a9079-6316-20a7-983b-a81659c744a4
+	fromColumn: FPBI_CORTESPEDIDOS.NROPLANTA
+	toColumn: DGE_EMPRESAMATRIZ.FILIAL
+
+relationship 6668e281-7eb0-b1ac-5485-ba7553a4162b
+	fromColumn: FPBI_CORTESPEDIDOS.DTAEMBARQUE
+	toColumn: Calendário.Data
+
