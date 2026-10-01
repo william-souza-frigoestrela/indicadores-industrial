@@ -1,0 +1,503 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "913c8d4fc78b293f61a7",
+  "position": {
+    "x": 8.695652173913043,
+    "y": 106.52173913043478,
+    "z": 4000,
+    "height": 304.3478260869565,
+    "width": 818.47826086956513,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "decompositionTreeVisual",
+    "query": {
+      "queryState": {
+        "Analyze": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "_% Rendimento Cortes"
+                }
+              },
+              "queryRef": "_Medidas._% Rendimento Cortes",
+              "nativeQueryRef": "_% Rendimento Cortes"
+            }
+          ]
+        },
+        "ExplainBy": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DINVPB_PRODUCAODESOSSA"
+                    }
+                  },
+                  "Property": "DESCRGRUPOPRODUTO"
+                }
+              },
+              "queryRef": "DINVPB_PRODUCAODESOSSA.DESCRGRUPOPRODUTO",
+              "nativeQueryRef": "DESCRGRUPOPRODUTO",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DEPARADESOSSA"
+                    }
+                  },
+                  "Property": "DESCRFAMILIA"
+                }
+              },
+              "queryRef": "DEPARADESOSSA.DESCRFAMILIA",
+              "nativeQueryRef": "DESCRFAMILIA1",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DINVPB_PRODUCAODESOSSA"
+                    }
+                  },
+                  "Property": "DESCRFAMILIA"
+                }
+              },
+              "queryRef": "DINVPB_PRODUCAODESOSSA.DESCRFAMILIA",
+              "nativeQueryRef": "DESCRFAMILIA",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DINVPB_PRODUCAODESOSSA"
+                    }
+                  },
+                  "Property": "DESCRSUBGRUPOPRODUTO"
+                }
+              },
+              "queryRef": "DINVPB_PRODUCAODESOSSA.DESCRSUBGRUPOPRODUTO",
+              "nativeQueryRef": "DESCRSUBGRUPOPRODUTO",
+              "active": false
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_Medidas"
+                  }
+                },
+                "Property": "_% Rendimento Cortes"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "ExplainBy"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "DINVPB_PRODUCAODESOSSA.DESCRGRUPOPRODUTO"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DINVPB_PRODUCAODESOSSA"
+                    }
+                  },
+                  "Property": "DESCRGRUPOPRODUTO"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "DEPARADESOSSA.DESCRFAMILIA"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DEPARADESOSSA"
+                    }
+                  },
+                  "Property": "DESCRFAMILIA"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "DINVPB_PRODUCAODESOSSA.DESCRFAMILIA"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DINVPB_PRODUCAODESOSSA"
+                    }
+                  },
+                  "Property": "DESCRFAMILIA"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "DINVPB_PRODUCAODESOSSA.DESCRSUBGRUPOPRODUTO"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DINVPB_PRODUCAODESOSSA"
+                    }
+                  },
+                  "Property": "DESCRSUBGRUPOPRODUTO"
+                }
+              }
+            ]
+          }
+        ],
+        "root": {
+          "children": [
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "'BOVINOS'"
+                  }
+                }
+              ],
+              "isToggled": true,
+              "children": [
+                {
+                  "identityValues": [
+                    {
+                      "Literal": {
+                        "Value": "'PONTA DE AGULHA'"
+                      }
+                    }
+                  ],
+                  "isToggled": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "objects": {
+      "tree": [
+        {
+          "properties": {
+            "effectiveBarsPerLevel": {
+              "expr": {
+                "Literal": {
+                  "Value": "3L"
+                }
+              }
+            },
+            "density": {
+              "expr": {
+                "Literal": {
+                  "Value": "'dense'"
+                }
+              }
+            },
+            "defaultClickAction": {
+              "expr": {
+                "Literal": {
+                  "Value": "'select'"
+                }
+              }
+            },
+            "responsiveLayout": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "barsPerLevel": {
+              "expr": {
+                "Literal": {
+                  "Value": "18L"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "analysis": [
+        {
+          "properties": {
+            "aiMode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'absolute'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataBars": [
+        {
+          "properties": {
+            "dataBarScalingType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'levelMaximum'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "insights": [
+        {
+          "properties": {
+            "isAINode": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "DINVPB_PRODUCAODESOSSA"
+                          }
+                        },
+                        "Property": "DESCRGRUPOPRODUTO"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'BOVINOS'"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "DEPARADESOSSA"
+                          }
+                        },
+                        "Property": "DESCRFAMILIA"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'DIANTEIRO'"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "DINVPB_PRODUCAODESOSSA"
+                          }
+                        },
+                        "Property": "DESCRFAMILIA"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'COSTELA S/OSSO'"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "DINVPB_PRODUCAODESOSSA"
+                          }
+                        },
+                        "Property": "DESCRSUBGRUPOPRODUTO"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'06-CORTES CONGELADOS EXP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "keepLayerOrder": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "5f1e3f4a794d927eb829",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DEPARADESOSSA"
+              }
+            },
+            "Property": "DESCRFAMILIA"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "DEPARADESOSSA",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "DESCRFAMILIA"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'DIANTEIRO'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'PONTA DE AGULHA'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'TRASEIRO'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

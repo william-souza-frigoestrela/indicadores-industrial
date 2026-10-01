@@ -50,16 +50,6 @@ table FPBI_ABSENTEISMO
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column CODSECAO
-		dataType: double
-		lineageTag: 6b0ad85f-51b6-4e9e-970c-23b368d578c2
-		summarizeBy: sum
-		sourceColumn: CODSECAO
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column OCORRENCIA
 		dataType: string
 		lineageTag: 917083f9-3aca-41c6-9d5a-825d0bc23754
@@ -77,14 +67,6 @@ table FPBI_ABSENTEISMO
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column Descrição
-		dataType: string
-		lineageTag: 5912e163-a8a7-48a2-a7c5-29633874485a
-		summarizeBy: none
-		sourceColumn: Descrição
-
-		annotation SummarizationSetBy = Automatic
 
 	column _UK = FPBI_ABSENTEISMO[NROEMPRESA]&"-"&FPBI_ABSENTEISMO[CODFUNCIONARIO]
 		lineageTag: fe56c606-d218-470e-aa09-393c42f61e4f
@@ -147,9 +129,12 @@ table FPBI_ABSENTEISMO
 				    #"Eventos Aux Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Eventos Aux", {"Descrição"}, {"Descrição"}),
 				    #"Linhas Filtradas2" = Table.SelectRows(#"Eventos Aux Expandido", each ([DATA] > #datetime(2020, 09, 01, 0, 0, 0) or [DATA] < #datetime(2020, 04, 01, 0, 0, 0)  )),
 				    #"Linhas Filtradas3" = Table.SelectRows(#"Linhas Filtradas2", each ([CODDEPARTAMENTO] = 20 or [CODDEPARTAMENTO] = 21)),
-				    #"Linhas Filtradas4" = Table.SelectRows(#"Linhas Filtradas3", each [DATA] >= #datetime(2023, 1, 1, 0, 0, 0) and [DATA] < #datetime(2023, 4, 1, 0, 0, 0))
+				    #"Linhas Filtradas4" = Table.SelectRows(#"Linhas Filtradas3", each [DATA] >= #datetime(2023, 1, 1, 0, 0, 0) and [DATA] < #datetime(2023, 4, 1, 0, 0, 0)),
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Linhas Filtradas4",{"CODSETOR","OCORRENCIA","CODFUNCIONARIO","NROEMPRESA","CODDEPARTAMENTO","DATA","QTDABSTENCIA"})
 				in
-				    #"Linhas Filtradas4"
+				    #"Columns removed by Measure Killer"
 
 	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navegação
 

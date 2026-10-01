@@ -10,6 +10,9 @@ table 'Indicadores Miudos'
 			    "% Rendimento Miudos Cortes",  [% Rendimento Miudos Cortes],
 			    "Produtividade Miudos Kg/Hh",  [Produtividade Miudos Kg/Hh],
 			    "Produtividade Miudos Cxs/Hh", [Produtividade Miudos Cxs/Hh],
+			    "Total Ton Produzido",         [Peso Miudos Cortes]/1000,
+			    "Total de Pessoas na Linha",   [Func Miudos Real], 
+			    "Horas Média Trabalhadas",     [Hora Miudos Trabalhadas Media],
 			    "% Absenteísmo Miudos",        [Absenteísmo Miudos], 
 			    "% Absenteísmo SubProdutos",   [Absenteísmo Graxaria],
 			    "% Rendimento Subpodutos",     [% Rendimento Graxaria],
@@ -75,10 +78,13 @@ table 'Indicadores Miudos'
 				        {"% Rendimento Miudos Cortes","%", 0},
 				        {"Produtividade Miudos Kg/Hh","Kg/Hhr", 1},
 				        {"Produtividade Miudos Cxs/Hh","Cxs/Hhr", 2},
-				        {"% Absenteísmo Miudos","%", 3},
-				        {"% Rendimento Subpodutos","%",4},
-				        {"% Absenteísmo SubProdutos","%",5},
-				        {"SupProdutos Kgs/Cbç","Kgs/Cbç",6}
+				        {"Total Ton Produzido","Ton", 3},
+				        {"Total de Pessoas na Linha", "Qtde", 4},
+				        {"Horas Média Trabalhadas", "h dec", 5},
+				        {"% Absenteísmo Miudos","%", 6},
+				        {"% Rendimento Subpodutos","%",7},
+				        {"% Absenteísmo SubProdutos","%",8},
+				        {"SupProdutos Kgs/Cbç","Kgs/Cbç",9}
 				    }
 				)
 				

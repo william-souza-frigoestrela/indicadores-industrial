@@ -35,19 +35,6 @@ table IMPUT_DTVINDUS
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'HR TRAB.'
-		dataType: dateTime
-		formatString: Long Time
-		lineageTag: 2726c989-d4c9-439f-8c76-4c15cc06f288
-		summarizeBy: none
-		sourceColumn: HR TRAB.
-
-		changedProperty = IsHidden
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Time
-
 	column DECIMAL
 		dataType: int64
 		formatString: 0
@@ -64,11 +51,14 @@ table IMPUT_DTVINDUS
 		source =
 				let
 				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("nZi7buQwDEX/ZeoBIpGSH1OnSZMAwW4V5P9/Y+0FYoUEjyBNNdNcHJO6vKL99XVL+pLyiyTR2/32+vb38/3j+JO2R10fKR1/5f7/p+p6/vm+O8n7x5+mKWI1IpemzGPKE5hKmOIwJZQYjO5Wk/dLsxBmc5gtlNhq3KNJe7SVMIvDLKHkF2Z9ZNu0oq1pe4g5qleLKRpKBs8mp+mmGYk9G9eBfHUgZ8K4alRDyShGCFMdpoYSgxHntHQ5LeN4ctNwPNV1ILcOoKFxPDMbOjsL5EtDhi6uaVJDicW4aqRVsxHGVSNrKDGYjm3iuTkw7mxkCyUWkxwm/WgE52ZMMoqhhOZqhBMaz1MwofnJMKH5bAQN7UZN91BiMS7TWnQKJrSbAc2hxGJQo7EFzlJcQqdQYjF4eShGJ6aAYnRy0w5Bksnb87dkFCOEQdcYiTU0Jse5DcUYvAiMZLSahTC82SyI6e4Ps2ezIoY7sIWYw9BuBkoOJaNN26kaDBsjGRzPc00JMcWFjeyhxDrNnY20lWPeaRmd1nm0QmeDYWMktmm8P1SqBs1pJKMYnBtuGsxNtwPx3AxLBsNGYqftj+wwNYWS0V0gTujeeAomdGd/iBO6i3kioYXmhrd7gbmpPmy0tl0A54arwblR587cFih0mrsISgklFuMskJsFMKFd08oSSgaddl7sOr8LaFwNvt+cF3uM4StKnsAoYbofU6YxS4g5zsY1rWyhZPAV97zYY4xrWqmhZPRjykYYNLSRjGJ2Oht8IzCS0e8CiarBFDASm2lubqRdHui07ncBwPALe6FqnKHLGkpGPw3VaQsYyeBFkHFu+JLGuelUg3PT3QUAg18HZd5pgk7r7wIxxjWgSCgZfWGPE7r3EVIwoXm5lXhuepkmPDe4qgvOTXcXmDW0oNMYw07jplFCd7ZOTOjOOhgn9IFx1dQcSiY+psRNw81GOaHRAopzwxiem3g8v/8B", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [DATA = _t, PERIODO = _t, #"HR TRAB." = _t, NROEMPRESA = _t, DECIMAL = _t]),
-				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"DATA", type date}, {"PERIODO", type text}, {"HR TRAB.", type time}, {"NROEMPRESA", Int64.Type}, {"DECIMAL", Int64.Type}})
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"DATA", type date}, {"PERIODO", type text}, {"HR TRAB.", type time}, {"NROEMPRESA", Int64.Type}, {"DECIMAL", Int64.Type}}),
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Tipo Alterado",{"PERIODO","NROEMPRESA","DECIMAL","DATA"})
 				in
-				    #"Tipo Alterado"
+				    #"Columns removed by Measure Killer"
 
 	changedProperty = IsHidden
 
 	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
 

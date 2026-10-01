@@ -3,30 +3,35 @@ table 'Indicadores Medidas Gerais'
 
 	measure Realizado =
 			
+			--medida original comentada por estouro de memoria do visual no power bi service
+			/*
 			VAR RealValorIndicador = [Valor Indicador]
 			VAR RealValIndicadorMiudos = [ValorIndicadorMiudios]
 			VAR RealValIndicadorDesossa = [ValorIndicadorLinhaDesossa]
+			VAR RealValIndicadorCaixaria = [ValorIndicadorLinhaCaixaria]
 			
 			RETURN
-			COALESCE(RealValorIndicador,RealValIndicadorMiudos,RealValIndicadorDesossa)
+			COALESCE(RealValorIndicador,RealValIndicadorMiudos,RealValIndicadorDesossa, RealValIndicadorCaixaria)
+			*/
+			
+			-- nova medida para otimizar uso de memoria
+			
+			VAR indAbate    = SELECTEDVALUE('Indicadores Abate'[Indicador])
+			VAR indMiudos   = SELECTEDVALUE('Indicadores Miudos'[IndicadorMiudos])
+			VAR indDesossa  = SELECTEDVALUE('Indicadores Desossa'[IndicadorDesossa])
+			VAR indCaixaria = SELECTEDVALUE('Indicadores Caixaria'[IndicadorCaixaria])
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    NOT ISBLANK(indDesossa),  [ValorIndicadorLinhaDesossa],
+			    NOT ISBLANK(indCaixaria), [ValorIndicadorLinhaCaixaria],
+			    NOT ISBLANK(indMiudos),   [ValorIndicadorMiudios],
+			    NOT ISBLANK(indAbate),    [Valor Indicador],
+			    BLANK()
+			)
+		formatString: 0.00
 		lineageTag: c9ddcf30-d41c-436d-bfad-797040f258df
-
-		formatStringDefinition = ```
-				VAR unAbate   = SELECTEDVALUE('Indicadores Abate'[Un])
-				VAR unMiudos  = SELECTEDVALUE('Indicadores Miudos'[Un])
-				VAR unDesossa = SELECTEDVALUE('Indicadores Desossa'[Un])
-				
-				-- pega a unidade correta entre as 3
-				VAR un = COALESCE(unAbate, unMiudos, unDesossa)
-				
-				RETURN
-				LOOKUPVALUE(
-				    UnidadeInidicadores[Formato],
-				    UnidadeInidicadores[Unidade], un,
-				    "#,##0.00"   -- formato padrão caso não encontre
-				)
-				
-				```
 
 	measure 'Pct Aceitavel' = ```
 			
@@ -39,7 +44,8 @@ table 'Indicadores Medidas Gerais'
 			        SELECTEDVALUE('Indicadores Abate'[Indicador]),
 			        SELECTEDVALUE('Indicadores Miudos'[IndicadorMiudos]),
 			        SELECTEDVALUE(Excel_Metas[Indicador]),
-			        SELECTEDVALUE('Indicadores Desossa'[IndicadorDesossa])
+			        SELECTEDVALUE('Indicadores Desossa'[IndicadorDesossa]),
+			        SELECTEDVALUE('Indicadores Caixaria'[IndicadorCaixaria])
 			    )
 			
 			VAR vFilial = SELECTEDVALUE( DGE_EMPRESAMATRIZ[FILIAL],       SELECTEDVALUE( Excel_Metas[FILIAL] ) )
@@ -86,7 +92,8 @@ table 'Indicadores Medidas Gerais'
 			        SELECTEDVALUE('Indicadores Abate'[Indicador]),
 			        SELECTEDVALUE('Indicadores Miudos'[IndicadorMiudos]),
 			        SELECTEDVALUE(Excel_Metas[Indicador]),
-			        SELECTEDVALUE('Indicadores Desossa'[IndicadorDesossa])
+			        SELECTEDVALUE('Indicadores Desossa'[IndicadorDesossa]),
+			        SELECTEDVALUE('Indicadores Caixaria'[IndicadorCaixaria])
 			    )
 			
 			VAR vFilial = SELECTEDVALUE(DGE_EMPRESAMATRIZ[FILIAL])
@@ -114,7 +121,8 @@ table 'Indicadores Medidas Gerais'
 
 	measure 'Meta Indicador' = ```
 			
-			
+			-- medida original comentada por problema de estouro de memoria dos visuais de matriz no power bi service
+			/*
 			VAR MetaDia =
 			    MAX(EXCEL_METAS[VlrMeta])
 			
@@ -138,6 +146,19 @@ table 'Indicadores Medidas Gerais'
 			    MetaDia,
 			    MetaMes
 			)
+			*/
+			
+			-- nova medida para otimizar o uso de memoria
+			
+			VAR UsaDia = ISINSCOPE('Calendário'[Data])
+			RETURN
+			IF(
+			    UsaDia,
+			    MAX(EXCEL_METAS[VlrMeta]),  -- só MAX, não calcula SomaTipo1/MaxTipo0
+			    VAR SomaTipo1 = CALCULATE(SUM(EXCEL_METAS[VlrMeta]), EXCEL_METAS[TipoMeta] = 1)
+			    VAR MaxTipo0  = CALCULATE(MAX(EXCEL_METAS[VlrMeta]),  EXCEL_METAS[TipoMeta] = 0)
+			    RETURN COALESCE(SomaTipo1, 0) + COALESCE(MaxTipo0, 0)
+			)
 			
 			```
 		formatString: 0
@@ -148,25 +169,8 @@ table 'Indicadores Medidas Gerais'
 			[Meta Indicador]
 			
 			```
+		formatString: 0.00
 		lineageTag: 89e5e861-3c56-4ed3-a244-348e6f49ec79
-
-		formatStringDefinition = ```
-				
-				VAR unAbate   = SELECTEDVALUE('Indicadores Abate'[Un])
-				VAR unMiudos  = SELECTEDVALUE('Indicadores Miudos'[Un])
-				VAR unDesossa = SELECTEDVALUE('Indicadores Desossa'[Un])
-				
-				-- pega a unidade correta entre as 3
-				VAR un = COALESCE(unAbate, unMiudos, unDesossa)
-				
-				RETURN
-				LOOKUPVALUE(
-				    UnidadeInidicadores[Formato],
-				    UnidadeInidicadores[Unidade], un,
-				    "#,##0.00"   -- formato padrão caso não encontre
-				)
-				
-				```
 
 	measure 'Variação (Real - Meta)' = ```
 			
@@ -352,47 +356,28 @@ table 'Indicadores Medidas Gerais'
 			VAR real = [Realizado]
 			VAR meta = [Meta Indicador]
 			RETURN
-			//IF(
-			//    ISBLANK(real) || ISBLANK(meta),
-			//    BLANK(),
-			//    real - meta
-			//)
-			
-			real - meta
+			IF(
+			    ISBLANK(real) || ISBLANK(meta),
+			    BLANK(),
+			    real - meta
+			)
+		formatString: 0.00
 		lineageTag: f4d08b96-7988-45ef-b282-51743d0e75de
 
-		formatStringDefinition = ```
-				
-				VAR unAbate   = SELECTEDVALUE('Indicadores Abate'[Un])
-				VAR unMiudos  = SELECTEDVALUE('Indicadores Miudos'[Un])
-				VAR unDesossa = SELECTEDVALUE('Indicadores Desossa'[Un])
-				
-				-- pega a unidade correta entre as 3
-				VAR un = COALESCE(unAbate, unMiudos, unDesossa)
-				
-				RETURN
-				LOOKUPVALUE(
-				    UnidadeInidicadores[Formato],
-				    UnidadeInidicadores[Unidade], un,
-				    "#,##0.00"   -- formato padrão caso não encontre
-				)
-				
-				```
-
-	measure Variação% =
+	measure Variação% = ```
 			
 			VAR real = [Realizado]
 			VAR meta = [Meta Indicador]
 			RETURN
-			//IF(
-			//    ISBLANK(real) || ISBLANK(meta) || meta = 0,
-			//    BLANK(),
-			//    DIVIDE( real - meta, meta )
-			//)
-			DIVIDE(real - meta,meta,BLANK())
+			IF(
+			    ISBLANK(real) || ISBLANK(meta) || meta = 0,
+			    BLANK(),
+			    DIVIDE( real - meta, meta )
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
 		lineageTag: 48c318f4-08c8-48f1-b00a-6b7331bba7f1
-
-		formatStringDefinition = "0.00%"
 
 	measure VariacaoGraf = IF([Variacao] < 0 , [Variacao]*-1, [Variacao])
 		lineageTag: 319971f8-df0c-4199-9fcd-d9359964bcf6

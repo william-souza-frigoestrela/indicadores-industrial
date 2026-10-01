@@ -8,11 +8,6 @@ table EXCEL_APROVEITAMENTO
 		summarizeBy: none
 		sourceColumn: Data de Rendimento
 
-		variation Variation
-			isDefault
-			relationship: 9e704da7-0712-497f-b38c-fb762ce838a8
-			defaultHierarchy: LocalDateTable_2104c72f-c014-48a1-9e80-4ad388117071.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 	column 'Ordem de Produção'
@@ -39,14 +34,6 @@ table EXCEL_APROVEITAMENTO
 		lineageTag: de71d702-f33b-455b-b261-7a249900b948
 		summarizeBy: sum
 		sourceColumn: Cód
-
-		annotation SummarizationSetBy = Automatic
-
-	column Decrição
-		dataType: string
-		lineageTag: 4d9fd9a2-4db7-41f5-8289-31f6398f9f8f
-		summarizeBy: none
-		sourceColumn: Decrição
 
 		annotation SummarizationSetBy = Automatic
 
@@ -98,9 +85,10 @@ table EXCEL_APROVEITAMENTO
 				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Data de Rendimento", type date}, {"Ordem de Produção", Int64.Type}, {"Lote", Int64.Type}, {"Cód", Int64.Type}, {"Decrição", type text}, {"Peso", type number}}),
 				    #"Linhas Filtradas" = Table.SelectRows(#"Tipo Alterado", each [Peso] <> null and [Peso] <> ""),
 				    #"Personalização Adicionada" = Table.AddColumn(#"Linhas Filtradas", "NROEMPRESA", each 2),
-				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Personalização Adicionada",{{"NROEMPRESA", Int64.Type}, {"Data de Rendimento", type datetime}})
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Personalização Adicionada",{{"NROEMPRESA", Int64.Type}, {"Data de Rendimento", type datetime}}),
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Tipo Alterado1",{"Data de Rendimento","Ordem de Produção","Lote","Cód","NROEMPRESA","Peso"})
 				in
-				    #"Tipo Alterado1"
+				    #"Columns removed by Measure Killer"
 
 	annotation PBI_ResultType = Table
 

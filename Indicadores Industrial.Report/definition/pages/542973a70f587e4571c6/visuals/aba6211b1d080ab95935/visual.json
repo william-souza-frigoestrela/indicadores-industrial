@@ -1,0 +1,276 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "aba6211b1d080ab95935",
+  "position": {
+    "x": 34.468704512372632,
+    "y": 117.37991266375545,
+    "z": 0,
+    "height": 587.83114992721983,
+    "width": 1194.2940320232897,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calendário"
+                    }
+                  },
+                  "Property": "Dia"
+                }
+              },
+              "queryRef": "Sum(Calendário.Dia)",
+              "nativeQueryRef": "Dia"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Peso Entrada Desossa"
+                }
+              },
+              "queryRef": "_Medidas.Peso Entrada Desossa",
+              "nativeQueryRef": "Peso Entrada Desossa"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Peso Saída Desossa"
+                }
+              },
+              "queryRef": "_Medidas.Peso Saída Desossa",
+              "nativeQueryRef": "Peso Saída Desossa"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Peso Entrada Desossa DT"
+                }
+              },
+              "queryRef": "_Medidas.Peso Entrada Desossa DT",
+              "nativeQueryRef": "Peso Entrada Desossa DT"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Peso Saída Desossa DT"
+                }
+              },
+              "queryRef": "_Medidas.Peso Saída Desossa DT",
+              "nativeQueryRef": "Peso Saída Desossa DT"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Peso Entrada Desossa TR"
+                }
+              },
+              "queryRef": "_Medidas.Peso Entrada Desossa TR",
+              "nativeQueryRef": "Peso Entrada Desossa TR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Peso Saída Desossa TR"
+                }
+              },
+              "queryRef": "_Medidas.Peso Saída Desossa TR",
+              "nativeQueryRef": "Peso Saída Desossa TR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Peso Entrada Desossa PA"
+                }
+              },
+              "queryRef": "_Medidas.Peso Entrada Desossa PA",
+              "nativeQueryRef": "Peso Entrada Desossa PA"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Peso Saída Desossa PA"
+                }
+              },
+              "queryRef": "_Medidas.Peso Saída Desossa PA",
+              "nativeQueryRef": "Peso Saída Desossa PA"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "_% Rendimento Massa"
+                }
+              },
+              "queryRef": "_Medidas._% Rendimento Massa",
+              "nativeQueryRef": "_% Rendimento Massa"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "_% Rendimento TR Massa"
+                }
+              },
+              "queryRef": "_Medidas._% Rendimento TR Massa",
+              "nativeQueryRef": "_% Rendimento TR Massa"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "_% Rendimento DT Massa"
+                }
+              },
+              "queryRef": "_Medidas._% Rendimento DT Massa",
+              "nativeQueryRef": "_% Rendimento DT Massa"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "_% Rendimento PA Massa"
+                }
+              },
+              "queryRef": "_Medidas._% Rendimento PA Massa",
+              "nativeQueryRef": "_% Rendimento PA Massa"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Calendário"
+                  }
+                },
+                "Property": "Dia"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "18d8b237718c70abc160",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Medidas"
+              }
+            },
+            "Property": "Peso Miudos Cortes"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_Medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 1,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "Peso Miudos Cortes"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "0L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  }
+}

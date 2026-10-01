@@ -1,0 +1,35 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "58d79a76ba25f5a01e66",
+  "position": {
+    "x": 0,
+    "y": 0,
+    "z": 39003,
+    "height": 80,
+    "width": 111,
+    "tabOrder": 36017
+  },
+  "visual": {
+    "visualType": "image",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "imageUrl": {
+              "expr": {
+                "ResourcePackageItem": {
+                  "PackageName": "RegisteredResources",
+                  "PackageType": 1,
+                  "ItemName": "Dias_Abate5043545704460011.jpg"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "b0c78cc61f6806d1767c",
+  "howCreated": "InsertVisualButton"
+}

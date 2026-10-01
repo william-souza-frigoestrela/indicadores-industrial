@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "7ed48cb62141ba997c6e",
   "position": {
     "x": 589,
-    "y": 533,
+    "y": 602,
     "z": 19000,
-    "height": 312,
+    "height": 359,
     "width": 641,
-    "tabOrder": 16000
+    "tabOrder": 15000
   },
   "visual": {
     "visualType": "pivotTable",
@@ -66,7 +66,8 @@
                 }
               },
               "queryRef": "Indicadores Medidas Gerais.Valor Meta",
-              "nativeQueryRef": "Valor Meta"
+              "nativeQueryRef": "Meta",
+              "displayName": "Meta"
             },
             {
               "field": {
@@ -80,35 +81,8 @@
                 }
               },
               "queryRef": "Indicadores Medidas Gerais.Realizado",
-              "nativeQueryRef": "Realizado"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Indicadores Medidas Gerais"
-                    }
-                  },
-                  "Property": "Variacao"
-                }
-              },
-              "queryRef": "Indicadores Medidas Gerais.Variacao",
-              "nativeQueryRef": "Variacao"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Indicadores Medidas Gerais"
-                    }
-                  },
-                  "Property": "Variação%"
-                }
-              },
-              "queryRef": "Indicadores Medidas Gerais.Variação%",
-              "nativeQueryRef": "Variação%"
+              "nativeQueryRef": "Real",
+              "displayName": "Real"
             }
           ]
         }
@@ -347,21 +321,14 @@
                         [
                           {
                             "Literal": {
-                              "Value": "'Peso Entrada (Ton)'"
-                            }
-                          }
-                        ],
-                        [
-                          {
-                            "Literal": {
-                              "Value": "'Peso Saída (Ton)'"
-                            }
-                          }
-                        ],
-                        [
-                          {
-                            "Literal": {
                               "Value": "null"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'Peso Entrada (Ton)'"
                             }
                           }
                         ]

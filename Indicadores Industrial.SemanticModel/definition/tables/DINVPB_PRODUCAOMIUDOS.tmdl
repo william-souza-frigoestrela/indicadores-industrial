@@ -2,20 +2,10 @@ table DINVPB_PRODUCAOMIUDOS
 	lineageTag: da0e60a9-0c12-404c-a711-44e42efcb302
 
 	column NROEMPRESA
-		dataType: int64
+		dataType: double
 		lineageTag: 49efee67-a475-4f8c-abec-d5b6bfb9bfba
 		summarizeBy: none
 		sourceColumn: NROEMPRESA
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column ANOMES
-		dataType: double
-		lineageTag: 767bb0aa-ae1c-4dfe-afa8-db255b36ca8f
-		summarizeBy: sum
-		sourceColumn: ANOMES
 
 		annotation SummarizationSetBy = Automatic
 
@@ -30,83 +20,11 @@ table DINVPB_PRODUCAOMIUDOS
 
 		annotation SummarizationSetBy = Automatic
 
-	column TIPOFORMAPRODUCAO
-		dataType: int64
-		lineageTag: d75df831-beea-4014-b7ca-9cac5c52443a
-		summarizeBy: sum
-		sourceColumn: TIPOFORMAPRODUCAO
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column CODBARRAINTERNO
-		dataType: string
-		lineageTag: f21655f8-61ef-433f-8e96-cfaaf6593d67
-		summarizeBy: none
-		sourceColumn: CODBARRAINTERNO
-
-		annotation SummarizationSetBy = Automatic
-
-	column FORMAPRODUCAO
-		dataType: string
-		lineageTag: e45fb56b-be57-424e-8b89-389810b88330
-		summarizeBy: none
-		sourceColumn: FORMAPRODUCAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column TIPOPROGPRODUCAO
-		dataType: string
-		lineageTag: eed1c999-1e3e-4970-abd0-d8b7b9269c24
-		summarizeBy: none
-		sourceColumn: TIPOPROGPRODUCAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column SEQPROGPRODUCAO
-		dataType: int64
-		lineageTag: 32ae3a52-3a13-427a-bb70-23b70193dc40
-		summarizeBy: sum
-		sourceColumn: SEQPROGPRODUCAO
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column NROPROGPRODUCAO
 		dataType: int64
 		lineageTag: ba7ffb72-2ea0-4805-a268-0a073e85510e
 		summarizeBy: sum
 		sourceColumn: NROPROGPRODUCAO
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column GRUPOPROD
-		dataType: int64
-		lineageTag: 58e84b18-266f-492f-8529-55593710b329
-		summarizeBy: sum
-		sourceColumn: GRUPOPROD
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column DESCRGRUPOPRODUTO
-		dataType: string
-		lineageTag: 7f3333e4-94dd-4489-886b-02114fe97c9e
-		summarizeBy: none
-		sourceColumn: DESCRGRUPOPRODUTO
-
-		annotation SummarizationSetBy = Automatic
-
-	column SUBGRUPOPROD
-		dataType: int64
-		lineageTag: 3da5dc40-8727-4487-9af2-f8746b0783c1
-		summarizeBy: sum
-		sourceColumn: SUBGRUPOPROD
 
 		annotation SummarizationSetBy = Automatic
 
@@ -119,16 +37,6 @@ table DINVPB_PRODUCAOMIUDOS
 		sourceColumn: DESCRSUBGRUPOPRODUTO
 
 		annotation SummarizationSetBy = Automatic
-
-	column FAMILIAPROD
-		dataType: int64
-		lineageTag: b85c2035-b63a-4f2c-9a6b-c8e725fc9f01
-		summarizeBy: sum
-		sourceColumn: FAMILIAPROD
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column DESCRFAMILIA
 		dataType: string
@@ -174,57 +82,11 @@ table DINVPB_PRODUCAOMIUDOS
 
 		annotation SummarizationSetBy = Automatic
 
-	column QUANTIDADE
-		dataType: double
-		lineageTag: eee5f6c5-b74c-45c5-8a23-63ff68921494
-		summarizeBy: sum
-		sourceColumn: QUANTIDADE
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column TIPOCALCULO
-		dataType: int64
-		lineageTag: 6284ea97-94e2-4519-876f-09a4c9d99bb1
-		summarizeBy: sum
-		sourceColumn: TIPOCALCULO
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column LOTE
-		dataType: string
-		lineageTag: a2640a0b-2548-4f59-884c-e86826ec0779
-		summarizeBy: none
-		sourceColumn: LOTE
-
-		annotation SummarizationSetBy = Automatic
-
-	column DESCRLOTE
-		dataType: string
-		lineageTag: 8218c240-f074-40c3-9cb7-1e63239aca0b
-		summarizeBy: none
-		sourceColumn: DESCRLOTE
-
-		annotation SummarizationSetBy = Automatic
-
 	column QUANTIDADE2
 		dataType: double
 		lineageTag: e956c3c4-20af-449b-9627-c1c5ff3b6802
 		summarizeBy: sum
 		sourceColumn: QUANTIDADE2
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column QTDEMBALAGEM
-		dataType: double
-		lineageTag: 6ad2feb3-3fd4-4943-bfc8-3d49992954c3
-		summarizeBy: sum
-		sourceColumn: QTDEMBALAGEM
 
 		annotation SummarizationSetBy = Automatic
 
@@ -259,35 +121,35 @@ table DINVPB_PRODUCAOMIUDOS
 
 		annotation SummarizationSetBy = Automatic
 
-	column DATAHORAENT
-		dataType: dateTime
-		formatString: General Date
-		lineageTag: 1f4f852f-43eb-4b78-a04f-17a0a4a48386
-		summarizeBy: none
-		sourceColumn: DATAHORAENT
-
-		variation Variation
-			isDefault
-			relationship: b70cd6e1-247c-4cc0-be54-3ff29ed42e26
-			defaultHierarchy: LocalDateTable_8344b0be-9966-4d10-b36f-25c8bc05ab86.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
 	partition DINVPB_PRODUCAOMIUDOS-01cfa5c0-a53d-4036-aacc-1db237d8ad45 = m
 		mode: import
 		queryGroup: 'Fluxo Industrial'
 		source =
 				let
-				    Fonte = PowerPlatform.Dataflows(null),
-				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
-				    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
-				    #"35024cdc-6a08-4e80-8a93-36e024176d14" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="35024cdc-6a08-4e80-8a93-36e024176d14"]}[Data],
-				    DINVPB_PRODUCAOMIUDOS_ = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_PRODUCAOMIUDOS",version=""]}[Data],
-				    #"Linhas Filtradas" = Table.SelectRows(DINVPB_PRODUCAOMIUDOS_, each [NROPROGPRODUCAO] <> 288)
+				    // 1. Conexão SQL nativa unificando as instâncias de Produção de Miúdos no Oracle com NROEMPRESA fixo
+				    Fonte = Oracle.Database("datavale", [HierarchicalNavigation=true, Query="#(lf)            SELECT #(lf)                2 AS NROEMPRESA, #(lf)                e.* #(lf)            FROM DINVPB_PRODUCAO_MIUDOS@dtvind02 e #(lf)            WHERE DATA >=  '01-jan-2026'#(lf)            #(lf)            UNION ALL#(lf)            #(lf)            SELECT #(lf)                4 AS NROEMPRESA, #(lf)                e.* #(lf)            FROM DINVPB_PRODUCAO_MIUDOS@dtvind04 e #(lf)            WHERE DATA >=  '01-jan-2026'#(lf)            #(lf)            UNION ALL#(lf)            #(lf)            SELECT #(lf)                104 AS NROEMPRESA, #(lf)                e.* #(lf)            FROM DINVPB_PRODUCAO_MIUDOS@dtvind104 e #(lf)            WHERE DATA >=  '01-jan-2026'#(lf)            #(lf)            UNION ALL#(lf)            #(lf)            SELECT #(lf)                12 AS NROEMPRESA, #(lf)                e.* #(lf)            FROM DINVPB_PRODUCAO_MIUDOS@dtvind12 e #(lf)            WHERE DATA >=  '01-jan-2026'#(lf)        "]),
+				
+				    // 2. Filtro da regra de negócio
+				    #"Linhas Filtradas" = Table.SelectRows(Fonte, each [NROPROGPRODUCAO] <> 288),
+				
+				    // 3. Seleção final das colunas para o modelo
+				    #"Columns removed by Measure Killer" = Table.SelectColumns(#"Linhas Filtradas", {
+				        "PESOLIQUIDO",
+				        "NROEMPRESA",
+				        "DATA",
+				        "UNIDADE",
+				        "DESCRFAMILIA",
+				        "QUANTIDADE2",
+				        "DESCRSUBGRUPOPRODUTO",
+				        "NROPROGPRODUCAO",
+				        "SEQPRODUTO",
+				        "DESCRPRODUTO",
+				        "RENDIMENTOPADRAO"
+				    })
 				in
-				    #"Linhas Filtradas"
+				    #"Columns removed by Measure Killer"
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 
 	annotation PBI_NavigationStepName = Navegação
 

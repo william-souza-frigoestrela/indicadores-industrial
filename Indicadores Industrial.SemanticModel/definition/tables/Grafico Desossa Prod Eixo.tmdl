@@ -213,6 +213,92 @@ table 'Grafico Desossa Prod Eixo'
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure 'SerieMetaMesDesossa Ajustado' = ```
+			
+			
+			VAR Tipo = SELECTEDVALUE( 'Grafico Desossa Prod Eixo'[Tipo] )
+			
+			VAR MetaMes = 
+			    [SerieMetaMesGrafDesossa]
+			
+			VAR Ajustado = 
+			    DIVIDE( MetaMes, [IndiceEscalaDesossa] )
+			
+			-- 🔥 Última data com realizado (DESOSSA)
+			VAR UltimaDataReal =
+			    CALCULATE(
+			        MAX ( 'Calendário'[Data] ),
+			        FILTER (
+			            ALL ( 'Calendário' ),
+			            NOT ISBLANK ( [RealDiaGraf] )   -- 👈 sua medida de realizado da desossa
+			        )
+			    )
+			
+			VAR MesLimite = MONTH ( UltimaDataReal )
+			
+			-- Mês do eixo
+			VAR Rot  = SELECTEDVALUE ( 'Grafico Desossa Prod Eixo'[Rotulo] )
+			
+			VAR MesEixo =
+			    SWITCH (
+			        TRUE (),
+			        Rot = "jan", 1, Rot = "fev", 2, Rot = "mar", 3, Rot = "abr", 4,
+			        Rot = "mai", 5, Rot = "jun", 6, Rot = "jul", 7, Rot = "ago", 8,
+			        Rot = "set", 9, Rot = "out", 10, Rot = "nov", 11, Rot = "dez", 12
+			    )
+			
+			RETURN
+			IF(
+			    Tipo = "Mes"
+			    && NOT ISBLANK( MetaMes )
+			    && MesEixo <= MesLimite,
+			    Ajustado,
+			    BLANK()
+			)
+			
+			
+			```
+		lineageTag: 5303b89b-849b-45d3-a0d6-3a7e3526adf5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure SerieMetaMesGrafDesossa = ```
+			
+			VAR Tipo = SELECTEDVALUE ( 'Grafico Desossa Prod Eixo'[Tipo] )
+			VAR Rot  = SELECTEDVALUE ( 'Grafico Desossa Prod Eixo'[Rotulo] )
+			
+			VAR AnoSel =
+			    COALESCE (
+			        CALCULATE ( SELECTEDVALUE ( 'Calendário'[Ano] ), ALLSELECTED ( 'Calendário' ) ),
+			        YEAR ( TODAY() )
+			    )
+			
+			VAR MesNum =
+			    SWITCH (
+			        TRUE (),
+			        Rot = "jan", 1, Rot = "fev", 2, Rot = "mar", 3, Rot = "abr", 4,
+			        Rot = "mai", 5, Rot = "jun", 6, Rot = "jul", 7, Rot = "ago", 8,
+			        Rot = "set", 9, Rot = "out", 10, Rot = "nov", 11, Rot = "dez", 12
+			    )
+			
+			RETURN
+			IF (
+			    Tipo = "Mes" && NOT ISBLANK ( MesNum ),
+			    CALCULATE (
+			        [Valor Meta],
+			        FILTER (
+			            ALL ( 'Calendário' ),
+			            'Calendário'[Ano] = AnoSel &&
+			            'Calendário'[MesNo] = MesNum
+			        )
+			    )
+			)
+			
+			```
+		lineageTag: e8472a70-8c63-4862-96b8-9f9f2c4dc9a1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Tipo
 		lineageTag: fc0c5987-65d8-46c1-8d9f-669b21360f8d
 		summarizeBy: none

@@ -90,6 +90,17 @@
   ],
   "resourcePackages": [
     {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "CY22SU11",
+          "path": "BaseThemes/CY22SU11.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
       "name": "RegisteredResources",
       "type": "RegisteredResources",
       "items": [
@@ -111,6 +122,11 @@
         {
           "name": "Dias_Abate5043545704460011.jpg",
           "path": "Dias_Abate5043545704460011.jpg",
+          "type": "Image"
+        },
+        {
+          "name": "Dias_Desossa_Transparente5670340384421675.png",
+          "path": "Dias_Desossa_Transparente5670340384421675.png",
           "type": "Image"
         },
         {
@@ -137,17 +153,6 @@
           "name": "vaca4278263142421008.jpg",
           "path": "vaca4278263142421008.jpg",
           "type": "Image"
-        }
-      ]
-    },
-    {
-      "name": "SharedResources",
-      "type": "SharedResources",
-      "items": [
-        {
-          "name": "CY22SU11",
-          "path": "BaseThemes/CY22SU11.json",
-          "type": "BaseTheme"
         }
       ]
     }

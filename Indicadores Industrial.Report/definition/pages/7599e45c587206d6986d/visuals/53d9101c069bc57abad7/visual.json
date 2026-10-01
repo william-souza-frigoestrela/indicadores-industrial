@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "53d9101c069bc57abad7",
   "position": {
     "x": 589,
     "y": 243,
     "z": 20000,
-    "height": 290,
+    "height": 337,
     "width": 641,
-    "tabOrder": 17000
+    "tabOrder": 16000
   },
   "visual": {
     "visualType": "pivotTable",
@@ -83,36 +83,6 @@
               "queryRef": "Indicadores Medidas Gerais.Realizado",
               "nativeQueryRef": "Real",
               "displayName": "Real"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Indicadores Medidas Gerais"
-                    }
-                  },
-                  "Property": "Variacao"
-                }
-              },
-              "queryRef": "Indicadores Medidas Gerais.Variacao",
-              "nativeQueryRef": "Variação",
-              "displayName": "Variação"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Indicadores Medidas Gerais"
-                    }
-                  },
-                  "Property": "Variação%"
-                }
-              },
-              "queryRef": "Indicadores Medidas Gerais.Variação%",
-              "nativeQueryRef": "Var %",
-              "displayName": "Var %"
             }
           ]
         }
@@ -209,32 +179,6 @@
                 }
               }
             }
-          }
-        },
-        {
-          "properties": {},
-          "selector": {
-            "data": [
-              {
-                "dataViewWildcard": {
-                  "matchingOption": 1
-                }
-              }
-            ],
-            "metadata": "Indicadores Medidas Gerais.Variacao"
-          }
-        },
-        {
-          "properties": {},
-          "selector": {
-            "data": [
-              {
-                "dataViewWildcard": {
-                  "matchingOption": 1
-                }
-              }
-            ],
-            "metadata": "Indicadores Medidas Gerais.Variação%"
           }
         }
       ]
@@ -377,6 +321,13 @@
                         [
                           {
                             "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
                               "Value": "'Peso Entrada (Ton)'"
                             }
                           }
@@ -384,21 +335,7 @@
                         [
                           {
                             "Literal": {
-                              "Value": "'Peso Saída (Ton)'"
-                            }
-                          }
-                        ],
-                        [
-                          {
-                            "Literal": {
                               "Value": "'% Absenteismo'"
-                            }
-                          }
-                        ],
-                        [
-                          {
-                            "Literal": {
-                              "Value": "null"
                             }
                           }
                         ]

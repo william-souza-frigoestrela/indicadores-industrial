@@ -28,12 +28,14 @@ table DEPARABANHA
 		annotation SummarizationSetBy = Automatic
 
 	column NROEMPRESA
-		dataType: string
+		dataType: double
 		lineageTag: 9a317177-a69d-49e9-b3f8-3e40fcb40165
 		summarizeBy: none
 		sourceColumn: NROEMPRESA
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column _DK = DEPARABANHA[NROPROGPRODUCAO]&DEPARABANHA[LOTE]&DEPARABANHA[NROEMPRESA]
 		lineageTag: 8e2e18e8-f565-4506-847b-785349d16f13
@@ -44,17 +46,33 @@ table DEPARABANHA
 	partition DEPARABANHA = m
 		mode: import
 		queryGroup: 'Fluxo Industrial'
-		source =
+		source = ```
 				let
-				    Fonte = PowerPlatform.Dataflows(null),
-				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
-				    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
-				    #"b0beee32-ebc0-4498-b2d6-ea010a03ede5" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="b0beee32-ebc0-4498-b2d6-ea010a03ede5"]}[Data],
-				    DINVPB_ENTRADABANHA_ = #"b0beee32-ebc0-4498-b2d6-ea010a03ede5"{[entity="DINVPB_ENTRADABANHA",version=""]}[Data],
-				    #"Outras Colunas Removidas" = Table.SelectColumns(DINVPB_ENTRADABANHA_,{"NROPROGPRODUCAO", "LOTE", "DTARENDIMENTO", "NROEMPRESA"}),
+				    // 1. Conexão SQL nativa no Oracle para Entrada de Banha (Filial 4)
+				    Fonte = Oracle.Database("datavale", [
+				        HierarchicalNavigation = true, 
+				        Query = "
+				            SELECT 
+				                4 AS NROEMPRESA, 
+				                e.* 
+				            FROM DINVPB_ENTRADABANHA@dtvind04 e 
+				            WHERE DTARENDIMENTO >= '01-JAN-2026'
+				        "
+				    ]),
+				
+				    // 2. Seleção das colunas necessárias
+				    #"Outras Colunas Removidas" = Table.SelectColumns(Fonte, {
+				        "NROPROGPRODUCAO", 
+				        "LOTE", 
+				        "DTARENDIMENTO", 
+				        "NROEMPRESA"
+				    }),
+				
+				    // 3. Remoção de duplicatas
 				    #"Duplicatas Removidas" = Table.Distinct(#"Outras Colunas Removidas")
 				in
 				    #"Duplicatas Removidas"
+				```
 
 	annotation PBI_ResultType = Exception
 

@@ -31,35 +31,12 @@ table EXCEL_QUEBRADEFRIO
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column CÂMARA
-		dataType: int64
-		formatString: 0
-		lineageTag: 371379cb-0c30-4e50-8e97-28f13f22d0f6
-		summarizeBy: sum
-		sourceColumn: CÂMARA
-
-		annotation SummarizationSetBy = Automatic
-
-	column RECEITA
-		dataType: int64
-		formatString: 0
-		lineageTag: 20b0c0a6-5fdb-4a5b-b196-306c9926acf5
-		summarizeBy: sum
-		sourceColumn: RECEITA
-
-		annotation SummarizationSetBy = Automatic
-
 	column 'DTAHORA ASPERSÃO / FECHAMENTO'
 		dataType: dateTime
 		formatString: General Date
 		lineageTag: 8218683b-71d2-4b45-b30c-0b45ff9b9efc
 		summarizeBy: none
 		sourceColumn: DTAHORA ASPERSÃO / FECHAMENTO
-
-		variation Variation
-			isDefault
-			relationship: 48a840f8-0e18-4563-b9b7-ca3e1bdfbaf8
-			defaultHierarchy: LocalDateTable_1b35b7dd-bb19-4b34-9102-5ee7e661ec7e.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -69,19 +46,6 @@ table EXCEL_QUEBRADEFRIO
 		lineageTag: 99cb2390-5806-4b6a-a0fe-862cbcc35638
 		summarizeBy: none
 		sourceColumn: DTAHORA QUARTEIO
-
-		variation Variation
-			isDefault
-			relationship: b9f94347-429a-4e90-bb23-8651f4c7dca7
-			defaultHierarchy: LocalDateTable_4c4aaf05-8b0d-494b-83e3-f94ef1d4994b.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
-	column MATURAÇÃO
-		dataType: string
-		lineageTag: 2e9c2ac1-eca4-4e1b-9a4c-55c1db43052d
-		summarizeBy: none
-		sourceColumn: MATURAÇÃO
 
 		annotation SummarizationSetBy = Automatic
 
@@ -105,16 +69,6 @@ table EXCEL_QUEBRADEFRIO
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column 'QUEBRA %'
-		dataType: double
-		lineageTag: bf63b6ef-eee4-4849-be7d-b75bc34fedc6
-		summarizeBy: sum
-		sourceColumn: QUEBRA %
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column 'QTD. CARCAÇAS'
 		dataType: int64
 		formatString: 0
@@ -130,23 +84,6 @@ table EXCEL_QUEBRADEFRIO
 		lineageTag: 9461b365-da2d-4682-bdaf-83989f3bdb69
 		summarizeBy: sum
 		sourceColumn: QTD. SEM PESAR
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'QTD. PESADAS'
-		dataType: int64
-		formatString: 0
-		lineageTag: 0d546ca5-f6dd-47c4-a99b-e60c705bb457
-		summarizeBy: sum
-		sourceColumn: QTD. PESADAS
-
-		annotation SummarizationSetBy = Automatic
-
-	column OBSERVAÇÃO
-		dataType: string
-		lineageTag: 3cbe4a5b-c6a4-46f8-8e82-80b3924ff043
-		summarizeBy: none
-		sourceColumn: OBSERVAÇÃO
 
 		annotation SummarizationSetBy = Automatic
 
@@ -176,9 +113,12 @@ table EXCEL_QUEBRADEFRIO
 				    #"Colunas Renomeadas6" = Table.RenameColumns(#"Tipo Alterado5",{{"Column7", "MATURAÇÃO"}, {"Column8", "PESO QUENTE"}, {"Column9", "PESO FRIO"}, {"Column10", "QUEBRA %"}, {"Column11", "QTD. CARCAÇAS"}, {"Column12", "QTD. SEM PESAR"}, {"Column13", "QTD. PESADAS"}, {"Column14", "OBSERVAÇÃO"}}),
 				    #"Colunas Removidas1" = Table.RemoveColumns(#"Colunas Renomeadas6",{"Column15", "Column16", "Column17", "Column18"}),
 				    #"Tipo Alterado6" = Table.TransformColumnTypes(#"Colunas Removidas1",{{"PESO QUENTE", type number}, {"PESO FRIO", type number}, {"QUEBRA %", type number}, {"QTD. CARCAÇAS", Int64.Type}, {"QTD. SEM PESAR", Int64.Type}, {"QTD. PESADAS", Int64.Type}, {"OBSERVAÇÃO", type text}}),
-				    #"Linhas Filtradas1" = Table.SelectRows(#"Tipo Alterado6", each true)
+				    #"Linhas Filtradas1" = Table.SelectRows(#"Tipo Alterado6", each true),
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Linhas Filtradas1",{"DTAHORA ASPERSÃO / FECHAMENTO","QTD. CARCAÇAS","DTAHORA QUARTEIO","PESO QUENTE","PESO FRIO","QTD. SEM PESAR","DATA","NRO EMPRESA"})
 				in
-				    #"Linhas Filtradas1"
+				    #"Columns removed by Measure Killer"
 
 	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
 

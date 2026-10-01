@@ -239,6 +239,94 @@ table 'Grafico Abate Prod Eixo'
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure SerieMetaMesGraf = ```
+			
+			
+			VAR Tipo = SELECTEDVALUE ( 'Grafico Abate Prod Eixo'[Tipo] )
+			VAR Rot  = SELECTEDVALUE ( 'Grafico Abate Prod Eixo'[Rotulo] )
+			
+			-- Ano vindo do filtro/slicer da página (funciona mesmo se o eixo for desconectado)
+			VAR AnoSelFromSlicer =
+			    CALCULATE (
+			        SELECTEDVALUE ( 'Calendário'[Ano] ),
+			        ALLSELECTED ( 'Calendário' )
+			    )
+			VAR AnoSel = COALESCE ( AnoSelFromSlicer, YEAR ( TODAY() ) )
+			
+			-- Mês a partir do rótulo do eixo
+			VAR MesNum =
+			    SWITCH (
+			        TRUE (),
+			        Rot = "jan", 1, Rot = "fev", 2, Rot = "mar", 3, Rot = "abr", 4,
+			        Rot = "mai", 5, Rot = "jun", 6, Rot = "jul", 7, Rot = "ago", 8,
+			        Rot = "set", 9, Rot = "out", 10, Rot = "nov", 11, Rot = "dez", 12
+			    )
+			
+			VAR InicioMes = DATE ( AnoSel, MesNum, 1 )
+			VAR FimMes    = EOMONTH ( InicioMes, 0 )
+			
+			RETURN
+			IF (
+			    Tipo = "Mes" && NOT ISBLANK ( MesNum ),
+			    CALCULATE (
+			        [Valor Meta],                                -- sua medida base
+			        DATESBETWEEN ( 'Calendário'[Data], InicioMes, FimMes ),
+			        -- Garante que o ANO do slicer esteja aplicado dentro do cálculo
+			        KEEPFILTERS (
+			            FILTER ( ALL ( 'Calendário'[Data] ), YEAR ( 'Calendário'[Data] ) = AnoSel )
+			        )
+			    )
+			)
+			
+			```
+		lineageTag: 8e5c16be-02c1-4fa2-aeda-38e12fc93c4a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SeriMetaMesGraf Ajuste' = ```
+			
+			
+			VAR Tipo = SELECTEDVALUE( 'Grafico Abate Prod Eixo'[Tipo] )
+			VAR MetaMes = [SerieMetaMesGraf]
+			VAR Ajustado = DIVIDE( MetaMes, [IndiceEscala] )
+			
+			-- Última data com realizado
+			VAR UltimaDataReal =
+			    CALCULATE(
+			        MAX ( 'Calendário'[Data] ),
+			        FILTER (
+			            ALL ( 'Calendário' ),
+			            NOT ISBLANK ( [RealDiaGraf] )
+			        )
+			    )
+			
+			VAR MesLimite = MONTH ( UltimaDataReal )
+			
+			-- Mês do eixo
+			VAR Rot  = SELECTEDVALUE ( 'Grafico Abate Prod Eixo'[Rotulo] )
+			
+			VAR MesEixo =
+			    SWITCH (
+			        TRUE (),
+			        Rot = "jan", 1, Rot = "fev", 2, Rot = "mar", 3, Rot = "abr", 4,
+			        Rot = "mai", 5, Rot = "jun", 6, Rot = "jul", 7, Rot = "ago", 8,
+			        Rot = "set", 9, Rot = "out", 10, Rot = "nov", 11, Rot = "dez", 12
+			    )
+			
+			RETURN
+			IF(
+			    Tipo = "Mes"
+			    && NOT ISBLANK(MetaMes)
+			    && MesEixo <= MesLimite,
+			    Ajustado
+			)
+			
+			
+			```
+		lineageTag: 06820e61-31ca-4ad0-b78c-4dcdca643072
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Tipo
 		lineageTag: fc3aea67-b6e3-4293-a59b-9e92e7a17fb1
 		summarizeBy: none

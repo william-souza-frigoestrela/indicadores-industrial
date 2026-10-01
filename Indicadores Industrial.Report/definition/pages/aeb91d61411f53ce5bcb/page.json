@@ -3,7 +3,7 @@
   "name": "aeb91d61411f53ce5bcb",
   "displayName": "02 - AREA FRIA SUINOS",
   "displayOption": "ActualSize",
-  "height": 1100,
+  "height": 1550,
   "width": 1230,
   "objects": {
     "outspacePane": [
@@ -233,12 +233,157 @@
     },
     {
       "source": "bbec2f30b11eecd9f209",
-      "target": "9120aa969b1dc52350e7",
+      "target": "dd088cb1f91cbe53d2bc",
       "type": "NoFilter"
     },
     {
       "source": "bbec2f30b11eecd9f209",
-      "target": "1c615f770e0461c5a176",
+      "target": "50ed7d303219a6bb235d",
+      "type": "NoFilter"
+    },
+    {
+      "source": "1d0afffebed95711557c",
+      "target": "5f81c39ecf5263e355fa",
+      "type": "NoFilter"
+    },
+    {
+      "source": "1d0afffebed95711557c",
+      "target": "53fe797e24c95b87ae3c",
+      "type": "NoFilter"
+    },
+    {
+      "source": "bbec2f30b11eecd9f209",
+      "target": "53fe797e24c95b87ae3c",
+      "type": "NoFilter"
+    },
+    {
+      "source": "53fe797e24c95b87ae3c",
+      "target": "5f81c39ecf5263e355fa",
+      "type": "NoFilter"
+    },
+    {
+      "source": "5f81c39ecf5263e355fa",
+      "target": "53fe797e24c95b87ae3c",
+      "type": "NoFilter"
+    },
+    {
+      "source": "5f81c39ecf5263e355fa",
+      "target": "36c5dd08a1ed8f1eeaaf",
+      "type": "NoFilter"
+    },
+    {
+      "source": "5f81c39ecf5263e355fa",
+      "target": "3ef94205b6a64e81026b",
+      "type": "NoFilter"
+    },
+    {
+      "source": "5f81c39ecf5263e355fa",
+      "target": "a12f3e8c1b5f4b603e02",
+      "type": "NoFilter"
+    },
+    {
+      "source": "53fe797e24c95b87ae3c",
+      "target": "36c5dd08a1ed8f1eeaaf",
+      "type": "NoFilter"
+    },
+    {
+      "source": "53fe797e24c95b87ae3c",
+      "target": "3ef94205b6a64e81026b",
+      "type": "NoFilter"
+    },
+    {
+      "source": "53fe797e24c95b87ae3c",
+      "target": "a12f3e8c1b5f4b603e02",
+      "type": "NoFilter"
+    },
+    {
+      "source": "53fe797e24c95b87ae3c",
+      "target": "9c15f8a0225553ed9a9a",
+      "type": "NoFilter"
+    },
+    {
+      "source": "53fe797e24c95b87ae3c",
+      "target": "29473cdd97a010227b0d",
+      "type": "NoFilter"
+    },
+    {
+      "source": "53fe797e24c95b87ae3c",
+      "target": "817a30f9a39c00180b10",
+      "type": "NoFilter"
+    },
+    {
+      "source": "53fe797e24c95b87ae3c",
+      "target": "dd088cb1f91cbe53d2bc",
+      "type": "NoFilter"
+    },
+    {
+      "source": "3ef94205b6a64e81026b",
+      "target": "50ed7d303219a6bb235d",
+      "type": "NoFilter"
+    },
+    {
+      "source": "36c5dd08a1ed8f1eeaaf",
+      "target": "50ed7d303219a6bb235d",
+      "type": "NoFilter"
+    },
+    {
+      "source": "36c5dd08a1ed8f1eeaaf",
+      "target": "dd088cb1f91cbe53d2bc",
+      "type": "NoFilter"
+    },
+    {
+      "source": "36c5dd08a1ed8f1eeaaf",
+      "target": "817a30f9a39c00180b10",
+      "type": "NoFilter"
+    },
+    {
+      "source": "36c5dd08a1ed8f1eeaaf",
+      "target": "29473cdd97a010227b0d",
+      "type": "NoFilter"
+    },
+    {
+      "source": "36c5dd08a1ed8f1eeaaf",
+      "target": "9c15f8a0225553ed9a9a",
+      "type": "NoFilter"
+    },
+    {
+      "source": "3ef94205b6a64e81026b",
+      "target": "5f81c39ecf5263e355fa",
+      "type": "NoFilter"
+    },
+    {
+      "source": "3ef94205b6a64e81026b",
+      "target": "53fe797e24c95b87ae3c",
+      "type": "NoFilter"
+    },
+    {
+      "source": "36c5dd08a1ed8f1eeaaf",
+      "target": "5f81c39ecf5263e355fa",
+      "type": "NoFilter"
+    },
+    {
+      "source": "36c5dd08a1ed8f1eeaaf",
+      "target": "53fe797e24c95b87ae3c",
+      "type": "NoFilter"
+    },
+    {
+      "source": "3ef94205b6a64e81026b",
+      "target": "9c15f8a0225553ed9a9a",
+      "type": "NoFilter"
+    },
+    {
+      "source": "3ef94205b6a64e81026b",
+      "target": "29473cdd97a010227b0d",
+      "type": "NoFilter"
+    },
+    {
+      "source": "3ef94205b6a64e81026b",
+      "target": "817a30f9a39c00180b10",
+      "type": "NoFilter"
+    },
+    {
+      "source": "3ef94205b6a64e81026b",
+      "target": "dd088cb1f91cbe53d2bc",
       "type": "NoFilter"
     }
   ]

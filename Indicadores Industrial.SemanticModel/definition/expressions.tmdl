@@ -81,33 +81,55 @@ expression 'AFASTADOS ATUALMENTE' =
 
 expression 'Classificação Aux' = ```
 		let
-		    Fonte = PowerPlatform.Dataflows(null),
-		    Workspaces = Fonte{[Id="Workspaces"]}[Data],
-		    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
-		    #"35024cdc-6a08-4e80-8a93-36e024176d14" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="35024cdc-6a08-4e80-8a93-36e024176d14"]}[Data],
+		    // 1. Conexão direta ao Oracle (datavale) executando o DISTINCT e a união das 4 filiais no banco
+		    Fonte = Oracle.Database("datavale", [
+		        HierarchicalNavigation = true, 
+		        Query = "
+		            SELECT DISTINCT 
+		                e.DESCRREDCLASSIFCONFORMIDADE, 
+		                e.DESCRCLASSIFCONFORMIDADE
+		            FROM DINVPB_ABATE@dtvind02 e
+		            WHERE e.DATA >= '01-jan-2026'
+		            
+		            UNION ALL
+		            
+		            SELECT DISTINCT 
+		                e.DESCRREDCLASSIFCONFORMIDADE, 
+		                e.DESCRCLASSIFCONFORMIDADE
+		            FROM DINVPB_ABATE@dtvind04 e
+		            WHERE e.DATA >= '01-jan-2026'
+		            
+		            UNION ALL
+		            
+		            SELECT DISTINCT 
+		                e.DESCRREDCLASSIFCONFORMIDADE, 
+		                e.DESCRCLASSIFCONFORMIDADE
+		            FROM DINVPB_ABATE@dtvind12 e
+		            WHERE e.DATA >= '01-jan-2026'
+		            
+		            UNION ALL
+		            
+		            SELECT DISTINCT 
+		                e.DESCRREDCLASSIFCONFORMIDADE, 
+		                e.DESCRCLASSIFCONFORMIDADE
+		            FROM DINVPB_ABATE@dtvind104 e
+		            WHERE e.DATA >= '01-jan-2026'
+		        "
+		    ]),
 		
-		    // Importando as quatro entidades
-		    AbateMTZ = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_MTZ", version=""]}[Data],
-		    AbateRND = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_RND", version=""]}[Data],
-		    AbateSLG = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_SLG", version=""]}[Data],
-		    AbateTUP = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_TUP", version=""]}[Data],
+		    // 2. Garante a remoção de duplicatas resultantes da união das empresas
+		    #"Duplicatas Removidas" = Table.Distinct(Fonte),
 		
-		    // Selecionando apenas as colunas desejadas e combinando
-		    AbateMTZ_sel = Table.SelectColumns(AbateMTZ, {"DESCRREDCLASSIFCONFORMIDADE", "DESCRCLASSIFCONFORMIDADE"}),
-		    AbateRND_sel = Table.SelectColumns(AbateRND, {"DESCRREDCLASSIFCONFORMIDADE", "DESCRCLASSIFCONFORMIDADE"}),
-		    AbateSLG_sel = Table.SelectColumns(AbateSLG, {"DESCRREDCLASSIFCONFORMIDADE", "DESCRCLASSIFCONFORMIDADE"}),
-		    AbateTUP_sel = Table.SelectColumns(AbateTUP, {"DESCRREDCLASSIFCONFORMIDADE", "DESCRCLASSIFCONFORMIDADE"}),
-		
-		    DadosCombinados = Table.Combine({AbateMTZ_sel, AbateRND_sel, AbateSLG_sel, AbateTUP_sel}),
-		    #"Duplicatas Removidas" = Table.Distinct(DadosCombinados),
-		
-		    // Adicionando as colunas condicionais
+		    // 3. Lógica para a coluna CLASSIFICAÇÃO
 		    #"Coluna Condicional Adicionada" = Table.AddColumn(#"Duplicatas Removidas", "CLASSIFICAÇÃO", each 
 		        if Text.Contains([DESCRREDCLASSIFCONFORMIDADE], "CHN") then "MERCADO EXTERNO" 
 		        else if Text.Contains([DESCRREDCLASSIFCONFORMIDADE], "MB") then "MERCADO EXTERNO" 
 		        else if Text.Contains([DESCRREDCLASSIFCONFORMIDADE], "UE") then "MERCADO EXTERNO" 
-		        else "MERCADO INTERNO"),
+		        else "MERCADO INTERNO",
+		        type text
+		    ),
 		
+		    // 4. Lógica para a coluna CLASSIFICACAORED
 		    #"Coluna Condicional Adicionada1" = Table.AddColumn(#"Coluna Condicional Adicionada", "CLASSIFICACAORED", each 
 		        if [DESCRREDCLASSIFCONFORMIDADE] = "UE/CHN" then "01. UE/CHN" 
 		        else if Text.Contains([DESCRREDCLASSIFCONFORMIDADE], "CHN") then "02. CHN" 
@@ -117,9 +139,12 @@ expression 'Classificação Aux' = ```
 		        else if Text.Contains([DESCRREDCLASSIFCONFORMIDADE], "LE") then "03. LG/LE" 
 		        else if Text.Contains([DESCRREDCLASSIFCONFORMIDADE], "NE") then "NE" 
 		        else if Text.Contains([DESCRREDCLASSIFCONFORMIDADE], "RA") then "03. LG/LE" 
-		        else [DESCRREDCLASSIFCONFORMIDADE]),
+		        else [DESCRREDCLASSIFCONFORMIDADE],
+		        type text
+		    ),
 		
-		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Coluna Condicional Adicionada1",{
+		    // 5. Garantia de tipagem final
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Coluna Condicional Adicionada1", {
 		        {"DESCRREDCLASSIFCONFORMIDADE", type text}, 
 		        {"DESCRCLASSIFCONFORMIDADE", type text}, 
 		        {"CLASSIFICAÇÃO", type text}, 
@@ -137,26 +162,16 @@ expression 'Classificação Aux' = ```
 
 expression DINVPB_PAUSADESOSSA = ```
 		let
-		    Fonte = PowerPlatform.Dataflows(null),
-		    Workspaces = Fonte{[Id="Workspaces"]}[Data],
-		    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
-		    #"37d71bd8-02a7-4bae-aa23-9f7b98610d23" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="37d71bd8-02a7-4bae-aa23-9f7b98610d23"]}[Data],
+		    // 1. Conexão SQL nativa unificando as instâncias de Pausa de Desossa no Oracle com NROEMPRESA fixo
+		    Fonte = Oracle.Database("datavale", [HierarchicalNavigation=true, Query="#(lf)            SELECT #(lf)                2 AS NROEMPRESA, #(lf)                e.* #(lf)            FROM DINVPB_PAUSADESOSSA@dtvind02 e #(lf)            --WHERE DTAHORAINICIAL >= TRUNC(SYSDATE)-90#(lf)--WHERE DTAHORAINICIAL >= '01-jan-2026'#(lf)            #(lf)            UNION ALL#(lf)            #(lf)            SELECT #(lf)                4 AS NROEMPRESA, #(lf)                e.* #(lf)            FROM DINVPB_PAUSADESOSSA@dtvind04 e #(lf)            --WHERE DTAHORAINICIAL >= TRUNC(SYSDATE)-90#(lf)--WHERE DTAHORAINICIAL >= '01-jan-2026'#(lf)            #(lf)            UNION ALL#(lf)            #(lf)            SELECT #(lf)                104 AS NROEMPRESA, #(lf)                e.* #(lf)            FROM DINVPB_PAUSADESOSSA@dtvind104 e #(lf)            --WHERE DTAHORAINICIAL >= TRUNC(SYSDATE)-90#(lf)--WHERE DTAHORAINICIAL >= '01-jan-2026'#(lf)        "]),
 		
-		    // Novas fontes
-		    SLG = #"37d71bd8-02a7-4bae-aa23-9f7b98610d23"{[entity="DINVPB_PAUSADESOSSA_SLG", version=""]}[Data],
-		    TUP = #"37d71bd8-02a7-4bae-aa23-9f7b98610d23"{[entity="DINVPB_PAUSADESOSSA_TUP", version=""]}[Data],
-		    MTZ = #"37d71bd8-02a7-4bae-aa23-9f7b98610d23"{[entity="DINVPB_PAUSADESOSSA_MTZ", version=""]}[Data],
+		    // 2. Remove colunas indesejadas
+		    #"Colunas Removidas" = Table.RemoveColumns(Fonte, {"SEQPAUSA", "SEQPONTO", "TIPO", "DESCRICAO", "Hora"}, MissingField.Ignore),
 		
-		    // Combina as três tabelas
-		    TabelasUnidas = Table.Combine({SLG, TUP, MTZ}),
+		    // 3. Adiciona coluna TIPO com valor fixo "DESOSSA"
+		    #"Personalização Adicionada" = Table.AddColumn(#"Colunas Removidas", "TIPO", each "DESOSSA", type text),
 		
-		    // Remove colunas indesejadas
-		    #"Colunas Removidas" = Table.RemoveColumns(TabelasUnidas, {"SEQPAUSA", "SEQPONTO", "TIPO", "DESCRICAO", "Hora"}),
-		
-		    // Adiciona coluna TIPO com valor fixo "DESOSSA"
-		    #"Personalização Adicionada" = Table.AddColumn(#"Colunas Removidas", "TIPO", each "DESOSSA"),
-		
-		    // Altera tipos de dados
+		    // 4. Altera tipos de dados finais
 		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Personalização Adicionada", {
 		        {"DTAHORAINICIAL", type datetime}, 
 		        {"DTAHORAFINAL", type datetime}, 
@@ -172,65 +187,119 @@ expression DINVPB_PAUSADESOSSA = ```
 
 	annotation PBI_NavigationStepName = Navegação
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 
-expression DINVPB_ABATEPAUSA =
+expression DINVPB_ABATEPAUSA = ```
 		let
-		    Fonte = PowerPlatform.Dataflows(null),
-		    Workspaces = Fonte{[Id="Workspaces"]}[Data],
-		    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
-		    #"35024cdc-6a08-4e80-8a93-36e024176d14" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="35024cdc-6a08-4e80-8a93-36e024176d14"]}[Data],
+		    // 1. Conexão SQL nativa unificando as instâncias de Pausa de Abate no Oracle
+		    Fonte = Oracle.Database("datavale", [
+		        HierarchicalNavigation = true, 
+		        Query = "
+		            SELECT 
+		                2 AS NROEMPRESA,
+		                DATAINICIAL, 
+		                HORAINICIAL, 
+		                DATAFINAL, 
+		                HORAFINAL, 
+		                MOTIVO,
+		                SUBSTR(TRIM(TO_CHAR(HORAINICIAL,'000000')),1,2) || ':' || SUBSTR(TRIM(TO_CHAR(HORAINICIAL,'000000')),3,2) || ':' || SUBSTR(TRIM(TO_CHAR(HORAINICIAL,'000000')),5,2) AS HRINICIAL,
+		                SUBSTR(TRIM(TO_CHAR(HORAFINAL,'000000')),1,2) || ':' || SUBSTR(TRIM(TO_CHAR(HORAFINAL,'000000')),3,2) || ':' || SUBSTR(TRIM(TO_CHAR(HORAFINAL,'000000')),5,2) AS HRFINAL
+		            FROM DIN_ABATEPAUSA@dtvind02 
+		            WHERE DATAINICIAL >= '01-JAN-2026'
 		
-		    // Carregar e transformar cada tabela
-		    TransformarTabela = (tabela as table, nomeUnidade as text) =>
-		        let
-		            TipoAlterado = Table.TransformColumnTypes(tabela, {
-		                {"DATAINICIAL", type date}, {"HORAINICIAL", Int64.Type},
-		                {"DATAFINAL", type date}, {"HORAFINAL", Int64.Type},
-		                {"MOTIVO", type text}, {"HRINICIAL", type time},
-		                {"HRFINAL", type time}, {"NROEMPRESA", Int64.Type}
-		            }),
-		            DataHoraInicial = Table.AddColumn(TipoAlterado, "INICIAL", each [DATAINICIAL] & [HRINICIAL], type datetime),
-		            DataHoraFinal = Table.AddColumn(DataHoraInicial, "FINAL", each [DATAFINAL] & [HRFINAL], type datetime),
-		            ColunasRemovidas = Table.RemoveColumns(DataHoraFinal, {"DATAINICIAL", "HORAINICIAL", "DATAFINAL", "HORAFINAL", "HRINICIAL", "HRFINAL"}),
-		            ColunasRenomeadas = Table.RenameColumns(ColunasRemovidas, {{"INICIAL", "DTAHORAINICIAL"}, {"FINAL", "DTAHORAFINAL"}}),
-		            ColunaTipo = Table.AddColumn(ColunasRenomeadas, "TIPO", each "ABATE", type text),
-		            ColunaUnidade = Table.AddColumn(ColunaTipo, "UNIDADE", each nomeUnidade, type text),
-		            TiposFinais = Table.TransformColumnTypes(ColunaUnidade, {
-		                {"MOTIVO", type text}, {"NROEMPRESA", Int64.Type},
-		                {"DTAHORAINICIAL", type datetime}, {"DTAHORAFINAL", type datetime},
-		                {"TIPO", type text}, {"UNIDADE", type text}
-		            })
-		        in
-		            TiposFinais,
+		            UNION ALL
 		
-		    // Carregar os dados brutos
-		    Tabela_MTZ = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATEPAUSA_MTZ", version=""]}[Data],
-		    Tabela_RND = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATEPAUSA_RND", version=""]}[Data],
-		    Tabela_SLG = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATEPAUSA_SLG", version=""]}[Data],
-		    Tabela_TUP = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATEPAUSA_TUP", version=""]}[Data],
+		            SELECT 
+		                4 AS NROEMPRESA,
+		                DATAINICIAL, 
+		                HORAINICIAL, 
+		                DATAFINAL, 
+		                HORAFINAL, 
+		                MOTIVO,
+		                SUBSTR(TRIM(TO_CHAR(HORAINICIAL,'000000')),1,2) || ':' || SUBSTR(TRIM(TO_CHAR(HORAINICIAL,'000000')),3,2) || ':' || SUBSTR(TRIM(TO_CHAR(HORAINICIAL,'000000')),5,2) AS HRINICIAL,
+		                SUBSTR(TRIM(TO_CHAR(HORAFINAL,'000000')),1,2) || ':' || SUBSTR(TRIM(TO_CHAR(HORAFINAL,'000000')),3,2) || ':' || SUBSTR(TRIM(TO_CHAR(HORAFINAL,'000000')),5,2) AS HRFINAL
+		            FROM DIN_ABATEPAUSA@dtvind04 
+		            WHERE DATAINICIAL >= '01-JAN-2026'
 		
-		    // Aplicar transformações
-		    Transformada_MTZ = TransformarTabela(Tabela_MTZ, "MTZ"),
-		    Transformada_RND = TransformarTabela(Tabela_RND, "RND"),
-		    Transformada_SLG = TransformarTabela(Tabela_SLG, "SLG"),
-		    Transformada_TUP = TransformarTabela(Tabela_TUP, "TUP"),
+		            UNION ALL
 		
-		    // Combinar todas
-		    TabelaUnificada = Table.Combine({
-		        Transformada_MTZ,
-		        Transformada_RND,
-		        Transformada_SLG,
-		        Transformada_TUP
+		            SELECT 
+		                104 AS NROEMPRESA,
+		                DATAINICIAL, 
+		                HORAINICIAL, 
+		                DATAFINAL, 
+		                HORAFINAL, 
+		                MOTIVO,
+		                SUBSTR(TRIM(TO_CHAR(HORAINICIAL,'000000')),1,2) || ':' || SUBSTR(TRIM(TO_CHAR(HORAINICIAL,'000000')),3,2) || ':' || SUBSTR(TRIM(TO_CHAR(HORAINICIAL,'000000')),5,2) AS HRINICIAL,
+		                SUBSTR(TRIM(TO_CHAR(HORAFINAL,'000000')),1,2) || ':' || SUBSTR(TRIM(TO_CHAR(HORAFINAL,'000000')),3,2) || ':' || SUBSTR(TRIM(TO_CHAR(HORAFINAL,'000000')),5,2) AS HRFINAL
+		            FROM DIN_ABATEPAUSA@dtvind104 
+		            WHERE DATAINICIAL >= '01-JAN-2026'
+		
+		            UNION ALL
+		
+		            SELECT 
+		                12 AS NROEMPRESA,
+		                DATAINICIAL, 
+		                HORAINICIAL, 
+		                DATAFINAL, 
+		                HORAFINAL, 
+		                MOTIVO,
+		                SUBSTR(TRIM(TO_CHAR(HORAINICIAL,'000000')),1,2) || ':' || SUBSTR(TRIM(TO_CHAR(HORAINICIAL,'000000')),3,2) || ':' || SUBSTR(TRIM(TO_CHAR(HORAINICIAL,'000000')),5,2) AS HRINICIAL,
+		                SUBSTR(TRIM(TO_CHAR(HORAFINAL,'000000')),1,2) || ':' || SUBSTR(TRIM(TO_CHAR(HORAFINAL,'000000')),3,2) || ':' || SUBSTR(TRIM(TO_CHAR(HORAFINAL,'000000')),5,2) AS HRFINAL
+		            FROM DIN_ABATEPAUSA@dtvind12 
+		            WHERE DATAINICIAL >= '01-JAN-2026'
+		        "
+		    ]),
+		
+		    // 2. Garantia de tipagem inicial para operações de data/hora
+		    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte, {
+		        {"DATAINICIAL", type date}, 
+		        {"HORAINICIAL", Int64.Type},
+		        {"DATAFINAL", type date}, 
+		        {"HORAFINAL", Int64.Type},
+		        {"MOTIVO", type text}, 
+		        {"HRINICIAL", type time},
+		        {"HRFINAL", type time}, 
+		        {"NROEMPRESA", Int64.Type}
+		    }),
+		
+		    // 3. Montagem dos campos datetime combinando Data + Hora
+		    DataHoraInicial = Table.AddColumn(#"Tipo Alterado", "INICIAL", each [DATAINICIAL] & [HRINICIAL], type datetime),
+		    DataHoraFinal = Table.AddColumn(DataHoraInicial, "FINAL", each [DATAFINAL] & [HRFINAL], type datetime),
+		    
+		    // 4. Limpeza de colunas auxiliares e renomeações
+		    ColunasRemovidas = Table.RemoveColumns(DataHoraFinal, {"DATAINICIAL", "HORAINICIAL", "DATAFINAL", "HORAFINAL", "HRINICIAL", "HRFINAL"}),
+		    ColunasRenomeadas = Table.RenameColumns(ColunasRemovidas, {{"INICIAL", "DTAHORAINICIAL"}, {"FINAL", "DTAHORAFINAL"}}),
+		    
+		    // 5. Adição das colunas TIPO e UNIDADE condicional
+		    ColunaTipo = Table.AddColumn(ColunasRenomeadas, "TIPO", each "ABATE", type text),
+		    ColunaUnidade = Table.AddColumn(ColunaTipo, "UNIDADE", each 
+		        if [NROEMPRESA] = 2 then "MTZ" 
+		        else if [NROEMPRESA] = 4 then "RND" 
+		        else if [NROEMPRESA] = 104 then "SLG" 
+		        else if [NROEMPRESA] = 12 then "TUP" 
+		        else null, 
+		        type text
+		    ),
+		
+		    // 6. Tipagem final
+		    TiposFinais = Table.TransformColumnTypes(ColunaUnidade, {
+		        {"MOTIVO", type text}, 
+		        {"NROEMPRESA", Int64.Type},
+		        {"DTAHORAINICIAL", type datetime}, 
+		        {"DTAHORAFINAL", type datetime},
+		        {"TIPO", type text}, 
+		        {"UNIDADE", type text}
 		    })
 		in
-		    TabelaUnificada
+		    TiposFinais
+		```
 	lineageTag: fec40ee5-89ba-4b7d-901a-3fa5028b4fe7
 	queryGroup: 'Fluxo Industrial'
 
 	annotation PBI_NavigationStepName = Navegação
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 
 expression CLASSIFAUX =
 		let
@@ -247,22 +316,44 @@ expression CLASSIFAUX =
 
 expression 'Aux Compra' = ```
 		let
-		    Fonte = PowerPlatform.Dataflows(null),
-		    Workspaces = Fonte{[Id="Workspaces"]}[Data],
-		    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
-		    #"35024cdc-6a08-4e80-8a93-36e024176d14" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="35024cdc-6a08-4e80-8a93-36e024176d14"]}[Data],
+		    // 1. Conexão SQL nativa no Oracle unificando os dados de Abate por filial com NROEMPRESA fixo
+		    Fonte = Oracle.Database("datavale", [
+		        HierarchicalNavigation = true, 
+		        Query = "
+		            SELECT 
+		                2 AS NROEMPRESA, 
+		                e.* 
+		            FROM DINVPB_ABATE@dtvind02 e 
+		            WHERE DATA >= '01-JAN-2026'
 		
-		    // Novas fontes
-		    MTZ = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_MTZ", version=""]}[Data],
-		    RND = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_RND", version=""]}[Data],
-		    SLG = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_SLG", version=""]}[Data],
-		    TUP = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_TUP", version=""]}[Data],
+		            UNION ALL
 		
-		    // Combina todas
-		    TabelasUnidas = Table.Combine({MTZ, RND, SLG, TUP}),
+		            SELECT 
+		                4 AS NROEMPRESA, 
+		                e.* 
+		            FROM DINVPB_ABATE@dtvind04 e 
+		            WHERE DATA >= '01-JAN-2026'
 		
-		    // Tipagem das colunas
-		    #"Tipo Alterado" = Table.TransformColumnTypes(TabelasUnidas, {
+		            UNION ALL
+		
+		            SELECT 
+		                104 AS NROEMPRESA, 
+		                e.* 
+		            FROM DINVPB_ABATE@dtvind104 e 
+		            WHERE DATA >= '01-JAN-2026'
+		
+		            UNION ALL
+		
+		            SELECT 
+		                12 AS NROEMPRESA, 
+		                e.* 
+		            FROM DINVPB_ABATE@dtvind12 e 
+		            WHERE DATA >= '01-JAN-2026'
+		        "
+		    ]),
+		
+		    // 2. Tipagem das colunas
+		    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte, {
 		        {"NROEMPRESA", Int64.Type}, 
 		        {"DATA", type date}, 
 		        {"HR", type time}, 
@@ -303,13 +394,13 @@ expression 'Aux Compra' = ```
 		        {"FAMILIAPROD", Int64.Type}
 		    }),
 		
-		    // Seleciona apenas colunas necessárias
+		    // 3. Seleção das colunas necessárias
 		    #"Outras Colunas Removidas" = Table.SelectColumns(#"Tipo Alterado", {"NROEMPRESA", "DATA", "NROPEDIDO"}),
 		
-		    // Remove duplicatas
+		    // 4. Remoção de duplicatas
 		    #"Duplicatas Removidas" = Table.Distinct(#"Outras Colunas Removidas"),
 		
-		    // Cria coluna Mesclado (NROEMPRESA + NROPEDIDO)
+		    // 5. Criação da coluna Mesclado (NROEMPRESA + NROPEDIDO)
 		    #"Coluna Mesclada Inserida" = Table.AddColumn(#"Duplicatas Removidas", "Mesclado", each Text.Combine({Text.From([NROEMPRESA], "pt-BR"), Text.From([NROPEDIDO], "pt-BR")}, ""), type text)
 		in
 		    #"Coluna Mesclada Inserida"
@@ -319,7 +410,7 @@ expression 'Aux Compra' = ```
 
 	annotation PBI_NavigationStepName = Navegação
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 
 expression SINCRONISMO_DIARIOABATE =
 		let
@@ -344,7 +435,9 @@ expression Parâmetro1 = #"Arquivo de Amostra" meta [IsParameterQuery=true, Bina
 	lineageTag: bd5924cd-cb3b-432d-8f1b-541a0c45aaa8
 	queryGroup: 'Transformar Arquivo de Quebra de Frio\Consultas Auxiliares'
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navegação
 
 expression 'Arquivo de Amostra' =
 		let

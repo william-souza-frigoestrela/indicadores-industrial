@@ -10,30 +10,6 @@ table EXCEL_FUNRURAL
 
 		annotation SummarizationSetBy = Automatic
 
-	column PRODUTOR
-		dataType: string
-		lineageTag: f101ef3a-9f82-4eaa-a941-143417fe6b3d
-		summarizeBy: none
-		sourceColumn: PRODUTOR
-
-		annotation SummarizationSetBy = Automatic
-
-	column SEQGRANJA
-		dataType: string
-		lineageTag: d6d31e7d-141c-45a8-9e3c-d1bf7020db1e
-		summarizeBy: none
-		sourceColumn: SEQGRANJA
-
-		annotation SummarizationSetBy = Automatic
-
-	column GRANJA
-		dataType: string
-		lineageTag: 1ce06194-3ee2-4933-a617-067de8bf0188
-		summarizeBy: none
-		sourceColumn: GRANJA
-
-		annotation SummarizationSetBy = Automatic
-
 	column %
 		dataType: double
 		lineageTag: 5c75ba2d-f3c7-4c68-9bfa-9a69d01ca807
@@ -56,9 +32,12 @@ table EXCEL_FUNRURAL
 				    #"Valor Substituído" = Table.ReplaceValue(#"Colunas Removidas","CNPJ",0,Replacer.ReplaceValue,{"%"}),
 				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Valor Substituído",{{"%", Percentage.Type}}),
 				    #"Linhas Filtradas" = Table.SelectRows(#"Tipo Alterado1", each [SEQPRODUTOR] <> null and [SEQPRODUTOR] <> ""),
-				    #"Duplicatas Removidas" = Table.Distinct(#"Linhas Filtradas", {"SEQPRODUTOR"})
+				    #"Duplicatas Removidas" = Table.Distinct(#"Linhas Filtradas", {"SEQPRODUTOR"}),
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Duplicatas Removidas",{"%","SEQPRODUTOR"})
 				in
-				    #"Duplicatas Removidas"
+				    #"Columns removed by Measure Killer"
 
 	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
 

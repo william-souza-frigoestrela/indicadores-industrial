@@ -15,15 +15,6 @@ table 'Volume Mov. valinhos'
 
 		annotation SummarizationSetBy = Automatic
 
-	column SEMANA
-		dataType: int64
-		formatString: 0
-		lineageTag: 894cd52b-2197-4749-9d9b-5f6e3fe89240
-		summarizeBy: sum
-		sourceColumn: SEMANA
-
-		annotation SummarizationSetBy = Automatic
-
 	column DATA
 		dataType: dateTime
 		formatString: Long Date
@@ -45,22 +36,6 @@ table 'Volume Mov. valinhos'
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column 'GRUPO PRODUTO'
-		dataType: string
-		lineageTag: d3ac0e88-1105-4c41-b6f4-1b9f4083d74e
-		summarizeBy: none
-		sourceColumn: GRUPO PRODUTO
-
-		annotation SummarizationSetBy = Automatic
-
-	column Column6
-		dataType: string
-		lineageTag: 081b5003-2de9-4f94-bb95-bd8aba4f6eeb
-		summarizeBy: none
-		sourceColumn: Column6
-
-		annotation SummarizationSetBy = Automatic
-
 	partition 'Volume Mov. valinhos' = m
 		mode: import
 		source =
@@ -68,9 +43,10 @@ table 'Volume Mov. valinhos'
 				    Fonte = Excel.Workbook(File.Contents("\\192.168.2.167\controladoria\05 - INDICADORES\09. Power BI\Volume Valinhos.xlsx"), null, true),
 				    VALINHOS_Sheet = Fonte{[Item="VALINHOS",Kind="Sheet"]}[Data],
 				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(VALINHOS_Sheet, [PromoteAllScalars=true]),
-				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"EMPRESA", Int64.Type}, {"SEMANA", Int64.Type}, {"DATA", type date}, {"VOLUME", type number}, {"GRUPO PRODUTO", type text}})
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"EMPRESA", Int64.Type}, {"SEMANA", Int64.Type}, {"DATA", type date}, {"VOLUME", type number}, {"GRUPO PRODUTO", type text}}),
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Tipo Alterado",{"DATA","VOLUME","EMPRESA"})
 				in
-				    #"Tipo Alterado"
+				    #"Columns removed by Measure Killer"
 
 	annotation PBI_ResultType = Table
 

@@ -1,38 +1,6 @@
 table DGEVQ_HIERARQUIAVENDA
 	lineageTag: 79cb9836-df02-42a8-b449-78564303e9a2
 
-	column DTAFINAL
-		dataType: dateTime
-		formatString: General Date
-		lineageTag: 001eb11e-e65f-4c45-83d6-37990e4db1d2
-		summarizeBy: none
-		sourceColumn: DTAFINAL
-
-		variation Variation
-			isDefault
-			relationship: faaee5a8-89fc-480a-b8c4-39ef821f86c2
-			defaultHierarchy: LocalDateTable_59dda717-3717-44a1-946f-8d565b457239.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
-	column MESANO
-		dataType: string
-		lineageTag: 5e6acb9d-cfcc-4baa-a26e-233c8a075ec5
-		summarizeBy: none
-		sourceColumn: MESANO
-
-		annotation SummarizationSetBy = Automatic
-
-	column NROEMPRESAMAE
-		dataType: double
-		lineageTag: a3141136-fea3-4ef4-8fdc-5ab93186f572
-		summarizeBy: sum
-		sourceColumn: NROEMPRESAMAE
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column SEQVENDEDOR
 		dataType: double
 		lineageTag: 63cc02c6-dfdb-4cf3-9cec-bb52d1e73b13
@@ -43,183 +11,11 @@ table DGEVQ_HIERARQUIAVENDA
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column VENDEDOR
-		dataType: string
-		lineageTag: e9e7cedd-e0e4-47fe-908a-08aa7acd089e
-		summarizeBy: none
-		sourceColumn: VENDEDOR
-
-		annotation SummarizationSetBy = Automatic
-
-	column CODVENDEDORCAT
-		dataType: string
-		lineageTag: 09e4ed36-d317-4148-8c28-9ea8dbf47dd0
-		summarizeBy: none
-		sourceColumn: CODVENDEDORCAT
-
-		annotation SummarizationSetBy = Automatic
-
-	column STATUSVENDEDOR
-		dataType: string
-		lineageTag: e397c5b9-d932-4ad9-b147-95b8f1789ea4
-		summarizeBy: none
-		sourceColumn: STATUSVENDEDOR
-
-		annotation SummarizationSetBy = Automatic
-
-	column SEQSUPERVISOR
-		dataType: double
-		lineageTag: 2c8b9600-52e8-4d7b-8c04-71993aed5cea
-		summarizeBy: sum
-		sourceColumn: SEQSUPERVISOR
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column SUPERVISOR
-		dataType: string
-		lineageTag: 2106e5de-3bfa-4745-8684-acc6e77e7106
-		summarizeBy: none
-		sourceColumn: SUPERVISOR
-
-		annotation SummarizationSetBy = Automatic
-
-	column STATUSSUPERVISOR
-		dataType: string
-		lineageTag: 863b6bff-2b0d-40a0-9e71-e898e7a05c76
-		summarizeBy: none
-		sourceColumn: STATUSSUPERVISOR
-
-		annotation SummarizationSetBy = Automatic
-
-	column SEQGERENTEVENDA
-		dataType: double
-		lineageTag: 625300e7-5a33-458c-8b1a-fa881a4c9e4b
-		summarizeBy: sum
-		sourceColumn: SEQGERENTEVENDA
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column GERENTEVENDA
 		dataType: string
 		lineageTag: 08a24aba-06fa-4cf6-9dbf-bc402e0c48b9
 		summarizeBy: none
 		sourceColumn: GERENTEVENDA
-
-		annotation SummarizationSetBy = Automatic
-
-	column STATUSGERENTEVENDAS
-		dataType: string
-		lineageTag: ae9f81c1-0b4c-49de-bc38-aafdc94b2740
-		summarizeBy: none
-		sourceColumn: STATUSGERENTEVENDAS
-
-		annotation SummarizationSetBy = Automatic
-
-	column SEQGERENTEREGIONAL
-		dataType: double
-		lineageTag: 3de8eeba-d98e-4112-b58d-4a34559bd3a8
-		summarizeBy: sum
-		sourceColumn: SEQGERENTEREGIONAL
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column GERENTEREGIONAL
-		dataType: string
-		lineageTag: 918b5c98-3bf8-4844-ac21-a8575a3bc20c
-		summarizeBy: none
-		sourceColumn: GERENTEREGIONAL
-
-		annotation SummarizationSetBy = Automatic
-
-	column STATUSGERENTEREGIONAL
-		dataType: string
-		lineageTag: 7092bcc0-6ce1-49b5-9017-c87371b96e5d
-		summarizeBy: none
-		sourceColumn: STATUSGERENTEREGIONAL
-
-		annotation SummarizationSetBy = Automatic
-
-	column SEQGERENTECOMERCIAL
-		dataType: double
-		lineageTag: 305d45d4-1c6a-44c3-951d-9e0e697977a1
-		summarizeBy: sum
-		sourceColumn: SEQGERENTECOMERCIAL
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column GERENTECOMERCIAL
-		dataType: string
-		lineageTag: 506990fd-47ec-4f48-9199-cea4a405f292
-		summarizeBy: none
-		sourceColumn: GERENTECOMERCIAL
-
-		annotation SummarizationSetBy = Automatic
-
-	column STATUSGERENTECOMERCIAL
-		dataType: string
-		lineageTag: fe960680-6d58-4039-8770-5a806c1347f8
-		summarizeBy: none
-		sourceColumn: STATUSGERENTECOMERCIAL
-
-		annotation SummarizationSetBy = Automatic
-
-	column SEQGERENTENACIONAL
-		dataType: double
-		lineageTag: 0362057f-c3cb-4c1b-80e1-fe78c1c2ffbe
-		summarizeBy: sum
-		sourceColumn: SEQGERENTENACIONAL
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column GERENTENACIONAL
-		dataType: string
-		lineageTag: e6c72967-7147-4512-9155-b7d8abcbbe4c
-		summarizeBy: none
-		sourceColumn: GERENTENACIONAL
-
-		annotation SummarizationSetBy = Automatic
-
-	column STATUSGERENTENACIONAL
-		dataType: string
-		lineageTag: c1c727a5-2d49-454b-b820-7fc98a9b85c8
-		summarizeBy: none
-		sourceColumn: STATUSGERENTENACIONAL
-
-		annotation SummarizationSetBy = Automatic
-
-	column SEQDIRETORCOMERCIAL
-		dataType: double
-		lineageTag: 1425f111-0bd2-413a-ac27-b36a4fed1407
-		summarizeBy: sum
-		sourceColumn: SEQDIRETORCOMERCIAL
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column DIRETORCOMERCIAL
-		dataType: string
-		lineageTag: f03ae281-313e-4ec4-a33f-80e68522b1d5
-		summarizeBy: none
-		sourceColumn: DIRETORCOMERCIAL
-
-		annotation SummarizationSetBy = Automatic
-
-	column STATUSDIRETORCOMERCIAL
-		dataType: string
-		lineageTag: b3e67b71-bdc3-4817-a55e-5567864f8bac
-		summarizeBy: none
-		sourceColumn: STATUSDIRETORCOMERCIAL
 
 		annotation SummarizationSetBy = Automatic
 
@@ -249,11 +45,12 @@ table DGEVQ_HIERARQUIAVENDA
 				    DATAVALE = Fonte{[Schema="DATAVALE"]}[Data],
 				    DGEVQ_HIERARQUIAVENDA1 = DATAVALE{[Name="DGEVQ_HIERARQUIAVENDA"]}[Data],
 				    #"Linhas Filtradas" = Table.SelectRows(DGEVQ_HIERARQUIAVENDA1, each [DTAFINAL] > #datetime(2022, 1, 1, 0, 0, 0)),
-				    #"Linhas Filtradas1" = Table.SelectRows(#"Linhas Filtradas", each true)
+				    #"Linhas Filtradas1" = Table.SelectRows(#"Linhas Filtradas", each true),
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Linhas Filtradas1",{"GERENTEVENDA","SEQVENDEDOR"})
 				in
-				    #"Linhas Filtradas1"
+				    #"Columns removed by Measure Killer"
 
 	annotation PBI_NavigationStepName = Navegação
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
 

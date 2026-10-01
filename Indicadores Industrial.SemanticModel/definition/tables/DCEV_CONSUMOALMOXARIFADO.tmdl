@@ -10,28 +10,12 @@ table DCEV_CONSUMOALMOXARIFADO
 
 		annotation SummarizationSetBy = Automatic
 
-	column NRODOCUMENTO
-		dataType: string
-		lineageTag: 22460e29-2908-44c7-ab7d-ee46537f5510
-		summarizeBy: none
-		sourceColumn: NRODOCUMENTO
-
-		annotation SummarizationSetBy = Automatic
-
 	column SEQPRODUTO
 		dataType: int64
 		formatString: 0
 		lineageTag: 4a9eb13f-f393-48af-987b-8b650d889c37
 		summarizeBy: sum
 		sourceColumn: SEQPRODUTO
-
-		annotation SummarizationSetBy = Automatic
-
-	column DESCRPRODUTO
-		dataType: string
-		lineageTag: ee7c6c0a-7fa1-4129-90fa-1e3d8c43f673
-		summarizeBy: none
-		sourceColumn: DESCRPRODUTO
 
 		annotation SummarizationSetBy = Automatic
 
@@ -66,7 +50,7 @@ table DCEV_CONSUMOALMOXARIFADO
 
 	column DESCRGRUPOPROD
 		dataType: string
-		lineageTag: 1cee7c6c-1e24-426b-9f58-5676ee8f5b5c
+		lineageTag: ced39b47-94d7-4467-931c-cfd4a9855ce9
 		summarizeBy: none
 		sourceColumn: DESCRGRUPOPROD
 
@@ -74,49 +58,9 @@ table DCEV_CONSUMOALMOXARIFADO
 
 	column DESCRSUBGRUPOPROD
 		dataType: string
-		lineageTag: 542d20cd-4773-4d1a-ad02-e9d904241e2a
+		lineageTag: 4ec9d19b-a9e1-4a6f-b833-b230b02dfdaf
 		summarizeBy: none
 		sourceColumn: DESCRSUBGRUPOPROD
-
-		annotation SummarizationSetBy = Automatic
-
-	column UNIDADE
-		dataType: string
-		lineageTag: 351c1497-1832-4b2f-8469-3ff0dc4de2dd
-		summarizeBy: none
-		sourceColumn: UNIDADE
-
-		annotation SummarizationSetBy = Automatic
-
-	column CENTRORESULTADO
-		dataType: string
-		lineageTag: e980a27d-1c05-4aea-a853-d09f6fc98b97
-		summarizeBy: none
-		sourceColumn: CENTRORESULTADO
-
-		annotation SummarizationSetBy = Automatic
-
-	column DESCRCENTRORESULTADO
-		dataType: string
-		lineageTag: cfcfd4f5-b2a5-4500-91d2-0301f4258d88
-		summarizeBy: none
-		sourceColumn: DESCRCENTRORESULTADO
-
-		annotation SummarizationSetBy = Automatic
-
-	column OBSERVACAO
-		dataType: string
-		lineageTag: 1d56248c-b834-497c-89a5-e78d5c14e316
-		summarizeBy: none
-		sourceColumn: OBSERVACAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column _TRATARDEVOLUÇÃO
-		dataType: string
-		lineageTag: 3f2aeb56-a2c4-4024-b0dd-13c4ff26aa50
-		summarizeBy: none
-		sourceColumn: _TRATARDEVOLUÇÃO
 
 		annotation SummarizationSetBy = Automatic
 
@@ -125,17 +69,15 @@ table DCEV_CONSUMOALMOXARIFADO
 		queryGroup: 'Fluxo Industrial'
 		source =
 				let
-				    Fonte = PowerPlatform.Dataflows(null),
-				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
-				    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
-				    #"bf16c4ad-0ce0-421a-add5-e327b9226f75" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="bf16c4ad-0ce0-421a-add5-e327b9226f75"]}[Data],
-				    DCEV_CONSUMOALMOXARIFADO_ = #"bf16c4ad-0ce0-421a-add5-e327b9226f75"{[entity="DCEV_CONSUMOALMOXARIFADO",version=""]}[Data],
-				    #"Linhas Filtradas" = Table.SelectRows(DCEV_CONSUMOALMOXARIFADO_, each ([DESCRGRUPOPROD] = "LUBRIFICANTES E COMBUSTIVEIS")),
-				    #"Colunas Removidas" = Table.RemoveColumns(#"Linhas Filtradas",{"SOLICITANTE", "NROORDSERVICO", "NROITEMOS", "SEQCLASSIFICACAO", "NROCNPJ", "MATRICULAFUNCIONARIO", "GRUPOPROD", "SUBGRUPOPROD", "SERVICO", "CODDISPFISCAL", "CODSETORSAIDA"}),
-				    #"Coluna Condicional Adicionada" = Table.AddColumn(#"Colunas Removidas", "_TRATARDEVOLUÇÃO", each if Text.Contains([OBSERVACAO], "automaticamente") then "automática" else null),
-				    #"Linhas Filtradas1" = Table.SelectRows(#"Coluna Condicional Adicionada", each ([_TRATARDEVOLUÇÃO] = null))
+				    // 1. Conexão SQL nativa direto na tabela do Oracle
+				    Fonte = Oracle.Database("datavale", [HierarchicalNavigation=true, Query="#(lf)            SELECT #(lf) QUANTIDADE,#(lf)VLRUNITARIO,#(lf)SEQPRODUTO,#(lf)NROEMPRESA,#(lf)DTALANCAMENTO,#(lf)DESCRGRUPOPROD,#(lf)DESCRSUBGRUPOPROD#(lf)#(lf)            FROM DATAVALE.DCEV_CONSUMOALMOXARIFADO #(lf)            WHERE DTALANCAMENTO >= '01/JAN/2026'#(lf)        "]),
+				
+				    // 2. Filtro pelo grupo de produtos
+				    #"Linhas Filtradas" = Table.SelectRows(Fonte, each ([DESCRGRUPOPROD] = "LUBRIFICANTES E COMBUSTIVEIS"))
 				in
-				    #"Linhas Filtradas1"
+				    #"Linhas Filtradas"
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navegação
 

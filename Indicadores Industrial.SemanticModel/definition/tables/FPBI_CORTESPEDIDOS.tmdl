@@ -41,24 +41,6 @@ table FPBI_CORTESPEDIDOS
 
 		annotation SummarizationSetBy = Automatic
 
-	column NROCARGA
-		dataType: int64
-		formatString: 0
-		lineageTag: a25c8442-2176-4f5f-8ae5-55da6322fff3
-		summarizeBy: sum
-		sourceColumn: NROCARGA
-
-		annotation SummarizationSetBy = Automatic
-
-	column STATUSCARGA
-		dataType: int64
-		formatString: 0
-		lineageTag: 16da368f-8fa1-4eb5-990b-b0d9d54b4d6e
-		summarizeBy: sum
-		sourceColumn: STATUSCARGA
-
-		annotation SummarizationSetBy = Automatic
-
 	column SEQPRODUTO
 		dataType: int64
 		formatString: 0
@@ -84,22 +66,6 @@ table FPBI_CORTESPEDIDOS
 
 		annotation SummarizationSetBy = Automatic
 
-	column TIPOCALCULO
-		dataType: string
-		lineageTag: c6b7a50c-67d7-444c-9895-f5e617e20edf
-		summarizeBy: none
-		sourceColumn: TIPOCALCULO
-
-		annotation SummarizationSetBy = Automatic
-
-	column TIPOEXPEDICAO
-		dataType: string
-		lineageTag: af3d730c-a7eb-4241-a700-c1778cb29d3f
-		summarizeBy: none
-		sourceColumn: TIPOEXPEDICAO
-
-		annotation SummarizationSetBy = Automatic
-
 	column NROPEDIDO
 		dataType: int64
 		formatString: 0
@@ -109,40 +75,12 @@ table FPBI_CORTESPEDIDOS
 
 		annotation SummarizationSetBy = Automatic
 
-	column DTAPEDIDO
-		dataType: dateTime
-		formatString: General Date
-		lineageTag: adf75188-4ecb-49fb-88c3-30dda6e33730
-		summarizeBy: none
-		sourceColumn: DTAPEDIDO
-
-		variation Variation
-			isDefault
-			relationship: c8e24cf6-74d1-448a-9be9-cb858dd69978
-			defaultHierarchy: LocalDateTable_0d105b46-c0cb-4abd-a3ee-a817a325ee65.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
 	column DTAEMBARQUE
 		dataType: dateTime
 		formatString: General Date
 		lineageTag: 422b0e7e-dc1d-4fab-b249-22c0a3783e56
 		summarizeBy: none
 		sourceColumn: DTAEMBARQUE
-
-		annotation SummarizationSetBy = Automatic
-
-	column DTAINCLUSAO
-		dataType: dateTime
-		formatString: General Date
-		lineageTag: 37e35db4-73a7-4a1e-b0b6-f44f202a4027
-		summarizeBy: none
-		sourceColumn: DTAINCLUSAO
-
-		variation Variation
-			isDefault
-			relationship: 3c0ed613-52bd-4705-b55a-df0897e9a4d7
-			defaultHierarchy: LocalDateTable_0c3b7d84-7b5d-4073-9057-c8c3090600cc.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -161,30 +99,6 @@ table FPBI_CORTESPEDIDOS
 		lineageTag: 06033878-9172-421a-8a38-dbb9e6cf3864
 		summarizeBy: sum
 		sourceColumn: SEQCLIENTE
-
-		annotation SummarizationSetBy = Automatic
-
-	column NOMECLIENTE
-		dataType: string
-		lineageTag: 128ead1d-49ee-444a-a329-077682e1b058
-		summarizeBy: none
-		sourceColumn: NOMECLIENTE
-
-		annotation SummarizationSetBy = Automatic
-
-	column STATUSPEDIDO
-		dataType: string
-		lineageTag: d4d6e98e-dba0-4ae4-8f14-d5a678de7e3f
-		summarizeBy: none
-		sourceColumn: STATUSPEDIDO
-
-		annotation SummarizationSetBy = Automatic
-
-	column STATUSCARREG
-		dataType: string
-		lineageTag: 0aff3f4e-216d-4c6c-a417-9b388fe69301
-		summarizeBy: none
-		sourceColumn: STATUSCARREG
 
 		annotation SummarizationSetBy = Automatic
 
@@ -238,62 +152,8 @@ table FPBI_CORTESPEDIDOS
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column QTDCORTE
-		dataType: double
-		lineageTag: 52ef1b1c-59d4-4961-b5ca-9fdc7398e21b
-		summarizeBy: sum
-		sourceColumn: QTDCORTE
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column PESOCORTE
-		dataType: double
-		lineageTag: 06502515-2f43-4b33-b6ba-59205bfce23b
-		summarizeBy: sum
-		sourceColumn: PESOCORTE
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column QTDCORTEANT
-		dataType: double
-		lineageTag: a8b60b58-c9a0-406b-b3d3-085d15a90ce7
-		summarizeBy: sum
-		sourceColumn: QTDCORTEANT
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column PESOCORTEANT
-		dataType: double
-		lineageTag: 0e78b9f5-5443-428d-88d8-8ba5f18efde9
-		summarizeBy: sum
-		sourceColumn: PESOCORTEANT
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column DESCRICAO
-		dataType: string
-		lineageTag: 56a0ff8c-a11e-4726-b253-5dd90ebe1654
-		summarizeBy: none
-		sourceColumn: DESCRICAO
-
-		annotation SummarizationSetBy = Automatic
-
 	column Chave = FPBI_CORTESPEDIDOS[NROPEDIDO]&FPBI_CORTESPEDIDOS[NROPLANTA]
 		lineageTag: 923f9890-7250-44bd-b139-a9f3ad391eb4
-		summarizeBy: none
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Nome Mês' = REPLACE(FORMAT(FPBI_CORTESPEDIDOS[DTAEMBARQUE],"mmm"),1,1,LEFT(UPPER(FPBI_CORTESPEDIDOS[DTAEMBARQUE].[Mês]),1))
-		lineageTag: e13bbea9-085e-43ad-af48-39a5e1393c8c
 		summarizeBy: none
 
 		annotation SummarizationSetBy = Automatic
@@ -359,21 +219,12 @@ table FPBI_CORTESPEDIDOS
 
 		annotation SummarizationSetBy = Automatic
 
-	column Mercado = IF(FPBI_CORTESPEDIDOS[MSGNATOPERACAO]="EXPORTACAO","MERCADO EXTERNO",IF(FPBI_CORTESPEDIDOS[MSGNATOPERACAO]="EXPORTACAO DE MERC. RECEBIDA C/ FIM ESP. EXPORTACAO","MERCADO EXTERNO","MERCADO INTERNO"))
-		lineageTag: a7155969-7302-4274-9d08-07de7151b2d9
+	column DTAPEDIDO
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 0b69ca18-0e9f-4bcd-a1e8-2d5616eaa724
 		summarizeBy: none
-
-		annotation SummarizationSetBy = Automatic
-
-	column MêsAno2 = FPBI_CORTESPEDIDOS[DTAPEDIDO].[MonthNo]&FPBI_CORTESPEDIDOS[DTAPEDIDO].[Ano]
-		lineageTag: 26dfbdf4-5468-40c4-9fe8-749e6c7f5b8a
-		summarizeBy: none
-
-		annotation SummarizationSetBy = Automatic
-
-	column Chave2 = FPBI_CORTESPEDIDOS[SEQVENDEDOR]&FPBI_CORTESPEDIDOS[MêsAno2]
-		lineageTag: b2284fee-5fee-4127-ae3d-9275a50a563d
-		summarizeBy: none
+		sourceColumn: DTAPEDIDO
 
 		annotation SummarizationSetBy = Automatic
 
@@ -383,9 +234,10 @@ table FPBI_CORTESPEDIDOS
 				let
 				    Fonte = Oracle.Database("DATAVALE", [HierarchicalNavigation=true, CommandTimeout=#duration(0, 3, 0, 0), Query="select * from datavale.FPBI_CORTESPEDIDOS2#(lf)#(lf)where dtaembarque >= trunc(sysdate)-180"]),
 				    #"Linhas Filtradas1" = Table.SelectRows(Fonte, each ([SEQPRODUTO] <> 162010 and [SEQPRODUTO] <> 14008 and [SEQPRODUTO] <> 14002 and [SEQPRODUTO] <> 51113 and [SEQPRODUTO] <> 162012 and [SEQPRODUTO] <> 13023)),
-				    #"Linhas Filtradas" = Table.SelectRows(#"Linhas Filtradas1", each Text.Contains([DESCRICAO], "VENDA"))
+				    #"Linhas Filtradas" = Table.SelectRows(#"Linhas Filtradas1", each Text.Contains([DESCRICAO], "VENDA")),
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Linhas Filtradas",{"NROPLANTA", "SEQPRODUTO", "DESCRPRODUTO", "UNIDADE", "NROPEDIDO", "DTAPEDIDO", "DTAEMBARQUE", "SEQVENDEDOR", "SEQCLIENTE", "QTDPEDIDA", "PESOPEDIDO", "PESOMEDIO", "QTDEXPEDIDA", "PESOEXPEDIDO"})
 				in
-				    #"Linhas Filtradas"
+				    #"Columns removed by Measure Killer"
 
 	annotation PBI_NavigationStepName = Navegação
 

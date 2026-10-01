@@ -1,87 +1,12 @@
 table PASTA_ENERGIA
 	lineageTag: baf9e9fd-9dda-49ee-b5e7-b7340cf60514
 
-	column 'Mês de Ref.'
-		dataType: int64
-		formatString: 0
-		lineageTag: e840f074-0884-4bab-b44a-71d64e7fca2b
-		summarizeBy: sum
-		sourceColumn: Mês de Ref.
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Ano de Ref.'
-		dataType: int64
-		formatString: 0
-		lineageTag: a02d7a4e-eae7-42d9-b270-9a4309132156
-		summarizeBy: sum
-		sourceColumn: Ano de Ref.
-
-		annotation SummarizationSetBy = Automatic
-
 	column Unidade
 		dataType: int64
 		formatString: 0
 		lineageTag: 102ae206-e8b8-496f-ad3a-453ff2c982be
 		summarizeBy: none
 		sourceColumn: Unidade
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Data Bi'
-		dataType: dateTime
-		formatString: Long Date
-		lineageTag: 9e08ef85-dd80-408d-9fc3-56e5654e057d
-		summarizeBy: none
-		sourceColumn: Data Bi
-
-		variation Variation
-			isDefault
-			relationship: 542c1dab-053c-46f8-802a-3bd0b8da025b
-			defaultHierarchy: LocalDateTable_76692756-4e77-4c16-81a6-10e42d3e9093.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
-
-	column 'Data de Leitura Anterior'
-		dataType: dateTime
-		formatString: Long Date
-		lineageTag: 68d7ac95-df2f-4b79-b92c-cece06541058
-		summarizeBy: none
-		sourceColumn: Data de Leitura Anterior
-
-		variation Variation
-			isDefault
-			relationship: 056974c5-6a52-4108-9a09-ccb61a8b5721
-			defaultHierarchy: LocalDateTable_e09f079d-0f0f-4898-b06e-6e06df7f8b7f.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
-
-	column 'Data de Leitura Atual'
-		dataType: dateTime
-		formatString: Long Date
-		lineageTag: aab68f46-7cf6-4df2-85e4-7766607a4061
-		summarizeBy: none
-		sourceColumn: Data de Leitura Atual
-
-		variation Variation
-			isDefault
-			relationship: ee56e123-eec1-4c63-bcc9-25bc82b105cf
-			defaultHierarchy: LocalDateTable_53395e87-3567-49d5-b6cb-f265caa894c5.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
-
-	column 'Dias Consumo'
-		dataType: int64
-		formatString: 0
-		lineageTag: b0588461-b850-4a1e-9827-a6059996e52d
-		summarizeBy: sum
-		sourceColumn: Dias Consumo
 
 		annotation SummarizationSetBy = Automatic
 
@@ -100,16 +25,6 @@ table PASTA_ENERGIA
 		lineageTag: d9891c81-409d-451f-80da-c199adf3fdd0
 		summarizeBy: sum
 		sourceColumn: Consumo Fora de Ponta [kWh]
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column 'Consumo Total'
-		dataType: double
-		lineageTag: 43a910b8-8651-4ef4-a908-38edb7833432
-		summarizeBy: sum
-		sourceColumn: Consumo Total
 
 		annotation SummarizationSetBy = Automatic
 
@@ -335,16 +250,6 @@ table PASTA_ENERGIA
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column 'Valor Reativo'
-		dataType: double
-		lineageTag: 73727569-a047-4e3d-9413-94230eb89c4a
-		summarizeBy: sum
-		sourceColumn: Valor Reativo
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column 'Valor Demanda Ponta [R$]'
 		dataType: int64
 		formatString: 0
@@ -533,18 +438,32 @@ table PASTA_ENERGIA
 		queryGroup: 'Fluxo Industrial'
 		source =
 				let
+				
 				    Fonte = PowerPlatform.Dataflows(null),
+				
 				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				
 				    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
+				
 				    #"c8fff005-032f-4253-806f-f8bd404edba0" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="c8fff005-032f-4253-806f-f8bd404edba0"]}[Data],
+				
 				    PASTA_ENERGIA_ = #"c8fff005-032f-4253-806f-f8bd404edba0"{[entity="PASTA_ENERGIA",version=""]}[Data],
+				
 				    #"Outras Colunas Removidas" = Table.SelectColumns(PASTA_ENERGIA_,{"Mês de Ref.", "Ano de Ref.", "Unidade", "Data Bi", "Data de Leitura Anterior", "Data de Leitura Atual", "Dias Consumo", "Consumo de Ponta [kWh]", "Consumo Fora de Ponta [kWh]", "Consumo Total", "Consumo Reativo Exc.Ponta [Kwh]", "Consumo Reativo Exc.Fora de Ponta [Kwh]", "Demanda Ponta [kW]", "Demanda Fora de Ponta [kW]", "Demanda Ponta e Fora de Ponta [kW]", "Demanda Não Utilizada Ponta [kW]", "Demanda Não Utilizada Fora de Ponta [kW]", "Demanda Não Utilizada Ponta e Fora de Ponta [kW]", "Demanda Reativa Ponta [kW]", "Demanda Reativa Fora de Ponta [kW]", "Demanda Reativa Ponta e Fora de Ponta [kW]", "Demanda Ultra Ponta [kW]", "Demanda Ultra Fora de Ponta [kW]", "Demanda Ultra Ponta e Fora de Ponta [kW]", "Demanda Contratada Ponta [kW]", "Demanda Contratada Fora de Ponta [kW]", "Demanda Contratada Ponta e Fora de Ponta [kW]", "Valor de Ponta [R$]", "Valor Fora de Ponta [R$]", "Valor Adicional Bandeira Amarela [R$]", "Valor Adicional Bandeira Vermelha [R$]", "Valor Reativo Exc.Ponta [R$]", "Valor Reativo Exc.Fora de Ponta [R$]", "Valor Reativo", "Valor Demanda Ponta [R$]", "Valor Demanda Fora de Ponta [R$]", "Valor Demanda Ponta e Fora de Ponta [R$]", "Valor Demanda Não Utilizada Ponta [R$]", "Valor Demanda Não Utilizada Fora de Ponta [R$]", "Valor Demanda Não Utilizada Ponta e Fora de Ponta [R$]", "Valor Demanda Reativa Ponta [R$]", "Valor Demanda Reativa Fora de Ponta [R$]", "Valor Demanda Reativa Ponta e Fora de Ponta [R$]", "Valor Demanda Ultra Ponta [R$]", "Valor Demanda Ultra Fora de Ponta [R$]", "Valor Demanda Ultra Ponta e Fora de Ponta [R$]", "Valor de Tarifas [R$]", "Valor de Descontos [R$]", "Valor Total [R$]", "Nota Fiscal de Serviço", "Consumo de Energia Comprada", "Energia Comprada"}),
+				
 				    #"Linhas Filtradas" = Table.SelectRows(#"Outras Colunas Removidas", each [Unidade] <> null and [Unidade] <> ""),
+				
 				    #"Coluna Personalizada Adicionada" = Table.AddColumn(#"Linhas Filtradas", "Data", each Text.Combine({Text.Middle(Text.From([#"Ano de Ref."], "pt-BR"), 1, 2), "/", Text.PadStart(Text.From([#"Mês de Ref."], "pt-BR"), 2, "0"), Text.PadStart(Text.From([#"Ano de Ref."], "pt-BR"), 5, "/")}), type text),
+				
 				    #"Linhas Filtradas1" = Table.SelectRows(#"Coluna Personalizada Adicionada", each [#"Ano de Ref."] >= 2023),
-				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Linhas Filtradas1",{{"Data", type date}})
+				
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Linhas Filtradas1",{{"Data", type date}}),
+				
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Tipo Alterado",{"Consumo Reativo Exc.Ponta [Kwh]","Consumo Reativo Exc.Fora de Ponta [Kwh]","Valor Demanda Reativa Ponta e Fora de Ponta [R$]","Demanda Contratada Fora de Ponta [kW]","Demanda Reativa Ponta [kW]","Consumo de Energia Comprada","Demanda Reativa Fora de Ponta [kW]","Valor de Tarifas [R$]","Valor Demanda Não Utilizada Ponta [R$]","Valor Fora de Ponta [R$]","Unidade","Data","Valor Demanda Ponta e Fora de Ponta [R$]","Demanda Reativa Ponta e Fora de Ponta [kW]","Valor Demanda Ultra Ponta e Fora de Ponta [R$]","Demanda Contratada Ponta e Fora de Ponta [kW]","Valor Adicional Bandeira Amarela [R$]","Valor Total [R$]","Demanda Ultra Fora de Ponta [kW]","Demanda Não Utilizada Fora de Ponta [kW]","Demanda Ponta [kW]","Demanda Não Utilizada Ponta [kW]","Valor Demanda Fora de Ponta [R$]","Demanda Ultra Ponta e Fora de Ponta [kW]","Valor Adicional Bandeira Vermelha [R$]","Consumo de Ponta [kWh]","Valor Demanda Reativa Ponta [R$]","Valor de Descontos [R$]","Valor Demanda Não Utilizada Fora de Ponta [R$]","Valor de Ponta [R$]","Valor Reativo Exc.Fora de Ponta [R$]","Valor Demanda Ultra Fora de Ponta [R$]","Valor Demanda Ultra Ponta [R$]","Valor Demanda Reativa Fora de Ponta [R$]","Valor Reativo Exc.Ponta [R$]","Consumo Fora de Ponta [kWh]","Valor Demanda Não Utilizada Ponta e Fora de Ponta [R$]","Demanda Não Utilizada Ponta e Fora de Ponta [kW]","Demanda Ultra Ponta [kW]","Nota Fiscal de Serviço","Valor Demanda Ponta [R$]","Demanda Fora de Ponta [kW]","Demanda Ponta e Fora de Ponta [kW]","Demanda Contratada Ponta [kW]","Energia Comprada"})
+				
 				in
-				    #"Tipo Alterado"
+				
+				    #"Columns removed by Measure Killer"
 
 	annotation PBI_ResultType = Table
 

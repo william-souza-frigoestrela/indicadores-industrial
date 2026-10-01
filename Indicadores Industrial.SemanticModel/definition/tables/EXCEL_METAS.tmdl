@@ -1,77 +1,11 @@
 table EXCEL_METAS
 	lineageTag: ecfa539a-2136-40af-b36a-d5564c3f9bc2
 
-	column IDMeta
-		dataType: string
-		lineageTag: 82b9badc-133a-4d69-a3a1-afee3af5caae
-		summarizeBy: none
-		sourceColumn: IDMeta
-
-		annotation SummarizationSetBy = Automatic
-
-	column Ano
-		dataType: int64
-		formatString: 0
-		lineageTag: 8e5879ef-9d4f-48e5-98ba-c6378d3c2c49
-		summarizeBy: sum
-		sourceColumn: Ano
-
-		annotation SummarizationSetBy = Automatic
-
-	column VigenciaInicio
-		dataType: dateTime
-		formatString: Long Date
-		lineageTag: 666f18ce-ca06-45ef-995d-e27214a44e22
-		summarizeBy: none
-		sourceColumn: VigenciaInicio
-
-		variation Variation
-			isDefault
-			relationship: d941a0a4-69f3-4ce2-8af8-4c68e7c9e151
-			defaultHierarchy: LocalDateTable_4e3e68b0-43fc-4e4a-ad2d-bef409b6d39e.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
-
-	column VigenciaFim
-		dataType: dateTime
-		formatString: Long Date
-		lineageTag: e0adc8e7-817a-4644-ae34-d86d1ee45e1e
-		summarizeBy: none
-		sourceColumn: VigenciaFim
-
-		variation Variation
-			isDefault
-			relationship: 42ac0ce2-5626-436d-a546-ed4a02dce713
-			defaultHierarchy: LocalDateTable_224871de-7b73-4d97-b7e0-f9bc29cdc704.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
-
-	column Ativa
-		dataType: boolean
-		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: 42101bc8-0331-40a7-90c7-7e155fa097a5
-		summarizeBy: none
-		sourceColumn: Ativa
-
-		annotation SummarizationSetBy = Automatic
-
 	column Indicador
 		dataType: string
 		lineageTag: ac44fbcb-3490-412e-85da-0aeca2d97381
 		summarizeBy: none
 		sourceColumn: Indicador
-
-		annotation SummarizationSetBy = Automatic
-
-	column Setor
-		dataType: string
-		lineageTag: da4936a1-ddb0-4d41-86b0-3f7ec44f602a
-		summarizeBy: none
-		sourceColumn: Setor
 
 		annotation SummarizationSetBy = Automatic
 
@@ -91,16 +25,6 @@ table EXCEL_METAS
 		sourceColumn: Turno
 
 		annotation SummarizationSetBy = Automatic
-
-	column Valor
-		dataType: double
-		lineageTag: 2929be79-f8bf-4ead-8084-551c0ff6dd8e
-		summarizeBy: sum
-		sourceColumn: Valor
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column TipoMeta
 		dataType: int64
@@ -158,14 +82,6 @@ table EXCEL_METAS
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column InverterFarol
-		dataType: string
-		lineageTag: 7df14f3a-1de9-4f18-8827-604c343364f7
-		summarizeBy: none
-		sourceColumn: InverterFarol
-
-		annotation SummarizationSetBy = Automatic
-
 	partition EXCEL_METAS = m
 		mode: import
 		source =
@@ -173,9 +89,10 @@ table EXCEL_METAS
 				    Fonte = Excel.Workbook(File.Contents("\\192.168.2.167\CONTROLADORIA\01 - RELATÓRIOS GERAIS\2026\TRAB 009 - Indicadores Produção Meta - Realizado (Rafael)\BI\MetsIndicadores.xlsx"), null, true),
 				    EXCEL_METAS_Sheet = Fonte{[Item="EXCEL_METAS",Kind="Sheet"]}[Data],
 				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(EXCEL_METAS_Sheet, [PromoteAllScalars=true]),
-				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"IDMeta", type text}, {"Ano", Int64.Type}, {"VigenciaInicio", type date}, {"VigenciaFim", type date}, {"Ativa", type logical}, {"Indicador", type text}, {"Setor", type text}, {"FILIAL", Int64.Type}, {"Turno", type text}, {"Valor", type number}, {"TipoMeta", Int64.Type}})
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"IDMeta", type text}, {"Ano", Int64.Type}, {"VigenciaInicio", type date}, {"VigenciaFim", type date}, {"Ativa", type logical}, {"Indicador", type text}, {"Setor", type text}, {"FILIAL", Int64.Type}, {"Turno", type text}, {"Valor", type number}, {"TipoMeta", Int64.Type}}),
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Tipo Alterado",{"%Aceitavel","Data","Indicador","VlrMeta","FILIAL","Turno","Regra","TipoMeta"})
 				in
-				    #"Tipo Alterado"
+				    #"Columns removed by Measure Killer"
 
 	annotation PBI_ResultType = Table
 

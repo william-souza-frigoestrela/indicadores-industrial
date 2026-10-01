@@ -15,31 +15,6 @@ table OESTE
 
 		annotation SummarizationSetBy = Automatic
 
-	column SEMANA
-		dataType: int64
-		formatString: 0
-		lineageTag: 87227518-2571-40bb-883f-2b967caa09c5
-		summarizeBy: sum
-		sourceColumn: SEMANA
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'DATA INÍCIO'
-		dataType: dateTime
-		formatString: Long Date
-		lineageTag: c971ed92-506b-4a24-9ac7-7f9d1d52137a
-		summarizeBy: none
-		sourceColumn: DATA INÍCIO
-
-		variation Variation
-			isDefault
-			relationship: 539ad877-11e5-4612-b081-75d62546882e
-			defaultHierarchy: LocalDateTable_09de61f2-6430-4af8-ab95-ca374ead8cee.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
-
 	column 'DATA FINAL'
 		dataType: dateTime
 		formatString: Long Date
@@ -61,14 +36,6 @@ table OESTE
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column 'GRUPO PRODUTO'
-		dataType: string
-		lineageTag: 22ba0600-cf84-4500-b5f2-3bcdaa1788ee
-		summarizeBy: none
-		sourceColumn: GRUPO PRODUTO
-
-		annotation SummarizationSetBy = Automatic
-
 	partition OESTE = m
 		mode: import
 		source =
@@ -76,9 +43,12 @@ table OESTE
 				    Fonte = Excel.Workbook(File.Contents("\\192.168.2.167\controladoria\05 - INDICADORES\09. Power BI\Volume Oeste.xlsx"), null, true),
 				    OESTE_Sheet = Fonte{[Item="OESTE",Kind="Sheet"]}[Data],
 				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(OESTE_Sheet, [PromoteAllScalars=true]),
-				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"EMPRESA", Int64.Type}, {"SEMANA", Int64.Type}, {"DATA INÍCIO", type date}, {"DATA FINAL", type date}, {"VOLUME", type number}, {"GRUPO PRODUTO", type text}})
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"EMPRESA", Int64.Type}, {"SEMANA", Int64.Type}, {"DATA INÍCIO", type date}, {"DATA FINAL", type date}, {"VOLUME", type number}, {"GRUPO PRODUTO", type text}}),
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Tipo Alterado",{"VOLUME","EMPRESA","DATA FINAL"})
 				in
-				    #"Tipo Alterado"
+				    #"Columns removed by Measure Killer"
 
 	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
 
