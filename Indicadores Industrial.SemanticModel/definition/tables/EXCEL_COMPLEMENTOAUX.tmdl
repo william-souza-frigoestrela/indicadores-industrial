@@ -8,11 +8,6 @@ table EXCEL_COMPLEMENTOAUX
 		summarizeBy: none
 		sourceColumn: Data Abate
 
-		variation Variation
-			isDefault
-			relationship: 3684fed5-36c7-43ac-9bc0-2830653667f8
-			defaultHierarchy: LocalDateTable_ec6cae52-9f8e-4a34-adbe-b033ef68553b.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date

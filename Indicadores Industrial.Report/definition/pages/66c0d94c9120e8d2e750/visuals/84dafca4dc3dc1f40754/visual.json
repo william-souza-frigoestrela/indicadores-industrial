@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "84dafca4dc3dc1f40754",
   "position": {
     "x": 0,
@@ -34,6 +34,21 @@
         },
         "Y": {
           "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Grafico Abate Prod Eixo"
+                    }
+                  },
+                  "Property": "SeriMetaMesGraf Ajuste"
+                }
+              },
+              "queryRef": "Grafico Abate Prod Eixo.SeriMetaMesGraf Ajuste",
+              "nativeQueryRef": "Meta Mês",
+              "displayName": "Meta Mês"
+            },
             {
               "field": {
                 "Measure": {

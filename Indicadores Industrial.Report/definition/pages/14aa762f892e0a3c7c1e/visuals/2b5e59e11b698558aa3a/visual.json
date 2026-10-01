@@ -1,11 +1,11 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "2b5e59e11b698558aa3a",
   "position": {
     "x": 586,
     "y": 898,
     "z": 12000,
-    "height": 163,
+    "height": 201,
     "width": 644,
     "tabOrder": 17000
   },
@@ -143,7 +143,7 @@
                 "Property": "IndicadorMiudos"
               }
             },
-            "direction": "Ascending"
+            "direction": "Descending"
           }
         ]
       }

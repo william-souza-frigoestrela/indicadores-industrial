@@ -2,20 +2,11 @@ table DINVPB_PRODUCAOINDUS
 	lineageTag: 68492065-36ad-45a3-9e29-7ef00dd620be
 
 	column NROEMPRESA
-		dataType: int64
+		dataType: double
 		formatString: 0
 		lineageTag: 5add1662-ba11-479e-a493-cd8364374a01
 		summarizeBy: none
 		sourceColumn: NROEMPRESA
-
-		annotation SummarizationSetBy = Automatic
-
-	column SEQPROGPRODUCAO
-		dataType: int64
-		formatString: 0
-		lineageTag: 31814532-256a-434c-83ec-0c2dbccfe40b
-		summarizeBy: sum
-		sourceColumn: SEQPROGPRODUCAO
 
 		annotation SummarizationSetBy = Automatic
 
@@ -25,39 +16,6 @@ table DINVPB_PRODUCAOINDUS
 		lineageTag: 940320f3-0840-479f-814e-1c1147e98c6a
 		summarizeBy: sum
 		sourceColumn: NROPROGPRODUCAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column TIPOFORMAPRODUCAO
-		dataType: int64
-		formatString: 0
-		lineageTag: d9605916-dc05-48bd-bf4f-77e5f0b3593f
-		summarizeBy: sum
-		sourceColumn: TIPOFORMAPRODUCAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column FORMAPRODUCAO
-		dataType: string
-		lineageTag: afb57bfe-4acf-419f-80d4-7470654b86fe
-		summarizeBy: none
-		sourceColumn: FORMAPRODUCAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column TIPOPROGPRODUCAO
-		dataType: string
-		lineageTag: 56c90b24-d4a7-45bc-9a2e-a51f8d335e49
-		summarizeBy: none
-		sourceColumn: TIPOPROGPRODUCAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column TIPOPRODUTO
-		dataType: string
-		lineageTag: b328f310-3812-4151-afcb-113877a4539c
-		summarizeBy: none
-		sourceColumn: TIPOPRODUTO
 
 		annotation SummarizationSetBy = Automatic
 
@@ -79,25 +37,6 @@ table DINVPB_PRODUCAOINDUS
 		summarizeBy: none
 		sourceColumn: DTARENDIMENTO
 
-		variation Variation
-			isDefault
-			relationship: 51d2d98f-cc60-48b3-9b50-1d52170a17fc
-			defaultHierarchy: LocalDateTable_3035678d-1017-4233-9a2c-62016d2e8a05.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
-	column DTAPRODUCAO
-		dataType: dateTime
-		formatString: General Date
-		lineageTag: 5c4df1e4-707e-4cbd-bbc7-f3bd80771aad
-		summarizeBy: none
-		sourceColumn: DTAPRODUCAO
-
-		variation Variation
-			isDefault
-			relationship: a1da4e21-95be-4136-9d96-40d1c8f6c3c1
-			defaultHierarchy: LocalDateTable_8c02171c-46e0-40f0-be48-28a17b86b413.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 	column DATAENT
@@ -106,11 +45,6 @@ table DINVPB_PRODUCAOINDUS
 		lineageTag: 62e8d2ff-796d-411a-a3a8-a33f9fa4cc2f
 		summarizeBy: none
 		sourceColumn: DATAENT
-
-		variation Variation
-			isDefault
-			relationship: 8b073b4b-a487-4365-9574-4fc36bd83bba
-			defaultHierarchy: LocalDateTable_90a4ca11-4a39-408f-815f-d80b762ca6b5.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -133,110 +67,6 @@ table DINVPB_PRODUCAOINDUS
 
 		annotation SummarizationSetBy = Automatic
 
-	column GRUPOPROD
-		dataType: int64
-		formatString: 0
-		lineageTag: 5d677cb5-1541-48a2-b54e-221f1823e852
-		summarizeBy: sum
-		sourceColumn: GRUPOPROD
-
-		annotation SummarizationSetBy = Automatic
-
-	column DESCRGRUPOPRODUTO
-		dataType: string
-		lineageTag: 4d9264a1-a20b-4dee-9dbd-426f0b202a09
-		summarizeBy: none
-		sourceColumn: DESCRGRUPOPRODUTO
-
-		annotation SummarizationSetBy = Automatic
-
-	column SUBGRUPOPROD
-		dataType: int64
-		formatString: 0
-		lineageTag: b4f5097b-0e77-4e0c-8987-94a39d8a5543
-		summarizeBy: sum
-		sourceColumn: SUBGRUPOPROD
-
-		annotation SummarizationSetBy = Automatic
-
-	column DESCRSUBGRUPOPRODUTO
-		dataType: string
-		lineageTag: 699d1841-634c-4ae9-be9f-7e4a8d9b58b2
-		summarizeBy: none
-		sourceColumn: DESCRSUBGRUPOPRODUTO
-
-		annotation SummarizationSetBy = Automatic
-
-	column FAMILIAPROD
-		dataType: int64
-		formatString: 0
-		lineageTag: 3c4167a0-c162-485b-8776-c6dfca3c0b81
-		summarizeBy: sum
-		sourceColumn: FAMILIAPROD
-
-		annotation SummarizationSetBy = Automatic
-
-	column DESCRFAMILIA
-		dataType: string
-		lineageTag: 8a169454-7266-4137-b720-fe7bf65de8cf
-		summarizeBy: none
-		sourceColumn: DESCRFAMILIA
-
-		annotation SummarizationSetBy = Automatic
-
-	column CONSERVACAO
-		dataType: string
-		lineageTag: 8eea6565-aaff-4dfb-9f56-5f1e01aad08b
-		summarizeBy: none
-		sourceColumn: CONSERVACAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column UNIDADE
-		dataType: string
-		lineageTag: 1d1e493b-be1e-418e-9044-fb98f9ba1186
-		summarizeBy: none
-		sourceColumn: UNIDADE
-
-		annotation SummarizationSetBy = Automatic
-
-	column QUANTIDADE
-		dataType: double
-		lineageTag: 8b3ffd3d-c282-416b-b698-5564d02a381d
-		summarizeBy: sum
-		sourceColumn: QUANTIDADE
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column TIPOCALCULO
-		dataType: int64
-		formatString: 0
-		lineageTag: 036871c1-ebf7-4391-b36a-b3565fea42b0
-		summarizeBy: sum
-		sourceColumn: TIPOCALCULO
-
-		annotation SummarizationSetBy = Automatic
-
-	column RENDIMENTOPADRAO
-		dataType: double
-		lineageTag: 86fd8e1f-c640-4467-aa64-25094226515e
-		summarizeBy: sum
-		sourceColumn: RENDIMENTOPADRAO
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column CODBARRAINTERNO
-		dataType: string
-		lineageTag: 8a12a76e-b801-494d-8dc2-4b20df8fe2ef
-		summarizeBy: none
-		sourceColumn: CODBARRAINTERNO
-
-		annotation SummarizationSetBy = Automatic
-
 	column DATAHORAENT
 		dataType: dateTime
 		formatString: General Date
@@ -244,32 +74,7 @@ table DINVPB_PRODUCAOINDUS
 		summarizeBy: none
 		sourceColumn: DATAHORAENT
 
-		variation Variation
-			isDefault
-			relationship: 5c8c73f2-5b9c-4c1d-aba1-2adb7241aabd
-			defaultHierarchy: LocalDateTable_19973d9f-5ae5-431b-b867-5e400c60d54a.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
-
-	column QUANTIDADE2
-		dataType: double
-		lineageTag: b63b6230-fe5e-4c82-80bd-0e735c49ae38
-		summarizeBy: sum
-		sourceColumn: QUANTIDADE2
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column QTDEMBALAGEM
-		dataType: double
-		lineageTag: 8ca2eb91-b628-4b3f-b89e-b0b6b29091a5
-		summarizeBy: sum
-		sourceColumn: QTDEMBALAGEM
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column PESOLIQUIDO
 		dataType: double
@@ -280,20 +85,6 @@ table DINVPB_PRODUCAOINDUS
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column DTAHORAREGISTRO
-		dataType: dateTime
-		formatString: General Date
-		lineageTag: 8f323fc4-e8e3-430c-aae0-5fd2781ad2d7
-		summarizeBy: none
-		sourceColumn: DTAHORAREGISTRO
-
-		variation Variation
-			isDefault
-			relationship: 39b811de-1c77-4e67-9140-9262528e7ae1
-			defaultHierarchy: LocalDateTable_631bbc18-85ae-49a5-9e07-f31cd5b6ef2a.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
 
 	column _DK = DINVPB_PRODUCAOINDUS[NROPROGPRODUCAO]&DINVPB_PRODUCAOINDUS[LOTE]&DINVPB_PRODUCAOINDUS[NROEMPRESA]
 		lineageTag: dff25914-fece-4dfd-8233-5d206115a4ce
@@ -309,25 +100,12 @@ table DINVPB_PRODUCAOINDUS
 
 		annotation SummarizationSetBy = Automatic
 
-	column Chave
-		dataType: string
-		lineageTag: 76ad0375-87d3-46dd-931a-f47ed914878c
-		summarizeBy: none
-		sourceColumn: Chave
-
-		annotation SummarizationSetBy = Automatic
-
 	column Entrada
 		dataType: dateTime
 		formatString: General Date
 		lineageTag: 2103b55d-803c-4fea-b72c-5550a1c34fd4
 		summarizeBy: none
 		sourceColumn: Entrada
-
-		variation Variation
-			isDefault
-			relationship: ea5d00b1-a7b9-421a-8b21-ac95a9969986
-			defaultHierarchy: LocalDateTable_47233974-bce1-4f57-bb86-021e4c0133b0.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -337,11 +115,6 @@ table DINVPB_PRODUCAOINDUS
 		lineageTag: 20615efb-06c0-4679-8295-edb6a50acb30
 		summarizeBy: none
 		sourceColumn: Saída
-
-		variation Variation
-			isDefault
-			relationship: c03ab4f1-802a-49e0-8835-4d4f26cbc51e
-			defaultHierarchy: LocalDateTable_f0bc2f66-a307-46b5-96d9-e556298c4aa6.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -376,52 +149,75 @@ table DINVPB_PRODUCAOINDUS
 		queryGroup: 'Fluxo Industrial'
 		source = ```
 				let
-				    Fonte = PowerPlatform.Dataflows(null),
-				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
-				    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
-				    #"316346b5-24e3-456e-b119-0fe7250fa321" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="316346b5-24e3-456e-b119-0fe7250fa321"]}[Data],
+				    // 1. Conexão SQL nativa no Oracle para Produção de Industrializados (Filiais 2 e 104)
+				    Fonte = Oracle.Database("datavale", [
+				        HierarchicalNavigation = true, 
+				        Query = "
+				            SELECT 
+				                2 AS NROEMPRESA, 
+				                e.* 
+				            FROM DINVPB_PRODUCAOINDUSTRIALIZADOS@dtvind02 e 
+				            WHERE DATAENT >= '01-JAN-2026'
 				
-				    // Novas tabelas
-				    MTZ = #"316346b5-24e3-456e-b119-0fe7250fa321"{[entity="DINVPB_PRODUCAOINDUS_MTZ", version=""]}[Data],
-				    SLG = #"316346b5-24e3-456e-b119-0fe7250fa321"{[entity="DINVPB_PRODUCAOINDUS_SLG", version=""]}[Data],
+				            UNION ALL
 				
-				    // Combina as tabelas
-				    TabelasUnidas = Table.Combine({MTZ, SLG}),
+				            SELECT 
+				                104 AS NROEMPRESA, 
+				                e.* 
+				            FROM DINVPB_PRODUCAOINDUSTRIALIZADOS@dtvind104 e 
+				            WHERE DATAENT >= '01-JAN-2026'
+				        "
+				    ]),
 				
-				    // Criação da chave
-				    #"Coluna Mesclada Inserida1" = Table.AddColumn(TabelasUnidas, "Chave", each Text.Combine({Text.From([NROPROGPRODUCAO], "pt-BR"), [LOTE]}, ""), type text),
+				    // 2. Criação da chave
+				    #"Coluna Mesclada Inserida1" = Table.AddColumn(Fonte, "Chave", each Text.Combine({Text.From([NROPROGPRODUCAO], "pt-BR"), [LOTE]}, ""), type text),
 				
-				    // Ajustes de tipo
-				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Coluna Mesclada Inserida1",{{"DATAENT", type date}}),
-				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Tipo Alterado1",{{"DATAENT", type text}}),
+				    // 3. Ajustes de tipo para manipulação de texto da data
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Coluna Mesclada Inserida1", {{"DATAENT", type date}}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Tipo Alterado1", {{"DATAENT", type text}}),
 				
-				    // Geração de colunas Entrada e Saída
+				    // 4. Geração de colunas Entrada e Saída
 				    #"Personalização Adicionada" = Table.AddColumn(#"Tipo Alterado", "Personalizar", each [DATAENT] & " 05:00:00"),
 				    #"Personalização Adicionada1" = Table.AddColumn(#"Personalização Adicionada", "Personalizar.1", each [DATAENT] & " 15:30:00"),
 				
-				    // Renomeando colunas
-				    #"Colunas Renomeadas" = Table.RenameColumns(#"Personalização Adicionada1",{{"Personalizar", "Entrada"}, {"Personalizar.1", "Saída"}}),
+				    // 5. Renomeando colunas
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Personalização Adicionada1", {{"Personalizar", "Entrada"}, {"Personalizar.1", "Saída"}}),
 				
-				    // Conversões finais de tipo
-				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Colunas Renomeadas",{
+				    // 6. Conversões finais de tipo
+				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Colunas Renomeadas", {
 				        {"DATAENT", type date}, 
 				        {"Entrada", type datetime}, 
 				        {"Saída", type datetime}
 				    }),
 				
-				    // Adição da coluna _TIPO
+				    // 7. Adição da coluna _TIPO
 				    #"Coluna Condicional Adicionada" = Table.AddColumn(#"Tipo Alterado2", "_TIPO", each 
 				        if Text.Contains([DESCRPRODUTO], "RETRABALHO") then "RETRABALHO" 
 				        else if Text.Contains([DESCRPRODUTO], "REPROCESSO") then "RETRABALHO" 
-				        else "PRODUÇÃO NORMAL"
+				        else "PRODUÇÃO NORMAL", 
+				        type text
 				    ),
 				
-				    #"Tipo Alterado3" = Table.TransformColumnTypes(#"Coluna Condicional Adicionada",{{"_TIPO", type text}})
+				    // 8. Seleção final das colunas para o modelo
+				    #"Columns removed by Measure Killer" = Table.SelectColumns(#"Coluna Condicional Adicionada", {
+				        "PESOLIQUIDO",
+				        "DATAHORAENT",
+				        "NROEMPRESA",
+				        "_TIPO",
+				        "Entrada",
+				        "Saída",
+				        "NROPROGPRODUCAO",
+				        "DATAENT",
+				        "SEQPRODUTO",
+				        "DESCRPRODUTO",
+				        "LOTE",
+				        "DTARENDIMENTO"
+				    })
 				in
-				    #"Tipo Alterado3"
+				    #"Columns removed by Measure Killer"
 				```
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
 
 	annotation PBI_NavigationStepName = Navegação
 

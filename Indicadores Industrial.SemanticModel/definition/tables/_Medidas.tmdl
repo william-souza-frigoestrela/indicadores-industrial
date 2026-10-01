@@ -21,12 +21,16 @@ table _Medidas
 
 	measure 'Hora Abate Trabalhadas' = ```
 			
-			SUMX(
+			/*SUMX(
 			    DINVPB_ABATE, 
 			    DATEDIFF(DINVPB_ABATE[_HoraMin], DINVPB_ABATE[_HoraMax], MINUTE) / DINVPB_ABATE[_Contar Linhas] / 60)
+			*/
+			DIVIDE(SUM(DINVPB_ABATE[_MinutosTrabalhados]), 60)
 			```
 		displayFolder: 01. Abate
 		lineageTag: 6d8cc251-52b5-4053-a5f8-50398d8a2c31
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure 'Hora Abate Pausas' = ```
 			CALCULATE(
@@ -880,14 +884,17 @@ table _Medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure 'Func Desossa Faltas Base' =
+	measure 'Func Desossa Faltas Base' = ```
 			
 			VAR SETOR = {
 			    "DESOSSA","DESOSSA DIURNO", "DESOSSA DIURNA",
 			    "DESOSSA NOTURNO", "DESOSSA NOTURNA"
 			}
-			
-			var vr1 = CALCULATETABLE(VALUES(Ponto[DATA]),Ponto[Horas Trabalhadas Total Setor] > 0 )
+			 
+			--var vr1 = CALCULATETABLE(VALUES(ponto[DATA]),Ponto[Horas Trabalhadas Total Setor] > 0 )
+			var vr1 = CALCULATETABLE(VALUES(ponto[DATA]),Ponto[TipoAbseteismo] in {"ATRASO/FALTA","FALTA","ATESTADO MEDICO"} )
+			 
+			 
 			VAR DATAVALE =
 			    AVERAGEX (
 			        VALUES ( 'Calendário'[Data] ),
@@ -903,7 +910,9 @@ table _Medidas
 			        CALCULATE (
 			            COUNTROWS ( Ponto ),
 			            Ponto[_ABSENTEISMO] = "S",
-			            'Base Funcionários'[SETOR] IN SETOR, Ponto[Horas Trabalhadas Total Setor] > 0
+			            'Base Funcionários'[SETOR] IN SETOR,
+			            --Ponto[Horas Trabalhadas Total Setor] > 0
+			            Ponto[TipoAbseteismo] in {"ATRASO/FALTA","FALTA","ATESTADO MEDICO"}
 			        ) + 0
 			    )
 			RETURN
@@ -912,6 +921,7 @@ table _Medidas
 			        IF ( [Hora Desossa Trab.] <> 0, DATAVALE, BLANK () ),
 			        IF ( [Hora Desossa Trab.] <> 0, TOTVS, BLANK () )
 			    )
+			```
 		displayFolder: 06. Desossa e Caixaria
 		lineageTag: 714e2f94-8d8a-443a-afdd-b81513735d56
 
@@ -1099,7 +1109,11 @@ table _Medidas
 		displayFolder: 06. Desossa e Caixaria
 		lineageTag: 22ed2df2-a337-4c88-a9fb-be69c4994302
 
-	measure 'Hora Desossa Trab.' = CALCULATE([Hora Desossa Total] - [Hora Desossa Pausas] - [Hora Desossa Almoço])
+	measure 'Hora Desossa Trab.' = ```
+			CALCULATE([Hora Desossa Total] - [Hora Desossa Pausas] - [Hora Desossa Almoço])
+			 
+			
+			```
 		displayFolder: 06. Desossa e Caixaria
 		lineageTag: 0810b184-18ff-40f0-b253-2d7cbd5fc65d
 
@@ -1654,39 +1668,39 @@ table _Medidas
 			RETURN
 			IF(
 			    MAX('Calendário'[Data]) = DATE(2025, 7, 28) &&
-			    MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "4",
+			    MAX(DINVPB_PESOVIVO[NROEMPRESA]) = 4,
 			    132086.63,
 			    IF(
 			        MAX('Calendário'[Data]) = DATE(2025, 7, 29) &&
-			        MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "4",
+			        MAX(DINVPB_PESOVIVO[NROEMPRESA]) = 4,
 			        179302.14,
 			        IF(
 			            MAX('Calendário'[Data]) = DATE(2026, 1, 28) &&
-			            MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "4",
+			            MAX(DINVPB_PESOVIVO[NROEMPRESA]) = 4,
 			            147008.91,
 			            IF(
 			                MAX('Calendário'[Data]) = DATE(2026, 1, 28) &&
-			                MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "104",
+			                MAX(DINVPB_PESOVIVO[NROEMPRESA]) = 104,
 			                148278.00,
 			                IF(
 			                    MAX('Calendário'[Data]) = DATE(2026, 1, 29) &&
-			                    MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "4",
+			                    MAX(DINVPB_PESOVIVO[NROEMPRESA]) = 4,
 			                    170385.50,
 			                    IF(
 			                        MAX('Calendário'[Data]) = DATE(2026, 1, 29) &&
-			                        MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "104",
+			                        MAX(DINVPB_PESOVIVO[NROEMPRESA]) = 104,
 			                        159819.8,
 			                        IF(
 			                            MAX('Calendário'[Data]) = DATE(2026, 2, 2) &&
-			                            MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "104",
+			                            MAX(DINVPB_PESOVIVO[NROEMPRESA]) = 104,
 			                            109308.6,
 			                            IF(
 			                                MAX('Calendário'[Data]) = DATE(2026, 2, 3) &&
-			                                MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "104",
+			                                MAX(DINVPB_PESOVIVO[NROEMPRESA]) = 104,
 			                                117465.30,
 			                                IF(
 			                                    MAX('Calendário'[Data]) = DATE(2026, 2, 4) &&
-			                                    MAX(DINVPB_PESOVIVO[NROEMPRESA]) = "104",
+			                                    MAX(DINVPB_PESOVIVO[NROEMPRESA]) = 104,
 			                                    156738.00,
 			                                    PESOMETA
 			                                )
@@ -3396,6 +3410,247 @@ table _Medidas
 			```
 		displayFolder: 06. Desossa e Caixaria
 		lineageTag: e61be0e5-c2d3-4886-9a8d-bdf868761728
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_% Rendimento Massa' =
+			
+			CALCULATE(
+			    DIVIDE([Peso Saída Desossa Ajus], [_Ajuste Peso Entrada Desossa Fralda]),
+			    'DEPARADESOSSA'[DESCRFAMILIA] IN {"TRASEIRO", "DIANTEIRO","PONTA DE AGULHA"}
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 8ee8ec21-464d-43df-bb52-e132c0b222f3
+
+	measure 'Peso Saída Caixaria' =
+			
+			CALCULATE(
+			    SUM(DINVPB_PRODUCAODESOSSA[PESOLIQUIDOSAIDA]),
+			    DINVPB_PRODUCAODESOSSA[UNIDADE] = "CX")
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 5ddaa07e-6f50-4464-8a72-372a8b4afd63
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Produtividade Caixaria Kg/HHr' =
+			
+			DIVIDE(
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        DIVIDE([Peso Saída Caixaria], [Func Caixaria Real])
+			    ),
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        [Hora Caixaria Trab.]
+			    )
+			)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: d3c032a2-11fd-4b90-9459-64eb30d129be
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Hora Caixaria Total' =
+			
+			sumx(DINVPB_PRODUCAODESOSSA,
+			    DATEDIFF(DINVPB_PRODUCAODESOSSA[_DataHoraMin],DINVPB_PRODUCAODESOSSA[_DataHoraMax], MINUTE) / 60 / DINVPB_PRODUCAODESOSSA[_Contar Linhas])
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: d53453ff-847a-4b57-81f3-39ab2e1dc018
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Hora Caixaria Trab.' = CALCULATE([Hora Caixaria Total] - [Hora Caixaria Pausas] - [Hora Caixaria Almoço])
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 3ad5b502-f486-486e-bfc9-f2348ba7011f
+
+	measure 'Hora Caixaria Pausas' = ```
+			
+			CALCULATE(
+			    SUMX(
+			    DINVPB_PAUSATOTAL, 
+			    DATEDIFF(DINVPB_PAUSATOTAL[DTAHORAINICIAL],DINVPB_PAUSATOTAL[DTAHORAFINAL], MINUTE) / 60), 
+			        DINVPB_PAUSATOTAL[TIPO] = "DESOSSA",
+			            DINVPB_PAUSATOTAL[_Verificação] = "Considerar",
+			            DINVPB_PAUSATOTAL[TIPOPAUSA] = "ERGONOMICA")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 987ccb55-ac84-4dd2-bd99-3869ae13e5f3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Hora Caixaria Almoço' = ```
+			CALCULATE(
+			    SUMX(
+			    DINVPB_PAUSATOTAL, 
+			    DATEDIFF(DINVPB_PAUSATOTAL[DTAHORAINICIAL],DINVPB_PAUSATOTAL[DTAHORAFINAL], MINUTE) / 60), 
+			        DINVPB_PAUSATOTAL[TIPO] = "DESOSSA",
+			            DINVPB_PAUSATOTAL[_Verificação] = "Considerar",
+			            DINVPB_PAUSATOTAL[TIPOPAUSA] = "ALMOÇO")
+			```
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 633684e8-a6b2-4c70-b913-1458bad8a5a7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Qtde Saída Caixaria' =
+			
+			CALCULATE(
+			    SUM(DINVPB_PRODUCAODESOSSA[QUANTIDADE2]),
+			    DINVPB_PRODUCAODESOSSA[UNIDADE] = "CX")
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 3eecf99e-69db-441f-81bb-d14c44499bd5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Produtividade Caixaria Cx/Hh' =
+			
+			
+			DIVIDE(
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        DIVIDE([Qtde Saída Caixaria], [Func Caixaria Real])
+			    ),
+			    SUMX(
+			        ALLSELECTED(_Turno[Turno]),
+			        [Hora Caixaria Trab.]
+			    )
+			)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: fe866a48-97e4-4ae0-ab0f-036677824224
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Hora Abate Trabalhadas Media' = ```
+			
+			
+			VAR TodosTurnos =
+			    COUNTROWS(ALLSELECTED(_Turno[Turno]))
+			        = COUNTROWS(ALL(_Turno[Turno]))
+			
+			VAR MediaPonderada =
+			    DIVIDE(
+			        SUMX(
+			            VALUES(_Turno[Turno]),
+			            [Hora Abate Trabalhadas] * [Func Abate Real]
+			        ),
+			        CALCULATE(
+			            [Func Abate Real],
+			            ALLSELECTED(_Turno[Turno])
+			        )
+			    )
+			
+			RETURN
+			IF(
+			    TodosTurnos,
+			    MediaPonderada,
+			    [Hora Abate Trabalhadas]
+			)
+			
+			
+			
+			```
+		displayFolder: 01. Abate
+		lineageTag: b9fe9ae6-aa41-4e36-b044-d793dbe61210
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Horas Trabalhadas Desossa Media' =
+			
+			
+			VAR TodosTurnos =
+			    COUNTROWS(ALLSELECTED(_Turno[Turno]))
+			        = COUNTROWS(ALL(_Turno[Turno]))
+			
+			VAR MediaPonderada =
+			    DIVIDE(
+			        SUMX(
+			            VALUES(_Turno[Turno]),
+			            [Horas Trabalhadas Desossa]  * [Func Desossa Real]
+			        ),
+			        CALCULATE(
+			            [Func Desossa Real],
+			            ALLSELECTED(_Turno[Turno])
+			        )
+			    )
+			
+			RETURN
+			IF(
+			    TodosTurnos,
+			    MediaPonderada,
+			    [Horas Trabalhadas Desossa]
+			)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: d8bde54a-fcdc-495a-90ad-801161399786
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Horas Trabalhadas Caixaria Media' =
+			
+			
+			VAR TodosTurnos =
+			    COUNTROWS(ALLSELECTED(_Turno[Turno]))
+			        = COUNTROWS(ALL(_Turno[Turno]))
+			
+			VAR MediaPonderada =
+			    DIVIDE(
+			        SUMX(
+			            VALUES(_Turno[Turno]),
+			            [Horas Trabalhadas Caixaria]  * [Func Caixaria Real]
+			        ),
+			        CALCULATE(
+			            [Func Caixaria Real],
+			            ALLSELECTED(_Turno[Turno])
+			        )
+			    )
+			
+			RETURN
+			IF(
+			    TodosTurnos,
+			    MediaPonderada,
+			    [Horas Trabalhadas Caixaria]
+			)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: cb89c79f-f906-441f-b820-06c9f7a99b6d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Horas Trabalhadas Caixaria' =
+			
+			var horaponto = CALCULATE(SUM(Ponto[_Horas Trabalhadas]), 'Base Funcionários'[SETOR] IN {"CAIXARIA"})
+			return
+			DIVIDE(horaponto, [Func Caixaria Real], 0)
+		displayFolder: 06. Desossa e Caixaria
+		lineageTag: 2b8959d0-0bbf-4a6e-aee0-750c560b6a31
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Hora Miudos Trabalhadas Media' =
+			
+			
+			VAR TodosTurnos =
+			    COUNTROWS(ALLSELECTED(_Turno[Turno]))
+			        = COUNTROWS(ALL(_Turno[Turno]))
+			
+			VAR MediaPonderada =
+			    DIVIDE(
+			        SUMX(
+			            VALUES(_Turno[Turno]),
+			            [Hora Abate Trabalhadas] * [Func Miudos Real]
+			        ),
+			        CALCULATE(
+			            [Func Miudos Real],
+			            ALLSELECTED(_Turno[Turno])
+			        )
+			    )
+			
+			RETURN
+			IF(
+			    TodosTurnos,
+			    MediaPonderada,
+			    [Hora Abate Trabalhadas]
+			)
+		displayFolder: 02. Miúdos/Bucharia
+		lineageTag: 69399d65-e315-4ca6-a966-56e247f57848
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 

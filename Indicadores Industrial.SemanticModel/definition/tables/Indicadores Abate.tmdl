@@ -11,6 +11,11 @@ table 'Indicadores Abate'
 			    "Produtividade Abate Kg/Hh",  [Produtividade Abate Kg/Hh],
 			    "Produtividade Abate Cbç/Hh", [Produtividade Abate Cbç/Hh],
 			    "Velocidade Abate Cbç/H",     [Velocidade Abate Cbç/H],
+			    
+			    "Total Ton Produzidos",     [Peso Abatido]/1000,    
+			    "Total de Pessoas na Linha",  [Func Abate Real],
+			    "Horas Média Trabalhadas",    [Hora Abate Trabalhadas Media], //[Hora Abate Trabalhadas],
+			
 			    "% Eficiência Abate",         [Eficiência Abate],
 			    "% Rendimento Vivo",          [% Rendimento Vivo],
 			    "% Habilitado ME - CHN/UE",   [% Habilitado ME - CHN/UE],
@@ -136,13 +141,16 @@ table 'Indicadores Abate'
 				        {"Produtividade Abate Kg/Hh","Kg/Hhr", 1},
 				        {"Produtividade Abate Cbç/Hh","Cbç/Hhr", 2},
 				        {"Velocidade Abate Cbç/H","Cbç/Hhr", 3},
-				        {"% Eficiência Abate","%", 4},
-				        {"% Rendimento Vivo","%", 5},
-				        {"% Habilitado ME - CHN/UE","%", 6},
-				        {"% Habilitado ME - LG/LE","%", 7},
-				        {"% Absenteísmo Abate","%", 8},
-				        {"% Quebra Frio / Asperção","%",9},
-				        {"% Desvio DIF","%",10}
+				        {"Total Ton Produzidos", "Ton", 4 }, 
+				        {"Total de Pessoas na Linha","Qtde",5},
+				        {"Horas Média Trabalhadas","h dec.",6},
+				        {"% Eficiência Abate","%", 7},
+				        {"% Rendimento Vivo","%", 8},
+				        {"% Habilitado ME - CHN/UE","%", 9},
+				        {"% Habilitado ME - LG/LE","%", 10},
+				        {"% Absenteísmo Abate","%", 11},
+				        {"% Quebra Frio / Asperção","%",12},
+				        {"% Desvio DIF","%",13}
 				    
 				    }
 				)

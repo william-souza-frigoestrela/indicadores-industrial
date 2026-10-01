@@ -1,37 +1,11 @@
 table FPBI_PONTODIARIO
 	lineageTag: e44f597d-ba81-4449-8c4a-d87b5b0bdf56
 
-	column EMPRESA
-		dataType: string
-		lineageTag: 879d64ad-90d5-45a3-b493-125261b4ae3a
-		summarizeBy: none
-		sourceColumn: EMPRESA
-
-		annotation SummarizationSetBy = Automatic
-
 	column CODFUNCIONARIO
 		dataType: double
 		lineageTag: ebe71437-b894-4ea6-8a3f-4c47c7fbda70
 		summarizeBy: sum
 		sourceColumn: CODFUNCIONARIO
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column NOME
-		dataType: string
-		lineageTag: d32a0fb6-2758-4a21-8f21-a18c91631909
-		summarizeBy: none
-		sourceColumn: NOME
-
-		annotation SummarizationSetBy = Automatic
-
-	column CODCADASTRO
-		dataType: double
-		lineageTag: 2acba9c5-6b76-407a-95cc-b0c5bd8d9549
-		summarizeBy: sum
-		sourceColumn: CODCADASTRO
 
 		annotation SummarizationSetBy = Automatic
 
@@ -50,22 +24,6 @@ table FPBI_PONTODIARIO
 		lineageTag: 5d02acfb-cde3-4aee-b335-e23aeaac5013
 		summarizeBy: none
 		sourceColumn: SETOR
-
-		annotation SummarizationSetBy = Automatic
-
-	column SECAO
-		dataType: string
-		lineageTag: 562f2b14-caab-456c-bfd7-cceeaf5375c7
-		summarizeBy: none
-		sourceColumn: SECAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column AMBIENTE
-		dataType: string
-		lineageTag: 7eab66bc-5f26-45c7-9a8e-4cf5794f0957
-		summarizeBy: none
-		sourceColumn: AMBIENTE
 
 		annotation SummarizationSetBy = Automatic
 
@@ -88,110 +46,6 @@ table FPBI_PONTODIARIO
 
 		annotation SummarizationSetBy = Automatic
 
-	column ANOTACAO
-		dataType: string
-		lineageTag: 9894fba9-6848-4da6-8d3b-874eabeb8bae
-		summarizeBy: none
-		sourceColumn: ANOTACAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column HRENTRADA1
-		dataType: string
-		lineageTag: 531f5d40-46a0-4255-b1c8-726112e7c63a
-		summarizeBy: none
-		sourceColumn: HRENTRADA1
-
-		annotation SummarizationSetBy = Automatic
-
-	column HRSAIDA1
-		dataType: string
-		lineageTag: 56a43f7d-9272-4cc4-aa5b-51ba941ea85a
-		summarizeBy: none
-		sourceColumn: HRSAIDA1
-
-		annotation SummarizationSetBy = Automatic
-
-	column HRENTRADA2
-		dataType: string
-		lineageTag: c2a1d86a-c76b-4fa6-a06f-9308df2af6aa
-		summarizeBy: none
-		sourceColumn: HRENTRADA2
-
-		annotation SummarizationSetBy = Automatic
-
-	column HRSAIDA2
-		dataType: string
-		lineageTag: 4a807e1b-3151-4289-a082-2afc5cf0ca2e
-		summarizeBy: none
-		sourceColumn: HRSAIDA2
-
-		annotation SummarizationSetBy = Automatic
-
-	column HRENTRADA3
-		dataType: string
-		lineageTag: 93504544-d1bb-46e9-aca0-934c5754e9c7
-		summarizeBy: none
-		sourceColumn: HRENTRADA3
-
-		annotation SummarizationSetBy = Automatic
-
-	column HRSAIDA3
-		dataType: string
-		lineageTag: 6e195c7d-4856-4572-ba1f-18d967a33395
-		summarizeBy: none
-		sourceColumn: HRSAIDA3
-
-		annotation SummarizationSetBy = Automatic
-
-	column HRENTRADA4
-		dataType: string
-		lineageTag: 050043d9-46bf-4fca-80c9-f5f9638434c9
-		summarizeBy: none
-		sourceColumn: HRENTRADA4
-
-		annotation SummarizationSetBy = Automatic
-
-	column HRSAIDA4
-		dataType: string
-		lineageTag: 44ac8923-4ae4-4082-a397-b0f77d2fa445
-		summarizeBy: none
-		sourceColumn: HRSAIDA4
-
-		annotation SummarizationSetBy = Automatic
-
-	column HRTOTAL
-		dataType: string
-		lineageTag: 12d3c30e-1ad4-43f6-a554-b11de4ff7fec
-		summarizeBy: none
-		sourceColumn: HRTOTAL
-
-		annotation SummarizationSetBy = Automatic
-
-	column HRDESCANSO
-		dataType: string
-		lineageTag: f1a221d6-0a17-430a-8275-0d29fa8fdcc0
-		summarizeBy: none
-		sourceColumn: HRDESCANSO
-
-		annotation SummarizationSetBy = Automatic
-
-	column HREXTRA
-		dataType: string
-		lineageTag: 3d3a6923-357c-4041-bfc0-dd5cdf8c574f
-		summarizeBy: none
-		sourceColumn: HREXTRA
-
-		annotation SummarizationSetBy = Automatic
-
-	column HREX
-		dataType: string
-		lineageTag: b4adecc8-1075-4242-b7a5-dab02f5e581f
-		summarizeBy: none
-		sourceColumn: HREX
-
-		annotation SummarizationSetBy = Automatic
-
 	column _Turno
 		dataType: string
 		lineageTag: 135e8ab9-e796-49ee-8c20-c9b53040c331
@@ -199,58 +53,6 @@ table FPBI_PONTODIARIO
 		sourceColumn: _Turno
 
 		annotation SummarizationSetBy = Automatic
-
-	column AnoMes
-		dataType: dateTime
-		formatString: Long Date
-		lineageTag: 7458842e-9ec3-4ec3-b7fd-e6f066edc1cc
-		summarizeBy: none
-		sourceColumn: AnoMes
-
-		variation Variation
-			isDefault
-			relationship: a6fe679d-844b-44ed-9efe-22e16b359071
-			defaultHierarchy: LocalDateTable_9baff6eb-f164-4793-a30f-5bde4ed3730d.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
-
-	column Chave
-		dataType: string
-		lineageTag: ce0fa3c0-a3fc-40d6-89d8-a9f0571499c4
-		summarizeBy: none
-		sourceColumn: Chave
-
-		annotation SummarizationSetBy = Automatic
-
-	column ConsiderarDia
-		dataType: string
-		lineageTag: 64063c9a-7a43-4ed9-af33-ba87502ff7ec
-		summarizeBy: none
-		sourceColumn: ConsiderarDia
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'CODFUNCIONARIO.1'
-		dataType: double
-		lineageTag: 9a75527e-12c5-4480-b132-28b317c988d8
-		summarizeBy: sum
-		sourceColumn: CODFUNCIONARIO.1
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column 'CODFUNCIONARIO.2'
-		dataType: double
-		lineageTag: f7531c27-83c9-4129-b6da-cc5233a242b7
-		summarizeBy: sum
-		sourceColumn: CODFUNCIONARIO.2
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column NROEMPRESA
 		dataType: int64
@@ -329,24 +131,45 @@ table FPBI_PONTODIARIO
 	partition FPBI_PONTODIARIO = m
 		mode: import
 		queryGroup: 'Ponto Funcionário'
-		source =
+		source = ```
 				let
-				    Fonte = PowerBI.Dataflows([]),
-				    #"8dd6533e-04ae-4778-8f93-34a5a63f992f" = Fonte{[workspaceId="8dd6533e-04ae-4778-8f93-34a5a63f992f"]}[Data],
-				    #"c8c5227f-10b2-40a3-a32d-9fc21453bec3" = #"8dd6533e-04ae-4778-8f93-34a5a63f992f"{[dataflowId="c8c5227f-10b2-40a3-a32d-9fc21453bec3"]}[Data],
-				    FPBI_PONTODIARIO1 = #"c8c5227f-10b2-40a3-a32d-9fc21453bec3"{[entity="FPBI_PONTODIARIO"]}[Data],
+				    // 1. Conexão e navegação direta no banco Oracle DATAVALE.FPBI_PONTODIARIO
+				    Origem = Oracle.Database("datavale", [HierarchicalNavigation = true]),
+				    #"Navegação 1" = Origem{[Schema = "DATAVALE"]}[Data],
+				    FPBI_PONTODIARIO1 = #"Navegação 1"{[Name = "FPBI_PONTODIARIO"]}[Data],
+				
+				    // 2. Filtros de data e departamento
 				    #"Linhas Filtradas6" = Table.SelectRows(FPBI_PONTODIARIO1, each [DATA] >= #datetime(2023, 1, 1, 0, 0, 0) and [DATA] <= #datetime(2024, 12, 31, 0, 0, 0)),
 				    #"Linhas Filtradas" = Table.SelectRows(#"Linhas Filtradas6", each ([DEPARTAMENTO] = "INDUSTRIA CARNE" or [DEPARTAMENTO] = "INDUSTRIA DIRETA" or [DEPARTAMENTO] = "INDUSTRIA EMBUTIDOS" or [DEPARTAMENTO] = "INDUSTRIA INDIRETA")),
-				    #"Coluna Condicional Adicionada" = Table.AddColumn(#"Linhas Filtradas", "_Turno", each if Text.Contains([SECAO], "NOTURNO") then "2° TURNO" else if Text.Contains([SECAO], "2° TURNO") then "2° TURNO" else if Text.Contains([SECAO], "NOTURNA") then "2° TURNO" else if Text.Contains([SECAO], "3° TURNO") then "3° TURNO" else if Text.Contains([SETOR], "NOTURNO") then "2° TURNO" else if Text.Contains([SETOR], "NOTURNA") then "2° TURNO" else "1° TURNO"),
+				
+				    // 3. Coluna condicional _Turno
+				    #"Coluna Condicional Adicionada" = Table.AddColumn(#"Linhas Filtradas", "_Turno", each 
+				        if Text.Contains([SECAO], "NOTURNO") then "2° TURNO" 
+				        else if Text.Contains([SECAO], "2° TURNO") then "2° TURNO" 
+				        else if Text.Contains([SECAO], "NOTURNA") then "2° TURNO" 
+				        else if Text.Contains([SECAO], "3° TURNO") then "3° TURNO" 
+				        else if Text.Contains([SETOR], "NOTURNO") then "2° TURNO" 
+				        else if Text.Contains([SETOR], "NOTURNA") then "2° TURNO" 
+				        else "1° TURNO", 
+				        type text
+				    ),
+				
+				    // 4. Filtro de empresas desconsideradas
 				    #"Linhas Filtradas1" = Table.SelectRows(#"Coluna Condicional Adicionada", each ([EMPRESA] <> "001-FRIG.MATRIZ" and [EMPRESA] <> "020-FRIG.SERRA" and [EMPRESA] <> "105-ALIM.IJUI")),
+				
+				    // 5. Criação de Mês, Ano e Chave (CODFUNCIONARIO + AnoMes)
 				    #"Mês Inserido" = Table.AddColumn(#"Linhas Filtradas1", "Mês", each Date.Month([DATA]), Int64.Type),
 				    #"Ano Inserido" = Table.AddColumn(#"Mês Inserido", "Ano", each Date.Year([DATA]), Int64.Type),
-				    #"Colunas Mescladas" = Table.CombineColumns(Table.TransformColumnTypes(#"Ano Inserido", {{"Mês", type text}, {"Ano", type text}}, "pt-BR"),{"Mês", "Ano"},Combiner.CombineTextByDelimiter("/", QuoteStyle.None),"AnoMes"),
-				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Colunas Mescladas",{{"AnoMes", type date}}),
+				    #"Colunas Mescladas" = Table.CombineColumns(Table.TransformColumnTypes(#"Ano Inserido", {{"Mês", type text}, {"Ano", type text}}, "pt-BR"), {"Mês", "Ano"}, Combiner.CombineTextByDelimiter("/", QuoteStyle.None), "AnoMes"),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Colunas Mescladas", {{"AnoMes", type date}}),
 				    #"Coluna Mesclada Inserida" = Table.AddColumn(#"Tipo Alterado", "Chave", each Text.Combine({Text.From([CODFUNCIONARIO], "pt-BR"), Text.From([AnoMes], "pt-BR")}, ""), type text),
+				
+				    // 6. Tratamento de ConsiderarDia e conversão de data
 				    #"Personalização Adicionada" = Table.AddColumn(#"Coluna Mesclada Inserida", "ConsiderarDia", each if [DATA] <= DateTime.FixedLocalNow() then 1 else 0),
 				    #"Linhas Filtradas3" = Table.SelectRows(#"Personalização Adicionada", each [ConsiderarDia] = 1),
-				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Linhas Filtradas3",{{"DATA", type date}}),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Linhas Filtradas3", {{"DATA", type date}}),
+				
+				    // 7. Mesclagens e filtros adicionais
 				    #"Consultas Mescladas" = Table.NestedJoin(#"Tipo Alterado1", {"CODFUNCIONARIO", "DATA"}, ESTV_FUNCDIASAFASTADOS, {"CODFUNCIONARIO", "Intervalo"}, "ESTV_FUNCDIASAFASTADOS", JoinKind.LeftOuter),
 				    #"ESTV_FUNCDIASAFASTADOS Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "ESTV_FUNCDIASAFASTADOS", {"CODFUNCIONARIO"}, {"CODFUNCIONARIO.1"}),
 				    #"Linhas Filtradas2" = Table.SelectRows(#"ESTV_FUNCDIASAFASTADOS Expandido", each ([CODFUNCIONARIO.1] = null)),
@@ -355,10 +178,24 @@ table FPBI_PONTODIARIO
 				    #"ESTV_FUNCDIASAFASTADOS (2) Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas2", "ESTV_FUNCDIASAFASTADOS (2)", {"CODFUNCIONARIO"}, {"CODFUNCIONARIO.2"}),
 				    #"Linhas Filtradas4" = Table.SelectRows(#"ESTV_FUNCDIASAFASTADOS (2) Expandido", each ([CODFUNCIONARIO.2] = null)),
 				    #"Linhas Filtradas5" = Table.SelectRows(#"Linhas Filtradas4", each [DATA] < #date(2023, 4, 1)),
+				
+				    // 8. Extração do número da empresa e seleção de colunas
 				    #"Texto Inserido Antes do Delimitador" = Table.AddColumn(#"Linhas Filtradas5", "NROEMPRESA", each Text.BeforeDelimiter([EMPRESA], "-"), type text),
-				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Texto Inserido Antes do Delimitador",{{"NROEMPRESA", Int64.Type}})
+				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Texto Inserido Antes do Delimitador", {{"NROEMPRESA", Int64.Type}}),
+				    #"Columns removed by Measure Killer" = Table.SelectColumns(#"Tipo Alterado2", {
+				        "DEPARTAMENTO",
+				        "OCORRENCIA",
+				        "NROEMPRESA",
+				        "DATA",
+				        "SETOR",
+				        "CODFUNCIONARIO",
+				        "_Turno"
+				    })
 				in
-				    #"Tipo Alterado2"
+				    #"Columns removed by Measure Killer"
+				```
 
 	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navegação
 

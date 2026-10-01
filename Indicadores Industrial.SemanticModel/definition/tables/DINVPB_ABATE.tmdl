@@ -22,53 +22,6 @@ table DINVPB_ABATE
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column HR
-		dataType: dateTime
-		formatString: Long Time
-		lineageTag: 99427017-6cc1-4330-9c45-ab0755463926
-		summarizeBy: none
-		sourceColumn: HR
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Time
-
-	column SEQUENCIADIA
-		dataType: int64
-		lineageTag: 6156ed90-032f-4570-88a1-ed0a58e34ba0
-		summarizeBy: sum
-		sourceColumn: SEQUENCIADIA
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column SEQPRODUTO
-		dataType: int64
-		lineageTag: ebb84cd1-3672-4826-a44a-a6fcb8b900b5
-		summarizeBy: sum
-		sourceColumn: SEQPRODUTO
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column DESCRPRODUTO
-		dataType: string
-		lineageTag: 77e90ae8-b82e-4248-8254-de7f771db7de
-		summarizeBy: none
-		sourceColumn: DESCRPRODUTO
-
-		annotation SummarizationSetBy = Automatic
-
-	column BANDA
-		dataType: string
-		lineageTag: 6766bfef-a94c-4353-858b-22419423e956
-		summarizeBy: none
-		sourceColumn: BANDA
-
-		annotation SummarizationSetBy = Automatic
-
 	column PESOLIQUIDO
 		dataType: double
 		lineageTag: a2c72071-4041-4315-8e42-26235fb0a361
@@ -79,71 +32,11 @@ table DINVPB_ABATE
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column PESOLIQUIDOQUEBRA
-		dataType: double
-		lineageTag: 66f90bd1-38f6-4809-b085-64bdb9ef0523
-		summarizeBy: sum
-		sourceColumn: PESOLIQUIDOQUEBRA
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column SEXO
-		dataType: string
-		lineageTag: 49762e14-63aa-465d-9494-d2b6508b7409
-		summarizeBy: none
-		sourceColumn: SEXO
-
-		annotation SummarizationSetBy = Automatic
-
 	column DESCRSEXO
 		dataType: string
 		lineageTag: e5798f44-66b9-4f08-a1b7-c9061419162e
 		summarizeBy: none
 		sourceColumn: DESCRSEXO
-
-		annotation SummarizationSetBy = Automatic
-
-	column DESCRREDCLASSIFICACAO
-		dataType: string
-		lineageTag: 0a66cd60-6d5d-4cca-9d71-4d3ab3414189
-		summarizeBy: none
-		sourceColumn: DESCRREDCLASSIFICACAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column DESCRCLASSIFICACAO
-		dataType: string
-		lineageTag: 97704964-65ad-4728-b655-aff87bf6ada6
-		summarizeBy: none
-		sourceColumn: DESCRCLASSIFICACAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column SEQCLASSIFABATE
-		dataType: int64
-		lineageTag: bd1bd9ac-6b17-49e7-b01c-21ecf64814ca
-		summarizeBy: sum
-		sourceColumn: SEQCLASSIFABATE
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column DESCRCLASSIFABATE
-		dataType: string
-		lineageTag: 67c9a39a-f6be-416c-bfd0-1e54b846088f
-		summarizeBy: none
-		sourceColumn: DESCRCLASSIFABATE
-
-		annotation SummarizationSetBy = Automatic
-
-	column DESCRCLASSIFACABAMENTO
-		dataType: string
-		lineageTag: d044a439-842d-482b-8a50-6f2248c2eb82
-		summarizeBy: none
-		sourceColumn: DESCRCLASSIFACABAMENTO
 
 		annotation SummarizationSetBy = Automatic
 
@@ -155,69 +48,6 @@ table DINVPB_ABATE
 
 		annotation SummarizationSetBy = Automatic
 
-	column SEQCLASSIFMATURIDADE
-		dataType: int64
-		lineageTag: 216c35d7-03e6-427b-bcbb-b21fd6085b11
-		summarizeBy: sum
-		sourceColumn: SEQCLASSIFMATURIDADE
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column DESCRCLASSIFMATURIDADE
-		dataType: string
-		lineageTag: 84be6ee2-38a0-466e-8397-d0ef773f3ef9
-		summarizeBy: none
-		sourceColumn: DESCRCLASSIFMATURIDADE
-
-		annotation SummarizationSetBy = Automatic
-
-	column DESCRREDCLASSIFMATURIDADE
-		dataType: int64
-		formatString: 0
-		lineageTag: 2eb3102e-d5fa-4c3a-a364-58c226c774b3
-		summarizeBy: sum
-		sourceColumn: DESCRREDCLASSIFMATURIDADE
-
-		annotation SummarizationSetBy = Automatic
-
-	column SEQCLASSIFRACA
-		dataType: int64
-		lineageTag: f4857e10-5aaf-479a-bf30-ba4126f36e34
-		summarizeBy: sum
-		sourceColumn: SEQCLASSIFRACA
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column DESCRCLASSIFRACA
-		dataType: string
-		lineageTag: d137e160-2424-4dd2-96fd-094a533be652
-		summarizeBy: none
-		sourceColumn: DESCRCLASSIFRACA
-
-		annotation SummarizationSetBy = Automatic
-
-	column SEQCLASSIFCONFORMIDADE
-		dataType: int64
-		lineageTag: 2d867718-7144-4c64-8929-03ee76470c7e
-		summarizeBy: sum
-		sourceColumn: SEQCLASSIFCONFORMIDADE
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column DESCRCLASSIFCONFORMIDADE
-		dataType: string
-		lineageTag: 70c77521-d2e9-4ffa-805c-179af800bb47
-		summarizeBy: none
-		sourceColumn: DESCRCLASSIFCONFORMIDADE
-
-		annotation SummarizationSetBy = Automatic
-
 	column DESCRREDCLASSIFCONFORMIDADE
 		dataType: string
 		lineageTag: 379a632c-9077-48a5-a749-753ad20c77a1
@@ -226,47 +56,11 @@ table DINVPB_ABATE
 
 		annotation SummarizationSetBy = Automatic
 
-	column ASPERSAO
-		dataType: string
-		lineageTag: 60970635-81f9-4df0-a998-36b1b99063a5
-		summarizeBy: none
-		sourceColumn: ASPERSAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column CONFORME
-		dataType: string
-		lineageTag: 7b0e9165-1521-47fa-b735-6af36d8c582c
-		summarizeBy: none
-		sourceColumn: CONFORME
-
-		annotation SummarizationSetBy = Automatic
-
 	column NROPEDIDO
 		dataType: int64
 		lineageTag: a9355d93-56c8-431d-a97d-facfef019962
 		summarizeBy: sum
 		sourceColumn: NROPEDIDO
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column NROLOTE
-		dataType: int64
-		lineageTag: 93418bae-59cb-42c9-83bf-e787dc300297
-		summarizeBy: sum
-		sourceColumn: NROLOTE
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column SEQVENDEDOR
-		dataType: int64
-		lineageTag: baa20c5c-c0cb-40c1-8f69-b0d3b4be7ea7
-		summarizeBy: sum
-		sourceColumn: SEQVENDEDOR
 
 		annotation SummarizationSetBy = Automatic
 
@@ -282,142 +76,12 @@ table DINVPB_ABATE
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column NOMEPESSOA
-		dataType: string
-		lineageTag: 15ce37a6-c792-4780-9588-ea37d5e21c4e
-		summarizeBy: none
-		sourceColumn: NOMEPESSOA
-
-		annotation SummarizationSetBy = Automatic
-
-	column NOMEPROPRIEDADE
-		dataType: string
-		lineageTag: 1072351d-5e5f-4a4c-a01d-6ff5540de399
-		summarizeBy: none
-		sourceColumn: NOMEPROPRIEDADE
-
-		annotation SummarizationSetBy = Automatic
-
-	column CIDADEPROPRIEDADE
-		dataType: string
-		lineageTag: 8f6153a7-1a99-4bd3-86b1-5f074f739ed6
-		summarizeBy: none
-		sourceColumn: CIDADEPROPRIEDADE
-
-		annotation SummarizationSetBy = Automatic
-
-	column UFPROPRIEDADE
-		dataType: string
-		lineageTag: 6e07b831-7fcb-47d7-ae02-6d1869cf0ef2
-		summarizeBy: none
-		sourceColumn: UFPROPRIEDADE
-
-		annotation SummarizationSetBy = Automatic
-
-	column GRUPOPROD
-		dataType: int64
-		lineageTag: a91b8478-fb32-406e-9a7d-d0ce7687830f
-		summarizeBy: sum
-		sourceColumn: GRUPOPROD
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column SUBGRUPOPROD
-		dataType: int64
-		lineageTag: 0fc19111-36eb-4834-b5f1-6f46149d2878
-		summarizeBy: sum
-		sourceColumn: SUBGRUPOPROD
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column FAMILIAPROD
-		dataType: int64
-		lineageTag: 87420f6d-9398-4bc0-b090-2d8370fbb407
-		summarizeBy: sum
-		sourceColumn: FAMILIAPROD
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column 'Data e Hora'
 		dataType: dateTime
 		formatString: General Date
 		lineageTag: f938d105-ff00-4132-9535-580c2a05e534
 		summarizeBy: none
 		sourceColumn: Data e Hora
-
-		variation Variation
-			isDefault
-			relationship: 1288af84-7988-482d-a1fd-82213f911e19
-			defaultHierarchy: LocalDateTable_34a6dae2-0f79-474a-a1ca-3a8499d7d999.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
-	column _HoraMax = ```
-			CALCULATE(
-			    MAX(DINVPB_ABATE[Data e Hora Ajustada]), 
-			    ALLEXCEPT(DINVPB_ABATE, DINVPB_ABATE[DATA],DINVPB_ABATE[NROEMPRESA], DINVPB_ABATE[Turno]))
-			
-			
-			```
-		formatString: General Date
-		lineageTag: f9822f21-b78c-43ed-8746-eea90a8c7bde
-		summarizeBy: none
-
-		variation Variation
-			isDefault
-			relationship: b9b1e8cd-c883-433d-a3ff-2263594d7e36
-			defaultHierarchy: LocalDateTable_210d1742-7523-491f-8c77-f21d82641ab2.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
-	column _HoraMin =
-			
-			VAR Base =
-			    ALLEXCEPT (
-			        DINVPB_ABATE,
-			        DINVPB_ABATE[DATA],
-			        DINVPB_ABATE[NROEMPRESA],
-			        DINVPB_ABATE[Turno]
-			    )
-			RETURN
-			CALCULATE (
-			    MIN ( DINVPB_ABATE[Data e Hora] ),
-			    FILTER (
-			        Base,
-			        DINVPB_ABATE[Data e Hora] - TRUNC ( DINVPB_ABATE[Data e Hora] ) >= TIME ( 4, 0, 0 )
-			    )
-			)
-		formatString: General Date
-		lineageTag: 11e86c66-5a84-49b8-a2bf-3baf420dc812
-		summarizeBy: none
-
-		variation Variation
-			isDefault
-			relationship: 78e8680d-4188-4d95-853f-8c8abba56108
-			defaultHierarchy: LocalDateTable_e837a536-a1e3-4025-8eda-f10c55963e2e.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
-	column '_Contar Linhas' = ```
-			CALCULATE(
-			    COUNTROWS(DINVPB_ABATE), 
-			    ALLEXCEPT(DINVPB_ABATE, DINVPB_ABATE[DATA], DINVPB_ABATE[NROEMPRESA], DINVPB_ABATE[Turno]))
-			```
-		formatString: 0
-		lineageTag: 3da4e325-8b86-411e-8add-ec91d1c7ad1d
-		summarizeBy: sum
-
-		annotation SummarizationSetBy = Automatic
-
-	column _Sexo = IF(DINVPB_ABATE[NROEMPRESA] IN {2,12},IF(DINVPB_ABATE[DESCRSEXO] = "Macho Inteiro" || DINVPB_ABATE[DESCRSEXO] = "Macho Castrado", "Macho", DINVPB_ABATE[DESCRSEXO]),IF (DINVPB_ABATE[NROEMPRESA] IN {4,104}, "Suino",DINVPB_ABATE[DESCRSEXO]))
-		lineageTag: f3eb06c8-8d9a-4a4a-b668-aad4de1512e1
-		summarizeBy: none
 
 		annotation SummarizationSetBy = Automatic
 
@@ -516,21 +180,6 @@ table DINVPB_ABATE
 
 		annotation SummarizationSetBy = Automatic
 
-	column Turno =
-			
-			VAR Unidade = DINVPB_ABATE[NROEMPRESA]
-			VAR HoraMinSeg = DINVPB_ABATE[Data e Hora] - TRUNC ( DINVPB_ABATE[Data e Hora] )
-			RETURN
-			IF (
-			    Unidade IN { 4 ,12, 104},
-			    "Diurno",
-			    IF ( HoraMinSeg <= TIME ( 15, 59, 59 ) && HoraMinSeg >= TIME(04,00,00), "Diurno", "Noturno" )
-			)
-		lineageTag: 3b97c78b-18ff-40fc-aade-a700f1b7f812
-		summarizeBy: none
-
-		annotation SummarizationSetBy = Automatic
-
 	column 'Data e Hora Ajustada' = ```
 			
 			VAR DataHora = DINVPB_ABATE[Data e Hora]
@@ -551,36 +200,74 @@ table DINVPB_ABATE
 		lineageTag: 947b92ef-db23-429d-b83f-eb7f30cb79d0
 		summarizeBy: none
 
-		variation Variation
-			isDefault
-			relationship: b1b318e2-bc81-40d9-a4c1-506c7c8afc84
-			defaultHierarchy: LocalDateTable_48603b85-48e9-41e1-bf94-a056b597dcff.'Hierarquia de datas'
-
 		changedProperty = DataType
 
 		annotation SummarizationSetBy = Automatic
 
+	column Turno
+		dataType: string
+		lineageTag: 596c7169-64cd-4781-9b02-224d4b905648
+		summarizeBy: none
+		sourceColumn: Turno
+
+		annotation SummarizationSetBy = Automatic
+
+	column _Sexo
+		dataType: string
+		lineageTag: 33375b7a-a55e-4c77-8719-0aa4f9535bd1
+		summarizeBy: none
+		sourceColumn: _Sexo
+
+		annotation SummarizationSetBy = Automatic
+
+	column _HoraMax
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 835effdc-5b74-4a97-a7b3-b68d046816f9
+		summarizeBy: none
+		sourceColumn: _HoraMax
+
+		annotation SummarizationSetBy = Automatic
+
+	column _HoraMin
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2345f40b-7241-49cc-8a54-51bae3fa248e
+		summarizeBy: none
+		sourceColumn: _HoraMin
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_Contar Linhas'
+		dataType: double
+		lineageTag: 4cce8219-88da-4211-bd2d-83b72e9a33e6
+		summarizeBy: sum
+		sourceColumn: _Contar Linhas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column _MinutosTrabalhados
+		dataType: double
+		lineageTag: 90149401-e5c8-433e-953d-a41f2efbb6d8
+		summarizeBy: sum
+		sourceColumn: _MinutosTrabalhados
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	partition DINVPB_ABATE-015b6fe3-14d3-4263-8b79-ed9f3ce91f0c = m
 		mode: import
 		queryGroup: 'Fluxo Industrial'
-		source =
+		source = ```
 				let
-				    Fonte = PowerPlatform.Dataflows(null),
-				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
-				    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
-				    #"35024cdc-6a08-4e80-8a93-36e024176d14" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="35024cdc-6a08-4e80-8a93-36e024176d14"]}[Data],
+				    Fonte = Oracle.Database("datavale", [HierarchicalNavigation=true, Query="#(lf)        SELECT e.NROEMPRESA,#(tab)e.DATA,#(tab)e.HR,#(tab)e.SEQUENCIADIA,#(tab)e.SEQPRODUTO,#(tab)e.DESCRPRODUTO,#(tab)e.BANDA,#(tab)e.PESOLIQUIDO,#(tab)e.PESOLIQUIDOQUEBRA,#(tab)e.SEXO,#(tab)e.DESCRSEXO,#(tab)e.DESCRREDCLASSIFICACAO,#(tab)e.DESCRCLASSIFICACAO,#(tab)e.SEQCLASSIFABATE,#(tab)e.DESCRCLASSIFABATE,#(tab)e.DESCRCLASSIFACABAMENTO,#(tab)e.DESCRREDCLASSIFABATE,#(tab)e.SEQCLASSIFMATURIDADE,#(tab)e.DESCRCLASSIFMATURIDADE,#(tab)e.DESCRREDCLASSIFMATURIDADE,#(tab)e.SEQCLASSIFRACA,#(tab)e.DESCRCLASSIFRACA,#(tab)e.SEQCLASSIFCONFORMIDADE,#(tab)e.DESCRCLASSIFCONFORMIDADE,#(tab)e.DESCRREDCLASSIFCONFORMIDADE,#(tab)e.ASPERSAO,#(tab)e.CONFORME,#(tab)e.NROPEDIDO,#(tab)e.NROLOTE,#(tab)e.SEQVENDEDOR,#(tab)e.SEQPESSOA,#(tab)e.NOMEPESSOA,#(tab)e.NOMEPROPRIEDADE,#(tab)e.CIDADEPROPRIEDADE,#(tab)e.UFPROPRIEDADE,#(tab)e.GRUPOPROD,#(tab)e.SUBGRUPOPROD,#(tab)e.FAMILIAPROD#(lf) FROM DINVPB_ABATE@dtvind02 e WHERE DATA>= '01-jan-2026'#(lf)        UNION ALL#(lf)        SELECT e.NROEMPRESA,#(tab)e.DATA,#(tab)e.HR,#(tab)e.SEQUENCIADIA,#(tab)e.SEQPRODUTO,#(tab)e.DESCRPRODUTO,#(tab)e.BANDA,#(tab)e.PESOLIQUIDO,#(tab)e.PESOLIQUIDOQUEBRA,#(tab)e.SEXO,#(tab)e.DESCRSEXO,#(tab)e.DESCRREDCLASSIFICACAO,#(tab)e.DESCRCLASSIFICACAO,#(tab)e.SEQCLASSIFABATE,#(tab)e.DESCRCLASSIFABATE,#(tab)e.DESCRCLASSIFACABAMENTO,#(tab)e.DESCRREDCLASSIFABATE,#(tab)e.SEQCLASSIFMATURIDADE,#(tab)e.DESCRCLASSIFMATURIDADE,#(tab)e.DESCRREDCLASSIFMATURIDADE,#(tab)e.SEQCLASSIFRACA,#(tab)e.DESCRCLASSIFRACA,#(tab)e.SEQCLASSIFCONFORMIDADE,#(tab)e.DESCRCLASSIFCONFORMIDADE,#(tab)e.DESCRREDCLASSIFCONFORMIDADE,#(tab)e.ASPERSAO,#(tab)e.CONFORME,#(tab)e.NROPEDIDO,#(tab)e.NROLOTE,#(tab)e.SEQVENDEDOR,#(tab)e.SEQPESSOA,#(tab)e.NOMEPESSOA,#(tab)e.NOMEPROPRIEDADE,#(tab)e.CIDADEPROPRIEDADE,#(tab)e.UFPROPRIEDADE,#(tab)e.GRUPOPROD,#(tab)e.SUBGRUPOPROD,#(tab)e.FAMILIAPROD#(lf) FROM DINVPB_ABATE@dtvind04 e WHERE DATA>= '01-jan-2026'#(lf)        UNION ALL#(lf)        SELECT e.NROEMPRESA,#(tab)e.DATA,#(tab)e.HR,#(tab)e.SEQUENCIADIA,#(tab)e.SEQPRODUTO,#(tab)e.DESCRPRODUTO,#(tab)e.BANDA,#(tab)e.PESOLIQUIDO,#(tab)e.PESOLIQUIDOQUEBRA,#(tab)e.SEXO,#(tab)e.DESCRSEXO,#(tab)e.DESCRREDCLASSIFICACAO,#(tab)e.DESCRCLASSIFICACAO,#(tab)e.SEQCLASSIFABATE,#(tab)e.DESCRCLASSIFABATE,#(tab)e.DESCRCLASSIFACABAMENTO,#(tab)e.DESCRREDCLASSIFABATE,#(tab)e.SEQCLASSIFMATURIDADE,#(tab)e.DESCRCLASSIFMATURIDADE,#(tab)e.DESCRREDCLASSIFMATURIDADE,#(tab)e.SEQCLASSIFRACA,#(tab)e.DESCRCLASSIFRACA,#(tab)e.SEQCLASSIFCONFORMIDADE,#(tab)e.DESCRCLASSIFCONFORMIDADE,#(tab)e.DESCRREDCLASSIFCONFORMIDADE,#(tab)e.ASPERSAO,#(tab)e.CONFORME,#(tab)e.NROPEDIDO,#(tab)e.NROLOTE,#(tab)e.SEQVENDEDOR,#(tab)e.SEQPESSOA,#(tab)e.NOMEPESSOA,#(tab)e.NOMEPROPRIEDADE,#(tab)e.CIDADEPROPRIEDADE,#(tab)e.UFPROPRIEDADE,#(tab)e.GRUPOPROD,#(tab)e.SUBGRUPOPROD,#(tab)e.FAMILIAPROD#(lf) FROM DINVPB_ABATE@dtvind12 e WHERE DATA>= '01-jan-2026'#(lf)        UNION ALL#(lf)        SELECT e.NROEMPRESA,#(tab)e.DATA,#(tab)e.HR,#(tab)e.SEQUENCIADIA,#(tab)e.SEQPRODUTO,#(tab)e.DESCRPRODUTO,#(tab)e.BANDA,#(tab)e.PESOLIQUIDO,#(tab)e.PESOLIQUIDOQUEBRA,#(tab)e.SEXO,#(tab)e.DESCRSEXO,#(tab)e.DESCRREDCLASSIFICACAO,#(tab)e.DESCRCLASSIFICACAO,#(tab)e.SEQCLASSIFABATE,#(tab)e.DESCRCLASSIFABATE,#(tab)e.DESCRCLASSIFACABAMENTO,#(tab)e.DESCRREDCLASSIFABATE,#(tab)e.SEQCLASSIFMATURIDADE,#(tab)e.DESCRCLASSIFMATURIDADE,#(tab)e.DESCRREDCLASSIFMATURIDADE,#(tab)e.SEQCLASSIFRACA,#(tab)e.DESCRCLASSIFRACA,#(tab)e.SEQCLASSIFCONFORMIDADE,#(tab)e.DESCRCLASSIFCONFORMIDADE,#(tab)e.DESCRREDCLASSIFCONFORMIDADE,#(tab)e.ASPERSAO,#(tab)e.CONFORME,#(tab)e.NROPEDIDO,#(tab)e.NROLOTE,#(tab)e.SEQVENDEDOR,#(tab)e.SEQPESSOA,#(tab)e.NOMEPESSOA,#(tab)e.NOMEPROPRIEDADE,#(tab)e.CIDADEPROPRIEDADE,#(tab)e.UFPROPRIEDADE,#(tab)e.GRUPOPROD,#(tab)e.SUBGRUPOPROD,#(tab)e.FAMILIAPROD#(lf) FROM DINVPB_ABATE@dtvind104 e WHERE DATA>= '01-jan-2026'#(lf)    "]),
 				
-				    // Carrega as quatro entidades
-				    ABATE_MTZ = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_MTZ", version=""]}[Data],
-				    ABATE_RND = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_RND", version=""]}[Data],
-				    ABATE_SLG = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_SLG", version=""]}[Data],
-				    ABATE_TUP = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="DINVPB_ABATE_TUP", version=""]}[Data],
-				
-				    // Combina todas as entidades
-				    DINVPB_ABATE_Combined = Table.Combine({ABATE_MTZ, ABATE_RND, ABATE_SLG, ABATE_TUP}),
 				
 				    // Resto do processamento
-				    #"Tipo Alterado" = Table.TransformColumnTypes(DINVPB_ABATE_Combined, {
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte, {
 				        {"NROEMPRESA", Int64.Type}, {"DATA", type date}, {"HR", type time}, {"SEQUENCIADIA", Int64.Type},
 				        {"SEQPRODUTO", Int64.Type}, {"DESCRPRODUTO", type text}, {"BANDA", type text}, {"PESOLIQUIDO", type number},
 				        {"PESOLIQUIDOQUEBRA", type number}, {"SEXO", type text}, {"DESCRSEXO", type text}, {"DESCRREDCLASSIFICACAO", type text},
@@ -610,9 +297,145 @@ table DINVPB_ABATE
 				        {"UFPROPRIEDADE", type text}, {"GRUPOPROD", Int64.Type}, {"SUBGRUPOPROD", Int64.Type},
 				        {"FAMILIAPROD", Int64.Type}, {"Data e Hora", type datetime}, {"CLASSIFICAÇÃO", type text}
 				    }),
-				    #"Duplicatas Removidas" = Table.Distinct(#"Tipo Alterado1")
+				    #"Duplicatas Removidas" = Table.Distinct(#"Tipo Alterado1"),
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Duplicatas Removidas",{"DESCRSEXO","CLASSIFICAÇÃO","PESOLIQUIDO","NROEMPRESA","DATA","DESCRREDCLASSIFCONFORMIDADE","DESCRREDCLASSIFABATE","NROPEDIDO","Data e Hora","SEQPESSOA","CLASSIFICACAORED"}),
+				
+				// 1. Ajuste o nome #"Etapa Anterior" para o nome da última etapa do seu Power Query
+				    FonteDados = #"Columns removed by Measure Killer",
+				
+				    // 2. Garante tipagem correta de Data/Hora e Empresa para evitar erros nas comparações
+				    #"Tipos Garantidos" = Table.TransformColumnTypes(FonteDados, {
+				        {"Data e Hora", type datetime},
+				        {"DATA", type date},
+				        {"NROEMPRESA", Int64.Type},
+				        {"DESCRSEXO", type text}
+				    }),
+				
+				    // 3. Tradução do 'Turno' (DAX) para Power Query (M)
+				    // Extrai o componente de horário Time.From([Data e Hora]) para validar a janela das 04:00:00 às 15:59:59
+				    #"Coluna Turno Adicionada" = Table.AddColumn(#"Tipos Garantidos", "Turno", each 
+				        if [NROEMPRESA] = 4 or [NROEMPRESA] = 12 or [NROEMPRESA] = 104 then 
+				            "Diurno"
+				        else if Time.From([Data e Hora]) >= #time(4, 0, 0) and Time.From([Data e Hora]) <= #time(15, 59, 59) then 
+				            "Diurno"
+				        else 
+				            "Noturno", 
+				        type text
+				    ),
+				
+				    // 4. Tradução da coluna _Sexo para M
+				    #"Coluna _Sexo Adicionada" = Table.AddColumn(#"Coluna Turno Adicionada", "_Sexo", each 
+				        if [NROEMPRESA] = 2 or [NROEMPRESA] = 12 then 
+				            if [DESCRSEXO] = "Macho Inteiro" or [DESCRSEXO] = "Macho Castrado" then "Macho" else [DESCRSEXO]
+				        else if [NROEMPRESA] = 4 or [NROEMPRESA] = 104 then 
+				            "Suino" 
+				        else 
+				            [DESCRSEXO], 
+				        type text
+				    ),
+				
+				    // 5. Criação da coluna auxiliar de horário para a _HoraMin (>= 04:00:00)
+				    //#"DataHora Filtro Mínimo" = Table.AddColumn(#"Coluna _Sexo Adicionada", "_DataHoraParaMin", each 
+				    //    if Time.From([Data e Hora]) >= #time(4, 0, 0) then [Data e Hora] else null, 
+				    //    type datetime
+				    //),
+				
+				    // 6. Agrupamento equivalente ao ALLEXCEPT(DINVPB_ABATE, DATA, NROEMPRESA, Turno)
+				    //#"Tabela Agrupada" = Table.Group(#"DataHora Filtro Mínimo", {"DATA", "NROEMPRESA", "Turno"}, {
+				    //    {"_HoraMax", each List.Max([Data e Hora]), type datetime},
+				    //    {"_HoraMin", each List.Min([_DataHoraParaMin]), type datetime},
+				    //    {"_Contar Linhas", each Table.RowCount(_), type number}
+				    //}),
+				
+				    
+				
+				 // 5. Coluna auxiliar para _HoraMin (somente horas >= 04:00)
+				    #"DataHora Filtro Mínimo" = Table.AddColumn(
+				        #"Coluna _Sexo Adicionada",
+				        "_DataHoraParaMin",
+				        each
+				            if Time.From([Data e Hora]) >= #time(4, 0, 0)
+				            then [Data e Hora]
+				            else null,
+				        type nullable datetime
+				    ),
+				
+				    // 5B. Data e Hora Ajustada — registros entre 00:00 e 03:59 recebem +1 dia
+				    // Replica exatamente a coluna calculada DAX original "Data e Hora Ajustada"
+				    #"DataHora Ajustada" = Table.AddColumn(
+				        #"DataHora Filtro Mínimo",
+				        "Data e Hora Ajustada",
+				        each
+				            let
+				                hora = Time.From([Data e Hora])
+				            in
+				                if hora >= #time(0, 0, 0) and hora < #time(4, 0, 0)
+				                then DateTime.From(Date.AddDays(Date.From([Data e Hora]), 1))
+				                     + Duration.From(hora)
+				                else [Data e Hora],
+				        type datetime
+				    ),
+				
+				    // 6. Agrupamento — equivalente ao ALLEXCEPT(DINVPB_ABATE, DATA, NROEMPRESA, Turno)
+				    // _HoraMax usa "Data e Hora Ajustada" — igual ao DAX original
+				    // _HoraMin usa "_DataHoraParaMin" — somente horas >= 04:00
+				    #"Tabela Agrupada" = Table.Group(
+				        #"DataHora Ajustada",
+				        {"DATA", "NROEMPRESA", "Turno"},
+				        {
+				            {"_HoraMax",
+				                each List.Max([Data e Hora Ajustada]),
+				                type nullable datetime},
+				            {"_HoraMin",
+				                each List.Min([_DataHoraParaMin]),
+				                type nullable datetime},
+				            {"_Contar Linhas",
+				                each Table.RowCount(_),
+				                type number}
+				        }
+				    ),
+				
+				    // 7. Merge do agrupamento de volta na tabela fato principal
+				    #"Mesclado Com Agrupamento" = Table.NestedJoin(
+				        #"DataHora Ajustada",
+				        {"DATA", "NROEMPRESA", "Turno"},
+				        #"Tabela Agrupada",
+				        {"DATA", "NROEMPRESA", "Turno"},
+				        "TabelaAgrupada",
+				        JoinKind.LeftOuter
+				    ),
+				
+				    // 8. Expansão das colunas calculadas
+				    #"Agregados Expandidos" = Table.ExpandTableColumn(
+				        #"Mesclado Com Agrupamento",
+				        "TabelaAgrupada",
+				        {"_HoraMax", "_HoraMin", "_Contar Linhas"},
+				        {"_HoraMax", "_HoraMin", "_Contar Linhas"}
+				    ),
+				
+				    // 9. _MinutosTrabalhados = (HoraMax - HoraMin) / Contar Linhas
+				    #"Coluna _MinutosTrabalhados Adicionada" = Table.AddColumn(
+				        #"Agregados Expandidos",
+				        "_MinutosTrabalhados",
+				        each
+				            if [_HoraMax] <> null
+				               and [_HoraMin] <> null
+				               and [_Contar Linhas] <> null
+				               and [_Contar Linhas] > 0
+				               and [_HoraMax] > [_HoraMin]  // ← guarda extra: garante resultado positivo
+				            then Duration.TotalMinutes([_HoraMax] - [_HoraMin]) / [_Contar Linhas]
+				            else 0,
+				        type number
+				    ),
+				
+				    // 10. Remove colunas temporárias
+				    #"Colunas Temporarias Removidas" = Table.RemoveColumns(
+				        #"Coluna _MinutosTrabalhados Adicionada",
+				        {"_DataHoraParaMin", "Data e Hora Ajustada"}
+				    )
 				in
-				    #"Duplicatas Removidas"
+				    #"Colunas Temporarias Removidas"
+				```
 
 	annotation PBI_ResultType = Table
 

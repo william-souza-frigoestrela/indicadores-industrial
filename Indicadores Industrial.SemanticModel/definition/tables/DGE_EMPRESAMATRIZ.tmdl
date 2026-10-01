@@ -11,14 +11,6 @@ table DGE_EMPRESAMATRIZ
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column NOMEMATRIZ
-		dataType: string
-		lineageTag: f5c2cca9-81d1-494b-8ed3-eb43a5d8536a
-		summarizeBy: none
-		sourceColumn: NOMEMATRIZ
-
-		annotation SummarizationSetBy = Automatic
-
 	column FILIAL
 		dataType: int64
 		lineageTag: d745a0e5-6d63-48d8-b380-bb291a7d270f
@@ -96,11 +88,12 @@ table DGE_EMPRESAMATRIZ
 				    ON R.FILIAL = M.NROEMPRESA
 				
 				"]),
-				    #"Duplicatas Removidas" = Table.Distinct(Fonte, {"FILIAL"})
+				    #"Duplicatas Removidas" = Table.Distinct(Fonte, {"FILIAL"}),
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Duplicatas Removidas",{"NROEMPRESA","NOMEFILIAL","FILIAL"})
 				in
-				    #"Duplicatas Removidas"
+				    #"Columns removed by Measure Killer"
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
 
 	annotation PBI_NavigationStepName = Navegação
 

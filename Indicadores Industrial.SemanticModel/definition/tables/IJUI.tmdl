@@ -15,14 +15,6 @@ table IJUI
 
 		annotation SummarizationSetBy = Automatic
 
-	column SEMANA
-		dataType: string
-		lineageTag: f00afd5f-4103-4714-a46c-a8538703badc
-		summarizeBy: none
-		sourceColumn: SEMANA
-
-		annotation SummarizationSetBy = Automatic
-
 	column DATA
 		dataType: dateTime
 		formatString: Long Date
@@ -44,14 +36,6 @@ table IJUI
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column 'GRUPO PRODUTO'
-		dataType: string
-		lineageTag: a0803bf5-fc57-47b9-b1bf-a8f68af29047
-		summarizeBy: none
-		sourceColumn: GRUPO PRODUTO
-
-		annotation SummarizationSetBy = Automatic
-
 	partition IJUI = m
 		mode: import
 		source =
@@ -59,9 +43,10 @@ table IJUI
 				    Fonte = Excel.Workbook(File.Contents("\\192.168.2.167\controladoria\05 - INDICADORES\09. Power BI\Volume Fabrica de Racão.xlsx"), null, true),
 				    IJUI_Sheet = Fonte{[Item="IJUI",Kind="Sheet"]}[Data],
 				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(IJUI_Sheet, [PromoteAllScalars=true]),
-				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"EMPRESA", Int64.Type}, {"SEMANA", type any}, {"DATA", type date}, {"VOLUME", type number}, {"GRUPO PRODUTO", type text}})
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"EMPRESA", Int64.Type}, {"SEMANA", type any}, {"DATA", type date}, {"VOLUME", type number}, {"GRUPO PRODUTO", type text}}),
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Tipo Alterado",{"EMPRESA","DATA","VOLUME"})
 				in
-				    #"Tipo Alterado"
+				    #"Columns removed by Measure Killer"
 
 	annotation PBI_NavigationStepName = Navegação
 

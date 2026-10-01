@@ -1,6 +1,81 @@
 table 'Tipo Visual'
 	lineageTag: eaf6ba68-093c-49f3-b983-ccc47f42fe7a
 
+	measure 'Realizado Indicador (Periodo)' = ```
+			
+			VAR periodo = SELECTEDVALUE('Tipo Visual'[Tipo])
+			RETURN
+			SWITCH(
+			    periodo,
+			    
+			    "Diário",
+			        [Realizado],
+			
+			    "Mensal",
+			        CALCULATE(
+			            [Realizado],
+			            ALLEXCEPT(
+			                'Calendário', 
+			                'Calendário'[Ano], 
+			                'Calendário'[Mês]
+			            )
+			        )
+			)
+			
+			```
+		lineageTag: 917930ba-ec9a-471d-8e67-43477a547536
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Meta Indicador (Periodo)' = ```
+			
+			VAR periodo = SELECTEDVALUE('Tipo Visual'[Tipo])
+			RETURN
+			SWITCH(
+			    periodo,
+			    
+			    "Diário",
+			        [Valor Meta],
+			
+			    "Mensal",
+			        CALCULATE(
+			            [Valor Meta],
+			            ALLEXCEPT(
+			                'Calendário', 
+			                'Calendário'[Ano],
+			                'Calendário'[Mês]
+			            )
+			            
+			        )
+			)
+			
+			```
+		lineageTag: c6079c1e-0bd6-491d-b2b1-a271702221e5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Variação (Periodo)' = ```
+			
+			[Realizado Indicador (Periodo)] 
+			- [Meta Indicador (Periodo)]
+			
+			```
+		lineageTag: 68b67fb1-6e4a-4306-a512-8eff7c4d38cf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Variação (Periodo)' = ```
+			
+			DIVIDE(
+			    [Realizado Indicador (Periodo)] - [Meta Indicador (Periodo)],
+			    [Meta Indicador (Periodo)]
+			)
+			
+			```
+		lineageTag: 174c921b-3cb1-4732-a6e8-fba12a0b2cf6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Tipo
 		lineageTag: 9f36acd6-ccf6-42cb-9488-b627ecae5efb
 		summarizeBy: none
@@ -26,7 +101,7 @@ table 'Tipo Visual'
 				    "Tipo", STRING,
 				    "Ordem", INTEGER,
 				    {
-				        {"Diario", 0},
+				        {"Diário", 0},
 				        {"Mensal", 1}
 				    }
 				)

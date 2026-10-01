@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "32a9d419509b92acb534",
   "position": {
-    "x": 16.363636363636363,
-    "y": 11.700000000000001,
+    "x": 16,
+    "y": 19,
     "z": 39503,
     "height": 45,
-    "width": 63.636363636363633,
+    "width": 64,
     "tabOrder": 0
   },
   "visual": {
@@ -136,5 +136,5 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "01e2a040b043bb5b718a"
+  "parentGroupName": "736b4c47e8c293788915"
 }

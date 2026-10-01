@@ -10,110 +10,8 @@ table FPBI_RESUMOABATE
 
 		annotation SummarizationSetBy = Automatic
 
-	column HORAINICIO
-		dataType: string
-		lineageTag: 02538898-6685-485f-bd7a-25548d8d7b78
-		summarizeBy: none
-		sourceColumn: HORAINICIO
-
-		annotation SummarizationSetBy = Automatic
-
-	column HORAFIM
-		dataType: string
-		lineageTag: 70ede289-ce90-4e5d-920a-579e6cada7c6
-		summarizeBy: none
-		sourceColumn: HORAFIM
-
-		annotation SummarizationSetBy = Automatic
-
-	column PESOLIQUIDO
-		dataType: double
-		lineageTag: 307b5bdb-2658-4851-8771-0d20bbaeb84d
-		summarizeBy: sum
-		sourceColumn: PESOLIQUIDO
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column PESOBRUTO
-		dataType: double
-		lineageTag: 633ff5a1-917c-4fef-bf66-93402f9256a9
-		summarizeBy: sum
-		sourceColumn: PESOBRUTO
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column QTD
-		dataType: double
-		lineageTag: d303a14f-6b9d-4af3-8001-c1d357a512b4
-		summarizeBy: sum
-		sourceColumn: QTD
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column DESCRREDCLASSIFCONFORMIDADE
-		dataType: string
-		lineageTag: cc81ba78-8288-42b9-8815-22c389681e21
-		summarizeBy: none
-		sourceColumn: DESCRREDCLASSIFCONFORMIDADE
-
-		annotation SummarizationSetBy = Automatic
-
-	column DESCRCLASSIFABATE
-		dataType: string
-		lineageTag: 9b575f72-3999-4630-92cf-836a14077064
-		summarizeBy: none
-		sourceColumn: DESCRCLASSIFABATE
-
-		annotation SummarizationSetBy = Automatic
-
-	column DESCRSEXO
-		dataType: string
-		lineageTag: 96e50ab7-3549-4959-8238-56101282a45f
-		summarizeBy: none
-		sourceColumn: DESCRSEXO
-
-		annotation SummarizationSetBy = Automatic
-
-	column DESCRCLASSIFACABAMENTO
-		dataType: string
-		lineageTag: 5bfbee06-4f57-4582-80b0-6bd28493e7dd
-		summarizeBy: none
-		sourceColumn: DESCRCLASSIFACABAMENTO
-
-		annotation SummarizationSetBy = Automatic
-
-	column DESCRCLASSIFMATURIDADE
-		dataType: string
-		lineageTag: 4c3c7010-72f1-4a56-93a1-b21fe683cbac
-		summarizeBy: none
-		sourceColumn: DESCRCLASSIFMATURIDADE
-
-		annotation SummarizationSetBy = Automatic
-
-	column DESCRCLASSIFRACA
-		dataType: string
-		lineageTag: aaad4dfa-0c12-4d37-b9a3-23e1e58ba58b
-		summarizeBy: none
-		sourceColumn: DESCRCLASSIFRACA
-
-		annotation SummarizationSetBy = Automatic
-
-	column DESCRPRODUTO
-		dataType: string
-		lineageTag: 4cce394c-713f-4cf3-9e8f-0748d0d4a854
-		summarizeBy: none
-		sourceColumn: DESCRPRODUTO
-
-		annotation SummarizationSetBy = Automatic
-
 	column NROEMPRESA
-		dataType: int64
+		dataType: double
 		formatString: 0
 		lineageTag: 1d351a2c-76ac-40fc-b758-b0c8b7b924c1
 		summarizeBy: none
@@ -126,28 +24,18 @@ table FPBI_RESUMOABATE
 		queryGroup: 'Fluxo Industrial'
 		source =
 				let
-				    Fonte = PowerPlatform.Dataflows(null),
-				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
-				    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
-				    #"35024cdc-6a08-4e80-8a93-36e024176d14" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="35024cdc-6a08-4e80-8a93-36e024176d14"]}[Data],
+				    // 1. Conexão SQL nativa unificando as instâncias de Resumo de Abate no Oracle com NROEMPRESA fixo
+				    Fonte = Oracle.Database("datavale", [HierarchicalNavigation=true, Query="#(lf)            SELECT #(lf)                2 as NROEMPRESA, #(lf)                e.data #(lf)            FROM FPBI_RESUMOABATE@dtvind02 e #(lf)            WHERE DATA >= '01-JAN-2026'#(lf)            #(lf)            UNION ALL#(lf)            #(lf)            SELECT #(lf)               4 as NROEMPRESA,  #(lf)                e.data #(lf)            FROM FPBI_RESUMOABATE@dtvind04 e #(lf)            WHERE DATA >= '01-JAN-2026'#(lf)            #(lf)            UNION ALL#(lf)            #(lf)            SELECT #(lf)                104 as NROEMPRESA, #(lf)                e.data #(lf)            FROM FPBI_RESUMOABATE@dtvind104 e #(lf)            WHERE DATA >= '01-JAN-2026'#(lf)            #(lf)            UNION ALL#(lf)            #(lf)            SELECT #(lf)                12 as NROEMPRESA, #(lf)                e.data #(lf)            FROM FPBI_RESUMOABATE@dtvind12 e #(lf)            WHERE DATA >= '01-JAN-2026'#(lf)        "]),
 				
-				    // Carregar as tabelas individualmente
-				    FPBI_RESUMOABATE_MTZ = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="FPBI_RESUMOABATE_MTZ", version=""]}[Data],
-				    FPBI_RESUMOABATE_RND = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="FPBI_RESUMOABATE_RND", version=""]}[Data],
-				    FPBI_RESUMOABATE_SLG = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="FPBI_RESUMOABATE_SLG", version=""]}[Data],
-				    FPBI_RESUMOABATE_TUP = #"35024cdc-6a08-4e80-8a93-36e024176d14"{[entity="FPBI_RESUMOABATE_TUP", version=""]}[Data],
-				
-				    // Combinar tudo em uma tabela só
-				    TabelaUnificada = Table.Combine({
-				        FPBI_RESUMOABATE_MTZ,
-				        FPBI_RESUMOABATE_RND,
-				        FPBI_RESUMOABATE_SLG,
-				        FPBI_RESUMOABATE_TUP
+				    // 2. Seleção final das colunas solicitadas
+				    #"Columns removed by Measure Killer" = Table.SelectColumns(Fonte, {
+				        "NROEMPRESA",
+				        "DATA"
 				    })
 				in
-				    TabelaUnificada
+				    #"Columns removed by Measure Killer"
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
 
 	annotation PBI_NavigationStepName = Navegação
 

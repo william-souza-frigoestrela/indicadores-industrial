@@ -8,11 +8,6 @@ table EXCEL_PESOVIVOAUX
 		summarizeBy: none
 		sourceColumn: Data
 
-		variation Variation
-			isDefault
-			relationship: 155cec1e-b22b-439a-949a-f2665c5a2a4f
-			defaultHierarchy: LocalDateTable_d3a4803f-247f-4f0c-a3b7-89d0d35f17fa.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -35,15 +30,6 @@ table EXCEL_PESOVIVOAUX
 
 		annotation SummarizationSetBy = User
 
-	column 'Qtd Graxaria'
-		dataType: int64
-		formatString: 0
-		lineageTag: 9b8e6da9-8b92-4ee1-b2b3-a653ee0257b6
-		summarizeBy: sum
-		sourceColumn: Qtd Graxaria
-
-		annotation SummarizationSetBy = Automatic
-
 	column 'Peso Vivo Graxaria'
 		dataType: double
 		lineageTag: 4b739a5b-3ef8-4a4b-905b-dbbad51c50e6
@@ -62,9 +48,10 @@ table EXCEL_PESOVIVOAUX
 				    Planilha1_Sheet = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
 				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Planilha1_Sheet, [PromoteAllScalars=true]),
 				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Data", type date}, {"Nro Empresa", Int64.Type}, {"Nro Pedido", Int64.Type}, {"Qtd Graxaria", Int64.Type}, {"Peso Vivo Graxaria", type number}}),
-				    #"Linhas Filtradas" = Table.SelectRows(#"Tipo Alterado", each ([Data] <> null))
+				    #"Linhas Filtradas" = Table.SelectRows(#"Tipo Alterado", each ([Data] <> null)),
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Linhas Filtradas",{"Peso Vivo Graxaria","Nro Pedido","Data","Nro Empresa"})
 				in
-				    #"Linhas Filtradas"
+				    #"Columns removed by Measure Killer"
 
 	annotation PBI_ResultType = Table
 

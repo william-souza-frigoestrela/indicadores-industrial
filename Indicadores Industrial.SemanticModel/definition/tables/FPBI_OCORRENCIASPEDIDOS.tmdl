@@ -1,14 +1,6 @@
 table FPBI_OCORRENCIASPEDIDOS
 	lineageTag: e1c95dc5-5853-4b20-979f-7d3326e58108
 
-	column CLASSIFICACAO
-		dataType: string
-		lineageTag: 97cdb9c8-932a-487d-906d-ef82322283c2
-		summarizeBy: none
-		sourceColumn: CLASSIFICACAO
-
-		annotation SummarizationSetBy = Automatic
-
 	column NROPLANTA
 		dataType: double
 		lineageTag: 40b09849-464b-42c1-9803-9ddb27aa8010
@@ -29,102 +21,6 @@ table FPBI_OCORRENCIASPEDIDOS
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column SEQCLIENTE
-		dataType: double
-		lineageTag: 787bfcfc-b7ef-4a35-b5fd-20edd9bbd367
-		summarizeBy: sum
-		sourceColumn: SEQCLIENTE
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column CLIENTE
-		dataType: string
-		lineageTag: 6bab6a5b-d1c6-4c7d-af56-73aaf9d66c1c
-		summarizeBy: none
-		sourceColumn: CLIENTE
-
-		annotation SummarizationSetBy = Automatic
-
-	column SEQVENDEDOR
-		dataType: double
-		lineageTag: 6678d15d-263b-4455-8c78-ba4765a4ff7d
-		summarizeBy: sum
-		sourceColumn: SEQVENDEDOR
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column VENDEDOR
-		dataType: string
-		lineageTag: 29d02eb3-9c75-4f30-9a12-751162930111
-		summarizeBy: none
-		sourceColumn: VENDEDOR
-
-		annotation SummarizationSetBy = Automatic
-
-	column VLRPEDIDO
-		dataType: double
-		lineageTag: 327cc604-dcfb-4934-aeeb-96573a283b66
-		summarizeBy: sum
-		sourceColumn: VLRPEDIDO
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column NROCARGA
-		dataType: double
-		lineageTag: bfb2fbf9-1967-4e7e-a727-70c4e3694594
-		summarizeBy: sum
-		sourceColumn: NROCARGA
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column DATA
-		dataType: dateTime
-		formatString: General Date
-		lineageTag: 05adb99a-7dd4-4099-bc6f-b42e0ecf83b0
-		summarizeBy: none
-		sourceColumn: DATA
-
-		variation Variation
-			isDefault
-			relationship: ef04004d-53ad-4e2c-ab0d-90165429d09f
-			defaultHierarchy: LocalDateTable_35cea96c-fe3d-4d5a-87b3-a90636b876eb.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
-	column HORA
-		dataType: double
-		lineageTag: 205ee1bc-5197-457c-821f-381af0022acc
-		summarizeBy: sum
-		sourceColumn: HORA
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column DETALHE
-		dataType: string
-		lineageTag: 3b8b38d7-46b8-41e2-8567-522bbadce048
-		summarizeBy: none
-		sourceColumn: DETALHE
-
-		annotation SummarizationSetBy = Automatic
-
-	column CODUSUARIO
-		dataType: string
-		lineageTag: d976a47f-4e31-4097-98c6-cf40322dcc03
-		summarizeBy: none
-		sourceColumn: CODUSUARIO
-
-		annotation SummarizationSetBy = Automatic
-
 	column Chave = FPBI_OCORRENCIASPEDIDOS[NROPEDIDO]&FPBI_OCORRENCIASPEDIDOS[NROPLANTA]
 		lineageTag: e2b8e81a-12c9-4c62-8ad5-c26850e83c70
 		summarizeBy: none
@@ -138,11 +34,12 @@ table FPBI_OCORRENCIASPEDIDOS
 				    Fonte = Oracle.Database("datavale", [HierarchicalNavigation=true, CommandTimeout=#duration(0, 3, 0, 0)]),
 				    DATAVALE = Fonte{[Schema="DATAVALE"]}[Data],
 				    FPBI_OCORRENCIASPEDIDOS1 = DATAVALE{[Name="FPBI_OCORRENCIASPEDIDOS"]}[Data],
-				    #"Linhas Filtradas" = Table.SelectRows(FPBI_OCORRENCIASPEDIDOS1, each ([CLASSIFICACAO] = "Alteração de Datas"))
+				    #"Linhas Filtradas" = Table.SelectRows(FPBI_OCORRENCIASPEDIDOS1, each ([CLASSIFICACAO] = "Alteração de Datas")),
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Linhas Filtradas",{"NROPEDIDO","NROPLANTA"})
 				in
-				    #"Linhas Filtradas"
+				    #"Columns removed by Measure Killer"
 
 	annotation PBI_NavigationStepName = Navegação
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
 

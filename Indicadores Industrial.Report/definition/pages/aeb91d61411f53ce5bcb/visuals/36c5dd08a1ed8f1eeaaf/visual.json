@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "36c5dd08a1ed8f1eeaaf",
   "position": {
     "x": 583,
-    "y": 520,
+    "y": 575,
     "z": 18000,
-    "height": 279,
+    "height": 310,
     "width": 647,
-    "tabOrder": 20000
+    "tabOrder": 19000
   },
   "visual": {
     "visualType": "pivotTable",
@@ -96,8 +96,7 @@
                 }
               },
               "queryRef": "Indicadores Medidas Gerais.Variacao",
-              "nativeQueryRef": "Variação",
-              "displayName": "Variação"
+              "nativeQueryRef": "Variacao"
             },
             {
               "field": {
@@ -111,8 +110,7 @@
                 }
               },
               "queryRef": "Indicadores Medidas Gerais.Variação%",
-              "nativeQueryRef": "Var. %",
-              "displayName": "Var. %"
+              "nativeQueryRef": "Variação%"
             }
           ]
         }
@@ -209,32 +207,6 @@
                 }
               }
             }
-          }
-        },
-        {
-          "properties": {},
-          "selector": {
-            "data": [
-              {
-                "dataViewWildcard": {
-                  "matchingOption": 1
-                }
-              }
-            ],
-            "metadata": "Indicadores Medidas Gerais.Variacao"
-          }
-        },
-        {
-          "properties": {},
-          "selector": {
-            "data": [
-              {
-                "dataViewWildcard": {
-                  "matchingOption": 1
-                }
-              }
-            ],
-            "metadata": "Indicadores Medidas Gerais.Variação%"
           }
         }
       ]

@@ -3,7 +3,7 @@
   "name": "7599e45c587206d6986d",
   "displayName": "02 - AREA FRIA BOVINOS",
   "displayOption": "ActualSize",
-  "height": 1100,
+  "height": 1550,
   "width": 1230,
   "objects": {
     "outspacePane": [
@@ -250,6 +250,126 @@
       "source": "78acaa7d2a504cda5cd9",
       "target": "39498f4f15582516beb0",
       "type": "DataFilter"
+    },
+    {
+      "source": "78acaa7d2a504cda5cd9",
+      "target": "bb3202e06a100bbc085a",
+      "type": "NoFilter"
+    },
+    {
+      "source": "78acaa7d2a504cda5cd9",
+      "target": "eb6774112f8859ad594e",
+      "type": "DataFilter"
+    },
+    {
+      "source": "78acaa7d2a504cda5cd9",
+      "target": "f719c5249043fa218e51",
+      "type": "NoFilter"
+    },
+    {
+      "source": "eb6774112f8859ad594e",
+      "target": "7ed48cb62141ba997c6e",
+      "type": "NoFilter"
+    },
+    {
+      "source": "eb6774112f8859ad594e",
+      "target": "53d9101c069bc57abad7",
+      "type": "NoFilter"
+    },
+    {
+      "source": "eb6774112f8859ad594e",
+      "target": "44dac21f44830a467297",
+      "type": "NoFilter"
+    },
+    {
+      "source": "eb6774112f8859ad594e",
+      "target": "75efb0518e7a16b0c96d",
+      "type": "NoFilter"
+    },
+    {
+      "source": "eb6774112f8859ad594e",
+      "target": "28f2a2712d82875d988c",
+      "type": "NoFilter"
+    },
+    {
+      "source": "eb6774112f8859ad594e",
+      "target": "32a9d419509b92acb534",
+      "type": "NoFilter"
+    },
+    {
+      "source": "eb6774112f8859ad594e",
+      "target": "0f50c677dc12c0813e91",
+      "type": "NoFilter"
+    },
+    {
+      "source": "eb6774112f8859ad594e",
+      "target": "39498f4f15582516beb0",
+      "type": "NoFilter"
+    },
+    {
+      "source": "eb6774112f8859ad594e",
+      "target": "d00a6f1ab076a41a1733",
+      "type": "NoFilter"
+    },
+    {
+      "source": "eb6774112f8859ad594e",
+      "target": "f719c5249043fa218e51",
+      "type": "NoFilter"
+    },
+    {
+      "source": "f719c5249043fa218e51",
+      "target": "eb6774112f8859ad594e",
+      "type": "NoFilter"
+    },
+    {
+      "source": "f719c5249043fa218e51",
+      "target": "7ed48cb62141ba997c6e",
+      "type": "NoFilter"
+    },
+    {
+      "source": "f719c5249043fa218e51",
+      "target": "53d9101c069bc57abad7",
+      "type": "NoFilter"
+    },
+    {
+      "source": "f719c5249043fa218e51",
+      "target": "44dac21f44830a467297",
+      "type": "NoFilter"
+    },
+    {
+      "source": "f719c5249043fa218e51",
+      "target": "75efb0518e7a16b0c96d",
+      "type": "NoFilter"
+    },
+    {
+      "source": "f719c5249043fa218e51",
+      "target": "28f2a2712d82875d988c",
+      "type": "NoFilter"
+    },
+    {
+      "source": "f719c5249043fa218e51",
+      "target": "32a9d419509b92acb534",
+      "type": "NoFilter"
+    },
+    {
+      "source": "f719c5249043fa218e51",
+      "target": "0f50c677dc12c0813e91",
+      "type": "NoFilter"
+    },
+    {
+      "source": "eb6774112f8859ad594e",
+      "target": "bb3202e06a100bbc085a",
+      "type": "NoFilter"
+    },
+    {
+      "source": "f719c5249043fa218e51",
+      "target": "bb3202e06a100bbc085a",
+      "type": "NoFilter"
+    },
+    {
+      "source": "f719c5249043fa218e51",
+      "target": "39498f4f15582516beb0",
+      "type": "NoFilter"
     }
   ]
 }

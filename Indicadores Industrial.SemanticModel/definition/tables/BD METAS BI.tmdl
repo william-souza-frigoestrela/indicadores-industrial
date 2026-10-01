@@ -205,44 +205,6 @@ table 'BD METAS BI'
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column 'Eficiencia Miúdos(Cx/Hhr)'
-		dataType: string
-		lineageTag: 54b67aa9-610d-47b8-9a45-c4235bafc7b8
-		summarizeBy: none
-		sourceColumn: Eficiencia Miúdos(Cx/Hhr)
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Rendimento Desossa 1'
-		dataType: double
-		lineageTag: 7a2cb09d-16b6-46b8-bc82-968a63543ef9
-		summarizeBy: sum
-		sourceColumn: Rendimento Desossa 1
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column 'Rendimento Desossa 2'
-		dataType: double
-		lineageTag: 3e0cf352-4c50-4b32-98a9-a0f3d4cdae17
-		summarizeBy: sum
-		sourceColumn: Rendimento Desossa 2
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column 'Rendimento Desossa 3'
-		dataType: double
-		lineageTag: 13418874-ee91-4eb5-89c5-f771200f7d03
-		summarizeBy: sum
-		sourceColumn: Rendimento Desossa 3
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column 'Rendimento Desossa 4'
 		dataType: double
 		lineageTag: c1afcf81-f901-4ac8-84fd-76dac4306c0f
@@ -267,14 +229,6 @@ table 'BD METAS BI'
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column 'Absenteísmo Subprodutos'
-		dataType: string
-		lineageTag: eb9d5ba2-07ee-405d-b559-dd0eeee2cf15
-		summarizeBy: none
-		sourceColumn: Absenteísmo Subprodutos
-
-		annotation SummarizationSetBy = Automatic
-
 	column 'Cbç Hab. Exp'
 		dataType: double
 		lineageTag: 0f9f5415-2de2-478b-acbc-c6eea7ea6d26
@@ -285,14 +239,6 @@ table 'BD METAS BI'
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column 'Absenteísmo Banha'
-		dataType: string
-		lineageTag: ac84eff7-bde8-48e0-9e90-7099c9be8bb5
-		summarizeBy: none
-		sourceColumn: Absenteísmo Banha
-
-		annotation SummarizationSetBy = Automatic
-
 	partition 'BD METAS BI' = m
 		mode: import
 		source =
@@ -300,9 +246,10 @@ table 'BD METAS BI'
 				    Fonte = Excel.Workbook(File.Contents("\\192.168.2.167\controladoria\05 - INDICADORES\09. Power BI\INDICADORES POWER BI.xlsx"), null, true),
 				    #"BD METAS BI_Sheet" = Fonte{[Item="BD METAS BI",Kind="Sheet"]}[Data],
 				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"BD METAS BI_Sheet", [PromoteAllScalars=true]),
-				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Empresa", Int64.Type}, {"Data", type date}, {"Setor", type text}, {"Turno", type text}, {"Rendimento Desossa 1", type number}, {"Rendimento Desossa 2", type number}, {"Rendimento Desossa 3", type number}, {"Rendimento Desossa 4", type any}, {"Eficiencia Desossa – (Kg/Hhr)", type number}, {"Peças Dia", type any}, {"CHINA – Rend. Traseiro ", type number}, {"CHINA – Rend. Dianteiro ", type number}, {"CHINA – Rend. Ponta de Agulha ", type number}, {"MI – Rend. Traseiro ", type number}, {"MI – Rend. Dianteiro ", type number}, {"MI – Rend. Ponta de Agulha ", type number}, {"Absenteísmo", type number}, {"Eficiencia Abate (Kg/Hhr)", type number}, {"Eficiencia Abate (Cbç/Hhr)", type number}, {"Eficiência Abate", type number}, {"Rendimento Vivo ", type number}, {"Absenteísmo – Abate", type number}, {"Rendimento Miúdos", type number}, {"Eficiencia Miúdos(Kg/Hhr)", type number}, {"Eficiencia Miúdos(Cx/Hhr)", type any}, {"Absenteísmo – Miúdos", type number}, {"Rendimento Subprodutos", type number}, {"Cbç Hab. Exp", type number}})
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Empresa", Int64.Type}, {"Data", type date}, {"Setor", type text}, {"Turno", type text}, {"Rendimento Desossa 1", type number}, {"Rendimento Desossa 2", type number}, {"Rendimento Desossa 3", type number}, {"Rendimento Desossa 4", type any}, {"Eficiencia Desossa – (Kg/Hhr)", type number}, {"Peças Dia", type any}, {"CHINA – Rend. Traseiro ", type number}, {"CHINA – Rend. Dianteiro ", type number}, {"CHINA – Rend. Ponta de Agulha ", type number}, {"MI – Rend. Traseiro ", type number}, {"MI – Rend. Dianteiro ", type number}, {"MI – Rend. Ponta de Agulha ", type number}, {"Absenteísmo", type number}, {"Eficiencia Abate (Kg/Hhr)", type number}, {"Eficiencia Abate (Cbç/Hhr)", type number}, {"Eficiência Abate", type number}, {"Rendimento Vivo ", type number}, {"Absenteísmo – Abate", type number}, {"Rendimento Miúdos", type number}, {"Eficiencia Miúdos(Kg/Hhr)", type number}, {"Eficiencia Miúdos(Cx/Hhr)", type any}, {"Absenteísmo – Miúdos", type number}, {"Rendimento Subprodutos", type number}, {"Cbç Hab. Exp", type number}}),
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Tipo Alterado",{"Absenteísmo","Eficiencia Abate (Kg/Hhr)","Absenteísmo – Abate","MI – Rend. Ponta de Agulha ","Empresa","Peças Dia","Eficiência Abate","CHINA – Rend. Dianteiro ","MI – Rend. Traseiro ","Rendimento Desossa 4","Data","Eficiencia Desossa – (Kg/Hhr)","Setor","Rendimento Miúdos","Rendimento Vivo ","Absenteísmo – Miúdos","Cbç Hab. Exp","Eficiencia Abate (Cbç/Hhr)","Turno","Rendimento Subprodutos","CHINA – Rend. Ponta de Agulha ","MI – Rend. Dianteiro ","CHINA – Rend. Traseiro ","Eficiencia Miúdos(Kg/Hhr)"})
 				in
-				    #"Tipo Alterado"
+				    #"Columns removed by Measure Killer"
 
 	annotation PBI_ResultType = Table
 

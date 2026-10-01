@@ -1,0 +1,114 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "8949bdccfbec407b1725",
+  "displayName": "Duplicata de 01 - AREA QUENTE BOVINOS",
+  "displayOption": "ActualSize",
+  "height": 1400,
+  "width": 1230,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "248ae3a7d9dbf50c1c24",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tipo Visual"
+              }
+            },
+            "Property": "Tipo"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "t",
+              "Entity": "Tipo Visual",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "t"
+                          }
+                        },
+                        "Property": "Tipo"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Mensal'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  },
+  "objects": {
+    "outspacePane": [
+      {
+        "properties": {
+          "width": {
+            "expr": {
+              "Literal": {
+                "Value": "294L"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visibility": "HiddenInViewMode",
+  "visualInteractions": [
+    {
+      "source": "4cc8b0e2ed1a076d41a7",
+      "target": "49f0a716df91ed77dc44",
+      "type": "NoFilter"
+    },
+    {
+      "source": "49f0a716df91ed77dc44",
+      "target": "5863a26fee0f2ada60ff",
+      "type": "NoFilter"
+    },
+    {
+      "source": "4cc8b0e2ed1a076d41a7",
+      "target": "5af9cb0af2d2402f44bb",
+      "type": "NoFilter"
+    },
+    {
+      "source": "4cc8b0e2ed1a076d41a7",
+      "target": "02069d687fbfa72fb820",
+      "type": "NoFilter"
+    },
+    {
+      "source": "5af9cb0af2d2402f44bb",
+      "target": "02069d687fbfa72fb820",
+      "type": "NoFilter"
+    },
+    {
+      "source": "02069d687fbfa72fb820",
+      "target": "5af9cb0af2d2402f44bb",
+      "type": "NoFilter"
+    }
+  ]
+}

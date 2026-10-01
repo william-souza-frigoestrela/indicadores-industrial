@@ -21,20 +21,6 @@ table DEPARAINDUS
 
 		annotation SummarizationSetBy = Automatic
 
-	column DATAENT
-		dataType: dateTime
-		formatString: General Date
-		lineageTag: 808283ee-9b49-4029-b7dd-5c3c7de4bb57
-		summarizeBy: none
-		sourceColumn: DATAENT
-
-		variation Variation
-			isDefault
-			relationship: afaf2a18-d526-4fd7-8e5b-60751354a2a5
-			defaultHierarchy: LocalDateTable_d7f32ea0-799b-4cdf-aa70-d49835976cfd.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
 	column _DK = DEPARAINDUS[NROPROGPRODUCAO]&DEPARAINDUS[LOTE]&DEPARAINDUS[NROEMPRESA]
 		lineageTag: 4b3d6a7e-d146-499d-98c0-7b45ebf921d1
 		summarizeBy: none
@@ -47,84 +33,6 @@ table DEPARAINDUS
 
 		annotation SummarizationSetBy = Automatic
 
-	column DESCRFORMAPRODUCAO
-		dataType: string
-		lineageTag: 6ebf2b3e-173c-4b89-bcac-129fa0f942b2
-		summarizeBy: none
-		sourceColumn: DESCRFORMAPRODUCAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column OBSERVACAO
-		dataType: string
-		lineageTag: 70d63646-5354-4759-94d0-ec3ba8f2ca9c
-		summarizeBy: none
-		sourceColumn: OBSERVACAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column TIPOPROGPRODUCAO
-		dataType: string
-		lineageTag: 42c3ce18-6907-48eb-aaf9-83655794ac91
-		summarizeBy: none
-		sourceColumn: TIPOPROGPRODUCAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column TIPOPRODUTO
-		dataType: string
-		lineageTag: 60d2ba3b-cb0e-4765-b6c4-09b83eb21543
-		summarizeBy: none
-		sourceColumn: TIPOPRODUTO
-
-		annotation SummarizationSetBy = Automatic
-
-	column STATUSPROGPRODUCAO
-		dataType: double
-		lineageTag: c823bd9b-35fa-443b-97e6-f391dd30b456
-		summarizeBy: sum
-		sourceColumn: STATUSPROGPRODUCAO
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column DATAHORA
-		dataType: string
-		lineageTag: c4ecc8af-59a5-4ce0-94a1-d33b9930beab
-		summarizeBy: none
-		sourceColumn: DATAHORA
-
-		annotation SummarizationSetBy = Automatic
-
-	column DTARENDIMENTO
-		dataType: dateTime
-		formatString: General Date
-		lineageTag: 3d6facfd-993e-4b12-885c-558fce7b2e5e
-		summarizeBy: none
-		sourceColumn: DTARENDIMENTO
-
-		variation Variation
-			isDefault
-			relationship: 4070279b-4e95-4a31-a12e-affa8a3c49c5
-			defaultHierarchy: LocalDateTable_8391d043-eb21-4c76-9f4d-b3609fc48896.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
-	column DTAPRODUCAO
-		dataType: dateTime
-		formatString: General Date
-		lineageTag: 8ba54351-ccf1-4953-a622-191f017c7e75
-		summarizeBy: none
-		sourceColumn: DTAPRODUCAO
-
-		variation Variation
-			isDefault
-			relationship: 02887d1b-b24d-4420-b2c5-63ae27df60da
-			defaultHierarchy: LocalDateTable_52cfa444-2e71-4a1e-aa1e-a4e20349e748.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
 	column SEQPRODUTO
 		dataType: int64
 		formatString: 0
@@ -134,161 +42,28 @@ table DEPARAINDUS
 
 		annotation SummarizationSetBy = Automatic
 
-	column DESCRICAO
-		dataType: string
-		lineageTag: 4c69d4ab-79ce-4fbb-b3b9-041c59affa1b
-		summarizeBy: none
-		sourceColumn: DESCRICAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column SUBGRUPO
-		dataType: string
-		lineageTag: f6f755e0-32b7-4190-955c-c7874724c2f9
-		summarizeBy: none
-		sourceColumn: SUBGRUPO
-
-		annotation SummarizationSetBy = Automatic
-
-	column GRUPO
-		dataType: string
-		lineageTag: 56951d20-3538-45be-abda-73ee973b7c6b
-		summarizeBy: none
-		sourceColumn: GRUPO
-
-		annotation SummarizationSetBy = Automatic
-
-	column FAMILIAPROD
-		dataType: int64
-		formatString: 0
-		lineageTag: 7a6d36ad-2f37-479b-a563-78a0690210f5
-		summarizeBy: sum
-		sourceColumn: FAMILIAPROD
-
-		annotation SummarizationSetBy = Automatic
-
-	column DESCRFAMILIA
-		dataType: string
-		lineageTag: 1dbc8c0a-4f36-4b60-9926-a8e557e86558
-		summarizeBy: none
-		sourceColumn: DESCRFAMILIA
-
-		annotation SummarizationSetBy = Automatic
-
-	column CONSERVACAO
-		dataType: string
-		lineageTag: d025ea3a-d610-4307-862f-599f35667e97
-		summarizeBy: none
-		sourceColumn: CONSERVACAO
-
-		annotation SummarizationSetBy = Automatic
-
-	column CODBARRAINTERNO
-		dataType: string
-		lineageTag: 96779893-7dad-4339-a483-e26d62858a10
-		summarizeBy: none
-		sourceColumn: CODBARRAINTERNO
-
-		annotation SummarizationSetBy = Automatic
-
-	column QUANTIDADE
+	column NROEMPRESA
 		dataType: double
-		lineageTag: df9be066-37c2-4426-ac17-71fcfac0357b
+		lineageTag: f3c26587-91e4-4908-849b-6fe6149edfd9
 		summarizeBy: sum
-		sourceColumn: QUANTIDADE
+		sourceColumn: NROEMPRESA
 
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column QTDEMBALAGEM
-		dataType: double
-		lineageTag: ff6aaf9c-b68c-498b-b6c9-ce013a21b6ec
-		summarizeBy: sum
-		sourceColumn: QTDEMBALAGEM
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column PESOLIQUIDO
-		dataType: double
-		lineageTag: a77ee77d-0c8d-411a-a343-6bae6443a8c4
-		summarizeBy: sum
-		sourceColumn: PESOLIQUIDO
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column TARA
-		dataType: double
-		lineageTag: 7c6a3192-e5c2-4b97-bc98-7a34b787c29a
-		summarizeBy: sum
-		sourceColumn: TARA
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column PESOBRUTO
-		dataType: double
-		lineageTag: b96a26fc-ac32-4e04-a397-709796395f9e
-		summarizeBy: sum
-		sourceColumn: PESOBRUTO
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column USUARIO
-		dataType: string
-		lineageTag: 51431816-05e0-4e4d-b1e3-953a14b6c373
-		summarizeBy: none
-		sourceColumn: USUARIO
-
-		annotation SummarizationSetBy = Automatic
-
-	column DTAHORAREGISTRO
-		dataType: dateTime
-		formatString: General Date
-		lineageTag: 7dfbd041-1579-4294-b9c4-b46a0c81d221
-		summarizeBy: none
-		sourceColumn: DTAHORAREGISTRO
-
-		variation Variation
-			isDefault
-			relationship: e6dd6d8b-73d3-4c0a-8684-7e311fff4eb6
-			defaultHierarchy: LocalDateTable_1d1ee3e5-efa1-453b-ae07-0f1ca383b41b.'Hierarquia de datas'
-
-		annotation SummarizationSetBy = Automatic
-
-	column UNIDADE
-		dataType: string
-		lineageTag: d58273bf-0fcf-4fd7-a37a-461439c04e24
-		summarizeBy: none
-		sourceColumn: UNIDADE
-
-		annotation SummarizationSetBy = Automatic
 
 	partition DEPARAINDUS = m
 		mode: import
 		queryGroup: 'Fluxo Industrial'
 		source =
 				let
-				    Fonte = PowerPlatform.Dataflows(null),
-				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
-				    #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8" = Workspaces{[workspaceId="d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"]}[Data],
-				    #"316346b5-24e3-456e-b119-0fe7250fa321" = #"d4ef89a7-ada8-479b-82d8-dbaa8e7aede8"{[dataflowId="316346b5-24e3-456e-b119-0fe7250fa321"]}[Data],
+				    // 1. Conexão SQL nativa no Oracle para Entrada de Industrializados (Filiais 2 e 104)
+				    Fonte = Oracle.Database("datavale", [HierarchicalNavigation=true, Query="#(lf)            SELECT #(lf)               2 AS NROEMPRESA, #(lf)                e.NROPROGPRODUCAO,#(lf)e.LOTE,#(lf)e.SEQPRODUTO#(lf)            FROM DINVPB_ENTRADAINDUSTRIALIZADOS@dtvind02 e #(lf)            WHERE DATAENT >= '01-JAN-2026'#(lf)#(lf)            UNION ALL#(lf)#(lf)            SELECT #(lf)                104 AS NROEMPRESA, #(lf)                e.NROPROGPRODUCAO,#(lf)e.LOTE,#(lf)e.SEQPRODUTO#(lf)            FROM DINVPB_ENTRADAINDUSTRIALIZADOS@dtvind104 e #(lf)            WHERE DATAENT >= '01-JAN-2026'#(lf)        "]),
 				
-				    // Novas fontes
-				    MTZ = #"316346b5-24e3-456e-b119-0fe7250fa321"{[entity="DINVPB_ENTRADAINDUS_MTZ", version=""]}[Data],
-				    SLG = #"316346b5-24e3-456e-b119-0fe7250fa321"{[entity="DINVPB_ENTRADAINDUS_SLG", version=""]}[Data],
-				
-				    // Combina as tabelas
-				    TabelasUnidas = Table.Combine({MTZ, SLG})
+				    // 2. Seleção final das colunas para o modelo
+				    #"Columns removed by Measure Killer" = Table.SelectColumns(Fonte,{"NROEMPRESA", "NROPROGPRODUCAO", "LOTE", "SEQPRODUTO"})
 				in
-				    TabelasUnidas
+				    #"Columns removed by Measure Killer"
 
 	annotation PBI_ResultType = Table
 

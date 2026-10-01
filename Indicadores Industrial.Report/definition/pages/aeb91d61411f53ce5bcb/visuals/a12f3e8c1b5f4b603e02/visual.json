@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "a12f3e8c1b5f4b603e02",
   "position": {
     "x": 0,
@@ -7,7 +7,7 @@
     "z": 17000,
     "height": 276,
     "width": 583,
-    "tabOrder": 18000
+    "tabOrder": 17000
   },
   "visual": {
     "visualType": "lineClusteredColumnComboChart",
@@ -34,6 +34,21 @@
         },
         "Y": {
           "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Grafico Desossa Prod Eixo"
+                    }
+                  },
+                  "Property": "SerieMetaMesDesossa Ajustado"
+                }
+              },
+              "queryRef": "Grafico Desossa Prod Eixo.SerieMetaMesDesossa Ajustado",
+              "nativeQueryRef": "Meta Mês",
+              "displayName": "Meta Mês"
+            },
             {
               "field": {
                 "Measure": {

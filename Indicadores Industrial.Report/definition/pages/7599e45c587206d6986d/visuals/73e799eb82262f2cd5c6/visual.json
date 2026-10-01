@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "73e799eb82262f2cd5c6",
   "position": {
     "x": 767,
@@ -7,7 +7,7 @@
     "z": 4000,
     "height": 60,
     "width": 115,
-    "tabOrder": 8000
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "slicer",
@@ -130,7 +130,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'abril'"
+                                "Value": "'julho'"
                               }
                             }
                           ]

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "5e719a829c54286451d1",
   "position": {
     "x": 872.22222222222217,
@@ -126,7 +126,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "19L"
+                                "Value": "13L"
                               }
                             }
                           ]
@@ -143,7 +143,7 @@
                                   "Entity": "Calendário"
                                 }
                               },
-                              "Property": "Semana do Ano"
+                              "Property": "Dia"
                             }
                           }
                         ],
@@ -154,7 +154,7 @@
                                 "0": [
                                   {
                                     "Literal": {
-                                      "Value": "19L"
+                                      "Value": "13L"
                                     }
                                   }
                                 ]
@@ -178,7 +178,7 @@
                         },
                         "valueMap": [
                           {
-                            "0": "19"
+                            "0": "13"
                           }
                         ]
                       }

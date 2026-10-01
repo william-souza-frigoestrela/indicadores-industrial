@@ -1,0 +1,93 @@
+table 'Indicadores Caixaria'
+	lineageTag: be39a93c-8766-425a-b831-6db6f4396bc4
+
+	measure ValorIndicadorLinhaCaixaria =
+			
+			
+			VAR ind = SELECTEDVALUE('Indicadores Caixaria'[IndicadorCaixaria])
+			VAR Empresa  =  SELECTEDVALUE(DGE_EMPRESAMATRIZ[FILIAL])
+			RETURN
+			SWITCH(
+			    ind,
+			    "Qtde Cx Embaladas",            [Qtde Saída Caixaria],
+			    "Peso Saída (Ton)",             [Peso Saída Caixaria]/1000,
+			    "Produtivudade (Cx/Hhr)",       [Produtividade Caixaria Cx/Hh],
+			    "Produtividade (Kg/Hhr)",       [Produtividade Caixaria Kg/HHr],
+			    "Total de Pessoas na Linha",    [Func Caixaria Real],
+			    "% Absenteismo",                [Func Caixaria Absenteismo],
+			    "Horas Média Trabalhadas",      [Horas Trabalhadas Caixaria Media],
+			
+			    BLANK()
+			)
+		lineageTag: fb66aa94-bafe-4961-be60-9d3f8903d0c4
+
+		formatStringDefinition =
+				VAR _un = SELECTEDVALUE('Indicadores Caixaria'[Un])
+				
+				RETURN
+				LOOKUPVALUE(UnidadeInidicadores[Formato], UnidadeInidicadores[Unidade], _un, "#,##0.00" --Fornato padrão caso não encontre
+				)
+
+	measure 'Valor Indicador Caixaria' =
+			
+			VAR tipo = SELECTEDVALUE(TipoValor[Tipo])
+			RETURN
+			IF( tipo = "Meta", [Meta Indicador], [ValorIndicadorLinhaCaixaria])
+		lineageTag: 774a8888-dd5c-4ca5-85ad-eda745b2e203
+
+		formatStringDefinition =
+				VAR _un = SELECTEDVALUE('Indicadores Caixaria'[Un])
+				
+				RETURN
+				LOOKUPVALUE(UnidadeInidicadores[Formato], UnidadeInidicadores[Unidade], _un, "#,##0.00" --Fornato padrão caso não encontre
+				)
+
+	column IndicadorCaixaria
+		lineageTag: bb7902d3-c678-4085-96e6-66b2fa29ba19
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [IndicadorCaixaria]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Un
+		lineageTag: aeb16628-1c11-446f-b517-09a56e370f02
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Un]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordem
+		formatString: 0
+		lineageTag: 9ea94e41-5713-4168-a952-944bc3151024
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Ordem]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Indicadores Caixaria' = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "IndicadorCaixaria", STRING,
+				    "Un", STRING,
+				    "Ordem", INTEGER,
+				    {
+				        {"Qtde Cx Embaladas","Qtde", 0},
+				        {"Peso Saída (Ton)","Ton", 1},
+				        {"Produtivudade (Cx/Hhr)","Pç/Hhr",2},
+				        {"Produtividade (Kg/Hhr)","Kg/Hhr",3},
+				        {"Total de Pessoas na Linha", "Qtde", 4},
+				        {"% Absenteismo","%",5},
+				        {"Horas Média Trabalhadas","h dec", 6}
+				
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = bec4501745ba441897fc6bafb83c56c9
+

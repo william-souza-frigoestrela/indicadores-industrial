@@ -5,6 +5,7 @@ table 'Indicadores Desossa'
 			
 			
 			VAR ind = SELECTEDVALUE('Indicadores Desossa'[IndicadorDesossa])
+			VAR Empresa  =  SELECTEDVALUE(DGE_EMPRESAMATRIZ[FILIAL])
 			RETURN
 			SWITCH(
 			    ind,
@@ -12,7 +13,8 @@ table 'Indicadores Desossa'
 			    "Peças Processadas PA",         [Peças Desossa PA],
 			    "Peso Entrada (Ton)",           [Peso Entrada Desossa]/1000,
 			    "Peso Saída (Ton)",             [Peso Saída Desossa]/1000,
-			    "% Rendimento Desossa Massa",   [_% Rendimento TR/DT],
+			    "% Rendimento Desossa Massa",
+			        IF(Empresa in {4, 104},[_% Rendimento TR/DT], [_% Rendimento Massa]),
 			    "% Rendimento PA",              [_% Rendimento PA Massa],
 			    "% Rendimento Traseiro",        [_% Rendimento TR Massa],
 			    "% Rendimento Dianteiro",       [_% Rendimento DT Massa],    
@@ -21,7 +23,9 @@ table 'Indicadores Desossa'
 			    "% Eficiência Desossa",         [Eficiência Desossa],
 			    "Produtivudade (Pç/Hhr)",       [Produtividade Desossa Pç/Hh],
 			    "Produtividade (Kg/Hhr)",       [Produtividade Desossa Kg/HHr],
+			    "Total de Pessoas na Linha",    [Func Desossa Total Real],
 			    "% Absenteismo",                [Func Desossa Absenteismo],
+			    "Horas Média Trabalhadas",      [Horas Trabalhadas Desossa Media],
 			
 			    BLANK()
 			)
@@ -98,7 +102,9 @@ table 'Indicadores Desossa'
 				        {"% Eficiência Desossa","%",10},
 				        {"Produtivudade (Pç/Hhr)","Pç/Hhr",11},
 				        {"Produtividade (Kg/Hhr)","Kg/Hhr",12},
-				        {"% Absenteismo","%",13}
+				        {"Total de Pessoas na Linha", "Qtde", 13},
+				        {"% Absenteismo","%",14},
+				        {"Horas Média Trabalhadas","h dec", 15}
 				
 				    }
 				)

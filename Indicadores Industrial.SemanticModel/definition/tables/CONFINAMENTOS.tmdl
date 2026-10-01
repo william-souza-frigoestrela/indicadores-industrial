@@ -10,15 +10,6 @@ table CONFINAMENTOS
 
 		annotation SummarizationSetBy = Automatic
 
-	column SEMANA
-		dataType: int64
-		formatString: 0
-		lineageTag: 301183c7-ba1b-4487-b6bc-cf934558b8ce
-		summarizeBy: sum
-		sourceColumn: SEMANA
-
-		annotation SummarizationSetBy = Automatic
-
 	column DATA
 		dataType: dateTime
 		formatString: Long Date
@@ -39,14 +30,6 @@ table CONFINAMENTOS
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'GRUPO PRODUTO'
-		dataType: string
-		lineageTag: f39ec0be-d375-4414-aea4-92c3d40a885f
-		summarizeBy: none
-		sourceColumn: GRUPO PRODUTO
-
-		annotation SummarizationSetBy = Automatic
-
 	partition CONFINAMENTOS = m
 		mode: import
 		source =
@@ -54,9 +37,10 @@ table CONFINAMENTOS
 				    Fonte = Excel.Workbook(File.Contents("\\192.168.2.167\controladoria\05 - INDICADORES\09. Power BI\Quantidade Animais Confinados.xlsx"), null, true),
 				    CONFINAMENTOS_Sheet = Fonte{[Item="CONFINAMENTOS",Kind="Sheet"]}[Data],
 				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(CONFINAMENTOS_Sheet, [PromoteAllScalars=true]),
-				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"EMPRESA", Int64.Type}, {"SEMANA", Int64.Type}, {"DATA", type date}, {"VOLUME", Int64.Type}, {"GRUPO PRODUTO", type any}})
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"EMPRESA", Int64.Type}, {"SEMANA", Int64.Type}, {"DATA", type date}, {"VOLUME", Int64.Type}, {"GRUPO PRODUTO", type any}}),
+				    #"Columns removed by Measure Killer"= Table.SelectColumns(#"Tipo Alterado",{"DATA","EMPRESA","VOLUME"})
 				in
-				    #"Tipo Alterado"
+				    #"Columns removed by Measure Killer"
 
 	annotation PBI_NavigationStepName = Navegação
 
